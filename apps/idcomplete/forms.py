@@ -8,8 +8,7 @@ class IdCompleteForm(forms.ModelForm):
         ('ecocash', 'Ecocash'),
         ('lumicash', 'Lumicash')
     )
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username ','class':'form-control'}))
-
+    
     zone = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Zone', 

@@ -25,23 +25,23 @@
 		</tr>
 		<tr>
 		<td>NOM DU PERE</td>
-		<td>: {{ id_compl.user.profile.father }}</td>
+		<td>: {{ id_compl.user.profile.father|default:"sans" }}</td>
 		</tr>
 		<tr>
 		<td>NOM&nbsp; DE&nbsp; LA MERE</td>
-		<td>: {{ id_compl.user.profile.mother }}</td>
+		<td>: {{ id_compl.user.profile.mother|default:"sans" }}</td>
 		</tr>
 		<tr>
 		<td>LIEU ET DATE DE NAISSANCE</td>
-		<td>: {{ id_compl.user.profile.zone}}, {{ id_compl.user.profile.birthdate }}</td>
+		<td>: {{ id_compl.zone.name }}, {{ id_compl.user.profile.birthdate }}</td>
 		</tr>
 		<tr>
 		<td>COMMUNE</td>
-		<td>: {{ id_compl.user.profile.commune }}</td>
+		<td>: {{ id_compl.zone.commune.name }}</td>
 		</tr>
 		<tr>
 		<td>PROVINCE</td>
-		<td>: {{ id_compl.user.profile.province }}</td>
+		<td>: {{ id_compl.zone.commune.province }}</td>
 		</tr>
 		<tr>
 		<td>NATIONALITE</td>
@@ -49,7 +49,12 @@
 		</tr>
 		<tr>
 		<td>ETAT-CIVIL</td>
-		<td>: {{ id_compl.user.profile.is_married }}</td>
+		<td>: {% if id_compl.user.profile.is_married %}
+				marrié(e)
+			{% else %}
+				célibataire
+			{% endif %}
+		</td>
 		</tr>
 		<tr>
 		<td>PROFESSION</td>
@@ -80,7 +85,8 @@
 		<p style="text-align: right;">&nbsp;</p>
 	</div>
 	<div class="d-flex justify-content-center">
-		<form action="." method="post" enctype="multipart/form-data" class="new-added-form m-2">
+		<form action="{% url 'confirm' %}" method="post" enctype="multipart/form-data" class="new-added-form m-2">
+			<input type="hidden" name="id_compl" value="{{ id_compl }}">
 			{% csrf_token %}
 			<input type="submit" class="btn btn-outline-primary" name="continue" value="continue">
 			<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">

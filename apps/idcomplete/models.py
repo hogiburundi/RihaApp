@@ -7,7 +7,6 @@ class IdComplete(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	zone = models.ForeignKey(Zone, max_length=64, on_delete=models.CASCADE)
 	residence_quarter = models.ForeignKey(Quarter, max_length=64, on_delete=models.CASCADE)
-	CNI = models.CharField(max_length=64)
 	date = models.DateField(default=timezone.now)
 	payment_method = models.CharField(max_length=64)
 	payment_serial = models.CharField(max_length=64)

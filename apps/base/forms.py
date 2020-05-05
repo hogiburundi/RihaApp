@@ -16,7 +16,7 @@ class RegisterForm(forms.Form):
 	password = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Password ','class':'form-control'}), label='Password')
 	password2 = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Confirm password ','class':'form-control'}), label='Confirm password')
 	
-	avatar = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Avatar ','class':'form-control'}), label='Avatar')
+	avatar = forms.FileField( widget=forms.FileInput(attrs={'placeholder':'Avatar ','class':'form-control'}), label='Avatar')
 	nationnalite = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nationnalite ','class':'form-control'}), label='Nationnalite')
 	quarter = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}), label='Quarter')
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
@@ -27,3 +27,23 @@ class RegisterForm(forms.Form):
 	is_married = forms.BooleanField( widget=forms.CheckboxInput(attrs={'placeholder':'Married '}), label='Married')
 	job = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Job ','class':'form-control'}), label='Job')
 	
+	def clean_quarter(self, *arg,**kwargs):
+		try:
+			name = self.cleaned_data.get("quarter").split()[0]
+			zone = self.cleaned_data.get("quarter").split()[-1]
+			quarter = Quarter.objects.get(name=name, zone__name=zone)
+			return quarter
+		except Exception as e:
+			raise forms.ValidationError("this quarter is unknown")	
+
+	def clean_password2(self, *arg,**kwargs):
+		try:
+			password = self.cleaned_data.get("password")
+			password2 = self.cleaned_data.get("password2")
+			print(password, password2)
+			if(password == password2):
+				return password
+			else :
+				raise forms.ValidationError("confirmation password must same as password")
+		except Exception as e:
+			raise forms.ValidationError("confirmation password must same as password")

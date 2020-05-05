@@ -46,8 +46,9 @@ class IdCompleteForm(forms.ModelForm):
 
     def clean_residence_quarter(self, *arg,**kwargs):
         try:
-            name = self.cleaned_data.get("residence_quarter")
-            residence_quarter = Quarter.objects.get(name=name)
-            return residence_quarter
-        except:
+            name = self.cleaned_data.get("residence_quarter").split()[0]
+            zone = self.cleaned_data.get("residence_quarter").split()[-1]
+            quarter = Quarter.objects.get(name=name, zone__name=zone)
+            return quarter
+        except Exception as e:
             raise forms.ValidationError("this quarter is unknown")

@@ -85,12 +85,6 @@
 		</table>
 		<p style="text-align: right;">&nbsp;</p>
 	</div>
-	<div class="d-flex justify-content-center">
-		<form action="{% url 'confirm' %}" method="post" enctype="multipart/form-data" class="new-added-form m-2">
-			<input type="hidden" name="id_compl" value="{{ id_compl }}">
-			{% csrf_token %}
-		</form>
-	</div>
 </div>
 {% endif %}
 <div class="m-auto col-12 col-md-6">
@@ -113,7 +107,7 @@
 		</datalist>
 		<datalist id="quarters">
 			{% for quarter in quarters %}
-				<option value="{{ quarter.name }}"/> 
+				<option value="{{ quarter }}"/> 
 			{% endfor %}
 		</datalist>
 	</form>

@@ -8,8 +8,10 @@ class Profile(models.Model):
 	quarter = models.ForeignKey('Quarter', null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
 	CNI = models.CharField(max_length=64, null=True, blank=True)
-	father = models.ForeignKey(User, related_name='father', null=True, blank=True, on_delete=models.SET_NULL)
-	mother = models.ForeignKey(User, related_name='mother', null=True, blank=True, on_delete=models.SET_NULL)
+	# father = models.ForeignKey(User, related_name='father', null=True, blank=True, on_delete=models.SET_NULL)
+	# mother = models.ForeignKey(User, related_name='mother', null=True, blank=True, on_delete=models.SET_NULL)
+	father = models.CharField(max_length=64, null=True, blank=True)
+	mother = models.CharField(max_length=64, null=True, blank=True)
 	birthdate = models.DateField()
 	is_married = models.BooleanField()
 	job = models.CharField(max_length=64)
@@ -46,4 +48,4 @@ class Quarter(models.Model):
 	leader = models.ForeignKey(User, verbose_name="quarter leader", null=True, blank=True, on_delete=models.SET_NULL)
 
 	def __str__(self):
-		return f"{self.name} - {self.zone.commune.name}"
+		return f"{self.name} - {self.zone.name}"

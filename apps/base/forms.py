@@ -16,14 +16,14 @@ class RegisterForm(forms.Form):
 	password = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Password ','class':'form-control'}), label='Password')
 	password2 = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Confirm password ','class':'form-control'}), label='Confirm password')
 	
-	avatar = forms.FileField( widget=forms.FileInput(attrs={'placeholder':'Avatar ','class':'form-control'}), label='Avatar')
+	avatar = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'Avatar ','class':'form-control'}), label='Avatar')
 	nationnalite = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nationnalite ','class':'form-control'}), label='Nationnalite')
 	quarter = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}), label='Quarter')
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
-	birthdate = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Birthdate ','class':'form-control'}), label='Birthdate')
+	birthdate = forms.DateField( widget=forms.SelectDateWidget(attrs={'placeholder':'yyyy-mm-dd ','class':'form-control inline-form-control'}), label='Birthdate')
 	is_married = forms.BooleanField( widget=forms.CheckboxInput(attrs={'placeholder':'Married '}), label='Married')
 	job = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Job ','class':'form-control'}), label='Job')
 	

@@ -10,7 +10,7 @@
     <title>Modern Restaurant</title>
     <link href="{% static "css/styles.css" %}" rel="stylesheet" />
     <link href="{% static "css/all.min.css" %}" rel="stylesheet" />
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" crossorigin="anonymous" />
+    {# <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" crossorigin="anonymous" /> #}
 
     <script src="{% static "js/jquery-3.3.1.min.js" %}" crossorigin="anonymous"></script>
     <script src="{% static "js/jquery.cookie.min.js" %}" crossorigin="anonymous"></script>
@@ -63,13 +63,40 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        {% block cores %}
-                        {% endblock cores %}
+                            {% block cores %}
+                            <a class="nav-link" href="{% url 'home' %}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            {% endblock cores %}
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         {% block interface %}
+                            <a class="nav-link" href="{% url 'secretariat' %}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                secretariat
+                            </a> 
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Layouts
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>             
                         {% endblock interface %}
                         <div class="sb-sidenav-menu-heading">Addons</div>
                         {% block addons %}
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Charts
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Tables
+                        </a>
                         {% endblock addons %}
                     </div>
                 </div>

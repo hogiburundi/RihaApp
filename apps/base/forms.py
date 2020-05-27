@@ -1,5 +1,6 @@
 from .models import *
 from django import forms
+from datetime import date
 
 class ConnexionForm(forms.Form):
 	username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username ','class':'form-control'}))
@@ -23,7 +24,7 @@ class RegisterForm(forms.Form):
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
-	birthdate = forms.DateField( widget=forms.SelectDateWidget(attrs={'placeholder':'yyyy-mm-dd ','class':'form-control inline-form-control'}), label='Birthdate')
+	birthdate = forms.DateField( widget=forms.SelectDateWidget(years=range(1960, date.today().year), attrs={'placeholder':'yyyy-mm-dd ','class':'form-control inline-form-control'}), label='Birthdate')
 	is_married = forms.BooleanField( widget=forms.CheckboxInput(attrs={'placeholder':'Married '}), label='Married')
 	job = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Job ','class':'form-control'}), label='Job')
 	

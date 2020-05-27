@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	avatar = models.ImageField(upload_to='avatars/')
+	avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 	nationnalite = models.CharField(max_length=64)
 	quarter = models.ForeignKey('Quarter', null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
@@ -14,6 +14,8 @@ class Profile(models.Model):
 	mother = models.CharField(max_length=64, null=True, blank=True)
 	birthdate = models.DateField()
 	is_married = models.BooleanField()
+	cni_recto = models.ImageField(upload_to='cnis/', null=True, blank=True)
+	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	job = models.CharField(max_length=64)
 
 	def __str__(self):

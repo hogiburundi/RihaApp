@@ -1,3 +1,5 @@
+import os, importlib
+
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, logout, authenticate 
@@ -6,10 +8,59 @@ from django.contrib import messages
 from .forms import *
 from .models import *
 
+base_dir = os.path.split(os.path.relpath(__file__))[0]
+MODULES = []
+
+for directory in os.listdir('apps'):
+	directory = os.path.join('apps', directory)
+	if directory != base_dir:
+		if os.path.exists(os.path.join(directory, "views.py")):
+			views = os.path.join(directory, "views")
+		elif os.path.exists(os.path.join(directory, os.path.join("views", "__init__.py"))):
+			views = os.path.join(directory, "views")
+		else:
+			continue
+
+		if os.path.exists(os.path.join(directory, "models.py")):
+			models = os.path.join(directory, "models")
+		elif os.path.exists(os.path.join(directory, os.path.join("models", "__init__.py"))):
+			models = os.path.join(directory, "models")
+		else:
+			continue
+
+		if os.path.exists(os.path.join(directory, "urls.py")):
+			urls = os.path.join(directory, "urls")
+		elif os.path.exists(os.path.join(directory, os.path.join("urls", "__init__.py"))):
+			urls = os.path.join(directory, "urls")
+		else:
+			continue
+
+		MODULES.append(directory, )
+
 class Home(View):
 	template_name = "index.html"
 
 	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			all_docs = [os.path.basename(directory)+"_form" for directory in MODULES]
+			return render(request, self.template_name, locals())
+		else:
+			return redirect("login")
+
+class Secretariat(View):
+	template_name = "secretariat.html"
+
+	def get(self, request, *args, **kwargs):
+		all_docs = []
+		for directory in MODULES:
+			models = os.path.join(directory, "models")
+			models = importlib.import_module(models.replace(os.sep, '.'))
+			counts = models.Document.objects.filter(
+				secretary_validated=False,
+				zone__leader=request.user).count()
+			base_name = os.path.basename(directory)
+			all_docs.append((base_name+"_secr_list", counts))
+
 		if request.user.is_authenticated:
 			return render(request, self.template_name, locals())
 		else:

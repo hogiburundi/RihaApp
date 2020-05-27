@@ -2,7 +2,7 @@ from django import forms
 from .models import *
 from apps.base.models import *
 
-class IdCompleteForm(forms.ModelForm):
+class DocumentForm(forms.ModelForm):
     payment_methods = (
         ('', '-------------'),
         ('ecocash', 'Ecocash'),
@@ -32,7 +32,7 @@ class IdCompleteForm(forms.ModelForm):
         label = 'Payment Serial')
 
     class Meta:
-        model = IdComplete
+        model = Document
         # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
         fields = ("zone", "residence_quarter","payment_method", "payment_serial")
 

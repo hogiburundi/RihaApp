@@ -26,19 +26,5 @@
 	</table>
 {% endif %}
 <script type="text/javascript">
-jQuery(document).ready(function($) {
-
-$(".document-item").on('click', function(event) {
-	if(event.target.nodeName!="A"){
-		event.preventDefault();
-		let comment = prompt(
-			"Vous pouvez saisir vos obligations sur cette recette",
-			$(this).attr('obligations')
-		);
-		$(this).attr('obligations', comment);
-	}
-});
-
-});
 </script>
 {% endblock main %}

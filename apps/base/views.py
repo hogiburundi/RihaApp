@@ -100,11 +100,77 @@ class Connexion(View):
 
 class Register(View):
 	template_name = 'register.html'
-	next_p = "home"
+	page_number = 1
+
+	def get(self, request, *args, **kwargs):
+		page_number = self.page_number
+		form = RegisterForm()
+		return render(request, self.template_name, locals())
+
+	def post(self, request, *args, **kwargs):
+		quarters = Quarter.objects.all()
+		page_number = self.page_number
+		form = RegisterForm(request.POST)
+		if form.is_valid():
+			try:
+				username = form.cleaned_data['telephone']
+				firstname = form.cleaned_data['firstname']
+				lastname = form.cleaned_data['lastname']
+				password = form.cleaned_data['password']
+				user = User.objects.create_user(
+					username=username,
+					password=password)
+				user.first_name, user.last_name = firstname, lastname
+				user.save()
+				messages.success(request, "Hello "+username+", you are registered successfully!")
+				if user:
+					login(request, user)
+					return redirect("profile_form")
+			except Exception as e:
+				print(str(e))
+				messages.error(request, str(e))
+		return render(request, self.template_name, locals())
+
+class ProfileView(View):
+	template_name = 'register.html'
+	next_p = "register2"
+	page_number = 2
 
 	def get(self, request, *args, **kwargs):
 		quarters = Quarter.objects.all()
-		form = RegisterForm()
+		try:
+			next_ = request.GET["next"]
+			self.next_p = next_ if next_ else self.next_p
+		except:
+			print
+		page_number = self.page_number
+		form = ProfileForm()
+		return render(request, self.template_name, locals())
+
+	def post(self, request, *args, **kwargs):
+		quarters = Quarter.objects.all()
+		form = ProfileForm(request.POST)
+		page_number = self.page_number
+		if form.is_valid():
+			try:
+				profile = form.save(commit=False)
+				profile.user = request.user
+				profile.save()
+				messages.success(request, "Hello "+request.user.first_name+", your profile created successfully!")
+				return redirect(self.next_p)
+			except Exception as e:
+				print(str(e))
+				messages.error(request, str(e))
+		return render(request, self.template_name, locals())
+
+class Register2(View):
+	template_name = 'register.html'
+	next_p = "home"
+	page_number = 3
+
+	def get(self, request, *args, **kwargs):
+		form = Register2Form()
+		page_number = self.page_number
 		try:
 			self.next_p = request.GET["next"]
 		except:
@@ -112,45 +178,18 @@ class Register(View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = Quarter.objects.all()
-		form = RegisterForm(request.POST, request.FILES)
+		form = Register2Form(request.POST, request.FILES)
+		page_number = self.page_number
 		if form.is_valid():
 			try:
-				username = form.cleaned_data['username']
-				firstname = form.cleaned_data['firstname']
-				lastname = form.cleaned_data['lastname']
-				password = form.cleaned_data['password']
-				avatar = form.cleaned_data['avatar']
-				nationnalite = form.cleaned_data['nationnalite']
-				quarter = form.cleaned_data['quarter']
-				address = form.cleaned_data['address']
-				CNI = form.cleaned_data['CNI']
-				father = form.cleaned_data['father']
-				mother = form.cleaned_data['mother']
-				birthdate = form.cleaned_data['birthdate']
-				is_married = form.cleaned_data['is_married']
-				job = form.cleaned_data['job']
-				user = User.objects.create_user(
-					username=username,
-					password=password)
-				user.first_name, user.last_name = firstname, lastname
-				user.save()
-				Profile(user=user,
-						avatar=avatar,
-						nationnalite = nationnalite,
-						quarter = quarter, 
-						address = address, 
-						CNI = CNI, 
-						father = father, 
-						mother = mother, 
-						birthdate = birthdate, 
-						is_married = is_married, 
-						job = job
-						).save()
-				messages.success(request, "Hello "+username+", youn are registered successfully!")
-				if user:
-					login(request, user)
-					return redirect("home")
+				cni_recto = form.cleaned_data['cni_recto']
+				cni_verso = form.cleaned_data['cni_verso']
+				profile = request.user.profile
+				profile.cni_verso = cni_verso
+				profile.cni_recto = cni_recto
+				profile.save()
+				messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
+				return redirect(self.next_p)
 			except Exception as e:
 				print(str(e))
 				messages.error(request, str(e))

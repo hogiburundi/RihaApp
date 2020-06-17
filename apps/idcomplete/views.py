@@ -42,8 +42,8 @@ class SecretaryView(LoginRequiredMixin, View):
 class DocumentListView(LoginRequiredMixin, View):
 	template_name = "idcomp_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		form_url = BASE_NAME+"_form"
-		pay_form = BASE_NAME+"_payform"
+		formurl = BASE_NAME+"_form"
+		payform = BASE_NAME+"_payform"
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
@@ -84,12 +84,23 @@ class DocumentPayView(LoginRequiredMixin, View):
 	template_name = "idcomp_pay_form.html"
 
 	def get(self, request, id_compl, *args, **kwargs):
+		payform = BASE_NAME+"_payform"
 		document = Document.objects.get(id=id_compl)
+		if document.zone_payment:
+			return redirect(BASE_NAME+"_list")
 		form = PaymentZoneForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request, id_compl, *args, **kwargs):
+		payform = BASE_NAME+"_payform"
 		document = Document.objects.get(id=id_compl)
-		form = PaymentZoneForm()
+		form = PaymentZoneForm(request.POST, request.FILES)
+		if form.is_valid():
+			zone_payment = form.save(commit=False)
+			zone_payment.place = document.zone
+			zone_payment.save()
+			document.zone_payment = zone_payment
+			document.save()
+			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
 

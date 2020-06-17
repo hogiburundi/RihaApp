@@ -115,13 +115,15 @@ class ModelPayementFormMixin(forms.Form):
 		widget=forms.FileInput(
 			attrs={'placeholder':'bordereau','class':'form-control'}
 		),
-		label='bordereau'
+		label='bordereau',
+		required=False
 	)
 
 	def clean_id_transaction(self, *arg,**kwargs):
 		id_transaction = self.cleaned_data.get("id_transaction")
 		if UsedSN.objects.filter(id_transaction = id_transaction):
-			raise forms.ValidationError("confirmation password must same as password")
+			raise forms.ValidationError("this serial is already used")
+		return id_transaction
 
 
 class PaymentQuarterForm(forms.ModelForm, ModelPayementFormMixin):
@@ -169,7 +171,7 @@ class PaymentProvinceForm(forms.ModelForm, ModelPayementFormMixin):
 		model = PaymentProvince
 		fields = ( "type_payement", "id_transaction", "bordereau", "date", "province")
 
-class PaymentZoneForm(ModelPayementFormMixin):
+class PaymentZoneForm(ModelPayementFormMixin, forms.ModelForm):
 	# zone = forms.CharField(
 	# 	widget = forms.TextInput(
 	# 		attrs = {'placeholder': 'Zone', 
@@ -182,4 +184,4 @@ class PaymentZoneForm(ModelPayementFormMixin):
 
 	class Meta:
 		model = PaymentZone
-		fields = ( "id_transaction", "bordereau")
+		fields = ( "type_payement","id_transaction", "bordereau")

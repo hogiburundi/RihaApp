@@ -163,6 +163,10 @@ class ModelPayement(models.Model):
 	class Meta:
 		abstract = True
 
+	def save(self, *args, **kwargs):
+		super(ModelPayement, self).save(*args, **kwargs)
+		UsedSN(self.id_transaction, self.type_payement).save()
+
 class UsedSN(models.Model):
 	id_transaction = models.CharField(max_length=64)
 	name_transaction = models.CharField(max_length=64)
@@ -219,7 +223,7 @@ class PaymentZone(ModelPayement):
 	place = models.ForeignKey('Zone', related_name="zone", on_delete=models.CASCADE)
 	is_valid = models.BooleanField(null=True)
 	
-	def __str__():
+	def __str__(self):
 		return f"{self.place} - {self.date} : {self.id_transaction}"
 
 	class Meta:

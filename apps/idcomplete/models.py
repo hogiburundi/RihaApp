@@ -4,28 +4,42 @@ from django.contrib.auth.models import User
 from apps.base.models import *
 
 class Document(models.Model):
-	user = models.ForeignKey(User, related_name="id_compl_user", on_delete=models.CASCADE)
-	zone = models.ForeignKey(Zone, related_name="id_compl_zone", max_length=64, on_delete=models.CASCADE)
-	residence_quarter = models.ForeignKey(Quarter, related_name="id_compl_residence", max_length=64, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, related_name="id_compl_user", null=True, on_delete=models.SET_NULL)
+	zone = models.ForeignKey(Zone, related_name="id_compl_zone", max_length=64, null=True, on_delete=models.SET_NULL)
+	residence_quarter = models.ForeignKey(Quarter, related_name="id_compl_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(default=False)
+	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
-	price = models.ForeignKey("PriceHistory", null=True, on_delete=models.SET_NULL)
+	zone_payment = models.ForeignKey(PaymentZone, related_name="id_compl_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 
 	def requirements():
-		return ["cahier de menage", ]
+		return ["cahier de menage", "CNI"]
+
+	def save(self, *args, **kwargs):
+		super(Document, self).save(*args, **kwargs)
+		if self.ready:
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
+	def price(self):
+		try:
+			return PriceHistory.objects.filter(zone=self.zone).last().total()
+		except:
+			return 0
+
+	def payment_percent(self):
+		return 100 if self.zone_payment else 0
+
+	def validation_percent(self):
+		return 100 if self.secretary_validated != None else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
 
 class PriceHistory(models.Model):
 	date = models.DateField()
-	quarter = models.ForeignKey(Quarter, related_name="id_compl_price_quarter", on_delete=models.CASCADE)
-	quarter_price = models.IntegerField(default=0)
-	commune = models.ForeignKey(Commune, related_name="id_compl_price_commune", on_delete=models.CASCADE)
-	commmune_price = models.IntegerField(default=0)
-	province = models.ForeignKey(Province, related_name="id_compl_price_province", on_delete=models.CASCADE)
-	province_price = models.IntegerField(default=0)
-	zone = models.ForeignKey(Zone, related_name="id_compl_price_zone", on_delete=models.CASCADE)
+	zone = models.ForeignKey(Zone, related_name="id_compl_price_province", on_delete=models.CASCADE)
 	zone_price = models.IntegerField(default=0)
-
+	
 	def total(self):
-		return self.quarter_price+self.commmune_price+self.zone_price+self.province_price
+		return self.zone_price

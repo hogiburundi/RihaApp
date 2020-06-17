@@ -3,12 +3,6 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    payment_methods = (
-        ('', '-------------'),
-        ('ecocash', 'Ecocash'),
-        ('lumicash', 'Lumicash')
-    )
-    
     zone = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Zone', 
@@ -22,19 +16,9 @@ class DocumentForm(forms.ModelForm):
                     'list':'quarters'}),
         label = 'Residence Quarter')
 
-    payment_method = forms.ChoiceField(
-        widget = forms.Select(attrs = {'placeholder': 'Payment Method', 'class': 'form-control'}),
-        label = 'Payment Method',
-        choices=payment_methods)
-    
-    payment_serial = forms.CharField(
-        widget = forms.TextInput(attrs = {'placeholder': 'Payment Serial', 'class': 'form-control'}),
-        label = 'Payment Serial')
-
     class Meta:
         model = Document
-        # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
-        fields = ("zone", "residence_quarter","payment_method", "payment_serial")
+        fields = ("zone", "residence_quarter")
 
     def clean_zone(self, *arg,**kwargs):
         try:

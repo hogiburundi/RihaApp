@@ -169,17 +169,17 @@ class PaymentProvinceForm(forms.ModelForm, ModelPayementFormMixin):
 		model = PaymentProvince
 		fields = ( "type_payement", "id_transaction", "bordereau", "date", "province")
 
-class PaymentZoneForm(forms.ModelForm, ModelPayementFormMixin):
-	zone = forms.CharField(
-		widget = forms.TextInput(
-			attrs = {'placeholder': 'Zone', 
-				'class': 'form-control', 
-				'list':'zones'}),
-		label = 'Zone')
+class PaymentZoneForm(ModelPayementFormMixin):
+	# zone = forms.CharField(
+	# 	widget = forms.TextInput(
+	# 		attrs = {'placeholder': 'Zone', 
+	# 			'class': 'form-control', 
+	# 			'list':'zones'}),
+	# 	label = 'Zone')
 
 	def __init__(self, *args, **kwargs):
 		super(PaymentZoneForm, self).__init__(*args, **kwargs)
 
 	class Meta:
 		model = PaymentZone
-		fields = ( "type_payement", "id_transaction", "bordereau", "date", "zone")
+		fields = ( "id_transaction", "bordereau")

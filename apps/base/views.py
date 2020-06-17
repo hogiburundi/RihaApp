@@ -42,7 +42,7 @@ class Home(View):
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
-			all_docs = [os.path.basename(directory)+"_form" for directory in MODULES]
+			home_urls = [os.path.basename(directory)+"_list" for directory in MODULES]
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")
@@ -51,20 +51,24 @@ class Secretariat(View):
 	template_name = "secretariat.html"
 
 	def get(self, request, *args, **kwargs):
-		all_docs = []
+		home_urls = []
+		
+		if not (request.user.is_authenticated):return redirect("login")
+
 		for directory in MODULES:
 			models = os.path.join(directory, "models")
 			models = importlib.import_module(models.replace(os.sep, '.'))
-			counts = models.Document.objects.filter(
-				secretary_validated=False,
-				zone__leader=request.user).count()
-			base_name = os.path.basename(directory)
-			all_docs.append((base_name+"_secr_list", counts))
+			#=============================================================
+			#counts = models.Document.objects.filter(
+			#	secretary_validated=False,
+			#	zone__leader=request.user).count()
+			#=============================================================
 
-		if request.user.is_authenticated:
-			return render(request, self.template_name, locals())
-		else:
-			return redirect("login")
+
+			base_name = os.path.basename(directory)
+			home_urls.append((base_name+"_secr_list", 0))#counts))
+
+		return render(request, self.template_name, locals())
 
 def disconnect(request):
 	show_hidden = "hidden"

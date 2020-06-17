@@ -53,6 +53,12 @@ class Profile(models.Model):
 	def __str__(self):
 		return f"{self.user.last_name} {self.user.first_name}"
 
+class Notification(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	message = models.CharField(max_length=128)
+	seen = models.BooleanField(default=False)
+	date = models.DateTimeField(default=timezone.now)
+
 class Zone(models.Model):
 	name = models.CharField(max_length=64)
 	commune = models.ForeignKey('Commune', on_delete=models.CASCADE)
@@ -163,7 +169,6 @@ class UsedSN(models.Model):
 
 class ModelDocument(models.Model):
 	document = models.CharField(max_length=64)
-	date = models.DateField(default=timezone.now)
 	is_valid = models.BooleanField(null=True)
 	place_level = models.IntegerField(choices=PLACE_LEVEL)
 	user_level = models.IntegerField(choices=USER_LEVEL)

@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 from .forms import DocumentForm
+from apps.base.forms import *
 from .models import *
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
@@ -38,7 +39,16 @@ class SecretaryView(LoginRequiredMixin, View):
 			return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
-class DocumentView(LoginRequiredMixin, View):
+class DocumentListView(LoginRequiredMixin, View):
+	template_name = "idcomp_list.html"
+	def get(self, request, document_id=None, *args, **kwargs):
+		form_url = BASE_NAME+"_form"
+		pay_form = BASE_NAME+"_payform"
+		documents = Document.objects.filter(user=request.user)
+		print(documents)
+		return render(request, self.template_name, locals())
+
+class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "idcomp_form.html"
 	quarters = Quarter.objects.all()
 	zones = Zone.objects.all()
@@ -67,5 +77,19 @@ class DocumentView(LoginRequiredMixin, View):
 		if form.is_valid():
 			id_compl = form.save(commit=False)
 			id_compl.user = request.user
+		return render(request, self.template_name, locals())
+
+
+class DocumentPayView(LoginRequiredMixin, View):
+	template_name = "idcomp_pay_form.html"
+
+	def get(self, request, id_compl, *args, **kwargs):
+		document = Document.objects.get(id=id_compl)
+		form = PaymentZoneForm()
+		return render(request, self.template_name, locals())
+
+	def post(self, request, id_compl, *args, **kwargs):
+		document = Document.objects.get(id=id_compl)
+		form = PaymentZoneForm()
 		return render(request, self.template_name, locals())
 

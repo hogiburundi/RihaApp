@@ -1,30 +1,35 @@
 {% extends "index.html" %}
 {% load static %}
 {% block main %}
-{% if documents %}
-	<table class="table table-hover" id="commande">
-		<thead>
-			<tr>
-				<th scope="col">person</th>
-				<th scope="col">quarter</th>
-				<th scope="col">payment method</th>
-				<th scope="col">serial</th>
-				<th scope="col">validated</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for document in documents %}
-			<tr class="document-item" data-id="{{ document.id }}">
-				<td> <a href="./{{ document.id }}">{{ document.user }}</a></td>
-				<td> {{ document.residence_quarter }}</td>
-				<td> {{ document.payment_method }}</td>
-				<td> {{ document.payment_serial }}</td>
-				<td> {{ document.secretary_validated }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-{% endif %}
+<a href="{% url form_url %}" class="btn btn-primary float-right mb-2" title="">+ nouveau</a>
+<table class="table table-hover" id="commande">
+	<thead>
+		<tr>
+			<th scope="col">quarter</th>
+			<th scope="col">payement</th>
+			<th scope="col">traitement</th>
+			<th scope="col">date</th>
+			<th scope="col">ready</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for document in documents %}
+		<tr class="document-item" data-id="{{ document.id }}">
+			<td> {{ document.residence_quarter }}</td>
+			<td> <a href="{% url pay_form  document.id  %}">{{ document.payment_percent }} %</a></td>
+			<td> {{ document.validation_percent }} % </td>
+			<td> {{ document.date }}</td>
+			<td>
+				{% if document.ready %}
+					<i class="fas fa-check text-success"></i>
+				{% else %}
+					<i class="fas fa-times text-danger"></i>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 <script type="text/javascript">
 </script>
 {% endblock main %}

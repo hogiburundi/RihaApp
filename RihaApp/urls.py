@@ -9,8 +9,9 @@ from .settings import APPS_DIR, apps_dir_str
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.base.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+urlpatterns.append(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+urlpatterns.append(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
 
 
 for app in os.listdir(APPS_DIR):

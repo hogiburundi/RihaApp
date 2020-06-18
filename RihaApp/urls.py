@@ -10,8 +10,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.base.urls')),
 ]
-urlpatterns.append(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
-urlpatterns.append(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 for app in os.listdir(APPS_DIR):

@@ -1,22 +1,12 @@
 {% extends "base.html" %}
-{% block addons %}
-<a class="nav-link" href="charts.html">
-    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-    Charts
-</a>
-<a class="nav-link" href="tables.html">
-    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-    Tables
-</a>
-{% endblock addons %}
 {% block main %}
-{% for home_url in home_urls %}
-    <a href="{% url home_url %}" class="btn btn-primary text-decoration-none col-lg-3 col-sm-6 col-12">
+{% for document, home_url in home_urls %}
+    <a href="{% url home_url %}" class="btn btn-primary text-decoration-none col-lg-3 col-sm-6 col-12 mt-2">
       <div class="item-title" style="color:white;">
         Document<span class="badge badge-danger ml-2">{{ counts }}</span>
       </div>
       <div class="item-number" style="color:white;">
-        Identité complete
+        {{ document }}
       </div>
     </a>
 {% endfor %}

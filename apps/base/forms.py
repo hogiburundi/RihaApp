@@ -2,35 +2,6 @@ from .models import *
 from django import forms
 from datetime import date
 
-GENDERS = (
-	("H", 'Homme'),
-	("F", "Femme")
-)
-
-PAYMENTS = ( 
-    ("ecocash", "Ecocash"), 
-    ("lumicash", "Lumicash"), 
-    ("bcb", "BCB"), 
-)
-
-PLACE_LEVEL = ( 
-    (1, "Pays"), 
-    (2, "Province"), 
-    (3, "Commune"), 
-    (4, "Quarter"), 
-    (5, "Zone")
-) 
-
-USER_LEVEL = ( 
-    (1, "Chef"), 
-    (2, "Secretaire"), 
-) 
-
-PRIORITY_LEVEL = ( 
-    (1, "Normal"), 
-    (2, "Elevée"), 
-) 
-
 class ConnexionForm(forms.Form):
 	username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username ','class':'form-control'}))
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password ', 'type':'password','class':'form-control'}))
@@ -62,7 +33,11 @@ class ProfileForm(forms.ModelForm):
 				'class':'form-control inline-form-control'}
 			),
 		label='Birthdate')
-	is_married = forms.BooleanField( widget=forms.CheckboxInput(attrs={'placeholder':'Married '}), label='Married')
+	is_married = forms.BooleanField(
+		widget=forms.CheckboxInput(
+			attrs={'placeholder':'Married '}),
+		label='Married',
+		required=False)
 	job = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Job ','class':'form-control'}), label='Job')
 	
 	def clean_quarter(self, *arg,**kwargs):

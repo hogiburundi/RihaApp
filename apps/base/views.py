@@ -42,7 +42,10 @@ class Home(View):
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
-			home_urls = [os.path.basename(directory)+"_list" for directory in MODULES]
+			home_urls = []
+			for directory in MODULES:
+				basename = os.path.basename(directory)
+				home_urls.append((basename, basename+"_list"))
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")
@@ -64,9 +67,8 @@ class Secretariat(View):
 			#	zone__leader=request.user).count()
 			#=============================================================
 
-
-			base_name = os.path.basename(directory)
-			home_urls.append((base_name+"_secr_list", 0))#counts))
+			basename = os.path.basename(directory)
+			home_urls.append((basename, basename+"_secr_list", 0))#counts))
 
 		return render(request, self.template_name, locals())
 

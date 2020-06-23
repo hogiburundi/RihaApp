@@ -31,7 +31,9 @@ USER_LEVEL = (
 PRIORITY_LEVEL = ( 
     (1, "Normal"), 
     (2, "Elevée"), 
-) 
+)
+
+
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -98,58 +100,43 @@ class Quarter(models.Model):
 	def __str__(self):
 		return f"{self.name} - {self.zone.name}"
 
-class ZoneLeader(models.Model):
-	zone = models.ForeignKey("Zone", null=True, on_delete=models.SET_NULL)
+class ModelPersonnel(models.Model):
 	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+	user_level = models.IntegerField(choices=USER_LEVEL)
+	sdate = models.DateTimeField(default=timezone.now)
+	is_valid = models.BooleanField(default=True)
+	edate = models.DateTimeField(null=True, blank=True)
 
+	class Meta:
+		abstract = True
+
+	def save(self, *args, **kwargs):
+		super(ModelPersonnel, self).save(*args, **kwargs)
+		if not self.is_valid():
+			# remove him in correspondant django group
+			pass
+
+class ZonePersonnel(ModelPersonnel):
+	zone = models.ForeignKey("Zone", null=True, on_delete=models.SET_NULL)
+	
 	def __str__(self):
 		return f"{self.name} - {self.commune.province}"
 
-class ProvinceLeader(models.Model):
+class ProvincePersonnel(ModelPersonnel):
 	province = models.ForeignKey("Province", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+	
 	def __str__(self):
 		return f"{self.name}"
 	
-class CommuneLeader(models.Model):
+class CommunePersonnel(ModelPersonnel):
 	commune = models.ForeignKey("Commune", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-
-	def __str__(self):
-		return f"{self.name} - {self.province}"
-
-class QuarterLeader(models.Model):
-	quarter = models.ForeignKey("Quarter", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-
-	def __str__(self):
-		return f"{self.name} - {self.zone.name}"
-
-class ZoneSecretary(models.Model):
-	zone = models.ForeignKey("Zone", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-
-	def __str__(self):
-		return f"{self.name} - {self.commune.province}"
-
-class ProvinceSecretary(models.Model):
-	province = models.ForeignKey("Province", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-
-	def __str__(self):
-		return f"{self.name}"
 	
-class CommuneSecretary(models.Model):
-	commune = models.ForeignKey("Commune", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-
 	def __str__(self):
 		return f"{self.name} - {self.province}"
 
-class QuarterSecretary(models.Model):
+class QuarterPersonnel(ModelPersonnel):
 	quarter = models.ForeignKey("Quarter", null=True, on_delete=models.SET_NULL)
-	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-
+	
 	def __str__(self):
 		return f"{self.name} - {self.zone.name}"
 

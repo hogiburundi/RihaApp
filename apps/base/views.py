@@ -42,6 +42,7 @@ class Home(View):
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
+			profile = Profile.objects.filter(user=request.user)
 			home_urls = []
 			for directory in MODULES:
 				basename = os.path.basename(directory)
@@ -128,6 +129,7 @@ class Register(View):
 					password=password)
 				user.first_name, user.last_name = firstname, lastname
 				user.save()
+				Profile(user=user).save()
 				messages.success(request, "Hello "+username+", you are registered successfully!")
 				if user:
 					login(request, user)
@@ -138,7 +140,7 @@ class Register(View):
 		return render(request, self.template_name, locals())
 
 class ProfileView(View):
-	template_name = 'register.html'
+	template_name = 'form.html'
 	next_p = "register2"
 	page_number = 2
 
@@ -150,12 +152,14 @@ class ProfileView(View):
 		except:
 			print
 		page_number = self.page_number
-		form = ProfileForm()
+		profile = Profile.objects.get_or_create(user=request.user)[0]
+		form = ProfileForm(instance=profile)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
 		quarters = Quarter.objects.all()
-		form = ProfileForm(request.POST)
+		profile = Profile.objects.get_or_create(user=request.user)[0]
+		form = ProfileForm(request.POST, instance=profile)
 		page_number = self.page_number
 		if form.is_valid():
 			try:
@@ -170,7 +174,7 @@ class ProfileView(View):
 		return render(request, self.template_name, locals())
 
 class Register2(View):
-	template_name = 'register.html'
+	template_name = 'form.html'
 	next_p = "home"
 	page_number = 3
 

@@ -30,15 +30,22 @@ class ProfileForm(forms.ModelForm):
 		widget=forms.SelectDateWidget(
 			years=range(1960, date.today().year),
 			attrs={'placeholder':'yyyy-mm-dd ',
-				'class':'form-control inline-form-control'}
-			),
+				'class':'form-control',
+				'style':'width: auto;display: inline-block;'}),
 		label='Birthdate')
 	is_married = forms.BooleanField(
 		widget=forms.CheckboxInput(
 			attrs={'placeholder':'Married '}),
 		label='Married',
 		required=False)
-	job = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Job ','class':'form-control'}), label='Job')
+	job = forms.CharField(
+		widget=forms.TextInput(
+			attrs={'placeholder':'Job ','class':'form-control'}),
+		label='Job', required=False)
+	prefix = forms.CharField(
+		widget=forms.TextInput(
+			attrs={'placeholder':'Example : Hon. Dr. Ir. ','class':'form-control'}),
+		label='Prefix', required=False)
 	
 	def clean_quarter(self, *arg,**kwargs):
 		try:

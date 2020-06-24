@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
 
@@ -27,30 +27,53 @@ USER_LEVEL = (
     (1, "Chef"), 
     (2, "Secretaire"), 
 ) 
+USER_LEVEL_DICT = dict([x[::-1] for x in [y for y in USER_LEVEL]])
 
 PRIORITY_LEVEL = ( 
     (1, "Normal"), 
     (2, "Elevée"), 
 )
 
+SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
+LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
 
+def addInGroup(user, user_level):
+	groups = user.groups.all()
+	if user_level == 1:
+		group = LEADER_GROUP
+	elif user_level == 2:
+		group = SECRETARY_GROUP
+	else:
+		group = -1
+	if group!=-1 and group not in groups:
+		user.groups.add(group)
+
+def removeFromGroup(user, user_level):
+	groups = user.groups.all()
+	if user_level == 1:
+		group = LEADER_GROUP
+	elif user_level == 2:
+		group = SECRETARY_GROUP
+	else:
+		group = -1
+	if group!=-1 and group in groups:
+		user.groups.remove(group)
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	gender = models.CharField(max_length=64, choices=GENDERS)
 	nationnalite = models.CharField(max_length=64)
-	quarter = models.ForeignKey('Quarter', null=True, blank=True, on_delete=models.SET_NULL)
+	quarter = models.ForeignKey('Quarter', related_name="user_quarter", null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
 	CNI = models.CharField(max_length=64, null=True, blank=True)
-	# father = models.ForeignKey(User, related_name='father', null=True, blank=True, on_delete=models.SET_NULL)
-	# mother = models.ForeignKey(User, related_name='mother', null=True, blank=True, on_delete=models.SET_NULL)
 	father = models.CharField(max_length=64, null=True, blank=True)
 	mother = models.CharField(max_length=64, null=True, blank=True)
 	birthdate = models.DateField()
 	is_married = models.BooleanField(default=False, blank=True)
 	cni_recto = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)
-	job = models.CharField(max_length=64)
+	job = models.CharField(max_length=64, null=True)
+	prefix = models.CharField(max_length=12, null=True)
 
 	def __str__(self):
 		return f"{self.user.last_name} {self.user.first_name}"
@@ -61,41 +84,35 @@ class Notification(models.Model):
 	seen = models.BooleanField(default=False)
 	date = models.DateTimeField(default=timezone.now)
 
-class Zone(models.Model):
-	name = models.CharField(max_length=64)
-	commune = models.ForeignKey('Commune', on_delete=models.CASCADE)
-	ecocash = models.CharField(max_length=64, null=True, blank=True)
-	lumicash = models.CharField(max_length=64, null=True, blank=True)
-	bcb = models.CharField(max_length=64, null=True, blank=True)
-
-	def __str__(self):
-		return f"{self.name} - {self.commune.province}"
-
-class Province(models.Model):
+class PlaceModel(models.Model):
 	name = models.CharField(max_length=64)
 	ecocash = models.CharField(max_length=64, null=True)
 	lumicash = models.CharField(max_length=64, null=True)
 	bcb = models.CharField(max_length=64, null=True)
+	# leader = models.ForeignKey("Profile", null=True, on_delete=models.SET_NULL, editable=False)
+
+	class Meta:
+		abstract = True
+
+class Zone(PlaceModel):
+	commune = models.ForeignKey('Commune', on_delete=models.CASCADE)
+	
+	def __str__(self):
+		return f"{self.name} - {self.commune.province}"
+
+class Province(PlaceModel):
 
 	def __str__(self):
 		return f"{self.name}"
 	
-class Commune(models.Model):
-	name = models.CharField(max_length=64)
+class Commune(PlaceModel):
 	province = models.ForeignKey('Province', on_delete=models.CASCADE)
-	ecocash = models.CharField(max_length=64, null=True, blank=True)
-	lumicash = models.CharField(max_length=64, null=True, blank=True)
-	bcb = models.CharField(max_length=64, null=True, blank=True)
-
+	
 	def __str__(self):
 		return f"{self.name} - {self.province}"
 
-class Quarter(models.Model):
-	name = models.CharField(max_length=64)
+class Quarter(PlaceModel):
 	zone = models.ForeignKey('Zone', on_delete=models.CASCADE)
-	ecocash = models.CharField(max_length=64, null=True, blank=True)
-	lumicash = models.CharField(max_length=64, null=True, blank=True)
-	bcb = models.CharField(max_length=64, null=True, blank=True)
 
 	def __str__(self):
 		return f"{self.name} - {self.zone.name}"
@@ -107,38 +124,52 @@ class ModelPersonnel(models.Model):
 	is_valid = models.BooleanField(default=True)
 	edate = models.DateTimeField(null=True, blank=True)
 
+	def __init__(self, *args, **kwargs):
+		super(ModelPersonnel, self).__init__(*args, **kwargs)
+		self.initial_user_level = self.user_level
+
 	class Meta:
 		abstract = True
 
 	def save(self, *args, **kwargs):
+		if self.initial_user_level != self.user_level:
+			removeFromGroup(self.profile.user, self.initial_user_level)
+			self.initial_user_level = self.user_level
 		super(ModelPersonnel, self).save(*args, **kwargs)
-		if not self.is_valid():
-			# remove him in correspondant django group
-			pass
+		self.checkGroup()
+
+	def checkGroup(self):
+		if self.is_valid:
+			addInGroup(self.profile.user, self.user_level)
+		else:
+			removeFromGroup(self.profile.user, self.user_level)
+			if not self.edate:
+				self.edate = timezone.now()
+				self.save()
 
 class ZonePersonnel(ModelPersonnel):
 	zone = models.ForeignKey("Zone", null=True, on_delete=models.SET_NULL)
 	
 	def __str__(self):
-		return f"{self.name} - {self.commune.province}"
+		return f"{self.profile} - {self.zone}"
 
 class ProvincePersonnel(ModelPersonnel):
 	province = models.ForeignKey("Province", null=True, on_delete=models.SET_NULL)
 	
 	def __str__(self):
-		return f"{self.name}"
+		return f"{self.profile} - {self.province}"
 	
 class CommunePersonnel(ModelPersonnel):
 	commune = models.ForeignKey("Commune", null=True, on_delete=models.SET_NULL)
 	
 	def __str__(self):
-		return f"{self.name} - {self.province}"
+		return f"{self.profile} - {self.commune}"
 
 class QuarterPersonnel(ModelPersonnel):
 	quarter = models.ForeignKey("Quarter", null=True, on_delete=models.SET_NULL)
 	
 	def __str__(self):
-		return f"{self.name} - {self.zone.name}"
+		return f"{self.profile} - {self.quarter}"
 
 class ModelPayement(models.Model):
 	type_payement = models.CharField(choices=PAYMENTS, max_length=64)

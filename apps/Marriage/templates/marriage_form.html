@@ -1,0 +1,67 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ marriage.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ marriage.zone.commune }}</strong><br/>
+		<strong>ZONE DE {{ marriage.zone.name }}</strong><br/>
+		<strong><u>BUREAU D’ETAT CIVIL</u></strong>
+		<br><br>
+		<strong>ACTE № 		: ...</strong><br>
+		<strong>VOLUME № 	: ...</strong>
+		<br><br>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE Mariage N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>
+			L’an {{marriage.year}}, le {{marriage.jour}} jour du mois  de {{marriage.mois}}, ont contracté mariage devant nous, le nommé {{marriage.user.first_name}} {{ marriage.user.last_name}}, fils de {{marriage.user.profile.father}} et de {{marriage.user.profile.mother}}, âgé de {{marriage.age_epoux}} ans, {{marriage.user.profile.job}}, résidant à {{marriage.zone.commune.province}}, de nationalité {{marriage.user.profile.nationnalite}} et {{marriage.nom_prenom_epouse}} , fille de {{marriage.nom_prenom_pere_epouse}} et de {{marriage.nom_prenom_mere_epouse}} , âgée de {{marriage.age_epouse }} ans, Profession {{marriage.job_epouse}} , résidant à {{marriage.residence_epouse}}, de nationalité {{marriage.nationalite_epouse}}.     
+
+		</p>
+
+		<p>&nbsp;</p>
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today.today }}</strong></p>
+		<p style="text-align: center;"><strong>POUR EXTRAIT CERTIFIE CONFORME</strong></p>
+		<p style="text-align: center;"><strong>{{ marriage.zone.leader }} {{ marriage.user.last_name }}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

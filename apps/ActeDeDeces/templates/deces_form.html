@@ -1,0 +1,72 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ deces.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ deces.zone.commune }}</strong><br/>
+		<strong>ZONE DE {{ deces.zone.name }}</strong><br/>
+		<strong><u>BUREAU D’ETAT CIVIL</u></strong><br/><br><br>
+			
+		<strong>ACTE   №    : ...</strong><br>
+
+		<strong>VOLUME № 	: ...</strong><br><br>   <br>                                      
+		<p style="text-align: center;"><strong><u>EXTRAIT D’ACTE DE DECES</u></strong></strong></p>
+		<p>
+			L’an {{deces.annee}}, le {{deces.jour}}  jour du mois d’{{deces.mois}}, est décédée à {{deces.zone.commune.province}}, le nommé {{deces.user.first_name}} {{deces.user.last_name}}, âgé de {{deces.age}} ans, {{deces.user.profile.job}}, de nationalité {{ deces.user.profile.nationnalite }}, fils de {{ deces.user.profile.father }} et de  {{ deces.user.profile.mother }}, ayant résidé de son vivant dans la Municipalité de {{deces.zone.commune.province}}, à l’adresse ci-après : {{deces.zone.name}}.<br><br>
+
+			Le défunt  était né à {{ deces.user.profile.colline_natal }},  et était 
+			{% if deces.user.profile.is_married %}
+				marrié(e)
+			{% else %}
+				célibataire
+			{% endif %}.<br>
+		</p>
+
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ deces.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ deces.user.first_name }} {{ deces.user.last_name }}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

@@ -66,14 +66,20 @@ class Profile(models.Model):
 	quarter = models.ForeignKey('Quarter', related_name="user_quarter", null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
 	CNI = models.CharField(max_length=64, null=True, blank=True)
+	# date_delivrated = models.DateTimeField()
 	father = models.CharField(max_length=64, null=True, blank=True)
 	mother = models.CharField(max_length=64, null=True, blank=True)
-	birthdate = models.DateField()
+	birthdate = models.DateField(null=True)
 	is_married = models.BooleanField(default=False, blank=True)
 	cni_recto = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	job = models.CharField(max_length=64, null=True)
 	prefix = models.CharField(max_length=12, null=True)
+	# always required
+	colline_natal           = models.CharField(max_length = 64)
+	commune_natal     = models.CharField(max_length = 64)
+	province_natal    = models.CharField(max_length = 64)
+	
 
 	def __str__(self):
 		return f"{self.user.last_name} {self.user.first_name}"

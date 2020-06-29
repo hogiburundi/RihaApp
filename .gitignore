@@ -1,0 +1,11 @@
+*.pyc
+*.cpython-37
+*.jpeg
+*.jpg
+*.mp3
+*.mp4
+*.avi
+*.pdf
+*.png
+media/
+db.sqlite3

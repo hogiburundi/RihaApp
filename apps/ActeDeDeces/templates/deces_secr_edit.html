@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ deces.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ deces.zone.commune }}</strong><br/>
+		<strong>ZONE DE {{ deces.zone.name }}</strong><br/>
+		<strong><u>BUREAU D’ETAT CIVIL</u></strong><br/><br><br>
+			
+		<strong>ACTE № 		: ...</strong><br>
+
+		<strong>VOLUME № 	: ...</strong><br><br>   <br>                                      
+		<p style="text-align: center;"><strong><u>EXTRAIT D’ACTE DE DECES</u></strong></strong></p>
+		<p>
+			L’an {{deces.annee}}, le {{deces.jour}}  jour du mois d’{{deces.mois}}, est décédée à {{deces.zone.commune.province}}, le nommé {{deces.user.first_name}} {{deces.user.last_name}}, âgé de {{deces.age}} ans, {{deces.user.profile.job}}, de nationalité {{ deces.user.profile.nationnalite }}, fils de {{ deces.user.profile.father }} et de  {{ deces.user.profile.mother }}, ayant résidé de son vivant dans la Municipalité de {{deces.zone.commune.province}}, à l’adresse ci-après : {{deces.zone.name}}.
+
+			Le défunt  était né à {{ deces.user.profile.colline_natal }},  et était 
+			{% if deces.user.profile.is_married %}
+				marrié(e)
+			{% else %}
+				célibataire
+			{% endif %}.
+		</p>
+
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ deces.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ deces.user.first_name }} {{ deces.user.last_name }}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+<div style="position: fixed; right: 0px; top:40%">
+  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces.user.profile.cni_recto.url }}' height='300' />">
+	  CNI Recto
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces.user.profile.cni_verso.url }}' height='300' />">
+	  CNI verso
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ deces.payment_method }} : <i>{{ deces.payment_serial }}</i></b>">
+	  Payements
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	  Other
+	</button>
+  </div>
+</div>
+<div class="m-2">
+	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
+		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
+		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
+		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
+		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$("#rejection-button").on('click', function(event) {
+	$rejection_msg = $(".rejection-msg");
+	if($rejection_msg.css('display')=="none"){
+		$rejection_msg.css('display',"");
+		event.preventDefault();
+	}else{
+		if($rejection_msg.val().trim().length>0){
+
+		}else{
+			$rejection_msg.css('display',"none");
+			event.preventDefault();
+		}
+	}
+});
+$("#print-button").on('click', function(event) {
+	event.preventDefault();
+	printDiv();
+});
+
+function printDiv() { 
+	var divContents = document.getElementById("template").innerHTML; 
+	var a = window.open('', '', 'height=500, width=1000'); 
+	a.document.write('<html>'); 
+	a.document.write('<body>'); 
+	a.document.write(divContents); 
+	a.document.write('</body></html>'); 
+	a.document.close(); 
+	a.print(); 
+	a.close();
+}
+
+});
+</script>
+{% endblock main %}

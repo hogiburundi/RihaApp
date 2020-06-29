@@ -24,6 +24,7 @@ class ProfileForm(forms.ModelForm):
 	quarter = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}), label='Quarter')
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
+	date_delivrated = forms.DateField( widget=forms.TextInput(attrs={'placeholder':'date delivrated ','class':'form-control'}), label='Date ')
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
 	birthdate = forms.DateField(
@@ -33,6 +34,10 @@ class ProfileForm(forms.ModelForm):
 				'class':'form-control',
 				'style':'width: auto;display: inline-block;'}),
 		label='Birthdate')
+	colline_natal  = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'colline natale'}), label="colline natale")
+	commune_natal  = forms.CharField( widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'commune natale'}), label="commune natale")
+	province_natal = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Province natale ','class':'form-control'}), label='Province natale')
+
 	is_married = forms.BooleanField(
 		widget=forms.CheckboxInput(
 			attrs={'placeholder':'Married '}),
@@ -58,7 +63,7 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job", "CNI")
+		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job", "CNI", 'date_delivrated','colline_natal', 'commune_natal', 'province_natal')
 
 class RegisterForm(forms.Form):
 	telephone = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')

@@ -1,0 +1,123 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL </strong><br/>
+		<strong>PROVINCE DE {{ poss_parcelle.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ poss_parcelle.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ poss_parcelle.zone.name }}</u></strong><br/><br>
+
+		<p style="text-align: center;"><strong><u>ATTESTATION DE RESIDENCE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+
+		<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>PROVINCE DE {{ poss_parcelle.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ poss_parcelle.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ poss_parcelle.zone.name }}</u></strong><br/><br>
+
+		<p style="text-align: center;"><strong><u>ATTESTATION DE POSSESSION DE LA PARCELLE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+
+		<p>Je soussign&eacute;, {{ poss_parcelle.zone.leader}}, Chef de Zone {{ poss_parcelle.zone.name }}, atteste par la pr&eacute;sente que parcelle sise dans le Quartier {{ poss_parcelle.residence_quarter.name|upper }}, Commune {{ poss_parcelle.residence_quarter.zone.name|upper }} d’une dimension de {{ id_comp.dimensions }} ares appartient à {% if poss_parcelle.user.profile.gender == 'Homme' %} Monsieur {% else %} Madame {% endif %} BIGIRIMANA L&ecaute;once, {% if poss_parcelle.user.profile.gender == 'Homme' %} fils {% else %}fille {% endif %} de {{ poss_parcelle.user.profile.father|default:"sans" }} et de {{ poss_parcelle.user.profile.mother|default:"sans" }}, originaire de la colline {{ poss_parcelle.zone.name }}, Commune {{ poss_parcelle.zone.commune.name }}, Province {{ poss_parcelle.zone.commune.province }}, r&ecaute;sidant actuellement dans la Municipalit&ecaute; de {{ poss_parcelle.zone.commune.province }} Zone {{ poss_parcelle.residence_quarter.zone.name|upper }}.</p>
+
+		<p>La pr&ecaute;sente attestation lui est d&ecaute;livr&ecaute;e pour usage administratif et pour faire valoir ce que de droit.</p>
+
+
+
+		<p><strong>Sous-Couvert : {{ poss_parcelle.residence_quarter.name|upper }} </strong></p> 
+
+		<p>Chef de Quartier Taba,</p>
+
+		<p>{{ poss_parcelle.quarter_leader.first_name }} {{ poss_parcelle.quarter_leader.last_name }}</p>
+
+
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ poss_parcelle.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ poss_parcelle.zone.leader}}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+<div style="position: fixed; right: 0px; top:40%">
+  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ poss_parcelle.user.profile.cni_recto.url }}' height='300' />">
+	  CNI Recto
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ poss_parcelle.user.profile.cni_verso.url }}' height='300' />">
+	  CNI verso
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ poss_parcelle.payment_method }} : <i>{{ poss_parcelle.payment_serial }}</i></b>">
+	  Payements
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	  Other
+	</button>
+  </div>
+</div>
+<div class="m-2">
+	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
+		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
+		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
+		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
+		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$("#rejection-button").on('click', function(event) {
+	$rejection_msg = $(".rejection-msg");
+	if($rejection_msg.css('display')=="none"){
+		$rejection_msg.css('display',"");
+		event.preventDefault();
+	}else{
+		if($rejection_msg.val().trim().length>0){
+
+		}else{
+			$rejection_msg.css('display',"none");
+			event.preventDefault();
+		}
+	}
+});
+$("#print-button").on('click', function(event) {
+	event.preventDefault();
+	printDiv();
+});
+
+function printDiv() { 
+	var divContents = document.getElementById("template").innerHTML; 
+	var a = window.open('', '', 'height=500, width=1000'); 
+	a.document.write('<html>'); 
+	a.document.write('<body>'); 
+	a.document.write(divContents); 
+	a.document.write('</body></html>'); 
+	a.document.close(); 
+	a.print(); 
+	a.close();
+}
+
+});
+</script>
+{% endblock main %}

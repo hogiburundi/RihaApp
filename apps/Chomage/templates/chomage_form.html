@@ -1,0 +1,75 @@
+
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ chomage.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ chomage.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ chomage.zone.name }}</u></strong><br/>
+
+		<p style="text-align: center;"><strong><u>ATTESTATION DE chomage</u></strong></p>
+		
+		<p>
+			Je soussigné, {{ chomage.user.first_name }} {{ chomage.user.last_name }}, Chef de Zone {{chomage.name}}, atteste par la présente que Monsieur {{ chomage.user.first_name }} {{ chomage.user.last_name }}, fils de {{chomage.profile.father}} et de {{chomage.profile.mother}}, originaire de la Colline {{chomage.profile.colline_natal}}, Commune {{chomage.profile.commune_natal}}, Province {{chomage.user.province_natal}}, de nationalité {{chomage.profile.nationalite}}, résidant actuellement dans la Municipalité de {{chomage.zone.commune.province}}, à l’adresse ci-après : Commune {{chomage.zone.commune}}, Quartier {{chomage.residence_quarter}}, est en Chômage depuis {{ chomage.anneeEnChomage }}.
+
+
+		</p>
+
+		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
+		<p>&nbsp;</p>
+				<p>&nbsp;</p>
+		<p style="text-align: left;"><strong><u>Sous-Couvert   :</u></strong></p>
+		<p style="text-align: left;">Chef  de Quartier{{ chomage.quarter.name}}</p>
+		<p style="text-align: left;">{{ chomage.user.last_name }}</p>
+
+		<table style="width: 588px;">
+		<tbody>
+
+
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ chomage.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ chomage.user.first_name }} {{ chomage.user.last_name }}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

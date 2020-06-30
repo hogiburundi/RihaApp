@@ -1,0 +1,159 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ composition.zone.commune.province}}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ composition.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ composition.zone.name }}</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE COMPOSITION FAMILIALE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;.../2020</u></strong></p>
+		<p>
+			
+			Je  soussigné, {{ composition.zone.leader.first_name}} {{ composition.zone.leader.last_name}}, Chef de Zone {{ composition.zone.name}}, atteste par la présente que la composition familiale de Monsieur {{composition.user.first_name}} {{composition.user.last_name}}, fils de {{composition.user.profile.father}} et de {{composition.user.profile.mother}}, originaire de la Colline {{composition.user.profile.colline}}, Commune {{composition.user.profile.commune_natal}}, Province {{composition.user.profile.province_natal}}, de nationalité {{composition.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{composition.zone.commune.province }} à l’adresse ci–après : {{composition.zone.name}}, Q.{{composition.residence_quarter}}, est la suivante : Marié  à  {{composition.fullname_lady}}.<br>
+			<br><br>
+		</p>
+			<p><strong><u>Enfants issus du Mariage avec</u></strong> <br>
+			- {{composition.fullname_child}} née en {{composition.date_delivrated}} <br>
+
+		</p>
+
+		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte  Nationale d’Identité  portant  numéro {{ composition.user.profile.CNI }} délivrée  à {{composition.user.profile.commune_natal}},  {{composition.date_delivrated}}.</p>
+		<p>&nbsp;</p>
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 415px;">&nbsp;</td>
+		<td style="width: 375px;">
+		<p style="text-align: center;margin: 5px;float: right;"><strong>Fait &agrave; Bujumbura, le {{ composition.date_delivrated }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ composition.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ composition.zone.leader.first_name}} {{ composition.zone.leader.last_name}}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: center;">&nbsp;</p>
+	</div>
+</div>
+{% endif %}
+<form class="form-horizontal" method="POST" action="">
+    {% csrf_token %}
+    <div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+		{{ form.as_p }}
+	</div>
+	{{ formset.management_form }}
+	{% for form in formset %}
+	<div class="row form-row spacer">
+	    <div class="col-2">
+	        <label>{{form.name.label}}</label>
+	    </div>
+	    <div class="col-4">
+	        <div class="input-group">
+	            {{form.name}}
+	            <div class="input-group-append">
+	                <button class="btn btn-success add-form-row">+</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	{% endfor %}
+	<div class="row spacer">
+    <div class="col-4 offset-2">
+       {% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+</form>
+{% endblock %}
+
+{% block custom_js %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+        var name = $(this).attr('name')
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    newElement.find('label').each(function() {
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('-');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+    if (total > 1){
+        btn.closest('.form-row').remove();
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

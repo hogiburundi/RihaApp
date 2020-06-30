@@ -63,13 +63,15 @@ class Secretariat(View):
 			models = os.path.join(directory, "models")
 			models = importlib.import_module(models.replace(os.sep, '.'))
 			#=============================================================
-			#counts = models.Document.objects.filter(
-			#	secretary_validated=False,
-			#	zone__leader=request.user).count()
+			# counts = models.Document.objects.filter(
+			# 	secretary_validated=False,
+			# 	zone__leader=request.user).count()
+			counts = models.Document.objects.filter(secretary_validated__isnull=False).count()
+			print(counts)
 			#=============================================================
 
 			basename = os.path.basename(directory)
-			home_urls.append((basename, basename+"_secr_list", 0))#counts))
+			home_urls.append((basename, basename+"_secr_list", counts))#counts))
 
 		return render(request, self.template_name, locals())
 
@@ -129,7 +131,8 @@ class Register(View):
 					password=password)
 				user.first_name, user.last_name = firstname, lastname
 				user.save()
-				Profile(user=user).save()
+				profile = Profile(user=user)
+				profile.save()
 				messages.success(request, "Hello "+username+", you are registered successfully!")
 				if user:
 					login(request, user)

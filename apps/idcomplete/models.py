@@ -12,6 +12,7 @@ class Document(models.Model):
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="id_compl_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
+	editable = models.BooleanField(default=True)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]

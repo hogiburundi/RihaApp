@@ -21,13 +21,13 @@ PLACE_LEVEL = (
     (4, "Quarter"), 
     (5, "Zone")
 )
-PLACE_LEVEL_DICT = dict([x[::-1] for x in [y for y in PLACE_LEVEL]])
+PLACE_LEVEL_DICT = dict([x[::-1] for x in PLACE_LEVEL])
 
 USER_LEVEL = ( 
     (1, "Chef"), 
     (2, "Secretaire"), 
 ) 
-USER_LEVEL_DICT = dict([x[::-1] for x in [y for y in USER_LEVEL]])
+USER_LEVEL_DICT = dict([x[::-1] for x in USER_LEVEL])
 
 PRIORITY_LEVEL = ( 
     (1, "Normal"), 
@@ -68,7 +68,7 @@ class Profile(models.Model):
 	CNI = models.CharField(max_length=64, null=True, blank=True)
 	father = models.CharField(max_length=64, null=True, blank=True)
 	mother = models.CharField(max_length=64, null=True, blank=True)
-	birthdate = models.DateField()
+	birthdate = models.DateField(null=True, blank=True);
 	is_married = models.BooleanField(default=False, blank=True)
 	cni_recto = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)

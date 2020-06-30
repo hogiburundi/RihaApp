@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ reconnais.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ reconnais.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ reconnais.zone.name }}</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE RECONNAISSANCE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+		<p>Je soussign&eacute;, {{ reconnais.zone.leader}}, Chef de Zone {{ reconnais.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;Association "{{ reconnais.association }}" exerce ses activit&eacute;s dans la Commune Urbaine de {{ reconnais.zone.commune.name }},Zone {{ reconnais.zone.name }},depuis {{ reconnais.start_year }} <br>
+		La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour servir et faire valoir ce que de droit.</p>
+
+		<p>
+			<b><u>Sous-Couvert de :</u></b><br>                              
+
+			Chef de Quartier {{ reconnais.zone.name }}   <br>         
+																	
+			BIGIRINDAVYI  Gabriel
+
+		</p><p>&nbsp;</p>
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ reconnais.date }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ reconnais.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ reconnais.zone.leader}}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

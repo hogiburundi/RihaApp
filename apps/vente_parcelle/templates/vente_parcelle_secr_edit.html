@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ vente_parcelle.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ vente_parcelle.zone.commune.name }}</strong><br/>
+		<strong><u>ZONE DE {{ vente_parcelle.zone.name }}</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE VENTE DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+		<p>Je soussign&eacute;, {{ vente_parcelle.commune.leader }}, Administrateur de la Commune Urbaine  de  {{ vente_parcelle.zone.commune.name }}, atteste par la pr&eacute;sente que
+				Mr, Mme, Mlle, {{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }}, fils/fille de {{ vente_parcelle.user.profile.father|default:"sans" }} et de {{ vente_parcelle.user.profile.mother|default:"sans" }},
+				 originaire de la Colline {{ vente_parcelle.zone.name }}, Commune {{ vente_parcelle.zone.commune.name }}, Province {{ vente_parcelle.zone.commune.province }}, résidant actuellement dans la Municipalité de 
+				 {{ vente_parcelle.residence_quarter.zone.commune.province }} à l’adresse ci-après : Cellule {{ vente_parcelle.cellule }}
+				  a vendu sa parcelle sise au Q {{ vente_parcelle.residence_quarter.name }}
+				  
+				  à une somme de {{ vente_parcelle.amount }} à Mr, Mme Mlle, {{ vente_parcelle.buyer }}, fils/fille de {{ vente_parcelle.buyer_father }} et de {{ vente_parcelle.buyer_mother }},
+				   originaire de la Colline {{ vente_parcelle.buyer_zone.name }}, Commune  {{ vente_parcelle.buyer_zone.commune.name }}, Province  {{ vente_parcelle.zone.commune.province.name }},
+					résidant actuellement dans la Municipalité de  {{ vente_parcelle.buyer_zone.commune.province.name }} à l’adresse ci-après : Commune {{ vente_parcelle.buyer_zone.commune.name }}. Q. {{ vente_parcelle.buyer_residence_quarter }}.
+			   Cette somme a été versée en présence des témoins ci-après :</p>
+
+			<div class="row">
+			 <div class="col-6">
+				<b><u>LE VENDEUR :</u></b> <br>
+				{{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }} <br>
+				CNI : {{ profiles.CNI }} <br>
+				<b><u>LES TEMOINS</u></b> <br>
+				1.............................................. 
+				<br> CNI : ...................résidant à ....................
+				<br>
+				2. CNI : ..............................résidant à .................... <br>
+				<br><br>
+				<b><u>Le sous-couvert de:</u></b> <br>
+				Chef de quartier {{ vente_parcelle.quartier.name }} <br>
+				{{ vente_parcelle.quartier.leader }} <br>
+				Chef de zone {{ vente_parcelle.zone.leader }}
+			 </div>
+			 <div class="col-6">
+				<b><u>L’ACHETEUR :</u></b> <br>
+				{{ vente_parcelle.buyer }} <br>
+				CNI : <br>
+				<b><u>LES TEMOINS</u></b> <br> 
+				1.............................................. 
+				<br> CNI : ...................résidant à ....................
+				<br>
+				2. CNI : ..............................résidant à .................... <br>
+				<br><br>
+				<p style="text-align: center;"><strong>Fait &agrave; {{ vente_parcelle.zone.commune.province.name }}, le {{ vente_parcelle.date }}</strong></p>
+				<p style="text-align: center;"><strong>L’ADMINISTRATEUR DE LA COMMUNE URBAINE DE {{ vente_parcelle.zone.commune.name }}</strong></p>
+				<p style="text-align: center;"><strong>{{ vente_parcelle.zone.commune.leader }}</strong></p>
+				
+
+				</div>
+			</div>
+	</div>
+</div>
+<div style="position: fixed; right: 0px; top:40%">
+  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ vente_parcelle.user.profile.cni_recto.url }}' height='300' />">
+	  CNI Recto
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ vente_parcelle.user.profile.cni_verso.url }}' height='300' />">
+	  CNI verso
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ vente_parcelle.payment_method }} : <i>{{ vente_parcelle.payment_serial }}</i></b>">
+	  Payements
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	  Other
+	</button>
+  </div>
+</div>
+<div class="m-2">
+	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
+		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
+		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
+		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
+		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$("#rejection-button").on('click', function(event) {
+	$rejection_msg = $(".rejection-msg");
+	if($rejection_msg.css('display')=="none"){
+		$rejection_msg.css('display',"");
+		event.preventDefault();
+	}else{
+		if($rejection_msg.val().trim().length>0){
+
+		}else{
+			$rejection_msg.css('display',"none");
+			event.preventDefault();
+		}
+	}
+});
+$("#print-button").on('click', function(event) {
+	event.preventDefault();
+	printDiv();
+});
+
+function printDiv() { 
+	var divContents = document.getElementById("template").innerHTML; 
+	var a = window.open('', '', 'height=500, width=1000'); 
+	a.document.write('<html>'); 
+	a.document.write('<body>'); 
+	a.document.write(divContents); 
+	a.document.write('</body></html>'); 
+	a.document.close(); 
+	a.print(); 
+	a.close();
+}
+
+});
+</script>
+{% endblock main %}

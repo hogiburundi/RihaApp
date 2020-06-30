@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ cession.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ cession.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ cession.zone.name }}</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE CESSION DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+		<p>&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.zone.leader }}, Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
+		Monsieur {% else %} Madame {% endif %} {{ cession.user.first_name }} {{ cession.user.last_name }},
+		{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ cession.user.profile.father|default:"sans" }} et de {{ cession.user.profile.mother|default:"sans" }},
+		originaire de la Colline {{ cession.quarter.name }}, Commune {{ cession.zone.commune.name }},
+		Province {{ cession.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ cession.residence_quarter.zone.commune.province.name }} à l’adresse ci-après :
+		Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.realestate_quarter.name }} à  {{ cession.beneficiary }} , fils de
+		{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_zone.name }}, Commune {{ cession.beneficiary_zone.commune.name }} , Province {{ cession.beneficiary_zone.commune.province.name }} ,
+		résidant actuellement dans la Municipalité de {{ cession.beneficiary_residence_zone.commune.province.name }} à l’adresse ci-après : {{ cession.beneficiary_residence_zone.name }}, Q. {{ cession.beneficiary_residence_quarter.name }}
+
+
+		<p>&emsp;&emsp;&emsp;Cette cession a eu lieu en présence des témoins ci-après :</p>
+
+		<div class="row">
+			<div class="col-6">
+				<b><u>LE CESSIONNAIRE</u></b> <br>
+				{{ cession.user.first_name }} {{ cession.user.last_name }} <br>
+				<b><u>LES TEMOINS</u></b> <br>
+				1. {{ cession.giv_eyewitness1 }} <br>
+				2. {{ cession.giv_eyewitness2 }} <br>
+				<b>LE CHEF DE QUARTIER {{ cession.quarter.name }}</b>
+				{{ cession.quarter.leader }}
+			</div>
+			<div class="col-6">
+				<b><u>LE BENEFICIAIRE</u></b> <br>
+				{{ cession.beneficiary }} <br>
+				<b><u>LES TEMOINS</u></b> <br>
+				1. {{ cession.ben_eyewitness1 }} <br>
+				2. {{ cession.ben_eyewitness2 }} <br>
+				<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date }}</strong></p>
+				<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name}}</strong></p>
+				<p style="text-align: center;"><strong>{{ cession.zone.leader}}</strong></p>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
+# from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
 
@@ -34,8 +35,8 @@ PRIORITY_LEVEL = (
     (2, "Elevée"), 
 )
 
-SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
-LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+# SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
+# LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
 
 def addInGroup(user, user_level):
 	groups = user.groups.all()

@@ -34,8 +34,11 @@ PRIORITY_LEVEL = (
     (2, "Elevée"), 
 )
 
-SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
-LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+try:
+	SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
+	LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+except Exception as e:
+	pass
 
 def addInGroup(user, user_level):
 	groups = user.groups.all()
@@ -63,12 +66,23 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	gender = models.CharField(max_length=64, choices=GENDERS)
 	nationnalite = models.CharField(max_length=64)
-	quarter = models.ForeignKey('Quarter', related_name="user_quarter", null=True, blank=True, on_delete=models.SET_NULL)
+	quarter = models.ForeignKey('Quarter', related_name="user_quarter_residence", null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
 	CNI = models.CharField(max_length=64, null=True, blank=True)
+
+	#==================================================== 	Aded 	==================================================================
+	zone_delivery_CNI = models.ForeignKey('Zone', related_name='cni_released_zone', null=True, blank=True, on_delete=models.CASCADE)
+	date_delivery_CNI = models.DateField()
+	#=================================================================================================================================
+
 	father = models.CharField(max_length=64, null=True, blank=True)
 	mother = models.CharField(max_length=64, null=True, blank=True)
 	birthdate = models.DateField()
+
+	#========================================================= 	Aded 	=================================================================
+	quarter_birth =  models.ForeignKey('Quarter', related_name="user_quarter_birth", null=True, blank=True, on_delete=models.SET_NULL)
+	#====================================================================================================================================
+
 	is_married = models.BooleanField(default=False, blank=True)
 	cni_recto = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)

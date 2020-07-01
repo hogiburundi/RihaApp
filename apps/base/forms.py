@@ -26,20 +26,16 @@ class ProfileForm(forms.ModelForm):
 	quarter_birth = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quartier de naissance ','class':'form-control', 'list':'quarters'}), label='Quartier naissance')
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
-<<<<<<< HEAD
-	zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
+	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
+	# date_delivery_CNI = forms.DateField(
+	# 	widget=forms.SelectDateWidget(
+	# 		years=range(1960, date.today().year),
+	# 		attrs={'placeholder':'yyyy-mm-dd ',
+	# 			'class':'form-control',
+	# 			'style':'width: auto;display: inline-block;'}),
+	# 	label='Délivrée le : ')
+	#date_delivrated = forms.DateField( widget=forms.TextInput(attrs={'placeholder':'date delivrated ','class':'form-control'}), label='Date ')
 
-	date_delivery_CNI = forms.DateField(
-	widget=forms.SelectDateWidget(
-		years=range(1960, date.today().year),
-		attrs={'placeholder':'yyyy-mm-dd ',
-			'class':'form-control',
-			'style':'width: auto;display: inline-block;'}),
-	label='Délivrée le : ')
-
-=======
-	date_delivrated = forms.DateField( widget=forms.TextInput(attrs={'placeholder':'date delivrated ','class':'form-control'}), label='Date ')
->>>>>>> origin/master
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
 	birthdate = forms.DateField(
@@ -49,10 +45,7 @@ class ProfileForm(forms.ModelForm):
 				'class':'form-control',
 				'style':'width: auto;display: inline-block;'}),
 		label='Birthdate')
-	colline_natal  = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'colline natale'}), label="colline natale")
-	commune_natal  = forms.CharField( widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'commune natale'}), label="commune natale")
-	province_natal = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Province natale ','class':'form-control'}), label='Province natale')
-
+	
 	is_married = forms.BooleanField(
 		widget=forms.CheckboxInput(
 			attrs={'placeholder':'Married '}),
@@ -78,15 +71,7 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = Profile
-<<<<<<< HEAD
-		fields = ("gender", "nationnalite", "quarter",
-		 "address", "father", "mother",
-		  "birthdate","quarter_birth", "is_married", "job",
-		   "CNI","zone_delivery_CNI",
-		   "date_delivery_CNI",)
-=======
 		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job", "CNI", 'date_delivrated','colline_natal', 'commune_natal', 'province_natal')
->>>>>>> origin/master
 
 class RegisterForm(forms.Form):
 	telephone = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')

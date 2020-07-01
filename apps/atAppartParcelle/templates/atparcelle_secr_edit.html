@@ -1,0 +1,120 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div id="document" class="col-12">
+		<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>MUNICIPALITE DE {{ id_compl.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
+		<strong><u>CABINET DU MAIRE {{ id_compl.zone.name }}</u></strong><br/><br>
+
+		<p style="text-align: center;"><strong><u>ATTESTATION D&rsquo;APPARTENANCE DE PARCELLE  №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+
+		<p>Nous soussign&ecute;s, Hon. {{ at_parcelle.propriety_quarter.zone.commune.province.leader }}, Maire de la Ville de {{ at_parcelle.propriety_quarter.zone.commune.province }} et  {{ at_parcelle.propriety_quarter.zone.commune.leader }}, Administrateur de la Commune Urbaine de {{ at_parcelle.propriety_quarter.zone.commune }}, attestons par la pr&ecute;sente que la parcelle sise à {{ at_parcelle.propriety_quarter.zone }}, Quartier {{ at_parcelle.propriety_quarter }}  de {{ at_parcelle.propriety_surfaces_a }} Ares, {{ at_parcelle.propriety_surfaces_ca }} Centiares, de {{ at_parcelle.propriety_contenency }} .de contenance, appartient à {% if at_parcelle.user.profile.gender == 'Homme' %} Mr {% else %} Mme {% endif %} {{ at_parcelle.user.first_name }} {{ at_parcelle.user.last_name }} {% if at_parcelle.user.profile.gender == 'Homme' %} fils {% else %} fille {% endif %} de {{ at_parcelle.user.profile.father|upper }}  et de {{ at_parcelle.user.profile.mother }}  n&ecute; en {{ at_parcelle.user.profile.birthdate }} à {{ at_parcelle.user.profile.quarter_birth }}  Commune {{ at_parcelle.user.profile.quarter_birth.zone }}  Province {{ at_parcelle.user.profile.quarter_birth.zone.province }}. Carte Nationale d’Identit&ecute; № {{ at_parcelle.user.profile.CNI }} d&ecute;livr&ecute;e à {{ at_parcelle.user.profile.zone_delivery_CNI }}|{{ at_parcelle.user.profile.zone_delivery_CNI.commune }}  le {{ at_parcelle.user.profile.date_delivery_CNI }}.</p>
+
+		<p>Domicili&ecute; à l’adresse ci-après : Commune {{ at_parcelle.user_residence_quarter.zone.commune }}, Q. {{ at_parcelle.user_residence_quarter }}</p>
+		
+		<p>La pr&ecute;sente attestation lui est &ecute;tablie au vu des documents ci-après :</p>
+
+		<p>-Convention sous seing priv&ecute;e du ………………………………………</p> 
+		<p>-Attestation de vente du ………………………………………………...</p>
+
+
+	  	<p>L’Administrateur de la Commune {{ {{ at_parcelle.propriety_quarter.zone.commune }} }}</p>
+
+	                   {{ at_parcelle.propriety_quarter.zone.commune.leader }}
+
+
+		<p><strong>Sous-Couvert : {{ id_compl.residence_quarter.name|upper }} </strong></p> 
+
+		<p>Chef de Quartier Taba,</p>
+
+		<p>{{ id_compl.quarter_leader.first_name }} {{ id_compl.quarter_leader.last_name }}</p>
+
+
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>LE MAIRE DE LA VILLE DE {{ at_parcelle.propriety_quarter.zone.commune.province }} </strong></p>
+		<p style="text-align: center;"><strong>Hon. {{ at_parcelle.propriety_quarter.zone.commune.province.leader }}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+<div style="position: fixed; right: 0px; top:40%">
+  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_recto.url }}' height='300' />">
+	  CNI Recto
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_verso.url }}' height='300' />">
+	  CNI verso
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ id_compl.payment_method }} : <i>{{ id_compl.payment_serial }}</i></b>">
+	  Payements
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	  Other
+	</button>
+  </div>
+</div>
+<div class="m-2">
+	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
+		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
+		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
+		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
+		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$("#rejection-button").on('click', function(event) {
+	$rejection_msg = $(".rejection-msg");
+	if($rejection_msg.css('display')=="none"){
+		$rejection_msg.css('display',"");
+		event.preventDefault();
+	}else{
+		if($rejection_msg.val().trim().length>0){
+
+		}else{
+			$rejection_msg.css('display',"none");
+			event.preventDefault();
+		}
+	}
+});
+$("#print-button").on('click', function(event) {
+	event.preventDefault();
+	printDiv();
+});
+
+function printDiv() { 
+	var divContents = document.getElementById("template").innerHTML; 
+	var a = window.open('', '', 'height=500, width=1000'); 
+	a.document.write('<html>'); 
+	a.document.write('<body>'); 
+	a.document.write(divContents); 
+	a.document.write('</body></html>'); 
+	a.document.close(); 
+	a.print(); 
+	a.close();
+}
+
+});
+</script>
+{% endblock main %}

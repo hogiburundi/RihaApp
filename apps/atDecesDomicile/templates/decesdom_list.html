@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if documents %}
+	<table class="table table-hover" id="commande">
+		<thead>
+			<tr>
+				<th scope="col">person</th>
+				<th scope="col">quarter</th>
+				<th scope="col">payment method</th>
+				<th scope="col">serial</th>
+				<th scope="col">validated</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for document in documents %}
+			<tr class="document-item" data-id="{{ document.id }}">
+				<td> <a href="./{{ document.id }}">{{ document.user }}</a></td>
+				<td> {{ document.residence_quarter }}</td>
+				<td> {{ document.payment_method }}</td>
+				<td> {{ document.payment_serial }}</td>
+				<td> {{ document.secretary_validated }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+
+$(".document-item").on('click', function(event) {
+	if(event.target.nodeName!="A"){
+		event.preventDefault();
+		let comment = prompt(
+			"Vous pouvez saisir vos obligations sur cette recette",
+			$(this).attr('obligations')
+		);
+		$(this).attr('obligations', comment);
+	}
+});
+
+});
+</script>
+{% endblock main %}

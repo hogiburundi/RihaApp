@@ -34,8 +34,11 @@ PRIORITY_LEVEL = (
     (2, "Elevée"), 
 )
 
-SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
-LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+try:
+	SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
+	LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+except Exception as e:
+	pass
 
 def addInGroup(user, user_level):
 	groups = user.groups.all()
@@ -63,7 +66,7 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	gender = models.CharField(max_length=64, choices=GENDERS)
 	nationnalite = models.CharField(max_length=64)
-	quarter = models.ForeignKey('Quarter', related_name="user_quarter", null=True, blank=True, on_delete=models.SET_NULL)
+	quarter = models.ForeignKey('Quarter', related_name="user_quarter_residence", null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
 	CNI = models.CharField(max_length=64, null=True, blank=True)
 	father = models.CharField(max_length=64, null=True, blank=True)

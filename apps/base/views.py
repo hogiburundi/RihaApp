@@ -5,6 +5,9 @@ from django.views import View
 from django.contrib.auth import login, logout, authenticate 
 from django.contrib import messages
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import user_passes_test
+
 from .forms import *
 from .models import *
 
@@ -51,6 +54,7 @@ class Home(View):
 		else:
 			return redirect("login")
 
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class Secretariat(View):
 	template_name = "secretariat.html"
 

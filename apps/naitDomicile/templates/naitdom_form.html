@@ -1,0 +1,96 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ id_compl.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ id_compl.zone.name }}</u></strong><br/><br>
+		<p style="text-align: center;"><strong><u>ATTESTATION  DE NAISSANCE A DOMICILE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+		 
+
+
+		<p>Je soussign&eacute;, {{ id_compl.zone.leader}}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ id_compl.child_name }}, est né le {{ id_compl.child_birth }}, à domicile, à {{ id_compl.child_birth_zone.zone.name }} Q. {{ id_compl.child_birth_quarter.quarter.name }}, fils de {{ id_compl.user.first_name }} {{ id_compl.user.last_name }} et de {{ id_compl.child_mother.profile.user.first_name }} {{ id_compl.child_mother.profile.user.last_name }}.
+
+				<p style="text-align:center;">La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e en vue de l’obtention de l’extrait d’acte de naissance.</p>
+		</p>
+
+		<p><strong>Le déclarant :</strong></p> 
+
+		<p>{{ id_compl.user.first_name }} {{ id_compl.user.last_name }}</p>
+			<p>C.N.I: {{ id_compl.user.profile.CNI }}</p>
+
+		<p><strong>Les  témoins :</strong></p>
+
+		<p>{{ id_compl.first_witness.profile.user.first_name }} {{ id_compl.first_witness.profile.user.last_name }}</p>
+		<p>C.N.I : {{ id_compl.first_witness.profile.CNI }} </p>
+
+		<p>{{ id_compl.second_witness.profile.user.first_name }} {{ id_compl.second_witness.profile.user.last_name }}</p>
+		CNI: {{ id_compl.second_witness.profile.CNI }}
+
+
+		<p><strong>Chef de Quartier  TABA</strong></p> 
+
+		<p>Chef de Quartier {{ id_compl.child_birth_quarter.quarter.name }},</p>
+
+		<p>{{ id_compl.supervisor.profile.user.first_name }} {{ id_compl.supervisor.profile.user.last_name }}</p>
+
+		
+		
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ id_compl.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ id_compl.zone.leader}}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+
+		<datalist id="profiles">
+			{% for profile in profiles %}
+				<option value="{{ profile.user.first_name }} {{ profile.user.last_name }}"/> 
+			{% endfor %}
+		</datalist>
+
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

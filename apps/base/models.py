@@ -77,6 +77,7 @@ class Profile(models.Model):
 	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	job = models.CharField(max_length=64, null=True)
 	prefix = models.CharField(max_length=12, null=True)
+	date_delivrated = models.DateField()
 
 	def __str__(self):
 		return f"{self.user.last_name} {self.user.first_name}"

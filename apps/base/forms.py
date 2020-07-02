@@ -23,15 +23,15 @@ class ProfileForm(forms.ModelForm):
 
 	nationnalite = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nationnalite ','class':'form-control'}), label='Nationnalite')
 	quarter = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}), label='Quarter')
-	quarter_birth = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quartier de naissance ','class':'form-control', 'list':'quarters'}), label='Quartier naissance')
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
 	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
 	date_delivrated = forms.DateField(
 		widget=forms.SelectDateWidget(
 			years=range(1990, date.today().year),
-			attrs={'placeholder':'date delivrated ','class':'form-control'}),
-		label='Délivrée le : ')
+			attrs={'placeholder':'date delivrated ', 'class':'form-control',
+			'style':'display:inline-block; width:auto'}),
+		label='Délivrée le')
 
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')

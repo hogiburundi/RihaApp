@@ -112,7 +112,7 @@ class Zone(PlaceModel):
 
 	def leaderFullName(self):
 		if self.leader():
-			return leader.profile.fullName()
+			return self.leader.profile.fullName()
 		return "............................................."
 
 class Province(PlaceModel):
@@ -125,7 +125,7 @@ class Province(PlaceModel):
 
 	def leaderFullName(self):
 		if self.leader():
-			return leader.profile.fullName()
+			return self.leader.profile.fullName()
 		return "............................................."
 	
 class Commune(PlaceModel):
@@ -139,7 +139,7 @@ class Commune(PlaceModel):
 
 	def leaderFullName(self):
 		if self.leader():
-			return leader.profile.fullName()
+			return self.leader.profile.fullName()
 		return "............................................."
 
 class Quarter(PlaceModel):
@@ -153,7 +153,7 @@ class Quarter(PlaceModel):
 
 	def leaderFullName(self):
 		if self.leader():
-			return leader.profile.fullName()
+			return self.leader.profile.fullName()
 		return "............................................."
 
 class ModelPersonnel(models.Model):

@@ -13,7 +13,7 @@
 		<strong><u>ZONE DE {{ id_compl.zone.name }}</u></strong><br/>
 		<p style="text-align: center;"><strong><u>ATTESTATION D&rsquo;IDENTITE COMPLETE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
-		<p>Je soussign&eacute;, {{ id_compl.user.first_name }}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;identit&eacute; compl&egrave;te de&nbsp;Monsieur&nbsp; {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, est le suivant&nbsp;:</p>
+		<p>Je soussign&eacute;, {{ id_compl.zone.leaderFullName }}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;identit&eacute; compl&egrave;te de&nbsp;Monsieur&nbsp; {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, est le suivant&nbsp;:</p>
 		<table>
 		<tbody>
 		<tr>
@@ -78,7 +78,7 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ id_compl.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ id_compl.user.first_name }} {{ id_compl.user.last_name }}</strong></p>
+		<p style="text-align: center;"><strong>{{ id_compl.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>

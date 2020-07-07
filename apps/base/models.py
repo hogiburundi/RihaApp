@@ -82,6 +82,9 @@ class Profile(models.Model):
 	def __str__(self):
 		return f"{self.user.last_name} {self.user.first_name}"
 
+	def fullName(self):
+		return f"{self.prefix} {self.user.last_name} {self.user.first_name}"
+
 class Notification(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	message = models.CharField(max_length=128)
@@ -104,10 +107,26 @@ class Zone(PlaceModel):
 	def __str__(self):
 		return f"{self.name} - {self.commune.province}"
 
+	def leader(self):
+		return ZonePersonnel.objects.filter(zone=self).last()
+
+	def leaderFullName(self):
+		if self.leader():
+			return leader.profile.fullName()
+		return "............................................."
+
 class Province(PlaceModel):
 
 	def __str__(self):
 		return f"{self.name}"
+
+	def leader(self):
+		return ProvincePersonnel.objects.filter(province=self).last()
+
+	def leaderFullName(self):
+		if self.leader():
+			return leader.profile.fullName()
+		return "............................................."
 	
 class Commune(PlaceModel):
 	province = models.ForeignKey('Province', on_delete=models.CASCADE)
@@ -115,11 +134,27 @@ class Commune(PlaceModel):
 	def __str__(self):
 		return f"{self.name} - {self.province}"
 
+	def leader(self):
+		return CommunePersonnel.objects.filter(commune=self).last()
+
+	def leaderFullName(self):
+		if self.leader():
+			return leader.profile.fullName()
+		return "............................................."
+
 class Quarter(PlaceModel):
 	zone = models.ForeignKey('Zone', on_delete=models.CASCADE)
 
 	def __str__(self):
 		return f"{self.name} - {self.zone.name}"
+
+	def leader(self):
+		return QuarterPersonnel.objects.filter(quarter=self).last()
+
+	def leaderFullName(self):
+		if self.leader():
+			return leader.profile.fullName()
+		return "............................................."
 
 class ModelPersonnel(models.Model):
 	profile = models.ForeignKey("Profile", on_delete=models.CASCADE)

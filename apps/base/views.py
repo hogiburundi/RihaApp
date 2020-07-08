@@ -49,7 +49,10 @@ class Home(View):
 			home_urls = []
 			for directory in MODULES:
 				basename = os.path.basename(directory)
-				home_urls.append((basename, basename+"_list"))
+				module_name = directory.replace(os.sep, ".")
+				module = importlib.import_module(module_name)
+				app_name = module.APP_NAME
+				home_urls.append((app_name, basename+"_list"))
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")

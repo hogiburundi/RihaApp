@@ -2,6 +2,10 @@
 	- ne pas contenir d'espacement
 	- ne pas être ajouter manuellement dans settings.py
 
+2) le fichier ```__init__.py``` doit comptenir une ligne:
+
+```APP_NAME = "Nom de l'Appliction" #exemple: Identité Complète```
+
 2) le fichier urls
 	- doit ne pas être référencé manuellement dans urls principal
 	- doit contenir un chemin "" avec l'attribut name = nom de l'application

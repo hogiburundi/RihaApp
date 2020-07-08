@@ -74,11 +74,12 @@ class Secretariat(View):
 			# 	secretary_validated=False,
 			# 	zone__leader=request.user).count()
 			counts = models.Document.objects.filter(secretary_validated__isnull=False).count()
-			print(counts)
 			#=============================================================
-
 			basename = os.path.basename(directory)
-			home_urls.append((basename, basename+"_secr_list", counts))#counts))
+			module_name = directory.replace(os.sep, ".")
+			module = importlib.import_module(module_name)
+			app_name = module.APP_NAME
+			home_urls.append((app_name, basename+"_secr_list", counts))#counts))
 
 		return render(request, self.template_name, locals())
 

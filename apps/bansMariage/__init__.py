@@ -1,0 +1,1 @@
+APP_NAME = "Publication de Bans de Marriage"

@@ -1,21 +1,27 @@
 {% extends "base.html" %}
 {% block main %}
-<a href="{% url 'profile_form' %}" class="btn btn-success text-decoration-none col-lg-3 col-sm-6 col-12 mt-2">
-  <div class="item-title" style="color:white;">
-    Edit
-  </div>
-  <div class="item-number" style="color:white;">
-    edit my profile
-  </div>
-</a>
-{% for document, home_url in home_urls %}
-    <a href="{% url home_url %}" class="btn btn-primary text-decoration-none col-lg-3 col-sm-6 col-12 mt-2">
+<div class="row">
+  <div class="col-lg-3 col-sm-6 col-12 p-1">
+    <a href="{% url 'profile_form' %}" class="btn btn-success col-12 text-decoration-none">
       <div class="item-title" style="color:white;">
-        Document<span class="badge badge-danger ml-2">{{ counts }}</span>
+        Edit
       </div>
       <div class="item-number" style="color:white;">
-        {{ document }}
+        edit my profile
       </div>
     </a>
-{% endfor %}
+  </div>
+  {% for document, home_url in home_urls %}
+    <div class="col-lg-3 col-sm-6 col-12 p-1">
+      <a href="{% url home_url %}" class="btn btn-primary col-12 text-decoration-none">
+        <div class="item-title" style="color:white;">
+          Document<span class="badge badge-danger ml-2">{{ counts }}</span>
+        </div>
+        <div class="item-number" style="color:white;">
+          {{ document }}
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>
 {% endblock main %}

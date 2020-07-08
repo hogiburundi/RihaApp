@@ -67,7 +67,8 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	gender = models.CharField(max_length=64, choices=GENDERS)
 	nationnalite = models.CharField(max_length=64)
-	quarter = models.ForeignKey('Quarter', related_name="user_quarter_residence", null=True, blank=True, on_delete=models.SET_NULL)
+	quarter = models.ForeignKey('Quarter', related_name="quarter_naissance", null=True, blank=True, on_delete=models.SET_NULL)
+	residence = models.ForeignKey('Quarter', related_name="quarter_residence", null=True, blank=True, on_delete=models.SET_NULL)
 	address = models.CharField(max_length=64)
 	CNI = models.CharField(max_length=64, null=True, blank=True)
 	father = models.CharField(max_length=64, null=True, blank=True)
@@ -77,7 +78,7 @@ class Profile(models.Model):
 	cni_recto = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	cni_verso = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	job = models.CharField(max_length=64, null=True)
-	prefix = models.CharField(max_length=12, null=True)
+	prefix = models.CharField(max_length=12, blank=True, default='')
 	date_delivrated = models.DateField(null=True)
 
 	def __str__(self):

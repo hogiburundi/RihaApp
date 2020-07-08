@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+            <!-- {{ form.as_p }} -->
+			{{ form.search_user }}            
+        </div>
+
+        <div class="col-xl-12 col-lg-12 col-12 form-group">
+            <ul>
+            {% for name in user_name %}
+              <li><a href="#">{{ forloop.counter }} ~ {{ name.user.last_name }} {{ name.user.first_name }}</a></li>
+            {% endfor %}
+            <br>
+            {% if all_users1 == 1 %}
+            <span>{{ all_users1 }} User(s) found <br> {{ msg }}</span>
+            {% elif all_users1 >= 2 %}
+            <span>{{ all_users1 }} User(s) found <br> {{ msg }}</span>
+            {% else %}
+            <span>{{ all_users1 }} User(s) found <br> {{ msg }}</span>
+            {% endif %}
+            <!-- <span>{{ msg }}</span> -->
+            </ul>
+        </div>
+			<input type="submit" class="btn btn-outline-primary" name="preview" value="Search beneficiary">
+
+
+	</form>
+</div>
+<script type="text/javascript">
+</script>
+{% endblock main %}

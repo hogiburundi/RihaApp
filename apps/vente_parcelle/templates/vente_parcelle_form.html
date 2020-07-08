@@ -1,0 +1,88 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+{% if preview %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ vente_parcelle.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ vente_parcelle.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ vente_parcelle.zone.name }}</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE VENTE DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+		<p>Je soussign&eacute;, {{ vente_parcelle.commune.leader }}, Administrateur de la Commune Urbaine  de  {{ vente_parcelle.zone.commune.name }}, atteste par la pr&eacute;sente que
+				Mr, Mme, Mlle, {{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }}, fils/fille de {{ vente_parcelle.user.profile.father|default:"sans" }} et de {{ vente_parcelle.user.profile.mother|default:"sans" }},
+				 originaire de la Colline {{ vente_parcelle.zone.name }}, Commune {{ vente_parcelle.zone.commune.name }}, Province {{ vente_parcelle.zone.commune.province }}, résidant actuellement dans la Municipalité de 
+				 {{ vente_parcelle.residence_quarter.zone.commune.province }} à l’adresse ci-après : Cellule {{ vente_parcelle.cellule }}
+				  a vendu sa parcelle sise au Q {{ vente_parcelle.residence_quarter.name }}
+				  
+				  à une somme de {{ vente_parcelle.amount }} à Mr, Mme Mlle, {{ vente_parcelle.buyer }}, fils/fille de {{ vente_parcelle.buyer_father }} et de {{ vente_parcelle.buyer_mother }},
+				   originaire de la Colline {{ vente_parcelle.buyer_zone.name }}, Commune  {{ vente_parcelle.buyer_zone.commune.name }}, Province  {{ vente_parcelle.zone.commune.province.name }},
+					résidant actuellement dans la Municipalité de  {{ vente_parcelle.buyer_zone.commune.province.name }} à l’adresse ci-après : Commune {{ vente_parcelle.buyer_zone.commune.name }}. Q. {{ vente_parcelle.buyer_residence_quarter }}.
+			   Cette somme a été versée en présence des témoins ci-après :</p>
+
+			<div class="row">
+			 <div class="col-6">
+				<b><u>LE VENDEUR :</u></b> <br>
+				{{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }} <br>
+				CNI : {{ profiles.CNI }} <br>
+				<b><u>LES TEMOINS</u></b> <br>
+				1.............................................. 
+				<br> CNI : ...................résidant à ....................
+				<br>
+				2. CNI : ..............................résidant à .................... <br>
+				<br><br>
+				<b><u>Le sous-couvert de:</u></b> <br>
+				Chef de quartier {{ vente_parcelle.quartier.name }} <br>
+				{{ vente_parcelle.quartier.leader }} <br>
+				Chef de zone {{ vente_parcelle.zone.leader }}
+			 </div>
+			 <div class="col-6">
+				<b><u>L’ACHETEUR :</u></b> <br>
+				{{ vente_parcelle.buyer }} <br>
+				CNI : <br>
+				<b><u>LES TEMOINS</u></b> <br> 
+				1.............................................. 
+				<br> CNI : ...................résidant à ....................
+				<br>
+				2. CNI : ..............................résidant à .................... <br>
+				<br><br>
+				<p style="text-align: center;"><strong>Fait &agrave; {{ vente_parcelle.zone.commune.province.name }}, le {{ vente_parcelle.date }}</strong></p>
+				<p style="text-align: center;"><strong>L’ADMINISTRATEUR DE LA COMMUNE URBAINE DE {{ vente_parcelle.zone.commune.name }}</strong></p>
+				<p style="text-align: center;"><strong>{{ vente_parcelle.zone.commune.leader }}</strong></p>
+				
+
+				</div>
+			</div>
+	</div>
+</div>
+{% endif %}
+<div class="m-auto col-12 col-md-6">
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+			{{ form.as_p }}
+		</div>
+		{% if preview %}
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% else %}
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+		{% endif %}
+
+		<datalist id="zones">
+			{% for zone in zones %}
+				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="quarters">
+			{% for quarter in quarters %}
+				<option value="{{ quarter }}"/> 
+			{% endfor %}
+		</datalist>
+	</form>
+</div>
+{% endblock main %}

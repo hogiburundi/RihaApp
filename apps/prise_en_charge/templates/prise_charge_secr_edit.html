@@ -1,0 +1,104 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+		<strong>MUNICIPALITE DE {{ prise_charge.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ prise_charge.zone.commune.name }}</strong><br/>
+		<strong><u>ZONE DE {{ prise_charge.zone.name }}</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE PRISE EN CHARGE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p>&nbsp;</p>
+		<p>&emsp;&emsp;&emsp;Je soussign&eacute;, {{ prise_charge.zone.leader}}, Chef de Zone {{ prise_charge.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %} le nommé {% else %} la nommée {% endif %} {{ prise_charge.user.first_name }} {{ prise_charge.user.last_name }},
+				{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ prise_charge.user.profile.father|default:"sans" }} et de {{ prise_charge.user.profile.mother|default:"sans" }}, originaire de la Colline {{ prise_charge.quarter.name }}, Commune {{ prise_charge.zone.commune.name }},
+				 Province {{ prise_charge.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ prise_charge.residence_quarter.zone.commune.province.name }},
+				 est prise en charge par Monsieur  {{ prise_charge.mr }} et Madame  {{ prise_charge.mrs }}, résidant actuellement dans la Municipalité de {{ prise_charge.mr_mrs_quarter.zone.commune.province.name }} à l’adresse ci-après : Zone {{ prise_charge.mr_mrs_quarter.zone.name }} , Q. {{ prise_charge.mr_mrs_quarter.name }}.
+   
+				   La présente attestation lui est délivrée pour faire valoir ce que de droit.
+					 <br><br>
+					 &emsp;&emsp;&emsp;La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour servir et faire valoir ce que de droit.</p>
+   
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ prise_charge.date }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ prise_charge.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ prise_charge.zone.leader}}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+<div style="position: fixed; right: 0px; top:40%">
+  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ prise_charge.user.profile.cni_recto.url }}' height='300' />">
+	  CNI Recto
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ prise_charge.user.profile.cni_verso.url }}' height='300' />">
+	  CNI verso
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ prise_charge.payment_method }} : <i>{{ prise_charge.payment_serial }}</i></b>">
+	  Payements
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	  Other
+	</button>
+  </div>
+</div>
+<div class="m-2">
+	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
+		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
+		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
+		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
+		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$("#rejection-button").on('click', function(event) {
+	$rejection_msg = $(".rejection-msg");
+	if($rejection_msg.css('display')=="none"){
+		$rejection_msg.css('display',"");
+		event.preventDefault();
+	}else{
+		if($rejection_msg.val().trim().length>0){
+
+		}else{
+			$rejection_msg.css('display',"none");
+			event.preventDefault();
+		}
+	}
+});
+$("#print-button").on('click', function(event) {
+	event.preventDefault();
+	printDiv();
+});
+
+function printDiv() { 
+	var divContents = document.getElementById("template").innerHTML; 
+	var a = window.open('', '', 'height=500, width=1000'); 
+	a.document.write('<html>'); 
+	a.document.write('<body>'); 
+	a.document.write(divContents); 
+	a.document.write('</body></html>'); 
+	a.document.close(); 
+	a.print(); 
+	a.close();
+}
+
+});
+</script>
+{% endblock main %}

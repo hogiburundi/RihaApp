@@ -22,12 +22,16 @@ class ProfileForm(forms.ModelForm):
 		choices=GENDERS)
 
 	nationnalite = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nationnalite ','class':'form-control'}), label='Nationnalite')
-	quarter = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}), label='Quarter')
+	quarter = forms.CharField(widget=forms.TextInput(
+			attrs={'placeholder':'Quarter ','class':'form-control','list':'quarters'}),
+		label='Quartier/Colline de naissance')
+	residence = forms.CharField(widget=forms.TextInput(
+			attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}),
+		label='residence actuelle (Quartier/Colline)')
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
 	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
-	date_delivrated = forms.DateField(
-		widget=forms.SelectDateWidget(
+	date_delivrated = forms.DateField(widget=forms.SelectDateWidget(
 			years=range(1990, date.today().year),
 			attrs={'placeholder':'date delivrated ', 'class':'form-control',
 			'style':'display:inline-block; width:auto'}),

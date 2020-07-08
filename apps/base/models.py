@@ -80,6 +80,7 @@ class Profile(models.Model):
 	job = models.CharField(max_length=64, null=True)
 	prefix = models.CharField(max_length=12, blank=True, default='')
 	date_delivrated = models.DateField(null=True)
+	place_delivrated = models.CharField(max_length=64, null=True)
 
 	def __str__(self):
 		return f"{self.user.last_name} {self.user.first_name}"

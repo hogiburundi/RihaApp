@@ -37,6 +37,11 @@ class ProfileForm(forms.ModelForm):
 			'style':'display:inline-block; width:auto'}),
 		label='Délivrée le')
 
+	place_delivrated = forms.CharField(
+		widget=forms.TextInput(
+			attrs={'placeholder':'provice de livraison','class':'form-control'}),
+		label='Délivrée à', required=False)
+
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
 	birthdate = forms.DateField(
@@ -71,10 +76,10 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job", "CNI", 'date_delivrated')
+		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job", "CNI", 'date_delivrated', 'place_delivrated')
 
 class RegisterForm(forms.Form):
-	telephone = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')
+	telephone = forms.CharField( widget=forms.NumberInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')
 	firstname = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Firstname ','class':'form-control'}), label='Firstname')
 	lastname = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Lastname ','class':'form-control'}), label='Lastname')
 	password = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Password ','class':'form-control'}), label='Password')
@@ -84,7 +89,6 @@ class RegisterForm(forms.Form):
 		try:
 			password = self.cleaned_data.get("password")
 			password2 = self.cleaned_data.get("password2")
-			print(password, password2)
 			if(password == password2):
 				return password
 			else :

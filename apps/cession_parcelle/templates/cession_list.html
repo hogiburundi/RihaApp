@@ -1,7 +1,8 @@
 {% extends "index.html" %}
 {% load static %}
 {% block main %}
-<a href="{% url formurl %}" class="btn btn-primary float-right mb-2" title="">+ nouveau</a>
+<!-- <a href="{% url formurl %}" class="btn btn-primary float-right mb-2" title="">+ Nouveau</a> -->
+<a href="{% url 'searchuser' %}" class="btn btn-primary float-right mb-2" title="">+ Nouveau</a>
 <table class="table table-hover" id="commande">
 	<thead>
 		<tr>

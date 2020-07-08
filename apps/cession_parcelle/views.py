@@ -81,7 +81,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 			cession.user = request.user
 		return render(request, self.template_name, locals())
 
-
 class DocumentPayView(LoginRequiredMixin, View):
 	template_name = "cession_pay_form.html"
 
@@ -105,4 +104,42 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.save()
 			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
+
+def choose_user_view(request,school):
+	school = get_object_or_404(School, slug = school)
+	all_users1 = 0
+	font_image = "fa fa-plus-square"
+	heading_title = "Search user"
+	h3 = "Searching..."
+	show_hidden = "hidden"
+	go_home = "home"
+
+	rolee = get_object_or_404(Role, url = "director")
+	check_user = Attribution.objects.filter(school = school.id, user = request.user.id, role = rolee.id).count()
+
+	if check_user == 1:
+		form = SearchUserForm(request.POST or None, request.FILES)
+		if request.method == "POST":
+			if form.is_valid():
+				get_searched_user = form.cleaned_data['search_user']
+				user_name = User.objects.filter(
+					Q(username__startswith=get_searched_user) |
+					Q(username__endswith=get_searched_user) |
+					Q(username__icontains=get_searched_user)
+					)
+				all_users1 = user_name.count()
+
+				if all_users1 == 1:
+					msg = "User Found!"
+
+				elif all_users1 >= 2:
+					form = SearchUserForm()
+					msg = "CNI for two persons!"
+
+				else:
+					msg = "User not Found!"
+
+	return render(request, "choose_user.html", locals())
+
+
 

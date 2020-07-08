@@ -146,7 +146,6 @@ class Register(View):
 					login(request, user)
 					return redirect("profile_form")
 			except Exception as e:
-				print(str(e))
 				messages.error(request, str(e))
 		return render(request, self.template_name, locals())
 
@@ -180,7 +179,6 @@ class ProfileView(View):
 				messages.success(request, "Hello "+request.user.first_name+", your profile created successfully!")
 				return redirect(self.next_p)
 			except Exception as e:
-				print(str(e))
 				messages.error(request, str(e))
 		return render(request, self.template_name, locals())
 
@@ -212,6 +210,5 @@ class Register2(View):
 				messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
 				return redirect(self.next_p)
 			except Exception as e:
-				print(str(e))
 				messages.error(request, str(e))
 		return render(request, self.template_name, locals())

@@ -6,6 +6,7 @@ from django.views import View
 
 from .forms import DocumentForm
 from apps.base.forms import *
+from apps.base.models import *
 from .models import *
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
@@ -13,7 +14,7 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "idcomp_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.objects.all()
+		documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):

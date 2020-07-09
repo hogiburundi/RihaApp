@@ -73,7 +73,7 @@ class Secretariat(View):
 			# counts = models.Document.objects.filter(
 			# 	secretary_validated=False,
 			# 	zone__leader=request.user).count()
-			counts = models.Document.objects.filter(secretary_validated__isnull=False).count()
+			counts = models.Document.objects.filter(secretary_validated__isnull=True, ).count()
 			#=============================================================
 			basename = os.path.basename(directory)
 			module_name = directory.replace(os.sep, ".")

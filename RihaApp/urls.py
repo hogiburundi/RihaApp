@@ -13,7 +13,6 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-
 for app in os.listdir(APPS_DIR):
 	new_path = path(f'{app}/', include(f'{apps_dir_str}.{app}.urls'))
 	urlpatterns.append(new_path)

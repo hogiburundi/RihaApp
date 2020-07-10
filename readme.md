@@ -20,7 +20,8 @@
 		- payment_form (page containant les formulaires de payment)
 
 3) le model doit contenir les models Document et PriceHistory.
-le model Document doit contenir les champs:
+
+4) le model ```Document``` doit contenir les champs:
 	```
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(default=False)
@@ -33,11 +34,18 @@ le model Document doit contenir les champs:
 		return ["cahier de menage",...]
 
 	def price(self):
-		return PriceHistory.object.filter(zone=self.zone).last().total()
+		return PriceHistory.object.filter(zone=self.zone).last().total() # +
+		# PriceHistory.object.filter(commune=self.commune).last().total() ...
+
+	def onlyPaid(): # /!\ sans self
+		return Document.objects.filter(zone_payment=True)
+		# tout les filter necessaire en fait pas seulement zone
+		# si il y a pas de payments requises : return Document.objects.all()
 ```
 
-le model price history doit comptenir une methode
+4) le model price history doit comptenir une methode
 ```
 	def total(self):
-		return self.zone_price
+		return self.zone_price # + self.commune_price ...
 ```
+plusieres champs peuvent faire partie de l'application comme ```date, zone, zone_price, commune, commune_price...```

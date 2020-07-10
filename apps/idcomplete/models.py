@@ -31,6 +31,9 @@ class Document(models.Model):
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
 
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 

@@ -63,20 +63,16 @@ class DocumentFormView(LoginRequiredMixin, View):
 		quarters = self.quarters 
 		zones = self.zones 
 		form = DocumentForm(request.POST)
-		if "preview" in request.POST:
-			preview = True
-		if "cancel" in request.POST:
-			preview = False
-		if "submit" in request.POST:
-			if form.is_valid():
-				notoriete = form.save(commit=False)
-				notoriete.user = request.user
-				notoriete.save()
-				return redirect("home")
-			return render(request, self.template_name, locals())
 		if form.is_valid():
 			notoriete = form.save(commit=False)
 			notoriete.user = request.user
+			if "preview" in request.POST:
+				preview = True
+			if "cancel" in request.POST:
+				preview = False
+			if "submit" in request.POST:
+				notoriete.save()
+				return redirect("home")
 		return render(request, self.template_name, locals())
 
 

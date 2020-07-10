@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
+from apps.base.date_conversion import lireDate
 
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="id_compl_user", null=True, on_delete=models.SET_NULL)

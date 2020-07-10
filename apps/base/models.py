@@ -110,7 +110,7 @@ class Zone(PlaceModel):
 		return f"{self.name} - {self.commune.province}"
 
 	def leader(self):
-		return ZonePersonnel.objects.filter(zone=self).last()
+		return ZonePersonnel.objects.filter(zone=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():

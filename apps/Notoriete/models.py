@@ -2,28 +2,19 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
+from apps.base.date_conversion import lireDate
 
 
 class Document(models.Model):
-	name_apps          = models.CharField(max_length = 50, default = "Attestation de notoriete")
+	name_apps = models.CharField(max_length = 50, default = "Attestation de notoriete")
 	user = models.ForeignKey(User, related_name="notoriete_user", null=True, on_delete=models.SET_NULL)
-
-	year = models.CharField(max_length = 100)#for the user en lettres
-	jour              = models.CharField(max_length = 100)
-	mois              = models.CharField(max_length = 100)
-	#combier de comparant sont necessaires, moi j'en fait une
-
-	nom_prenom_1ercomparant = models.CharField(max_length = 100)
-	nom_prenom_1ercomparant_pere = models.CharField(max_length = 100)
-	nom_prenom_1ercomparant_mere = models.CharField(max_length = 100)
-	nom_prenom_1ercomparant_anneDeNaissance = models.IntegerField()
-	nom_prenom_1ercomparant_nationalite = models.CharField(max_length = 100)
-	comparant_colline_naissance = models.CharField(max_length =100)
-
+	date = models.DateField(default=timezone.now)
+	comparant_1 = models.ForeignKey(Profile, related_name="notoriete_comparant_1", on_delete=models.CASCADE)
+	comparant_2 = models.ForeignKey(Profile, related_name="notoriete_comparant_2", null=True, on_delete=models.SET_NULL)
+	comparant_3 = models.ForeignKey(Profile, related_name="notoriete_comparant_3", null=True, on_delete=models.SET_NULL)
 
 	zone = models.ForeignKey(Zone, related_name="notoriete_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="notoriete_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	date_delivrated    = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
@@ -33,8 +24,7 @@ class Document(models.Model):
 		return '{} {}'.format(self.user.last_name, self.user.first_name)
 	
 	def requirements():
-		return ["CNI",
-				"presence physique ou autre document prouvant son existance" ]
+		return ["CNI", "presence physique ou autre document prouvant son existance" ]
 				
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
@@ -53,7 +43,8 @@ class Document(models.Model):
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 
-
+	def dateString(self):
+		return lireDate(self.date)
 
 class PriceHistory(models.Model):
 	date = models.DateField()

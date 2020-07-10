@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 class DocumentForm(forms.ModelForm):
     zone = forms.CharField(
@@ -14,72 +15,68 @@ class DocumentForm(forms.ModelForm):
         widget = forms.TextInput(
             attrs = {'placeholder': 'Quarter residence', 
                     'class': 'form-control', 
-                    'list':'quarterS'}),
-        label = 'Residence')
+                    'list':'quarters'}),
+        label = 'Residence Quarter')
 
-    year = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Tapez l\'annee  en lettre' , 
-                    'class': 'form-control'}),
-            label = 'Year') 
+    date = forms.DateField(
+        widget=forms.SelectDateWidget(
+            years=range(2020, date.today().year),
+            attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
+                'style':'width: auto;display: inline-block;'}),
+        label='date')
 
-    jour = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Tapez le quantieme jour du mois en lettre' , 
-                    'class': 'form-control'}),
-            label = 'Jour')    
-
-    mois = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Tapez le mois en lettre' , 
-                    'class': 'form-control'}),
-            label = 'Mois')
-        
-    nom_prenom_1ercomparant = forms.CharField(
+    comparant_1 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Nom et Prenom du comparant', 
                     'class': 'form-control'}),
-        label = 'nom et prenom du comparant') 
-
-    nom_prenom_1ercomparant_anneDeNaissance = forms.CharField(
+        label = 'CNI du premier comparant') 
+        
+    comparant_2 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'ex: 2020', 
+            attrs = {'placeholder': 'Nom et Prenom du comparant', 
                     'class': 'form-control'}),
-        label = 'Son annee de naissance')
-    
-    nom_prenom_1ercomparant_pere = forms.CharField(
+        label = 'CNI du second comparant',
+        required=False) 
+        
+    comparant_3 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Pere du comparant', 
+            attrs = {'placeholder': 'Nom et Prenom du comparant', 
                     'class': 'form-control'}),
-        label = 'Nom et prenom du mere du comparant')
-  
-    nom_prenom_1ercomparant_mere = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Mere du comparant', 
-                    'class': 'form-control'}),
-        label = 'Nom et prenom du mere du comparant')
-
-    comparant_colline_naisance = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': " colline du comparant", 
-                    'class': 'form-control'}),
-        label = 'colline du comparant')
+        label = 'CNI du troisième comparant',
+        required=False) 
 
     class Meta:
         model = Document
-        fields = (
-            "zone", 
-            "residence_quarter",
-            "year",
-            "jour",
-            "mois",
-            "nom_prenom_1ercomparant",
-            "nom_prenom_1ercomparant_anneDeNaissance",
-            "nom_prenom_1ercomparant_pere",
-            "nom_prenom_1ercomparant_mere",
-            "nom_prenom_1ercomparant", 
-            "comparant_colline_naisance"
-        )
+        fields = ("zone", "residence_quarter", "date", "comparant_1", "comparant_2","comparant_3")
+
+    def clean_comparant_1(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("comparant_1")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("Ce comparant n'est pas abonné")
+
+    def clean_comparant_2(self, *arg,**kwargs):
+        CNI = self.cleaned_data.get("comparant_2")
+        if not CNI.strip():
+            return None
+        try:
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("Ce comparant n'est pas abonné")
+
+    def clean_comparant_3(self, *arg,**kwargs):
+        CNI = self.cleaned_data.get("comparant_3")
+        if not CNI.strip():
+            return None
+        try:
+            CNI = self.cleaned_data.get("comparant_3")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("Ce comparant n'est pas abonné")
 
     def clean_zone(self, *arg,**kwargs):
         try:

@@ -10,32 +10,36 @@
 		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/>
 		<p style="text-align: center;"><strong><u>ACTE DE NOTORIETE</u></strong></p>
 		<p>
-			L’an {{notoriete.year}}, le {{notoriete.jour}} jour du mois de {{notoriete.mois}} devant nous,  {{ notoriete.user.last_name}}, Maire de la Ville de {{notoriete.zone.commune.province}}, ont comparu :<br> <br>
+			{{ notoriete.dateString }} devant nous,  {{ notoriete.zone.commune.province.leaderFullName }}, Maire de la Ville de {{notoriete.zone.commune.province}}, ont comparu :<br> <br>
 
-			
-				1.{{ notoriete.nom_prenom_1ercomparant}}, fils(fille) de {{notoriete.nom_prenom_1ercomparant_pere}}  et de  {{notoriete.nom_prenom_1ercomparant_mere}}, née à {{notoriete.user.profile.colline_natal}},  en {{notoriete.nom_prenom_1ercomparant_anneDeNaissance}}, résidant à {{notoriete.zone.commune.province}} de nationnalité {{notoriete.user.profile.nationnalite}}, premier comparant. 	<br> <br>
+				1. {{ notoriete.comparant_1}}, {% if notoriete.comparant_1.gender == "H" %} fils{% else %}fille{% endif %} de {{notoriete.comparant_1.father}}  et de  {{notoriete.comparant_1.mother}}, née à {{ notoriete.comparant_1.quarter }},  en {{notoriete.comparant_1.birthdate }}, résidant à {{notoriete.comparant_1.residence.commune.province}} de nationnalité {{notoriete.comparant_1.nationnalite}}, premier comparant. 	<br> <br>
+
+				{% if notoriete.comparant_2 %}
+					2. {{ notoriete.comparant_2}}, {% if notoriete.comparant_2.gender == "H" %} fils{% else %}fille{% endif %} de {{notoriete.comparant_2.father}}  et de  {{notoriete.comparant_2.mother}}, née à {{ notoriete.comparant_2.quarter }},  en {{notoriete.comparant_2.birthdate }}, résidant à {{notoriete.comparant_2.residence.commune.province}} de nationnalité {{notoriete.comparant_2.nationnalite}}, premier comparant. 	<br> <br>
+				{% endif %}
+
+				{% if notoriete.comparant_3 %}
+					3. {{ notoriete.comparant_3}}, {% if notoriete.comparant_3.gender == "H" %} fils{% else %}fille{% endif %} de {{notoriete.comparant_3.father}}  et de  {{notoriete.comparant_3.mother}}, née à {{ notoriete.comparant_3.quarter }},  en {{notoriete.comparant_3.birthdate }}, résidant à {{notoriete.comparant_3.residence.commune.province}} de nationnalité {{notoriete.comparant_3.nationnalite}}, premier comparant. 	<br> <br>
+				{% endif %}
 				
 				
-			Lesquels nous ont déclaré qu’en {{notoriiete.user.profile.birthday}}, est né à {{notoriete.user.profile.colline_natal}}, le nommé {{notorriete.user.first_name}} {{notoriete.user.last_name}}, {{notoriete.user.profile.job }}, fils de {{notoriete.user.profile.father}} et de {{notoriete.user.profile.mother}}, résidant à {{notoriete.zone.commune.province}} de nationalité {{notoriete.user.profile.nationnalite}} et que l’intéressé se trouve dans l’impossibilité de produire son acte de naissance qu’il est 	     		{% if deces.user.profile.is_married %}
-				marrié(e)
-			{% else %}
-				célibataire
-			{% endif %}.. <br> <br>
+			Lesquels nous ont déclaré qu’en {{notoriete.user.profile.birthdate}}, est né à {{notoriete.user.profile.quarter}}, le nommé {{ notoriete.user.profile.fullName }}, {{notoriete.user.profile.job }}, {% if notoriete.comparant_1.gender == H %} fils{% else %}fille{% endif %} de {{notoriete.user.profile.father}} et de {{notoriete.user.profile.mother}}, résidant à {{notoriete.zone.commune.province}} de nationalité {{notoriete.user.profile.nationnalite}} et que l’intéressé se trouve dans l’impossibilité de produire son acte de naissance qu’il est {% if notoriete.user.profile.is_married %} marrié(e) {% else %} célibataire {% endif %}. <br> <br>
 
 			En conséquence, le présent acte de notoriété remplace valablement son acte de naissance. <br>
 
-			Nous attestons en outre que les déclarations faites ci-dessus concordent avec les énonciations de sa Carte d’Identité délivrée par l’Administrateur Communal, portant le №  {{notoriete.user.profile.CNI}} obtenue en date du {{notoriete.date_delivrated}}.<br><br>
+			Nous attestons en outre que les déclarations faites ci-dessus concordent avec les énonciations de sa Carte d’Identité délivrée par l’Administrateur Communal, portant le №  {{notoriete.user.profile.CNI}} obtenue en date du {{notoriete.user.profile.date_delivrated}}.<br><br>
 
 			En foi de quoi, nous avons délivré le présent acte et après que connaissance de son contenu en a été faite aux comparants, l’avons signé avec eux. <br><br>
 
 			<strong><u>LES COMPARANTS :</u></strong><br>
 
-			1.{{notoriete.nom_prenom_1ercomparant}}<br>
-
-						        
-
-		                                                                                  
-
+			1. {{ notoriete.comparant_1.fullName }}<br>
+			{% if notoriete.comparant_2 %}
+				2. {{ notoriete.comparant_2.fullName }}<br>
+			{% endif %}
+			{% if notoriete.comparant_3 %}
+				3. {{ notoriete.comparant_3.fullName }}<br>
+			{% endif %}
 		</p>
 
 		<table style="width: 588px;">
@@ -44,7 +48,7 @@
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong> LE MAIRE DE LA VILLE DE BUJUMBURA</strong></p>
-		<p style="text-align: center;"><strong>{{ notoriete.user.first_name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ notoriete.user.profile.fullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>

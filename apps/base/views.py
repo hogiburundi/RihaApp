@@ -57,7 +57,7 @@ class Home(View):
 		else:
 			return redirect("login")
 
-@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+# @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class Secretariat(View):
 	template_name = "secretariat.html"
 

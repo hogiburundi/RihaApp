@@ -35,8 +35,12 @@ PRIORITY_LEVEL = (
     (2, "Elevée"), 
 )
 
-SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
-LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+try:
+	from django.contrib.auth.models import Group
+	SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
+	LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+except Exception as e:
+	print(e)
 
 def addInGroup(user, user_level):
 	groups = user.groups.all()
@@ -83,7 +87,8 @@ class Profile(models.Model):
 		return f"{self.user.last_name} {self.user.first_name}"
 
 	def fullName(self):
-		return f"{self.prefix} {self.user.last_name} {self.user.first_name}"
+		prefix = self.prefix if self.prefix else ""
+		return f"{prefix} {self.user.last_name} {self.user.first_name}"
 
 class Notification(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)

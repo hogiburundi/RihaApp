@@ -34,8 +34,12 @@ PRIORITY_LEVEL = (
     (2, "Elevée"), 
 )
 
-SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
-LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+try:
+	from django.contrib.auth.models import User, Group
+	SECRETARY_GROUP = Group.objects.get_or_create(name="secretary")[0]
+	LEADER_GROUP = Group.objects.get_or_create(name="leader")[0]
+except Exception as e:
+	print(e)
 
 def addInGroup(user, user_level):
 	groups = user.groups.all()

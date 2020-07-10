@@ -25,6 +25,20 @@ class Document(models.Model):
 		except:
 			return 0
 
+	def save(self, *args, **kwargs):
+		super(Document, self).save(*args, **kwargs)
+		if self.ready:
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
+	def payment_percent(self):
+		return 100 if self.zone_payment else 0
+
+	def validation_percent(self):
+		return 100 if self.secretary_validated  else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
+
 
 class PriceHistory(models.Model):
 	date = models.DateField()

@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 from .forms import DocumentForm
+from apps.base.forms import *
 from .models import *
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
@@ -15,9 +16,6 @@ class SecretaryListView(LoginRequiredMixin, View):
 	def get(self, request, document_id=None, *args, **kwargs):
 		documents = Document.objects.all()
 		return render(request, self.template_name, locals())
-
-
-
 
 class SecretaryView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_secr_edit.html"
@@ -52,6 +50,15 @@ class DocumentListView(LoginRequiredMixin, View):
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
+
+# class SecretaryPayView(LoginRequiredMixin, View):
+# 	template_name = "idcomp_secr_pay.html"
+
+# 	def get(self, request, document_id, *args, **kwargs):
+# 		modal_mode = False
+# 		id_compl = get_object_or_404(Document, id=document_id)
+# 		return render(request, self.template_name, locals())
+
 
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_form.html"

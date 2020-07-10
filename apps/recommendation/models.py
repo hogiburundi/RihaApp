@@ -12,6 +12,7 @@ class Document(models.Model):
 	payment_serial = models.CharField(max_length=64)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(default=False)
+	zone_payment = models.ForeignKey(PaymentZone, related_name="recom_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	ready = models.BooleanField(default=False)
 
 

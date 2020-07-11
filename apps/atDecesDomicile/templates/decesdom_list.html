@@ -18,7 +18,7 @@
 	<tbody>
 		{% for document in documents %}
 		<tr class="document-item" data-id="{{ document.id }}">
-			<td> {{ document.residence_quarter }}</td>
+			<td> {{ document.residence_quarter_DM }}</td>
 			<td> <a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</a></td>
 			<td> {{ document.validation_percent }} % </td>
 			<td> {{ document.date }}</td>

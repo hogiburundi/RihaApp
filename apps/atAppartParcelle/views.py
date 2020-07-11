@@ -98,7 +98,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				at_parcelle.user = request.user
 				area = at_parcelle.propriety_surfaces_a
 				at_parcelle.propriety_surfaces_a = get_ares(area)
-				at_parcelle.propriety_surfaces_a = get_cantiares(area)
+				at_parcelle.propriety_surfaces_ca = get_cantiares(area)
 				at_parcelle.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", at_parcelle.id)

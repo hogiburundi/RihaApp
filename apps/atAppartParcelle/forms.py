@@ -10,37 +10,31 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Your Current Residence Quarter')
+        label = 'Votre résidance actuelle (Quartier/Colline) : ')
 
     propriety_quarter = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Propriety Quarter Location')
+        label = 'Emplacement de la pacelle (Quartier/Colline) : ')
 
     propriety_surfaces_a = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'surface (a)', 
+            attrs = {'placeholder': 'Ares', 
                     'class': 'form-control'}),
-        label = "Surface en Ares")
-
-    propriety_surfaces_a = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'surface (ca)', 
-                    'class': 'form-control'}),
-        label = "Surface en Centiare")
+        label = "Surface de la parcelle ")
 
     propriety_contenency = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'surface (ca)', 
+            attrs = {'placeholder': 'Maison, Cultures, Arbres, etc ...', 
                     'class': 'form-control'}),
-        label = "Contenence")
+        label = "Contenance de votre parcelle : ")
 
 
     class Meta:
         model = Document
-        fields = ("user_residence_quarter", "propriety_quarter", "propriety_surfaces_a","propriety_surfaces_ca","propriety_contenency")
+        fields = ("user_residence_quarter", "propriety_quarter", "propriety_surfaces_a","propriety_contenency")
 
 
     def clean_user_residence_quarter(self, *arg,**kwargs):

@@ -123,7 +123,7 @@ class Province(PlaceModel):
 		return f"{self.name}"
 
 	def leader(self):
-		return ProvincePersonnel.objects.filter(province=self).last()
+		return ProvincePersonnel.objects.filter(province=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -137,7 +137,7 @@ class Commune(PlaceModel):
 		return f"{self.name} - {self.province}"
 
 	def leader(self):
-		return CommunePersonnel.objects.filter(commune=self).last()
+		return CommunePersonnel.objects.filter(commune=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():

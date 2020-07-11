@@ -1,1 +1,1 @@
-APP_NAME = "Appartenance de Parcelle"
+APP_NAME = "ATTESTATION D'APPARTENANCE DE PARCELLE"

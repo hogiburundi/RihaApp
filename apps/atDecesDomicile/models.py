@@ -7,7 +7,7 @@ class Document(models.Model):
 	user = models.ForeignKey(User, related_name='at_deces_dom_declarant', on_delete=models.CASCADE)
 	zone = models.ForeignKey(Zone, max_length=64, related_name='ZoneNaD', on_delete=models.CASCADE)
 
-	dead_man = models.ForeignKey(User, related_name='at_deces_dom_defunt', on_delete=models.CASCADE)
+	dead_man = models.ForeignKey(Profile, related_name='at_deces_dom_defunt', on_delete=models.CASCADE)
 	residence_quarter_DM = models.ForeignKey(Quarter, related_name='at_deces_dom_quartier_resi_defunt', on_delete=models.CASCADE)
 
 	DM_date = models.DateField(default=timezone.now, verbose_name='at_deces_dom_date_deces')

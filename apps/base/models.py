@@ -151,7 +151,7 @@ class Quarter(PlaceModel):
 		return f"{self.name} - {self.zone.name}"
 
 	def leader(self):
-		return QuarterPersonnel.objects.filter(quarter=self).last()
+		return QuarterPersonnel.objects.filter(quarter=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():

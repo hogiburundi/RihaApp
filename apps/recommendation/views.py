@@ -81,7 +81,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				preview = True
 		if "cancel" in request.POST:
-			if form.is_valid():
 				preview = False
 		if "submit" in request.POST:
 			if form.is_valid():

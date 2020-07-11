@@ -84,13 +84,11 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				preview = True
 		if "cancel" in request.POST:
-			if form.is_valid():
-				preview = False
+			preview = False
 		if "submit" in request.POST:
 			if form.is_valid():
 				deces_dom = form.save(commit=False)
 				deces_dom.user = request.user
-				
 				deces_dom.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", deces_dom.id)

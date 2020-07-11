@@ -6,11 +6,9 @@ from apps.base.models import *
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="atposs_parc_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="atposs_parc_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	residence_quarter = models.ForeignKey(Quarter, related_name="atposs_parc_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	date = models.DateField(default=timezone.now)
-	first_witness = models.ForeignKey(User, related_name='atposs_parc_witness1',max_length=64, on_delete=models.CASCADE)
-	second_witness = models.ForeignKey(User, related_name='atposs_parc_witness2',max_length=64, on_delete=models.CASCADE)
-	quarter_leader = models.ForeignKey(User, related_name='atposs_parc_quater_leader',max_length=64, on_delete=models.CASCADE)
+	residence_quarter = models.ForeignKey(Quarter, related_name="atposs_residence_user", max_length=64, null=True, on_delete=models.SET_NULL)
+	quarter_propriety = models.ForeignKey(Quarter, related_name="atposs_parc_residence", max_length=64, null=True, on_delete=models.SET_NULL)
+	quarter_surface = models.FloatField(null=True, blank=True)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
@@ -24,7 +22,20 @@ class Document(models.Model):
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:
 			return 0
+			
+	def save(self, *args, **kwargs):
+		super(Document, self).save(*args, **kwargs)
+		if self.ready:
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
 
+	def payment_percent(self):
+		return 100 if self.zone_payment else 0
+
+	def validation_percent(self):
+		return 100 if self.secretary_validated  else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
 
 class PriceHistory(models.Model):
 	date = models.DateField()

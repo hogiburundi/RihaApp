@@ -7,24 +7,23 @@
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>PROVINCE DE {{ poss_parcelle.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ poss_parcelle.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ poss_parcelle.zone.name }}</u></strong><br/><br>
+		<strong>PROVINCE DE {{ poss_parcelle.zone.commune.province|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ poss_parcelle.zone.commune.name|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ poss_parcelle.zone.name|upper }}</u></strong><br/><br>
 
 		<p style="text-align: center;"><strong><u>ATTESTATION DE POSSESSION DE LA PARCELLE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
 
-		<p>Je soussign&eacute;, {{ poss_parcelle.zone.leader}}, Chef de Zone {{ poss_parcelle.zone.name }}, atteste par la pr&eacute;sente que parcelle sise dans le Quartier {{ poss_parcelle.residence_quarter.name|upper }}, Commune {{ poss_parcelle.residence_quarter.zone.name|upper }} d’une dimension de {{ id_comp.dimensions }} ares appartient à {% if poss_parcelle.user.profile.gender == 'Homme' %} Monsieur {% else %} Madame {% endif %} BIGIRIMANA L&ecaute;once, {% if poss_parcelle.user.profile.gender == 'Homme' %} fils {% else %}fille {% endif %} de {{ poss_parcelle.user.profile.father|default:"sans" }} et de {{ poss_parcelle.user.profile.mother|default:"sans" }}, originaire de la colline {{ poss_parcelle.zone.name }}, Commune {{ poss_parcelle.zone.commune.name }}, Province {{ poss_parcelle.zone.commune.province }}, r&ecaute;sidant actuellement dans la Municipalit&ecaute; de {{ poss_parcelle.zone.commune.province }} Zone {{ poss_parcelle.residence_quarter.zone.name|upper }}.</p>
+		<p>Je soussign&eacute;, {{ poss_parcelle.zone.leaderFullName }}, Chef de Zone {{ poss_parcelle.zone.name }}, atteste par la pr&eacute;sente que parcelle sise dans le Quartier {{ poss_parcelle.quarter_propriety|upper }}, Commune {{ poss_parcelle.quarter_propriety.zone.commune.name|upper }} d’une dimension de {{ poss_parcelle.quarter_surface }} ares appartient à {% if poss_parcelle.user.profile.gender == 'H' %} Monsieur {% else %} Madame {% endif %} {{ poss_parcelle.user.first_name }} {{ poss_parcelle.user.last_name }}, {% if poss_parcelle.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ poss_parcelle.user.profile.father|upper }} et de {{ poss_parcelle.user.profile.mother|upper }}, originaire de la colline {{ poss_parcelle.user.profile.quarter.name|upper }}, Commune {{ poss_parcelle.user.profile.quarter.zone.commune.name|upper }}, Province {{ poss_parcelle.user.profile.quarter.zone.commune.name.province.name|upper }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de {{ poss_parcelle.residence_quarter.zone.commune.province.name|upper }} Commune {{ poss_parcelle.residence_quarter.zone.commune.name|upper }}.</p>
 
-		<p>La pr&ecaute;sente attestation lui est d&ecaute;livr&ecaute;e pour usage administratif et pour faire valoir ce que de droit.</p>
+		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour usage administratif et pour faire valoir ce que de droit.</p>
 
 
 
-		<p><strong>Sous-Couvert : {{ poss_parcelle.residence_quarter.name|upper }} </strong></p> 
+		<p><strong>Sous-Couvert :</strong></p>
+		<p><strong>Le Chef de Quartier {{ poss_parcelle.quarter_propriety.name|upper }} </strong></p> 
 
-		<p>Chef de Quartier Taba,</p>
-
-		<p>{{ poss_parcelle.quarter_leader.first_name }} {{ poss_parcelle.quarter_leader.last_name }}</p>
+		<p><strong>{{ poss_parcelle.quarter_propriety.leaderFullName }}</strong></p>
 
 
 		<p>&nbsp;</p>
@@ -35,8 +34,8 @@
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ poss_parcelle.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ poss_parcelle.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ poss_parcelle.zone.name|upper }}</strong></p>
+		<p style="text-align: center;"><strong>{{ poss_parcelle.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -56,24 +55,13 @@
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
 		{% else %}
 			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
-		{% endif %}
-witness
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+		{% endif %} 
 		<datalist id="zones">
 			{% for zone in zones %}
 				<option value="{{ zone.name }}"/> 
 			{% endfor %}
 		</datalist>
-		<datalist id="witness">
-			{% for user in users %}
-				<option value="{{ user.first_name }} {{ user.last_name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="quarters">
-			{% for quarter in quarters %}
-				<option value="{{ quarter }}"/> 
-			{% endfor %}
-		</datalist>
-
 		<datalist id="quarters">
 			{% for quarter in quarters %}
 				<option value="{{ quarter }}"/> 

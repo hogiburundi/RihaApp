@@ -8,7 +8,7 @@ class Document(models.Model):
 	bride = models.ForeignKey(Profile, related_name="banmariage_bride", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="banmariage_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="banmariage_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	date = models.DateField(default=timezone.now)
+	date = models.DateField()
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
@@ -25,6 +25,21 @@ class Document(models.Model):
 		except:
 			return 0
 
+	def save(self, *args, **kwargs):
+		super(Document, self).save(*args, **kwargs)
+		if self.ready:
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
+	def payment_percent(self):
+		return 100 if self.zone_payment else 0
+
+	def validation_percent(self):
+		return 100 if self.secretary_validated  else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
+
+
 class PriceHistory(models.Model):
 	date = models.DateField()
 	zone = models.ForeignKey(Zone, related_name="banmariage_price_province", on_delete=models.CASCADE)
@@ -32,24 +47,3 @@ class PriceHistory(models.Model):
 	
 	def total(self):
 		return self.zone_price
-
-
-
-class Incognito(models.Model):
-	
-	incognito_gender= models.CharField(max_length=20) 
-	incognito_last_name= models.CharField(max_length=20) 
-	incognito_first_name= models.CharField(max_length=20)
-	incognito_father_name= models.CharField(max_length=20)
-	incognito_mother_name= models.CharField(max_length=20)
-	incognito_birthday_name= models.CharField(max_length=20)
-	incognito_birth_quarter= models.CharField(max_length=20)
-	incognito_birth_zone= models.CharField(max_length=20) 
-	incognito_birth_province= models.CharField(max_length=20) 
-	incognito_nationality= models.CharField(max_length=20) 
-	incognito_marital_statute= models.CharField(max_length=20) 
-	incognito_marital_CNI= models.CharField(max_length=20)
-
-	def __str__(self):
-		return f"{ self.incognito_last_name } -- {self.incognito_first_name}"
-

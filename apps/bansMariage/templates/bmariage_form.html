@@ -65,6 +65,11 @@
 				<option value="{{ zone.name }}"/> 
 			{% endfor %}
 		</datalist>
+		<datalist id="profiles">
+			{% for profile in profiles %}
+				<option value="{{ profile.user.first_name }} {{ profile.user.last_name }}"/> 
+			{% endfor %}
+		</datalist>
 		<datalist id="quarters">
 			{% for quarter in quarters %}
 				<option value="{{ quarter }}"/> 

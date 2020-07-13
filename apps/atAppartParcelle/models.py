@@ -39,6 +39,11 @@ class Document(models.Model):
 	def __str__(self):
 		return f"{self.user} {self.propriety_quarter.zone}"
 
+	def onlyPaid(): # /!\ sans self
+		return Document.objects.filter(zone_payment=True)
+		# tout les filter necessaire en fait pas seulement zone
+		# si il y a pas de payments requises : return Document.objects.all()
+
 
 class PriceHistory(models.Model):
 	date = models.DateField()

@@ -13,10 +13,12 @@ from .models import *
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 PREFIX_DOC_TEMP = "decesdom"
 
+
+
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.objects.all()
+		documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):

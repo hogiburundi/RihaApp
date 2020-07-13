@@ -60,7 +60,6 @@
 		{% csrf_token %}
 		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
 			{{ form.as_p }}
-			
 		</div>
 		{% if preview %}
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">

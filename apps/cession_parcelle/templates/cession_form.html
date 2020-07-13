@@ -8,18 +8,19 @@
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ cession.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ cession.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ cession.zone.name }}</u></strong><br/>
+		<strong>MUNICIPALITE DE {{ cession.zone.commune.province|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ cession.zone.commune.name|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ cession.zone.name|upper }}</u></strong><br/> <br> <br>
 		<p style="text-align: center;"><strong><u>ATTESTATION DE CESSION DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
-		<p>&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.zone.leader }}, Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
+		<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.zone.leaderFullName }}, Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
 		Monsieur {% else %} Madame {% endif %} {{ cession.user.first_name }} {{ cession.user.last_name }},
 		{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ cession.user.profile.father|default:"sans" }} et de {{ cession.user.profile.mother|default:"sans" }},
-		originaire de la Colline {{ cession.quarter.name }}, Commune {{ cession.zone.commune.name }},
+		originaire de la Colline {{ profiles.quarter.name }}, Commune {{ cession.zone.commune.name }},
 		Province {{ cession.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ cession.residence_quarter.zone.commune.province.name }} à l’adresse ci-après :
-		Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.realestate_quarter.name }} à  {{ cession.beneficiary }} , fils de
-		{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_zone.name }}, Commune {{ cession.beneficiary_zone.commune.name }} , Province {{ cession.beneficiary_zone.commune.province.name }} ,
+		Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.property_quarter.name }} à  {{ cession.beneficiary }} , {% if check_cni.gender == 'F' %} fille {% else %} fils {% endif %} de
+		{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_residence_zone.name }},
+		Commune {{ cession.beneficiary_residence_zone.commune.name }} , Province {{ cession.beneficiary_residence_zone.commune.province.name }} ,
 		résidant actuellement dans la Municipalité de {{ cession.beneficiary_residence_zone.commune.province.name }} à l’adresse ci-après : {{ cession.beneficiary_residence_zone.name }}, Q. {{ cession.beneficiary_residence_quarter.name }}
 
 
@@ -29,21 +30,27 @@
 			<div class="col-6">
 				<b><u>LE CESSIONNAIRE</u></b> <br>
 				{{ cession.user.first_name }} {{ cession.user.last_name }} <br>
+				{{ profiles.CNI }} <br> <br>
 				<b><u>LES TEMOINS</u></b> <br>
-				1. {{ cession.giv_eyewitness1 }} <br>
-				2. {{ cession.giv_eyewitness2 }} <br>
-				<b>LE CHEF DE QUARTIER {{ cession.quarter.name }}</b>
-				{{ cession.quarter.leader }}
+				1. {{ cession.witness11 }} <br>
+				CNI : {{ cession.cnis11 }} <br>
+				2. {{ cession.witness12 }} <br>
+				CNI : {{ cession.cnis12 }} <br> <br>
+				<b>LE CHEF DE QUARTIER {{ cession.residence_quarter.name|upper }}</b>
+				{{ cession.quarter.leaderFullName }}
 			</div>
 			<div class="col-6">
 				<b><u>LE BENEFICIAIRE</u></b> <br>
 				{{ cession.beneficiary }} <br>
+				{{ check_cni.CNI }} <br> <br>
 				<b><u>LES TEMOINS</u></b> <br>
-				1. {{ cession.ben_eyewitness1 }} <br>
-				2. {{ cession.ben_eyewitness2 }} <br>
-				<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date }}</strong></p>
-				<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name}}</strong></p>
-				<p style="text-align: center;"><strong>{{ cession.zone.leader}}</strong></p>
+				1. {{ cession.witness21 }} <br>
+				CNI : {{ cession.cnis21 }} <br>
+				2. {{ cession.witness22 }} <br>
+				CNI : {{ cession.cnis22 }} <br> <br>
+				<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date|date:'d/m/Y' }}</strong></p>
+				<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name|upper }}</strong></p>
+				<p style="text-align: center;"><strong>{{ cession.zone.leaderFullName }}</strong></p>
 			</div>
 		</div>
 
@@ -58,10 +65,11 @@
 			{{ form.as_p }}
 		</div>
 		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% endif %}
 
 		<datalist id="zones">

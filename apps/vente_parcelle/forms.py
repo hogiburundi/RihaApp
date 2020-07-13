@@ -5,10 +5,11 @@ from apps.base.models import *
 class DocumentForm(forms.ModelForm):
     zone = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
+            attrs = {'placeholder': 'Residence Zone', 
                     'class': 'form-control', 
                     'list':'zones'}),
-        label = 'Zone')
+        label = 'Residence Zone')
+        
     residence_quarter = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Residence Quarter', 
@@ -21,42 +22,118 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Amount', 
                     'class': 'form-control'}),
         label = 'Amount')
+        
+    # cellule = forms.CharField(
+    #     widget = forms.TextInput(
+    #         attrs = {'placeholder': 'Cellule', 
+    #                 'class': 'form-control'}),
+    #     label = 'Cellule')
 
+    property_quarter = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Property Quarter', 
+                    'class': 'form-control',
+                    'list':'quarters'}),
+        label = 'Property Quarter')
+        
     buyer = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer', 
+            attrs = {'placeholder': 'Buyer CNI', 
                     'class': 'form-control'}),
-        label = 'Buyer')
-
-    buyer_father = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer\'s Father', 
-                    'class': 'form-control'}),
-        label = 'Buyer\'s Father')
-
-    buyer_mother = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer\'s Mather', 
-                    'class': 'form-control'}),
-        label = 'Buyer\'s Mather')
-
+        label = 'Buyer CNI')
 
     buyer_zone = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Buyer Zone', 
-                    'class': 'form-control'}),
-        label = 'Buyer Zone')
+                    'class': 'form-control',
+                    'list':'zones'}),
+        label = 'Buyer Residence Zone')
     
     buyer_residence_quarter = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Buyer Residence Quarter', 
-                    'class': 'form-control'}),
+                    'class': 'form-control',
+                    'list':'quarters'}),
         label = 'Buyer Residence Quarter')
 
+    witness11 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Saler witness name','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Saler witness name 1')    
+           
+    witness12 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Saler witness name','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Saler witness name 2')
+        
+    witness21 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Buyer witness name','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Buyer witness 1')
+
+    witness22 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Buyer witness name','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Buyer witness 2')
+
+    cnis11 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Saler witness CNI','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Saler witness CNI 1')  
+              
+    cnis12 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Saler witness CNI','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Saler witness CNI 2')
+        
+    cnis21 = forms.CharField( 
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Buyer witness CNI','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Buyer witness CNI 1')
+
+    cnis22 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Buyer witness CNI','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Buyer witness CNI 2')
+
+    saler_witness_residence1 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Saler witness residence','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Saler witness residence 1')  
+              
+    saler_witness_residence2 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Saler witness residence','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Saler witness residence 2')
+        
+    buyer_witness_residence1 = forms.CharField( 
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Buyer witness residence','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Buyer witness residence 1')
+
+    buyer_witness_residence2 = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Buyer witness residence','id':'witnesses', 
+                    'class': 'form-control'}),
+        label = 'Buyer witness residence 2')
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter","amount","buyer","buyer_father","buyer_mother","buyer_zone")
+        fields = ("residence_quarter", "zone", "property_quarter", "amount", "buyer",
+        "buyer_residence_quarter", "buyer_zone", "witness11", "witness12", "witness21",
+        "witness22", "cnis11", "cnis12", "cnis22", "cnis21", "saler_witness_residence1",
+        "saler_witness_residence2","buyer_witness_residence1","buyer_witness_residence2")
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -81,5 +158,22 @@ class DocumentForm(forms.ModelForm):
             quarter = Quarter.objects.get(name=name, zone__name=zone)
             return quarter
         except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")    
+            raise forms.ValidationError("this quarter is unknown")
+        
+    def clean_buyer_residence_quarter(self, *arg,**kwargs):
+        try:
+            name = self.cleaned_data.get("buyer_residence_quarter").split()[0]
+            zone = self.cleaned_data.get("buyer_residence_quarter").split()[-1]
+            quarter = Quarter.objects.get(name=name, zone__name=zone)
+            return quarter
+        except Exception as e:
+            raise forms.ValidationError("this quarter is unknown") 
     
+    def clean_property_quarter(self, *arg,**kwargs):
+        try:
+            name = self.cleaned_data.get("property_quarter").split()[0]
+            zone = self.cleaned_data.get("property_quarter").split()[-1]
+            quarter = Quarter.objects.get(name=name, zone__name=zone)
+            return quarter
+        except Exception as e:
+            raise forms.ValidationError("this quarter is unknown") 

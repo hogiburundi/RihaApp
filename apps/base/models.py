@@ -110,7 +110,7 @@ class Zone(PlaceModel):
 		return f"{self.name} - {self.commune.province}"
 
 	def leader(self):
-		return ZonePersonnel.objects.filter(zone=self, user_level=1).last()
+		return ZonePersonnel.objects.filter(zone=self).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -123,7 +123,7 @@ class Province(PlaceModel):
 		return f"{self.name}"
 
 	def leader(self):
-		return ProvincePersonnel.objects.filter(province=self, user_level=1).last()
+		return ProvincePersonnel.objects.filter(province=self).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -137,7 +137,7 @@ class Commune(PlaceModel):
 		return f"{self.name} - {self.province}"
 
 	def leader(self):
-		return CommunePersonnel.objects.filter(commune=self, user_level=1).last()
+		return CommunePersonnel.objects.filter(commune=self).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -151,7 +151,7 @@ class Quarter(PlaceModel):
 		return f"{self.name} - {self.zone.name}"
 
 	def leader(self):
-		return QuarterPersonnel.objects.filter(quarter=self, user_level=1).last()
+		return QuarterPersonnel.objects.filter(quarter=self).last()
 
 	def leaderFullName(self):
 		if self.leader():

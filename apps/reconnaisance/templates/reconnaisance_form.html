@@ -8,20 +8,20 @@
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ reconnais.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ reconnais.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ reconnais.zone.name }}</u></strong><br/>
+		<strong>MUNICIPALITE DE {{ reconnais.zone.commune.province|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ reconnais.zone.commune.name|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ reconnais.zone.name|upper }}</u></strong><br/> <br> <br>
 		<p style="text-align: center;"><strong><u>ATTESTATION DE RECONNAISSANCE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
-		<p>Je soussign&eacute;, {{ reconnais.zone.leader}}, Chef de Zone {{ reconnais.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;Association "{{ reconnais.association }}" exerce ses activit&eacute;s dans la Commune Urbaine de {{ reconnais.zone.commune.name }},Zone {{ reconnais.zone.name }},depuis {{ reconnais.start_year }} <br>
+		<p style="text-align: justify;">Je soussign&eacute;, {{ reconnais.zone.leaderFullName }}, Chef de Zone {{ reconnais.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;Association "{{ reconnais.association }}" exerce ses activit&eacute;s dans la Commune Urbaine de {{ reconnais.zone.commune.name }}, Zone {{ reconnais.zone.name }}, depuis {{ reconnais.start_year }} <br>
 		La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour servir et faire valoir ce que de droit.</p>
 
 		<p>
-			<b><u>Sous-Couvert de :</u></b><br>                              
+			<b><u>Sous-Couvert de :</u></b><br> <br>                   
 
-			Chef de Quartier {{ reconnais.zone.name }}   <br>         
+			Chef de Quartier {{ reconnais.residence_quarter.name }} <br> <br>   
 																	
-			{{ reconnais.zone.leader}}
+			{{ reconnais.residence_quarter.leaderFullName }}
 
 		</p><p>&nbsp;</p>
 		<table style="width: 588px;">
@@ -29,9 +29,9 @@
 		<tr>
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ reconnais.date }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ reconnais.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ reconnais.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ reconnais.date|date:'d/m/Y' }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ reconnais.zone.name|upper }}</strong></p>
+		<p style="text-align: center;"><strong>{{ reconnais.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -47,10 +47,11 @@
 			{{ form.as_p }}
 		</div>
 		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% endif %}
 
 		<datalist id="zones">

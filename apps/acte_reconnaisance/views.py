@@ -14,6 +14,10 @@ class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "acte_reco_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		documents = Document.objects.all()
+		isInProfile = get_object_or_404(Profile,user=request.user)
+		isSecretary = ZonePersonnel.objects.filter(profile=isInProfile, user_level=2)
+		if not isSecretary:
+			return redirect("home")
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -21,6 +25,10 @@ class SecretaryView(LoginRequiredMixin, View):
 
 	def get(self, request, document_id, *args, **kwargs):
 		acte_reconnais = get_object_or_404(Document, id=document_id)
+		profiles = get_object_or_404(Profile, user=request.user)
+		isSecretary = ZonePersonnel.objects.filter(profile=profiles, user_level=2)
+		if not isSecretary:
+			return redirect("home")
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
@@ -29,6 +37,7 @@ class SecretaryView(LoginRequiredMixin, View):
 			acte_reconnais.rejection_msg = request.POST["rejection_msg"]
 			acte_reconnais.secretary_validated = True
 			acte_reconnais.save()
+			messages.success(request, "Action is done!")
 			return redirect(BASE_NAME+'_secr_list')
 
 		if "cancel" in request.POST:
@@ -72,7 +81,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				acte_reconnais = form.save(commit=False)
 				acte_reconnais.user = request.user
 				acte_reconnais.save()
-				return redirect("home")
+				return redirect("../payform/"+str(acte_reconnais.id))
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			acte_reconnais = form.save(commit=False)
@@ -101,6 +110,7 @@ class DocumentPayView(LoginRequiredMixin, View):
 			zone_payment.save()
 			document.zone_payment = zone_payment
 			document.save()
+			messages.success(request, "Payment is done!")
 			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
 

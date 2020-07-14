@@ -17,8 +17,21 @@ class Document(models.Model):
 	buyer_father = models.CharField(max_length=64,null=True)
 	buyer_mother = models.CharField(max_length=64,null=True)
 	buyer_zone = models.ForeignKey(Zone, related_name="vente_zoneb", max_length=64, null=True, on_delete=models.SET_NULL)
-	# buyer_residence_quarter = models.ForeignKey(Quarter, related_name="vente_residenceb", max_length=64, null=True, on_delete=models.SET_NULL)
-	cellule = models.CharField(max_length=64,null=True)
+	buyer_residence_quarter = models.ForeignKey(Quarter, related_name="vente_residenceb", max_length=64, null=True, on_delete=models.SET_NULL)
+	property_quarter = models.ForeignKey(Quarter, related_name="property_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
+	witness11 = models.CharField(max_length=64, null=True, blank=True)
+	witness12 = models.CharField(max_length=64, null=True, blank=True)
+	witness21 = models.CharField(max_length=64, null=True, blank=True)
+	witness22 = models.CharField(max_length=64, null=True, blank=True)
+	cnis11 = models.CharField(max_length=64, null=True, blank=True)
+	cnis12 = models.CharField(max_length=64, null=True, blank=True)
+	cnis21 = models.CharField(max_length=64, null=True, blank=True)
+	cnis22 = models.CharField(max_length=64, null=True, blank=True)
+	saler_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
+	saler_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
+	buyer_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
+	buyer_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
+	
 
 	def requirements():
 		return ["cahier de menage", "CNI"]

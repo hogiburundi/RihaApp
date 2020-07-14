@@ -24,9 +24,9 @@ class DocumentForm(forms.ModelForm):
 
     mrs = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Taker in charge(Mrs.)', 
+            attrs = {'placeholder': 'Wife of taker in charge(Mrs.)', 
                     'class': 'form-control'}),
-        label = 'Taker in charge (Mrs.)')
+        label = 'Wife of taker in charge (Mrs.)')
 
     mr_mrs_quarter = forms.CharField(
         widget = forms.TextInput(

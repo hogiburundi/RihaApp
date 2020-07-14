@@ -83,10 +83,11 @@
 			{{ form.as_p }}
 		</div>
 		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+			<input type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% endif %}
 
 		<datalist id="zones">

@@ -12,8 +12,8 @@ class Document(models.Model):
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="prise_charge_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
-	mr = models.CharField(max_length=100, null=True)
-	mrs = models.CharField(max_length=100, null=True)
+	mr = models.CharField(max_length=100, null=True,blank=True)
+	mrs = models.CharField(max_length=100, null=True, blank=True)
 	mr_mrs_quarter = models.ForeignKey(Quarter, related_name="prise_charge_res_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
 
 	def requirements():

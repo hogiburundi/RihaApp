@@ -4,9 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import DocumentForm
+from .forms import *
 from apps.base.forms import *
 from .models import *
+from django.contrib import messages
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 
@@ -14,6 +15,10 @@ class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "reconnaisance_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		documents = Document.objects.all()
+		isInProfile = get_object_or_404(Profile,user=request.user)
+		isSecretary = ZonePersonnel.objects.filter(profile=isInProfile, user_level=2)
+		if not isSecretary:
+			return redirect("home")
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -21,6 +26,10 @@ class SecretaryView(LoginRequiredMixin, View):
 
 	def get(self, request, document_id, *args, **kwargs):
 		reconnais = get_object_or_404(Document, id=document_id)
+		profiles = get_object_or_404(Profile, user=request.user)
+		isSecretary = ZonePersonnel.objects.filter(profile=profiles, user_level=2)
+		if not isSecretary:
+			return redirect("home")
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
@@ -29,6 +38,7 @@ class SecretaryView(LoginRequiredMixin, View):
 			reconnais.rejection_msg = request.POST["rejection_msg"]
 			reconnais.secretary_validated = True
 			reconnais.save()
+			messages.success(request, "Action is done!")
 			return redirect(BASE_NAME+'_secr_list')
 
 		if "cancel" in request.POST:
@@ -64,7 +74,8 @@ class DocumentFormView(LoginRequiredMixin, View):
 		zones = self.zones 
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
-			preview = True
+			if form.is_valid():
+				preview = True
 		if "cancel" in request.POST:
 			preview = False
 		if "submit" in request.POST:
@@ -72,7 +83,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				reconnais = form.save(commit=False)
 				reconnais.user = request.user
 				reconnais.save()
-				return redirect("home")
+				return redirect("../payform/"+str(reconnais.id))
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			reconnais = form.save(commit=False)
@@ -101,6 +112,7 @@ class DocumentPayView(LoginRequiredMixin, View):
 			zone_payment.save()
 			document.zone_payment = zone_payment
 			document.save()
+			messages.success(request, "Payment is done!")
 			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
 

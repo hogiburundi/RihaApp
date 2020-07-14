@@ -5,16 +5,16 @@ from apps.base.models import *
 class DocumentForm(forms.ModelForm):
     zone = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
+            attrs = {'placeholder': 'Work Zone', 
                     'class': 'form-control', 
                     'list':'zones'}),
-        label = 'Zone')
+        label = 'Work Zone')
     residence_quarter = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Residence Quarter', 
+            attrs = {'placeholder': 'Work Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Residence Quarter')
+        label = 'Work Quarter')
         
     association = forms.CharField(
         widget = forms.TextInput(
@@ -30,7 +30,7 @@ class DocumentForm(forms.ModelForm):
     
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", "association","start_year")
+        fields = ("residence_quarter", "zone", "association","start_year")
 
     def clean_zone(self, *arg,**kwargs):
         try:

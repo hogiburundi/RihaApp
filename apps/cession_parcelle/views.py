@@ -4,9 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import DocumentForm
+from .forms import *
 from apps.base.forms import *
+from apps.base.models import *
 from .models import *
+from django.contrib import messages
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 
@@ -14,6 +16,10 @@ class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "cession_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		documents = Document.objects.all()
+		isInProfile = get_object_or_404(Profile,user=request.user)
+		isSecretary = ZonePersonnel.objects.filter(profile=isInProfile, user_level=2)
+		if not isSecretary:
+			return redirect("home")
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -21,7 +27,10 @@ class SecretaryView(LoginRequiredMixin, View):
 
 	def get(self, request, document_id, *args, **kwargs):
 		cession = get_object_or_404(Document, id=document_id)
-		profiles = get_object_or_404(Profile, user=request.user )
+		profiles = get_object_or_404(Profile, user=request.user)
+		isSecretary = ZonePersonnel.objects.filter(profile=profiles, user_level=2)
+		if not isSecretary:
+			return redirect("home")
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
@@ -30,6 +39,7 @@ class SecretaryView(LoginRequiredMixin, View):
 			cession.rejection_msg = request.POST["rejection_msg"]
 			cession.secretary_validated = True
 			cession.save()
+			messages.success(request, "Action is done!")
 			return redirect(BASE_NAME+'_secr_list')
 
 		if "cancel" in request.POST:
@@ -66,15 +76,30 @@ class DocumentFormView(LoginRequiredMixin, View):
 		profiles = get_object_or_404(Profile, user=request.user )
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
-			preview = True
+			if form.is_valid():
+				preview = True
+				cni = form.cleaned_data["beneficiary"]
+				check_cni = get_object_or_404(Profile, CNI=cni)
+				if not check_cni:
+					messages.error(request, "User doesn't exist")
+				else:
+					cession = form.save(commit=False)
+					cession.user = request.user
+					cession.beneficiary = str(check_cni.user.first_name + " " + check_cni.user.last_name)
+
 		if "cancel" in request.POST:
 			preview = False
 		if "submit" in request.POST:
 			if form.is_valid():
+				cni = form.cleaned_data["beneficiary"]
+				check_cni = get_object_or_404(Profile, CNI=cni)
 				cession = form.save(commit=False)
 				cession.user = request.user
+				cession.beneficiary = str(check_cni.user.first_name + " " + check_cni.user.last_name)
+				cession.beneficiary_father = check_cni.father
+				cession.beneficiary_mother = check_cni.mother
 				cession.save()
-				return redirect("home")
+				return redirect("../payform/"+str(cession.id))
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			cession = form.save(commit=False)
@@ -102,44 +127,7 @@ class DocumentPayView(LoginRequiredMixin, View):
 			zone_payment.save()
 			document.zone_payment = zone_payment
 			document.save()
+			messages.success(request, "Payment is done!")
 			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
-
-def choose_user_view(request,school):
-	school = get_object_or_404(School, slug = school)
-	all_users1 = 0
-	font_image = "fa fa-plus-square"
-	heading_title = "Search user"
-	h3 = "Searching..."
-	show_hidden = "hidden"
-	go_home = "home"
-
-	rolee = get_object_or_404(Role, url = "director")
-	check_user = Attribution.objects.filter(school = school.id, user = request.user.id, role = rolee.id).count()
-
-	if check_user == 1:
-		form = SearchUserForm(request.POST or None, request.FILES)
-		if request.method == "POST":
-			if form.is_valid():
-				get_searched_user = form.cleaned_data['search_user']
-				user_name = User.objects.filter(
-					Q(username__startswith=get_searched_user) |
-					Q(username__endswith=get_searched_user) |
-					Q(username__icontains=get_searched_user)
-					)
-				all_users1 = user_name.count()
-
-				if all_users1 == 1:
-					msg = "User Found!"
-
-				elif all_users1 >= 2:
-					form = SearchUserForm()
-					msg = "CNI for two persons!"
-
-				else:
-					msg = "User not Found!"
-
-	return render(request, "choose_user.html", locals())
-
-
 

@@ -7,11 +7,11 @@ class Document(models.Model):
 	user = models.ForeignKey(User, related_name="etatcivil_Beneficiaire_EtatCivil", on_delete=models.CASCADE)
 	zone = models.ForeignKey(Zone, max_length=64, related_name="etatcivil_Zone_EtatCivil" , on_delete=models.CASCADE)
 	residence_quarter = models.ForeignKey(Quarter, related_name="etatcivil_Quartier_EtatCivil" , max_length=64, on_delete=models.CASCADE)
-	date = models.DateField(default=timezone.now)
-	marital_statut = models.BooleanField(default=False)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(default=False)
 	ready = models.BooleanField(default=False)
+	zone_payment = models.ForeignKey(PaymentZone, related_name="etatcivil_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
+	
 
 	def requirements():
 		return ["CNI", "Presence Physique"]
@@ -22,6 +22,25 @@ class Document(models.Model):
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:
 			return 0
+
+	def save(self, *args, **kwargs):
+		super(Document, self).save(*args, **kwargs)
+		if self.ready:
+			Notification(self.user, f"Attestation d'état-civil que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
+	def payment_percent(self):
+		return 100 if self.zone_payment else 0
+
+	def validation_percent(self):
+		return 100 if self.secretary_validated  else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
+
+	def onlyPaid(): # /!\ sans self
+		return Document.objects.filter(zone_payment=True)
+		# tout les filter necessaire en fait pas seulement zone
+		# si il y a pas de payments requises : return Document.objects.all()
 
 
 class PriceHistory(models.Model):

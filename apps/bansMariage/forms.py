@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 class DocumentForm(forms.ModelForm):
     bride = forms.CharField(
@@ -23,9 +24,16 @@ class DocumentForm(forms.ModelForm):
                     'list':'quarters'}),
         label = 'Residence Quarter')
 
+    date = forms.DateField(widget=forms.SelectDateWidget(
+        years=range(1990, date.today().year),
+            attrs={'placeholder':'date delivrated ',
+                     'class':'form-control',
+                    'style':'display:inline-block; width:auto'}),
+        label="Date d'Etat-Civil")
+
     class Meta:
         model = Document
-        fields = ("zone", "bride", "residence_quarter")
+        fields = ("zone", "bride", "residence_quarter", 'date')
 
     def clean_zone(self, *arg,**kwargs):
         try:

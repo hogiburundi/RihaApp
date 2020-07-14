@@ -3,14 +3,13 @@
 {% block main %}
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ deces_dom.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ deces_dom.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ deces_dom.zone.name }}</u></strong><br/><br>
+		<strong>MUNICIPALITE DE {{ deces_dom.zone.commune.province|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ deces_dom.zone.commune|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ deces_dom.zone.name|upper }}</u></strong><br/><br>
 		<p style="text-align: center;"><strong><u>ATTESTATION  DE NAISSANCE A DOMICILE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
 		 
@@ -25,18 +24,16 @@
 
 		<p><strong>Les  témoins :</strong></p>
 
-		<p>{{ deces_dom.first_witness.profile.user.first_name }} {{ deces_dom.first_witness.profile.user.last_name }}</p>
-		<p>C.N.I : {{ deces_dom.first_witness.profile.CNI }} </p>
+		<p>{{ deces_dom.first_witness.profile.user.first_name }} {{ deces_dom.first_witness.user.last_name }}</p>
+		<p>C.N.I : {{ deces_dom.first_witness.CNI }} </p>
 
-		<p>{{ deces_dom.second_witness.profile.user.first_name }} {{ deces_dom.second_witness.profile.user.last_name }}</p>
-		CNI: {{ deces_dom.second_witness.profile.CNI }}
+		<p>{{ deces_dom.second_witness.user.first_name }} {{ deces_dom.second_witness.user.last_name }}</p>
+		<p>CNI: {{ deces_dom.second_witness.CNI }}</p>
 
 
-		<p><strong>Chef de Quartier  TABA</strong></p> 
+		<p><strong>Chef de Quartier  {{ deces_dom.residence_quarter_DM.name|upper }}</strong></p> 
 
-		<p>Chef de Quartier {{ deces_dom.child_birth_quarter.quarter.name }},</p>
-
-		<p>{{ deces_dom.supervisor.profile.user.first_name }} {{ deces_dom.supervisor.profile.user.last_name }}</p>
+		<p>{{ deces_dom.residence_quarter_DM.leaderFullName }} </p>
 		
 		
 		<p>&nbsp;</p>
@@ -48,7 +45,7 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ deces_dom.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ deces_dom.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>{{ deces_dom.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -64,17 +61,18 @@
 	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.user.profile.cni_verso.url }}' height='300' />">
 	  CNI verso
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.user.profile.cni_recto.url }}' height='300' />">
+	
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.first_witness.cni_recto.url }}' height='300' />">
 	  CNI Recto 1st Temoin
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.user.profile.cni_verso.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.first_witness.cni_verso.url }}' height='300' />">
 	  CNI verso 1st Temoin
 	</button>
 
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.user.profile.cni_recto.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.second_witness.cni_recto.url }}' height='300' />">
 	  CNI Recto 2st Temoin
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.user.profile.cni_verso.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ deces_dom.second_witness.cni_verso.url }}' height='300' />">
 	  CNI verso 2st Temoin
 	</button>
 

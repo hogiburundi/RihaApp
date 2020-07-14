@@ -1,1 +1,1 @@
-APP_NAME = "Attestation de Résidence"
+APP_NAME = "ATTESTATION DE RÉSIDENCE"

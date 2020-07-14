@@ -5,30 +5,31 @@
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 
-
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>PROVINCE DE {{ id_compl.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
-		<strong>ZONE DE {{ id_compl.zone.name }}</strong><br/>
-		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/>
+		<strong>PROVINCE DE {{ bans_mariage.zone.commune.province.name|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ bans_mariage.zone.commune.name|upper }}</strong><br/>
+		<strong>ZONE DE {{ bans_mariage.zone.name|upper }}</strong><br/>
+		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/><br/>
+
 
 		<p style="text-align: center;"><strong>PROCES-VERBAL D&rsquo;AFFICHAGE DE PUBLICATION DES BANS DE <br>
 		<u>MARIAGE </u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
 
 		L’an deux mille dix neuf, le septi&egrave;me jour du mois  de mai
-		Nous {{ id_compl.zone.leader}} Officier de l’Etat civil &agrave; {{ id_compl.zone.name }}, avons conform&eacute;ment &agrave; la l’article cent treize du D&eacute;cret-loi № 1/024 du 28 Avril 1993 portant reforme du Code des Personnes et de la Famille proclam&eacute; et affich&eacute; &agrave; la porte de notre Office qu’il y a projet de mariage entre :
+		Nous {{ bans_mariage.zone.leaderFullName}} Officier de l’Etat civil &agrave; {{ bans_mariage.zone.name }}, avons conform&eacute;ment &agrave; la l’article cent treize du D&eacute;cret-loi № 1/024 du 28 Avril 1993 portant reforme du Code des Personnes et de la Famille proclam&eacute; et affich&eacute; &agrave; la porte de notre Office qu’il y a projet de mariage entre :<br/><br/>
 
-		Mr. {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, {% if id_compl.user.profile.job %}Profession {{ id_compl.user.profile.job }}{% else %}Sans Profession{% endif %}, fils de {{ id_compl.user.profile.father|default:"sans" }} et de {{ id_compl.user.profile.mother|default:"sans" }}, n&eacute; le {{ id_compl.user.profile.birthdate }} &agrave; {{ id_compl.zone.name|upper }}, Commune {{ id_compl.zone.commune.name|upper }}, Province {{ id_compl.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave; {{ id_compl.residence_quarter.zone.province.name }}, de nationalit&eacute; BURUNDAISE, CELIBATAIRE, d’une part. 
+		Mr. {{ bans_mariage.user.last_name }} {{ bans_mariage.user.first_name }}, {% if bans_mariage.user.profile.job %}Profession {{ bans_mariage.user.profile.job }}{% else %} Sans Profession{% endif %}, fils de {{ bans_mariage.user.profile.father|upper }} et de {{ bans_mariage.user.profile.mother|upper }}, n&eacute; le {{ bans_mariage.user.profile.birthdate }} &agrave; {{ bans_mariage.zone.name|upper }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave; {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalit&eacute; {{ bans_mariage.user.profile.nationality }}, {% if bans_mariage.user.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’une part.<br/><br/>
 
 
-		<p id="normal">Mlle {{ id_compl.bride.last_name }} {{ id_compl.bride.first_name }},{% if id_compl.bride.profile.job %} Profession {{ id_compl.bride.profile.job }} {% else %} Sans Profession {% endif %}, fille de {{ id_compl.bride.profile.father|default:"sans" }} et de {{ id_compl.bride.profile.mother|default:"sans" }}, née &agrave; NYAMUGARI, le {{ id_compl.bride.profile.birthdate }}, Commune {{ id_compl.zone.commune.name|upper }}, Province {{ id_compl.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ id_compl.residence_quarter.zone.province.name }}, de nationalité BURUNDAISE, CELIBATAIRE, d’autre part.</p>
+		<p id="normal">Mlle {{ bans_mariage.bride.last_name }} {{ bans_mariage.bride.first_name }},{% if bans_mariage.bride.profile.job %} Profession {{ bans_mariage.bride.profile.job }} {% else %} Sans Profession {% endif %}, fille de {{ bans_mariage.bride.profile.father|upper }} et de {{ bans_mariage.bride.profile.mother|upper }}, née &agrave; NYAMUGARI, le {{ bans_mariage.bride.profile.birthdate }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalité {{ bans_mariage.bride.profile.nationality }}, {% if bans_mariage.bride.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’autre part.</p>
 
-		Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la Mairie de Bujumbura &agrave; partir du 1/06/2020.
+		Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la {{ bans_mariage.zone.commune.province }} &agrave; partir du {{ bans_mariage.date|date:"SHORT_DATE_FORMAT" }}.<br/><br/>
 
-		Toute personne qui a des objections &agrave; l’encontre dudit mariage peut soit former opposition conform&eacute;ment  aux articles cent quatre, cent cinq et cent six du Code des Personnes et de la Famille soit communiquer ses objections &agrave; l’Officier d’&eacute;tat civil de {{ id_compl.zone.commune.province }}.
+		Toute personne qui a des objections &agrave; l’encontre dudit mariage peut soit former opposition conform&eacute;ment  aux articles cent quatre, cent cinq et cent six du Code des Personnes et de la Famille soit communiquer ses objections &agrave; l’Officier d’&eacute;tat civil de {{ bans_mariage.zone.commune.province }}.<br/><br/>
 
-		En foi de quoi, nous avons dress&eacute; le pr&eacute;sent proc&egrave;s-verbal au jour, mois et an que dessus.
+		En foi de quoi, nous avons dress&eacute; le pr&eacute;sent proc&egrave;s-verbal au jour, mois et an que dessus.<br/><br/>
+
 
 		<table style="width: 588px;">
 		<tbody>
@@ -36,7 +37,7 @@
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>L’OFFICIER DE L’ETAT CIVIL </strong></p>
-		<p style="text-align: center;"><strong>{{ id_compl.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>{{ bans_mariage.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -50,18 +51,23 @@
 		{% csrf_token %}
 		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
 			{{ form.as_p }}
-			
 		</div>
 		{% if preview %}
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
 		{% else %}
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
 			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
 		{% endif %}
 
 		<datalist id="zones">
 			{% for zone in zones %}
 				<option value="{{ zone.name }}"/> 
+			{% endfor %}
+		</datalist>
+		<datalist id="profiles">
+			{% for profile in profiles %}
+				<option value="{{ profile.user.first_name }} {{ profile.user.last_name }}"/> 
 			{% endfor %}
 		</datalist>
 		<datalist id="quarters">

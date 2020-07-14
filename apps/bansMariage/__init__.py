@@ -1,1 +1,1 @@
-APP_NAME = "Publication de Bans de Marriage"
+APP_NAME = "PUBLICATION DE BANS DE MARIAGE"

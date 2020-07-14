@@ -7,33 +7,32 @@
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>PROVINCE DE {{ id_compl.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ id_compl.zone.name }}</u></strong><br/><br>
+		<strong>PROVINCE DE {{ att_resi.zone.commune.province.name|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ att_resi.zone.commune.name|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ att_resi.zone.name|upper }}</u></strong><br/><br>
 
 		<p style="text-align: center;"><strong><u>ATTESTATION DE RESIDENCE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
 
-		<p>Je soussign&eacute;, {{ id_compl.zone.leader}}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que {% if id_compl.user.profile.gender == 'Homme' %}le nomm&eacute; {% else %} la nomm&eacute;e{% endif %} {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, {% if id_compl.user.profile.gender == 'Homme' %} fils {% else %}fille {% endif %} de {{ id_compl.user.profile.father|default:"sans" }} et de  {{ id_compl.user.profile.mother|default:"sans" }}, originaire de la Colline {{ id_compl.zone.name }}, Commune {{ id_compl.zone.commune.name }}, Province {{ id_compl.zone.commune.province }}, de nationalité Burundaise, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ id_compl.residence_quarter.zone.name|upper }} Q. {{ id_compl.residence_quarter.name }}.
+		<p>Je soussign&eacute;, {{ att_resi.zone.leaderFullName }}, Chef de Zone {{ att_resi.zone.name|upper }}, atteste par la pr&eacute;sente que {% if att_resi.user.profile.gender == 'H' %}le nomm&eacute; {% else %} la nomm&eacute;e{% endif %} {{ att_resi.user.last_name }} {{ att_resi.user.first_name }}, {% if att_resi.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ att_resi.user.profile.father|upper }} et de  {{ att_resi.user.profile.mother|upper }}, originaire de la Colline {{ att_resi.zone.name|upper }}, Commune {{ att_resi.zone.commune.name|upper }}, Province {{ att_resi.zone.commune.province|upper }}, de nationalité Burundaise, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ att_resi.residence_quarter.zone.name|upper }} Q. {{ att_resi.residence_quarter.name|upper }}.
 
-				<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte&nbsp; Nationale d&rsquo;Identit&eacute; &nbsp;portant &nbsp;num&eacute;ro {{ id_compl.user.profile.CNI }} delivré à Isale, le 17/09/2019</p>
+				<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte&nbsp; Nationale d&rsquo;Identit&eacute; &nbsp;portant &nbsp;num&eacute;ro {{ att_resi.user.profile.CNI }} delivré à {{ att_resi.user.profile.place_delivrated }}, le {{ att_resi.user.profile.date_delivrated|date"SHORT_DATE_FORMAT" }}</p>
 		</p>
 
 
 
 		<p><strong>Sous couvert :</strong></p>
 
-		<p>- {{ id_compl.first_witness.first_name }} {{ id_compl.first_witness.last_name }}</p>
+		<p>- {{ att_resi.first_witness.first_name }} {{ att_resi.first_witness.last_name }}</p>
 
-		<p>- {{ id_compl.second_witness.first_name }} {{ id_compl.second_witness.last_name }}</p>
+		<p>- {{ att_resi.second_witness.first_name }} {{ att_resi.second_witness.last_name }}</p>
 		
 
 
-		<p><strong>Chef de Quartier  {{ id_compl.residence_quarter.name|upper }} </strong></p> 
+		<p><strong>Chef de Quartier  {{ att_resi.residence_quarter.name|upper }} </strong></p> 
 
-		<p>Chef de Quartier Taba,</p>
 
-		<p>{{ id_compl.quarter_leader.first_name }} {{ id_compl.quarter_leader.last_name }}</p>
+		<p>{{ att_resi.residence_quarter.leaderFullName }}</p>
 		                                  
 
 		
@@ -46,8 +45,8 @@
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ id_compl.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ id_compl.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ att_resi.zone.name }}</strong></p>
+		<p style="text-align: center;"><strong>{{ att_resi.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -68,7 +67,7 @@
 		{% else %}
 			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
 		{% endif %}
-witness
+
 		<datalist id="zones">
 			{% for zone in zones %}
 				<option value="{{ zone.name }}"/> 

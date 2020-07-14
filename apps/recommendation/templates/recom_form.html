@@ -8,12 +8,12 @@
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ recomm.zone.commune.province|upper }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ recomm.zone.commune|upper }}</strong><br/>
-		<strong><u>ZONE DE {{ recomm.zone.name|upper }}</u></strong><br/><br>
+		<strong>MUNICIPALITE DE {{ id_compl.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
+		<strong><u>ZONE DE {{ id_compl.zone.name }}</u></strong><br/><br>
 		<p style="text-align: center;"><strong><u>ATTESTATION DE RECOMMENDATION N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
-		<p>Je soussign&eacute;, {{ recomm.zone.leaderFullName }}, Chef de Zone {{ recomm.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e {{ recomm.user.last_name }} {{ recomm.user.first_name }}, fille {{ recomm.user.profile.father|default:"sans" }} et de  {{ recomm.user.profile.mother|default:"sans" }}, originaire de la Colline {{ recomm.zone.name }}, Commune {{ recomm.zone.commune.name }}, Province {{ recomm.zone.commune.province }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ recomm.residence_quarter.zone.name|upper }} Q. {{ recomm.residence_quarter.name }}, est recommand&eacute; &agrave; ex&eacute;cuter les travaux mis &agrave; sa disponibilit&eacute;.
+		<p>Je soussign&eacute;, {{ id_compl.zone.leader}}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, fille {{ id_compl.user.profile.father|default:"sans" }} et de  {{ id_compl.user.profile.mother|default:"sans" }}, originaire de la Colline {{ id_compl.zone.name }}, Commune {{ id_compl.zone.commune.name }}, Province {{ id_compl.zone.commune.province }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ id_compl.residence_quarter.zone.name|upper }} Q. {{ id_compl.residence_quarter.name }}, est recommand&eacute; &agrave; ex&eacute;cuter les travaux mis &agrave; sa disponibilit&eacute;.
 
 				<p style="text-align:center;">La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
 		</p>
@@ -28,8 +28,8 @@
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ recomm.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ recomm.zone.leaderFullName }}</strong></p>
+		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ id_compl.zone.name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ id_compl.zone.leader}}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -48,7 +48,6 @@
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
 			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
 		{% endif %}
 

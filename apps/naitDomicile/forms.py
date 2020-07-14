@@ -60,11 +60,18 @@ class DocumentForm(forms.ModelForm):
                     'list':'profiles'}),
         label = "Mère de l'enafant")
 
+    supervisor = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'Mère', 
+                    'class': 'form-control', 
+                    'list':'profiles'}),
+        label = "Mère de l'enafant")
+
     class Meta:
         model = Document
         # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
         fields = ("zone", "residence_quarter","child_name","child_birth",
-            "child_mother","first_witness","second_witness")
+            "child_mother","first_witness","second_witness","supervisor")
 
     def clean_zone(self, *arg,**kwargs):
         try:

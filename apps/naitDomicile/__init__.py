@@ -1,1 +1,1 @@
-APP_NAME = "ATTESTATION DE NAISSANCE À DOMICILE"
+APP_NAME = "Naissance à Domicile"

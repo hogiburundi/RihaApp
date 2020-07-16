@@ -8,6 +8,7 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
         label = 'Zone',
         queryset = Zone.objects.all())
+    
     residence_quarter = forms.ModelChoiceField(
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),

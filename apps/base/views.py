@@ -200,15 +200,7 @@ class Register2(View):
 		form = Register2Form(request.POST, request.FILES)
 		page_number = self.page_number
 		if form.is_valid():
-			try:
-				cni_recto = form.cleaned_data['cni_recto']
-				cni_verso = form.cleaned_data['cni_verso']
-				profile = request.user.profile
-				profile.cni_verso = cni_verso
-				profile.cni_recto = cni_recto
-				profile.save()
-				messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
-				return redirect(self.next_p)
-			except Exception as e:
-				messages.error(request, str(e))
+			form.save()
+			messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
+			return redirect(self.next_p)
 		return render(request, self.template_name, locals())

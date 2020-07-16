@@ -23,7 +23,7 @@
     ><!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" id="searchfield" />
             <div class="input-group-append">
                 <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
             </div>
@@ -157,6 +157,17 @@ $(document).ready(function(){
     $("#danger-alert").fadeTo(3000, 500).slideUp(500, function(){
         $("#success-alert").slideUp(500);
     });
+    $("#searchfield").keyup(function(event) {
+        keyword = $(this).val().toLowerCase();
+        $(".searchable").each(function(index, el) {
+            if($(el).text().toLowerCase().includes(keyword)){
+                $(el).show();
+            }else{
+                $(el).hide();
+            }
+        });
+    });
+    
 });
 {% block scripts %}
 {% endblock scripts %}

@@ -59,18 +59,12 @@ class DocumentListView(LoginRequiredMixin, View):
 
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "idcomp_form.html"
-	quarters = Quarter.objects.all()
-	zones = Zone.objects.all()
 
 	def get(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
 			preview = True

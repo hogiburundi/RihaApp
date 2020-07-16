@@ -22,12 +22,14 @@ class ProfileForm(forms.ModelForm):
 		choices=GENDERS)
 
 	nationnalite = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nationnalite ','class':'form-control'}), label='Nationnalite')
-	quarter = forms.CharField(widget=forms.TextInput(
-			attrs={'placeholder':'Quarter ','class':'form-control','list':'quarters'}),
-		label='Quartier/Colline de naissance')
-	residence = forms.CharField(widget=forms.TextInput(
-			attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}),
-		label='residence actuelle (Quartier/Colline)')
+	quarter = forms.ModelChoiceField(widget = forms.Select(
+			attrs = {'placeholder': 'Quarter', 'class': 'form-control','id':'quarters'}),
+		label = 'Quartier/Colline de naissance',
+		queryset = Quarter.objects.all())
+	residence = forms.ModelChoiceField( widget = forms.Select(
+			attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'residences'}),
+		label = 'Residence Quarter',
+		queryset = Quarter.objects.all())
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
 	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
 	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')

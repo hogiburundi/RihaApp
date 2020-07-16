@@ -10,9 +10,27 @@ class PasswordForm(forms.Form):
 	password = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Password ','class':'form-control'}), label='Password')
 	password2 = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Confirm password ','class':'form-control'}), label='Confirm password')
 
-class Register2Form(forms.Form):
+class Register2Form(forms.ModelForm):
+	CNI = forms.CharField(widget=forms.TextInput(
+			attrs={'placeholder':'CNI ','class':'form-control'}),
+		label='CNI', required=False)
+	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
+	date_delivrated = forms.DateField(widget=forms.SelectDateWidget(
+			years=range(1990, date.today().year+1),
+			attrs={'placeholder':'date delivrated ', 'class':'form-control',
+			'style':'display:inline-block; width:auto'}),
+		label='Délivrée le', required=False,initial=date.today())
+
+	place_delivrated = forms.CharField(
+		widget=forms.TextInput(
+			attrs={'placeholder':'provice de livraison','class':'form-control'}),
+		label='Délivrée à', required=False)
 	cni_recto = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'CNI Picture 1','class':'form-control'}), label='CNI Picture 1')
 	cni_verso = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'CNI Picture 2','class':'form-control'}), label='CNI Picture 2')
+	
+	class Meta:
+		model = Profile
+		fields = ("CNI", 'date_delivrated', 'place_delivrated', 'cni_recto', 'cni_verso')
 
 class ProfileForm(forms.ModelForm):
 	gender = forms.ChoiceField(
@@ -22,25 +40,15 @@ class ProfileForm(forms.ModelForm):
 		choices=GENDERS)
 
 	nationnalite = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nationnalite ','class':'form-control'}), label='Nationnalite')
-	quarter = forms.CharField(widget=forms.TextInput(
-			attrs={'placeholder':'Quarter ','class':'form-control','list':'quarters'}),
-		label='Quartier/Colline de naissance')
-	residence = forms.CharField(widget=forms.TextInput(
-			attrs={'placeholder':'Quarter ','class':'form-control', 'list':'quarters'}),
-		label='residence actuelle (Quartier/Colline)')
+	quarter = forms.ModelChoiceField(widget = forms.Select(
+			attrs = {'placeholder': 'Quarter', 'class': 'form-control','id':'quarters'}),
+		label = 'Quartier/Colline de naissance',
+		queryset = Quarter.objects.all())
+	residence = forms.ModelChoiceField( widget = forms.Select(
+			attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'residences'}),
+		label = 'Residence Quarter',
+		queryset = Quarter.objects.all())
 	address = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Address ','class':'form-control'}), label='Address')
-	CNI = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'CNI ','class':'form-control'}), label='CNI')
-	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
-	date_delivrated = forms.DateField(widget=forms.SelectDateWidget(
-			years=range(1990, date.today().year),
-			attrs={'placeholder':'date delivrated ', 'class':'form-control',
-			'style':'display:inline-block; width:auto'}),
-		label='Délivrée le')
-
-	place_delivrated = forms.CharField(
-		widget=forms.TextInput(
-			attrs={'placeholder':'provice de livraison','class':'form-control'}),
-		label='Délivrée à', required=False)
 
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
@@ -76,7 +84,7 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job", "CNI", 'date_delivrated', 'place_delivrated')
+		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job")
 
 class RegisterForm(forms.Form):
 	telephone = forms.CharField( widget=forms.NumberInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')

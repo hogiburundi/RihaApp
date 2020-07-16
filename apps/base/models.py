@@ -98,9 +98,9 @@ class Notification(models.Model):
 
 class PlaceModel(models.Model):
 	name = models.CharField(max_length=64)
-	ecocash = models.CharField(max_length=64, null=True)
-	lumicash = models.CharField(max_length=64, null=True)
-	bcb = models.CharField(max_length=64, null=True)
+	ecocash = models.CharField(blank=True, default='-', max_length=64, null=True)
+	lumicash = models.CharField(blank=True, default='-', max_length=64, null=True)
+	bcb = models.CharField(blank=True, default='-', max_length=64, null=True)
 	# leader = models.ForeignKey("Profile", null=True, on_delete=models.SET_NULL, editable=False)
 
 	class Meta:
@@ -113,7 +113,7 @@ class Zone(PlaceModel):
 		return f"{self.name} - {self.commune.province}"
 
 	def leader(self):
-		return ZonePersonnel.objects.filter(zone=self).last()
+		return ZonePersonnel.objects.filter(zone=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -126,7 +126,7 @@ class Province(PlaceModel):
 		return f"{self.name}"
 
 	def leader(self):
-		return ProvincePersonnel.objects.filter(province=self).last()
+		return ProvincePersonnel.objects.filter(province=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -140,7 +140,7 @@ class Commune(PlaceModel):
 		return f"{self.name} - {self.province}"
 
 	def leader(self):
-		return CommunePersonnel.objects.filter(commune=self).last()
+		return CommunePersonnel.objects.filter(commune=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():
@@ -154,7 +154,7 @@ class Quarter(PlaceModel):
 		return f"{self.name} - {self.zone.name}"
 
 	def leader(self):
-		return QuarterPersonnel.objects.filter(quarter=self).last()
+		return QuarterPersonnel.objects.filter(quarter=self, user_level=1).last()
 
 	def leaderFullName(self):
 		if self.leader():

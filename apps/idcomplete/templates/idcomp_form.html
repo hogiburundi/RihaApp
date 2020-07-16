@@ -99,17 +99,10 @@
 		{% else %}
 			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
 		{% endif %}
-
-		<datalist id="zones">
-			{% for zone in zones %}
-				<option value="{{ zone.name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="quarters">
-			{% for quarter in quarters %}
-				<option value="{{ quarter }}"/> 
-			{% endfor %}
-		</datalist>
 	</form>
 </div>
+<script>
+	$('#zones').chosen({ width: '100%' });
+	$('#quarters').chosen({ width: '100%' });
+</script>
 {% endblock main %}

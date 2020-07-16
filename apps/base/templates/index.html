@@ -12,7 +12,7 @@
     </a>
   </div>
   {% for document, home_url in home_urls %}
-    <div class="col-lg-3 col-sm-6 col-12 p-1">
+    <div class="col-lg-3 col-sm-6 col-12 p-1 searchable">
       <a href="{% url home_url %}" class="btn btn-primary col-12 text-decoration-none">
         <div class="item-title" style="color:white;">
           Document<span class="badge badge-danger ml-2">{{ counts }}</span>

@@ -25,7 +25,7 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control'}),
         label = "Surface en Ares")
 
-    propriety_surfaces_a = forms.CharField(
+    propriety_surfaces_ca = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'surface (ca)', 
                     'class': 'form-control'}),

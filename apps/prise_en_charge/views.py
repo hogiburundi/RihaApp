@@ -91,7 +91,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 			prise_charge.user = request.user
 		return render(request, self.template_name, locals())
 
-
 class DocumentPayView(LoginRequiredMixin, View):
 	template_name = "prise_charge_pay_form.html"
 

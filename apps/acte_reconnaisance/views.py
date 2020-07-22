@@ -4,9 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import DocumentForm
+from .forms import *
 from apps.base.forms import *
+from apps.base.models import *
 from .models import *
+from django.contrib import messages
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 
@@ -70,10 +72,13 @@ class DocumentFormView(LoginRequiredMixin, View):
 
 	def post(self, request, *args, **kwargs):
 		quarters = self.quarters 
-		zones = self.zones 
+		zones = self.zones
+		profiles = get_object_or_404(Profile, user=request.user ) 
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
-			preview = True
+			if form.is_valid():
+				preview = True
+				
 		if "cancel" in request.POST:
 			preview = False
 		if "submit" in request.POST:
@@ -87,7 +92,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 			acte_reconnais = form.save(commit=False)
 			acte_reconnais.user = request.user
 		return render(request, self.template_name, locals())
-
 
 class DocumentPayView(LoginRequiredMixin, View):
 	template_name = "acte_reco_pay_form.html"

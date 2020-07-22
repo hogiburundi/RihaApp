@@ -91,6 +91,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 
 		if "cancel" in request.POST:
 			preview = False
+
 		if "submit" in request.POST:
 			if form.is_valid():
 				cni = form.cleaned_data["buyer"]

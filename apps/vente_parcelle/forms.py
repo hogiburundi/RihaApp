@@ -58,73 +58,73 @@ class DocumentForm(forms.ModelForm):
 
     witness11 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness name','id':'witnesses', 
+            attrs = {'placeholder': 'Saler witness name 1','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Saler witness name 1')    
            
     witness12 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness name','id':'witnesses', 
+            attrs = {'placeholder': 'Saler witness name 2','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Saler witness name 2')
         
     witness21 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness name','id':'witnesses', 
+            attrs = {'placeholder': 'Buyer witness name 1','id':'witnesses', 
                     'class': 'form-control'}),
-        label = 'Buyer witness 1')
+        label = 'Buyer witness name 1')
 
     witness22 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness name','id':'witnesses', 
+            attrs = {'placeholder': 'Buyer witness name 2','id':'witnesses', 
                     'class': 'form-control'}),
-        label = 'Buyer witness 2')
+        label = 'Buyer witness name 2')
 
     cnis11 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness CNI','id':'witnesses', 
+            attrs = {'placeholder': 'Saler witness CNI 1','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Saler witness CNI 1')  
               
     cnis12 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness CNI','id':'witnesses', 
+            attrs = {'placeholder': 'Saler witness CNI 2','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Saler witness CNI 2')
         
     cnis21 = forms.CharField( 
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness CNI','id':'witnesses', 
+            attrs = {'placeholder': 'Buyer witness CNI 1','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Buyer witness CNI 1')
 
     cnis22 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness CNI','id':'witnesses', 
+            attrs = {'placeholder': 'Buyer witness CNI 2','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Buyer witness CNI 2')
 
     saler_witness_residence1 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness residence','id':'witnesses', 
+            attrs = {'placeholder': 'Saler witness residence 1','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Saler witness residence 1')  
               
     saler_witness_residence2 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness residence','id':'witnesses', 
+            attrs = {'placeholder': 'Saler witness residence 2','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Saler witness residence 2')
         
     buyer_witness_residence1 = forms.CharField( 
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness residence','id':'witnesses', 
+            attrs = {'placeholder': 'Buyer witness residence 1','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Buyer witness residence 1')
 
     buyer_witness_residence2 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness residence','id':'witnesses', 
+            attrs = {'placeholder': 'Buyer witness residence 1','id':'witnesses', 
                     'class': 'form-control'}),
         label = 'Buyer witness residence 2')
 
@@ -132,7 +132,7 @@ class DocumentForm(forms.ModelForm):
         model = Document
         fields = ("residence_quarter", "zone", "property_quarter", "amount", "buyer",
         "buyer_residence_quarter", "buyer_zone", "witness11", "witness12", "witness21",
-        "witness22", "cnis11", "cnis12", "cnis22", "cnis21", "saler_witness_residence1",
+        "witness22", "cnis11", "cnis12", "cnis21", "cnis22", "saler_witness_residence1",
         "saler_witness_residence2","buyer_witness_residence1","buyer_witness_residence2")
 
     def clean_zone(self, *arg,**kwargs):

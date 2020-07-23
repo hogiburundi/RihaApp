@@ -1,1 +1,2 @@
-APP_NAME = " Extrait d'acte de deces"
+APP_NAME = "Acte de Dèces"
+APP_TYPE = "Attestation d'"

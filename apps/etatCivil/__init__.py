@@ -1,1 +1,2 @@
-APP_NAME = "Etat Civile"
+APP_NAME = "Etat Civil"
+APP_TYPE = "Attestation d'"

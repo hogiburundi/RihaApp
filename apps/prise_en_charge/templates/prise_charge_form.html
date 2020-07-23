@@ -41,14 +41,21 @@
 	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 		{% csrf_token %}
 		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{ form.as_p }}
+			{% for fo in form %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+			{% endfor %}
+			<br>
 		</div>
+
 		{% if preview %}
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
+			<input id="preview" type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
+			<input id="submit" type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% endif %}
 
 		<datalist id="zones">

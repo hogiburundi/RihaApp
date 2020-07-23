@@ -62,14 +62,48 @@
 	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 		{% csrf_token %}
 		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{ form.as_p }}
+
+			{% for fo in form %}
+
+			<div class="step-one">
+				{% if forloop.counter <= 7 %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+				{% endif %}
+			</div>
+
+			<div class="step-two">
+				{% if forloop.counter >= 8 and forloop.counter <= 13 %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+				{% endif %}
+			</div>
+
+			<div class="step-three">
+				{% if forloop.counter >= 14 %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+				{% endif %}
+			</div>
+
+			{% endfor %}
+			<br>
 		</div>
 		{% if preview %}
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
+			<input id="preview" type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
+			<input id="continue1" class="btn btn-outline-primary" value="Step 1">
+			<input id="continue2" class="btn btn-outline-primary" value="Step 2">
+			<input id="continue3" class="btn btn-outline-primary" value="Step 3">
+			<input id="submit" type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% endif %}
 
 		<datalist id="zones">
@@ -85,6 +119,57 @@
 	</form>
 </div>
 
-
-
 {% endblock main %}
+
+
+{% block scripts %}
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $(".step-two").hide();
+    $(".step-three").hide();
+	$("#continue1").hide();
+	$("#continue2").show();
+	$("#continue3").hide();
+	$("#preview").hide();
+	$("#submit").hide();
+
+    $("#continue1").click(function(){
+		$(".step-one").show();
+		$(".step-two").hide();
+		$(".step-three").hide();
+		$("#continue1").hide();
+		$("#continue2").show();
+		$("#continue3").hide();
+		$("#preview").hide();
+		$("#submit").hide();
+    });
+
+    $("#continue2").click(function(){
+        $(".step-one").hide();
+        $(".step-two").show();
+        $(".step-three").hide();
+		$("#continue2").hide();
+		$("#continue3").show();
+		$("#preview").hide();
+		$("#submit").hide();
+    });
+
+    $("#continue3").click(function(){
+        $(".step-one").hide();
+        $(".step-two").hide();
+        $(".step-three").show();
+		$("#continue1").show();
+		$("#continue2").hide();
+		$("#continue3").hide();
+		$("#preview").show();
+		$("#submit").show();
+    });
+
+});
+
+{% endblock scripts %}

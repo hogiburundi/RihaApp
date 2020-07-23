@@ -1,1 +1,1 @@
-APP_NAME = "Attestation de Chaumage"
+APP_NAME = "Attestation de Chomage"

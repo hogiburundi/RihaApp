@@ -1,12 +1,10 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 
-etat_civil = (
-    ("Celibataire", 'Celibataire'),
-    ("Marie", "Marie")
-)
+
 
 class DocumentForm(forms.ModelForm):
     zone = forms.CharField(
@@ -21,22 +19,40 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control',
                     'list':'quarters'}),
         label = 'Residence Quarter')
-    etat_civil = forms.ChoiceField(
-        widget=forms.Select(
-            attrs={'placeholder':'etatcivil ','class':'form-control'}),
-        label='Etat Civil',
-        choices=etat_civil)
 
-    age = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'age en lettre ','class':'form-control'}), label='Age du defunt')
-    annee = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'annee en lettre ','class':'form-control'}), label='Annee')
-    jour = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'jour en lettre ','class':'form-control'}), label='Jour')
-    mois = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'mois en lettre ','class':'form-control'}), label='Mois')
+    defunt    = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder' : 'Le numero de Cni du defunt',
+                     'class': 'form-control'}),
+        label = 'Defunt')
 
-    
 
+    date = forms.DateField(
+        widget = forms.SelectDateWidget(
+            attrs = {'placeholder': 'date' , 
+                    'class': 'form-control',
+                    'style': 'display:inline-block; width: auto'}),
+            label = 'date')
+
+
+
+    acte = forms.IntegerField(
+            widget = forms.NumberInput(
+                attrs = {'placeholder': 'numero d\'acte' , 
+                        'class': 'form-control'}),
+                label = 'Acte')
+
+            
+    volume = forms.IntegerField(
+            widget = forms.NumberInput(
+                attrs = {'placeholder': 'numero de volume', 
+                        'class': 'form-control'}),
+                label = 'Volume')
+
+            
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", "etat_civil",'annee', 'jour', 'mois', "age" )
+        fields = ("zone", "residence_quarter",'date','defunt', 'acte', 'volume' )
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -54,3 +70,13 @@ class DocumentForm(forms.ModelForm):
             return quarter
         except Exception as e:
             raise forms.ValidationError("this quarter is unknown")
+
+
+
+    def clean_defunt(self, *arg, **kwargs):
+        try:
+            CNI = self.cleaned_data.get('defunt')
+            conjoint = Profile.objects.get(CNI = CNI)
+            return conjoint
+        except Exception as e:
+            raise forms.ValidationError("Desolee, le defunt n'existe pas!! ")

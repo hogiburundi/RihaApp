@@ -3,56 +3,79 @@
 {% block main %}
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ indigent.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ indigent.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ indigent.zone.name }}</u></strong><br/>
-
+		<div style="text-transform: uppercase;">
+			<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+			<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+			<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+			<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+			<strong>MUNICIPALITE DE {{ indigent.zone.commune.province }}</strong><br/>
+			<strong>COMMUNE URBAINE DE {{ indigent.zone.commune }}</strong><br/>
+			<strong>ZONE DE {{ indigent.zone.name }}</strong><br/>
+			<strong><u>BUREAU D’ETAT CIVIL</u></strong><br/><br><br> <br> 
+		</div>  
 		<p style="text-align: center;"><strong><u>ATTESTATION D’INDIGENCE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>
-			Je soussigné, {{ indigent.user.first_name }} {{ indigent.user.last_name }}, Administrateur de la Commune {{indigent.zone.commune}}, atteste par la présente que la nommée {{ indigent.user.first_name }} {{ indigent.user.last_name }}, fils de  {{indigent.user.profile.father}}  et de {{indigent.user.profile.mother}}, originaire de la Colline {{indigent.user.profile.colline_natal}}, Commune {{indigent.user.profile.commune_natal}}, Province {{indigent.user.profile.province_natal}}, résidant actuellement dans la Municipalité de {{indigent.zone.commune.province}} à l’adresse ci-après : {{indigent.zone.name}}, Q. {{indigent.residence_quarter}}, est INDIGENTE.
+			Je soussigné, {{ indigent.zone.commune.leaderFullName }}, Administrateur de la Commune {{indigent.zone.commune}}, atteste par la présente que
+			 {% if indigent.user.gender == Homme %}
+				le nommé
+			{% else %}
+				la nommée  
+			{% endif %}
+			 {{ indigent.user.first_name }} {{ indigent.user.last_name }}, 
+
+			{% if indigent.user.gender == Homme %}
+			fils
+			{% else %}
+			fille
+			{% endif %} 
+
+			de  {{indigent.user.profile.father}}  et de {{indigent.user.profile.mother}}, originaire de la Colline {{indigent.user.profile.quarter}}, Commune {{indigent.user.profile.quarter.zone.commune}}, Province {{indigent.user.profile.quarter.zone.commune.province}}, résidant actuellement dans la Municipalité de {{indigent.zone.commune.province}} à l’adresse ci-après : {{indigent.zone.name}}, Q. {{indigent.residence_quarter}}, est 
+			{% if indigent.user.gender == Homme %}
+				INDIGENT
+			{% else %}
+				INDIGENTE
+			{% endif %}.<br>.
                                            
 
 		</p>
 
 		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
-		<p>	
+		<p>	<br><br>
 			<strong><u>Sous couvert : </u></strong>
 			<ul>
-				{{indigent.user.last_name}}
+				{{indigent.sous_couvert}}
 			</ul><br>
 
 			<strong><u>Chef de Quartier {{indigent.residence_quarter}}</u></strong><br>
 			<ul>
-				{{indigent.user.first_name}}
+				{{indigent.residence_quarter.leaderFullName}}
 			</ul><br>
 					
 			<strong><u>Approuvée par le Chef de Zone {{indigent.zone.name}}</u></strong><br>
 			<ul>
-				{{indigent.user.first_name}} {{indigent.user.last_name}}
-			</ul><br>
+				{{indigent.zone.leaderFullName}}
+			</ul>
 
 		</p>
 		<p>&nbsp;</p>
 				<p>&nbsp;</p>
-		<table style="width: 588px;">
+		<table style="width: 600px; text-transform: uppercase;">
 		<tbody>
 		<tr>
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today.today }}</strong></p>
 		<p style="text-align: center;"><strong> L’ADMINISTRATEUR DE LA COMMUNE {{ indigent.zone.commune.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ indigent.user.first_name }} {{ indigent.user.last_name }}</strong></p>
+		<p style="text-align: center;"><strong>{{ indigent.zone.commune.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
 		</table>
 		<p style="text-align: right;">&nbsp;</p>
 	</div>
-</div><div style="position: fixed; right: 0px; top:40%">
+</div>
+
+<div style="position: fixed; right: 0px; top:40%">
   <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
 	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ indigent.user.profile.cni_recto.url }}' height='300' />">
 	  CNI Recto

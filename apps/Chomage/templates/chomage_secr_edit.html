@@ -3,6 +3,7 @@
 {% block main %}
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+	<div style="text-transform: uppercase;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
@@ -10,6 +11,8 @@
 		<strong>MUNICIPALITE DE {{ chomage.zone.commune.province }}</strong><br/>
 		<strong>COMMUNE URBAINE DE {{ chomage.zone.commune }}</strong><br/>
 		<strong><u>ZONE DE {{ chomage.zone.name }}</u></strong><br/>
+	</div>
+
 		<p style="text-align: center;"><strong><u>ATTESTATION DE chomage N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>
 			Je soussigné, {{chomage.user.last_name}}, Chef de Zone {{ chomage.zone.name }}, atteste par la présente que {{chomage.user.first_name}} {{chomage.user.last_name}} fille/fils de {{chomage.user.profile.father}} et de {{ chomage.user.profile.mother}}, originaire de la Colline {{chomage.user.profile.colline_natal}}, Commune {{chomage.user.profile.commune_natal}}, Province {{ chomage.user.profile.province_natal }}, résidant actuellement dans la Municipalité de {{ chomage.zone.commune.province }} à l’adresse ci-après Commune : {{ chomage.zone.commune}}, Q. {{chomage.user.profile.quarter}}, C.N.I : {{chomage.user.profile.CNI }} délivrée à {{chomage.user.profile.commune_natal}}, le {{chomage.date_delivrated}} Matricule {{chomage.date_delivrated}}, s’est présentée personnellement devant nous pour nous déclarer qu’elle est encore en chomage {{ chomage.anneeEnChomage }}.
@@ -23,9 +26,9 @@
 		<tr>
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ chomage.date_delivrated }}</strong></p>
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ chomage.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ chomage.user.last_name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ chomage.user.zone.leaderFullName</strong></p>
 		</td>
 		</tr>
 		</tbody>

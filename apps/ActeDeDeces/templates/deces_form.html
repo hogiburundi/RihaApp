@@ -3,31 +3,44 @@
 {% block main %}
 {% if preview %}
 <div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ deces.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ deces.zone.commune }}</strong><br/>
-		<strong>ZONE DE {{ deces.zone.name }}</strong><br/>
-		<strong><u>BUREAU D’ETAT CIVIL</u></strong><br/><br><br>
-			
-		<strong>ACTE   №    : ...</strong><br>
-
-		<strong>VOLUME № 	: ...</strong><br><br>   <br>                                      
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black; ">
+		<div style="text-transform: uppercase;">
+			<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+			<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+			<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+			<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+			<strong>MUNICIPALITE DE {{ deces.zone.commune.province }}</strong><br/>
+			<strong>COMMUNE URBAINE DE {{ deces.zone.commune }}</strong><br/>
+			<strong>ZONE DE {{ deces.zone.name }}</strong><br/>
+			<strong><u>BUREAU D’ETAT CIVIL</u></strong><br/><br><br> <br>
+			<strong> 
+				<table>
+				<tbody>
+				<tr>
+				<td>ACTE   № </td>
+				<td>:{{deces.acte}}</td>
+				</tr>
+				<tr>
+				<td>VOLUME № </td>
+				<td>: {{deces.volume}}</td>
+				</tr>	
+				</tbody>
+				</table>	
+			</strong>
+			<br><br>  <br>  
+		</div>                                    
 		<p style="text-align: center;"><strong><u>EXTRAIT D’ACTE DE DECES</u></strong></strong></p>
 		<p>
-			L’an {{deces.annee}}, le {{deces.jour}}  jour du mois d’{{deces.mois}}, est décédée à {{deces.zone.commune.province}}, le nommé {{deces.user.first_name}} {{deces.user.last_name}}, âgé de {{deces.age}} ans, {{deces.user.profile.job}}, de nationalité {{ deces.user.profile.nationnalite }}, fils de {{ deces.user.profile.father }} et de  {{ deces.user.profile.mother }}, ayant résidé de son vivant dans la Municipalité de {{deces.zone.commune.province}}, à l’adresse ci-après : {{deces.zone.name}}.<br><br>
+			{{deces.dateString}},  est décédée à {{deces.zone.commune.province}}, le nommé {{deces.defunt.fullName}} , âgé de {{deces.defunt.age_user}} ans, profession {{deces.defunt.job}}, de nationalité {{ deces.defunt.nationnalite }}, fils de {{ deces.defunt.father }} et de  {{ deces.defunt.mother }}, ayant résidé de son vivant dans la Municipalité de {{deces.zone.commune.province}}, à l’adresse ci-après : {{deces.zone.name}}.<br><br>
 
-			Le défunt  était né à {{ deces.user.profile.colline_natal }},  et était 
-			{% if deces.user.profile.is_married %}
+			Le défunt  était né à {{ deces.defunt.quarter }},  et était 
+			{% if deces.defunt.is_married %}
 				marrié(e)
 			{% else %}
 				célibataire
 			{% endif %}.<br>
 		</p>
-
+		<br><br><br>
 		<table style="width: 588px;">
 		<tbody>
 		<tr>
@@ -35,7 +48,7 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ deces.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ deces.user.first_name }} {{ deces.user.last_name }}</strong></p>
+		<p style="text-align: center;"><strong>{{ deces.zone.leaderFullName }} </strong></p>
 		</td>
 		</tr>
 		</tbody>

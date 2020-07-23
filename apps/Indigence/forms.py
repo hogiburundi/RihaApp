@@ -19,9 +19,17 @@ class DocumentForm(forms.ModelForm):
                     'list':'quarters'}),
         label = 'Residence Quarter')
 
+
+    sous_couvert = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder': 'sous couvert', 
+                    'class': 'form-control',
+                    'list':'quarters'}),
+        label = 'Sous couvert')
+
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter")
+        fields = ("zone", "residence_quarter", 'sous_couvert')
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -42,12 +50,3 @@ class DocumentForm(forms.ModelForm):
 
 
 
-class SousCouvertForm(forms.Form):
-
-    fullname_child      = forms.CharField(
-        label="Nom&Prenom", 
-        max_length=100, 
-        widget=forms.TextInput(attrs={'class':'form-control',
-                                      'placeholder':'nom et prenom sous_couvert'}))
-
-ChildFormset = formset_factory(SousCouvertForm, extra=1)

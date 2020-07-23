@@ -3,34 +3,51 @@
 {% block main %}
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ marriage.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ marriage.zone.commune }}</strong><br/>
-		<strong>ZONE DE {{ marriage.zone.name }}</strong><br/>
-		<strong><u>BUREAU D’ETAT CIVIL</u></strong>
-		<br>
-		<strong>ACTE № 		: ...</strong>
-		<strong>VOLUME № 	: ...</strong>
+		<div style="text-transform: uppercase;">
+			<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+			<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+			<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+			<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+			<strong>MUNICIPALITE DE {{ marriage.zone.commune.province }}</strong><br/>
+			<strong>COMMUNE URBAINE DE {{ marriage.zone.commune }}</strong><br/>
+			<strong>ZONE DE {{ marriage.zone.name }}</strong><br/>
+			<strong><u>BUREAU D’ETAT CIVIL</u></strong><br/><br><br> <br>
+			<strong> 
+				<table>
+				<tbody>
+				<tr>
+				<td>ACTE   № </td>
+				<td>:{{marriage.acte}}</td>
+				</tr>
+				<tr>
+				<td>VOLUME № </td>
+				<td>: {{marriage.volume}}</td>
+				</tr>	
+				</tbody>
+				</table>	
+			</strong>
+			<br><br>  <br>  
+		</div>    
 		<br><br>
-		<p style="text-align: center;"><strong><u>ATTESTATION DE marriage N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p style="text-align: center;"><strong><u>ATTESTATION DE Mariage N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>
-			L’an {{marriage.year}}, le {{marriage.jour}} jour du mois  de {{marriage.mois}}, ont contracté mariage devant nous, le nommé {{marriage.user.first_name}} {{ marriage.user.last_name}}, fils de {{marriage.user.profile.father}} et de {{marriage.user.profile.mother}}, âgé de {{marriage.age}} ans, {{marriage.user.profile.job}}, résidant à {{marriage.zone.commune.province}}, de nationalité {{marriage.user.profile.nationalite}} et {{marriage.nom_prenom_epouse}} , fille de {{marriage.nom_prenom_pere_epouse}} et de {{nom_prenom_mere_epouse}} , âgée de {{marriage.age_epouse }}ans, Profession {{marriage.job_epouse}} , résidant à {{marriage.residence_epouse}}, de nationalité {{marriage.nationalite_epouse}}.     
+		 {{marriage.dateString}}, ont contracté mariage devant nous, le nommé {{marriage.user.first_name}} {{ marriage.user.last_name}}, fils de {{marriage.user.profile.father}} et de {{marriage.user.profile.mother}}, âgé de {{marriage.user.profile.birthdate.year}} ans, profession  {{marriage.user.profile.job}}, résidant à {{marriage.user.profile.quarter.name}}, de nationalité 
+		 {{marriage.user.profile.nationnalite}} 
+
+		 et 
+
+		 {{marriage.conjoint.fullName}} , fille de {{marriage.conjoint.father}} et de {{marriage.conjoint.mother}} , âgée de {{marriage.conjoint.birthdate.year }} ans, Profession {{marriage.conjoint.job}} , résidant à {{marriage.conjoint.quarter.name}}, de nationalité {{marriage.conjoint.nationnalite}}.     
 
 		</p>
-
-
 		<p>&nbsp;</p>
 		<table style="width: 588px;">
 		<tbody>
 		<tr>
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today.today }}</strong></p>
 		<p style="text-align: center;"><strong>POUR EXTRAIT CERTIFIE CONFORME</strong></p>
-		<p style="text-align: center;"><strong>{{ marriage.user.first_name }} {{ marriage.user.last_name }}</strong></p>
+		<p style="text-align: center;"><strong>{{ marriage.zone.leaderFullName }} </strong></p>
 		</td>
 		</tr>
 		</tbody>

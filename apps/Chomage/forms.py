@@ -15,9 +15,9 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control',
                     'list':'quarters'}),
         label = 'Residence Quarter')
-    anneeEnChomage = forms.CharField( 
-        widget=forms.TextInput(
-            attrs={'placeholder':'annee en chiffre ',
+    anneeEnChomage = forms.IntegerField( 
+        widget=forms.NumberInput(
+            attrs={'placeholder':'Depuis quand en chomage  ',
                     'class':'form-control'}),
         label='Annee')
 

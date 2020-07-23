@@ -61,9 +61,9 @@ class PriceHistory(models.Model):
 
 
 class Child(models.Model):
-	document       = models.ForeignKey(Document, on_delete = models.CASCADE)
-	fullname_child = models.CharField(max_length = 50)
+	document       = models.ForeignKey(Document, on_delete = models.PROTECT, related_name = 'child_set')
+	name = models.CharField(max_length = 50)
 	age            = models.CharField(max_length = 50)
 
 	def __str__(self):
-		return self.fullname_child
+		return self.name

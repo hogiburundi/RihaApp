@@ -3,17 +3,33 @@
 {% block main %}
 {% if preview %}
 <div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ vie.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ vie.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ vie.zone.name }}</u></strong><br/>
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black; ">
+		<div style="text-transform: uppercase;">
+			<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+			<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+			<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+			<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+			<strong>MUNICIPALITE DE {{ vie.zone.commune.province }}</strong><br/>
+			<strong>COMMUNE URBAINE DE {{ vie.zone.commune }}</strong><br/>
+			<strong><u>ZONE DE {{ vie.zone.name }}</u></strong>
+		</div> <br><br><br>
+
 		<p style="text-align: center;"><strong><u>ATTESTATION DE VIE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		
 		<p>
-			Je soussigné, {{vie.user.first_name }} {{ vie.user.last_name }}, Chef de Zone {{ vie.zone.name }}, atteste par la présente que {{vie.user.first_name}} {{vie.user.last_name}} fille/fils de {{vie.user.profile.father}} et de {{ vie.user.profile.mother}}, originaire de la Colline {{vie.user.profile.quarter}}, Commune {{vie.zone.commune}}, Province {{ vie.zone.commune.province }}, résidant actuellement dans la Municipalité de {{ vie.zone.commune.province }} à l’adresse ci-après Commune : {{ vie.zone.commune}}, Q. {{vie.user.profile.quarter}}, C.N.I : {{vie.user.profile.CNI }} délivrée à {{vie.zone.commune}}, le {{vie.date_delivrated}} Matricule {{vie.date_delivrated}}, s’est présentée personnellement devant nous pour nous déclarer qu’elle est encore en vie.
+			Je soussigné, {{vie.zone.leaderFullName}}, Chef de Zone {{ vie.zone.name }}, atteste par la présente que {% if vie.user.gender == Homme %}
+				{{ vie.user.first_name }} {{ vie.user.last_name }}, fils 
+			{% else %}
+				{{ vie.user.first_name }} {{ vie.user.last_name }}, fille 
+			{% endif %}  de {{vie.user.profile.father}} et de {{ vie.user.profile.mother}}, originaire de la Colline {{vie.user.profile.quarter}}, Commune {{vie.zone.commune}}, Province {{ vie.zone.commune.province }}, résidant actuellement dans la Municipalité de {{ vie.zone.commune.province }} à l’adresse ci-après Commune : {{ vie.zone.commune}}, Q. {{vie.user.profile.quarter}}, C.N.I : {{vie.user.profile.CNI }} délivrée à {{vie.user.profile.place_delivrated}}, le {{vie.user.profile.date_delivrated}} 
+
+			{% if vie.user.profile.job == fonctionnaire %}
+				Matricule {{vie.matricule}}
+			{% else %}
+				
+			{% endif %}
+
+			, s’est présentée personnellement devant nous pour nous déclarer qu’elle est encore en vie.
 
 		</p>
 
@@ -27,7 +43,7 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ vie.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ vie.user.first_name }} {{ vie.user.last_name }}</strong></p>
+		<p style="text-align: center;"><strong>{{vie.zone.leaderFullName}}</strong></p>
 		</td>
 		</tr>
 		</tbody>

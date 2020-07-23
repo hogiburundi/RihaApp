@@ -15,10 +15,15 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control',
                     'list':'quarters'}),
         label = 'Residence Quarter')
-
+    matricule = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder' :'optional',
+                     'class': 'form-control'}),
+        label = 'Matrcule', required=False)
+ 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter")
+        fields = ("zone", "residence_quarter", 'matricule')
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -36,3 +41,10 @@ class DocumentForm(forms.ModelForm):
             return quarter
         except Exception as e:
             raise forms.ValidationError("this quarter is unknown")
+
+    def clean_matricule(self, *arg,**kwargs):
+        try:
+            name = self.cleaned_data.get("matricule")
+            return name
+        except:
+            raise forms.ValidationError("this matricule is unknown")

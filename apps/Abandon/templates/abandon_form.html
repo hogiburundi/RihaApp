@@ -4,6 +4,7 @@
 {% if preview %}
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<div style="text-transform: uppercase;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
@@ -12,15 +13,15 @@
 		<strong>COMMUNE URBAINE DE {{ abandon.zone.commune }}</strong><br/>
 		<strong><u>ZONE DE {{ abandon.zone.name }}</u></strong><br/><br><br>
 		<p style="text-align: center;"><strong>ATTESTATION D'ABANDON </strong></p> <br>
-			
+		</div>	
 		<p>
-			Je soussigné, <strong>{{ abandon.user.last_name}}</strong>, Chef de Zone <strong> {{abandon.zone}}</strong>, atteste par la présente que l'(le, la) <strong> {{abandon.objet_abandon }}</strong> a été trouvé abandonner en Commune <strong> {{abandon.zone.commune }}</strong>, Quartier <strong> {{abandon.residence_quarter }}</strong> en date du <strong>{{ abandon.date_delivrated}}</strong>.<br><br>
+			Je soussigné, <strong>{{ abandon.zone.leaderFullName}}</strong>, Chef de Zone <strong> {{abandon.zone.name}}</strong>, atteste par la présente que le <strong> {{abandon.objet_abandon }}</strong> a été trouvé abandonner en commune <strong> {{abandon.zone.commune.name }}</strong>, Quartier <strong> {{abandon.residence_quarter.name }}</strong> en date du <strong>{{ abandon.date_delivrated}}</strong>.<br><br>
 
-			L’enquête que nous avons commence à mener le même jour pour retrouver la famille de cet enfant a été sans succès.
+			L’enquête que nous avons commencé à mener le même jour pour retrouver la famille de cet enfant a été sans succès.
 
-			Nous déclarons par conséquent cet(te) <strong> {{abandon.objet_abandon }}</strong> abandonné et le confier à <strong>{{abandon.tuteurAcueillantObjetAbandon}}</strong>.
+			Nous déclarons par conséquent ce <strong> {{abandon.objet_abandon }}</strong> abandonné et le confions à la <strong>{{abandon.tuteurAcueillantObjetAbandon}}</strong>.
 		</p>
-			<br><br><br><br>
+			<br><br><br>
 		<table style="width: 588px;">
 		<tbody>
 		<tr>
@@ -28,7 +29,7 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ abandon.date }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ abandon.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ abandon.user.last_name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ abandon.zone.leaderFullName}}</strong></p>
 		</td>
 		</tr>
 		</tbody>

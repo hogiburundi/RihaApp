@@ -16,85 +16,45 @@ class DocumentForm(forms.ModelForm):
                     'list':'quarters'}),
         label = 'Residence Quarter')
 
-
-    age_epoux = forms.CharField(
+    conjoint    = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Tapez l\'age  en lettre' , 
-                    'class': 'form-control'}),
-            label = 'age epoux') 
-    age_epouse = forms.CharField(
-            widget = forms.TextInput(
-                attrs = {'placeholder': 'Tapez l\'age  en lettre' , 
+            attrs = {'placeholder' : 'Le numero de Cni epoux/epouse',
+                     'class': 'form-control'}),
+        label = 'Conjoint')
+
+
+    date = forms.DateField(
+        widget = forms.SelectDateWidget(
+            attrs = {'placeholder': 'date' , 
+                    'class': 'form-control',
+                    'style': 'display:inline-block; width: auto'}),
+            label = 'date')
+
+            
+    acte = forms.IntegerField(
+            widget = forms.NumberInput(
+                attrs = {'placeholder': 'numero d\'acte' , 
                         'class': 'form-control'}),
-                label = 'age epouse') 
+                label = 'Acte')
 
-    nom_prenom_epouse= forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'nom et prenom de l\'epouse' , 
-                    'class': 'form-control'}),
-            label = 'nom et prenom de l\'epouse')
-
-    nom_prenom_pere_epouse  = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'nom et prenom du pere d l\'epouse' , 
-                    'class': 'form-control'}),
-            label = 'nom et prenom du pere d l\'epouse')
-    nom_prenom_mere_epouse  = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'nom et prenom du mere d l\'epouse' , 
-                    'class': 'form-control'}),
-            label = 'nom et prenom du mere')
-
-    job_epouse         = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'job' , 
-                    'class': 'form-control'}),
-            label = 'job')
-    residence_epouse   = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'residence' , 
-                    'class': 'form-control'}),
-            label = 'Residence')
-    # nationalite_epouse = forms.CharField(
-    #     widget = forms.TextInput(
-    #         attrs = {'placeholder': 'nationalite' , 
-    #                 'class': 'form-control'}),
-    #         label = 'Nationalite de l\'epouse')
-
-    year = forms.CharField(
-            widget = forms.TextInput(
-                attrs = {'placeholder': 'Tapez l\'annee  en lettre' , 
+            
+    volume = forms.IntegerField(
+            widget = forms.NumberInput(
+                attrs = {'placeholder': 'numero de volume', 
                         'class': 'form-control'}),
-            label = 'Year') 
+                label = 'Volume')
 
-    jour = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Tapez le quantieme jour du mois en lettre' , 
-                    'class': 'form-control'}),
-            label = 'Jour')    
-
-    mois = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Tapez le mois en lettre' , 
-                    'class': 'form-control'}),
-            label = 'Mois')
-        
 
     class Meta:
         model = Document
         fields = (
             "zone",
              "residence_quarter",
-             "year",
-             "jour",
-             "mois",
-             "age_epoux",
-             "age_epouse",
-             "nom_prenom_epouse",
-             "nom_prenom_pere_epouse",
-             "nom_prenom_mere_epouse",
-             "job_epouse",
-             "residence_epouse"
+             'acte',
+             'volume',
+             'conjoint',
+             'date'
+
         )
 
     def clean_zone(self, *arg,**kwargs):
@@ -113,3 +73,12 @@ class DocumentForm(forms.ModelForm):
             return quarter
         except Exception as e:
             raise forms.ValidationError("this quarter is unknown")
+
+
+    def clean_conjoint(self, *arg, **kwargs):
+        try:
+            CNI = self.cleaned_data.get('conjoint')
+            conjoint = Profile.objects.get(CNI = CNI)
+            return conjoint
+        except Exception as e:
+            raise forms.ValidationError("Desolee, le conjoint  n'existe pas!! ")

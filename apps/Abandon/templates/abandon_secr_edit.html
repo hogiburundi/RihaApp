@@ -3,6 +3,7 @@
 {% block main %}
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+	<div style="text-transform: uppercase;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
@@ -10,8 +11,10 @@
 		<strong>MUNICIPALITE DE {{ abandon.zone.commune.province }}</strong><br/>
 		<strong>COMMUNE URBAINE DE {{ abandon.zone.commune }}</strong><br/>
 		<strong>ZONE DE {{ abandon.zone.name }}</strong><br/><br><br>
+	</div>
+
 		<p style="text-align: center;"><strong>ATTESTATION D'ABANDON </strong></p> <br>
-			
+		
 		<p>
 			Je soussigné, <strong>{{ abandon.zone.leader}}</strong>, Chef de Zone <strong> {{abandon.zone}}</strong>, atteste par la présente que l'(le, la) <strong> {{abandon.objet_abandon }}</strong> a été trouvé abandonner en Commune <strong> {{abandon.zone.commune }}</strong>, Quartier <strong> {{abandon.quarter }}</strong> en date du <strong>{{ abandon.date_abandon}}</strong>.<br><br>
 
@@ -25,9 +28,9 @@
 		<tr>
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ abandon.date }}</strong></p>
+		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ abandon.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ abandon.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>{{ abandon.user.zone.leaderFullName}}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -36,13 +39,13 @@
 	</div>
 <div style="position: fixed; right: 0px; top:40%">
   <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_recto.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ abandon.user.profile.cni_recto.url }}' height='300' />">
 	  CNI Recto
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_verso.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ abandon.user.profile.cni_verso.url }}' height='300' />">
 	  CNI verso
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ id_compl.payment_method }} : <i>{{ id_compl.payment_serial }}</i></b>">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ abandon.payment_method }} : <i>{{ abandon.payment_serial }}</i></b>">
 	  Payements
 	</button>
 	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">

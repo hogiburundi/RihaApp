@@ -4,7 +4,9 @@
 
 2) le fichier ```__init__.py``` doit comptenir une ligne:
 
-```APP_NAME = "Nom de l'Appliction" #exemple: Identité Complète```
+```python
+APP_NAME = "Nom de l'Appliction" #exemple: Identité Complète
+```
 
 2) le fichier urls
 	- doit ne pas être référencé manuellement dans urls principal
@@ -22,30 +24,31 @@
 3) le model doit contenir les models Document et PriceHistory.
 
 4) le model ```Document``` doit contenir les champs:
-	```
-	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(default=False)
-	ready = models.BooleanField(default=False)
-	```
+
+```python
+rejection_msg = models.TextField(null=True, blank=True)
+secretary_validated = models.BooleanField(default=False)
+ready = models.BooleanField(default=False)
+```
 	
 	elle doit aussi avoir les methodes simple suivantes
-```
-	def requirements():
-		return ["cahier de menage",...]
+```python
+def requirements():
+	return ["cahier de menage",...]
 
-	def price(self):
-		return PriceHistory.object.filter(zone=self.zone).last().total() # +
-		# PriceHistory.object.filter(commune=self.commune).last().total() ...
+def price(self):
+	return PriceHistory.object.filter(zone=self.zone).last().total() # +
+	# PriceHistory.object.filter(commune=self.commune).last().total() ...
 
-	def onlyPaid(): # /!\ sans self
-		return Document.objects.filter(zone_payment=True)
-		# tout les filter necessaire en fait pas seulement zone
-		# si il y a pas de payments requises : return Document.objects.all()
+def onlyPaid(): # /!\ sans self
+	return Document.objects.filter(zone_payment=True)
+	# tout les filter necessaire en fait pas seulement zone
+	# si il y a pas de payments requises : return Document.objects.all()
 ```
 
 4) le model price history doit comptenir une methode
-```
-	def total(self):
-		return self.zone_price # + self.commune_price ...
+```python
+def total(self):
+	return self.zone_price # + self.commune_price ...
 ```
 plusieres champs peuvent faire partie de l'application comme ```date, zone, zone_price, commune, commune_price...```

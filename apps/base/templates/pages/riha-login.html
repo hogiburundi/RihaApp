@@ -2,20 +2,10 @@
 {% load static %}
 
 {% block menu %}
-
-
 {% endblock %}
-
-
-
-
 {% block body-line %}
-
     <body class="vertical-layout vertical-menu 1-column  bg-full-screen-image blank-page blank-page" data-open="click" data-menu="vertical-menu" data-color="bg-gradient-x-purple-blue" data-col="1-column">
-    
 {% endblock %}
-
-
 {% block main-content %}
 
     <!-- BEGIN: Content-->
@@ -24,39 +14,27 @@
             </div>
             <div class="content-body">
                 <section class="flexbox-container">
-
-
-
                     <div class="col-12 d-flex align-items-center justify-content-center">
 
                         <div class="col-lg-4 col-md-6 col-10 box-shadow-2 p-0">
                             <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
-
- 
-
-                                                              
                                     <div class="card-header border-0 ">
                                         <div class="text-center mb-1">
                                             <img class="rounded-circle" src="{% static 'app-assets/images/profiles/profile-170-170.png' %}" alt="branding logo">
                                         </div>
                                     </div>
-                             
-
-
-
                                 <div class="card-content">
-
-
                                     <div class="card-body">
-                                        <form class="form-horizontal" action="index.html" novalidate>
+                                        <form class="form-horizontal" method="POST" action="." novalidate>
+                                            {% csrf_token %}
                                             <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="text" class="form-control round" id="user-name" placeholder="Your Username" required>
+                                                <input type="text" class="form-control round" name="username" id="user-name" placeholder="Your Username" required>
                                                 <div class="form-control-position">
                                                     <i class="ft-user"></i>
                                                 </div>
                                             </fieldset>
                                             <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="password" class="form-control round" id="user-password" placeholder="Enter Password" required>
+                                                <input type="password" class="form-control round" name="password" id="user-password" placeholder="Enter Password" required>
                                                 <div class="form-control-position">
                                                     <i class="ft-lock"></i>
                                                 </div>
@@ -76,7 +54,8 @@
 
 
 
-                                    <p class="card-subtitle text-muted text-right font-small-3 mx-2 my-1"><span>Don't have an account ? <a href="register.html" class="btn btn-outline-primary round"><i class="ft-navigation"></i> Sign Up</a></span></p>
+                                    <p class="card-subtitle text-muted text-right font-small-3 mx-2 my-1">
+                                        <span>Don't have an account ? <a href="{% url 'register' %}" class="btn btn-outline-primary round"><i class="ft-navigation"></i> Sign Up</a></span></p>
                                 </div>
                             </div>
                         </div>

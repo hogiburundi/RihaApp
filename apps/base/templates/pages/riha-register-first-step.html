@@ -1,34 +1,20 @@
 {% extends 'pages/riha-base.html' %}
 {% load static %}
-
 {% block css-files-unique-for-this-page %} 
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/steps.css' %}">
 {% endblock%} 
-
 {% block menu %}
-
-
 {% endblock %}
-
-
-
 {% block body-line %}
 
 <body class="vertical-layout 1-column bg-full-screen-image pace-done menu-hide vertical-overlay-menu" data-open="click" data-menu="vertical-menu" data-color="bg-primary" data-col="1-column">
 <div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
-  
   <div class="pace-progress-inner"></div>
 </div>
 <div class="pace-activity"></div></div>
-
-    
 {% endblock %}
-
-
 {% block main-content %}
-
- 
 <section class="container">
     <div class="app-content content">
         <div class="content-wrapper">
@@ -40,8 +26,6 @@
                     </h3>
                 </div>
             </div>
-
-
             <div class="content-body">
                 <!-- Form wizard with icon tabs section start -->
                     <div class="row">
@@ -62,9 +46,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-                                        <form action="#" >
+                                        <form action="." method="POST">
+                                            <a href="{% url 'register' %}"
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">

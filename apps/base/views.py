@@ -90,7 +90,7 @@ def disconnect(request):
 
 
 class Connexion(View):
-	template_name = 'login.html'
+	template_name = 'pages/riha-login.html'
 	next_p = "home"
 
 	def get(self, request, *args, **kwargs):
@@ -116,7 +116,7 @@ class Connexion(View):
 		return render(request, self.template_name, locals())
 
 class Register(View):
-	template_name = 'register.html'
+	template_name = 'pages/riha-register-first-step.html'
 	page_number = 1
 
 	def get(self, request, *args, **kwargs):

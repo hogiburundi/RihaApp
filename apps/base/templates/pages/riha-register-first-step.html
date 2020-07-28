@@ -47,13 +47,13 @@
                                             </div>
                                         </div>
                                         <form action="." method="POST">
-                                            <a href="{% url 'register' %}"
+                                            {% csrf_token %}
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label for="contact">
                                                             Phone number :</label>
-                                                            <input type="text" class="form-control" id="contact">
+                                                            {{ form.telephone }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -62,14 +62,14 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">First Name</label>
-                                                            <input type="text" class="form-control" id="name">
+                                                            {{ form.firstname }}
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="lastname">Last Name</label>
-                                                            <input type="text" class="form-control" id="lastname">
+                                                            {{ form.lastname }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,14 +78,14 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="password">Password</label>
-                                                            <input type="password" class="form-control" id="password">
+                                                            {{ form.password }}
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="confirm-password">Confirm Password</label>
-                                                            <input type="password" class="form-control" id="confirm-password">
+                                                            {{ form.password2 }}
                                                         </div>
                                                     </div>
                                                 </div>

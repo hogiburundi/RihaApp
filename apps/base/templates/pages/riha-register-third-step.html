@@ -58,31 +58,45 @@
                                                     <ul id="progressbar">
                                                         <li id="account" class="active"><strong>Compte</strong></li>
                                                         <li id="personal" class="active"><strong>Informations Personnelles</strong></li>
-                                                        <li id="images" class="active"><strong>Images</strong></li>
+                                                        <li id="images" class="active"><strong>CNI</strong></li>
                                                     </ul> 
                                                 </div>
                                             </div>
                                         </div><!-- end steps -->
-
-
-
-
-                                            <form>
-
+                                            <form method="POST" enctype="multipart/form-data" action=".">
+                                                {% csrf_token %}
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="emailAddress3">Face 1</label>
-                                                            <input type="file" class="form-control" id="emailAddress3">
+                                                            <label for="emailAddress3">CNI</label>
+                                                            {{ form.CNI }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Date</label>
+                                                            {{ form.date_delivrated }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Place</label>
+                                                            {{ form.place_delivrated }}
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Face 1</label>
+                                                            {{ form.cni_recto }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="emailAddress3">Face 2</label>
-                                                            <input type="file" class="form-control" id="emailAddress3">
+                                                            {{ form.cni_verso }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -95,10 +109,7 @@
 
                                                 <button class="btn btn-warning"><i class="ft-slash"></i> Reinitialiser</button>
                                                 </div>
-
                                         </form>
-
-
                                     </div>
                                 </div>
                             </div>

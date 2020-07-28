@@ -1,6 +1,6 @@
 import os, importlib
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from django.contrib.auth import login, logout, authenticate 
 from django.contrib import messages
@@ -41,7 +41,7 @@ for directory in os.listdir('apps'):
 		MODULES.append(directory, )
 
 class Home(View):
-	template_name = "index.html"
+	template_name = 'pages/riha-dashboard.html'
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
@@ -150,7 +150,7 @@ class Register(View):
 		return render(request, self.template_name, locals())
 
 class ProfileView(View):
-	template_name = 'form.html'
+	template_name = 'pages/riha-register-second-step.html'
 	next_p = "register2"
 	page_number = 2
 
@@ -167,7 +167,6 @@ class ProfileView(View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = Quarter.objects.all()
 		profile = Profile.objects.get_or_create(user=request.user)[0]
 		form = ProfileForm(request.POST, instance=profile)
 		page_number = self.page_number
@@ -183,12 +182,12 @@ class ProfileView(View):
 		return render(request, self.template_name, locals())
 
 class Register2(View):
-	template_name = 'form.html'
+	template_name = 'pages/riha-register-third-step.html'
 	next_p = "home"
 	page_number = 3
 
 	def get(self, request, *args, **kwargs):
-		form = Register2Form()
+		form = Register2Form(instance=request.user.profile)
 		page_number = self.page_number
 		try:
 			self.next_p = request.GET["next"]
@@ -197,7 +196,7 @@ class Register2(View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		form = Register2Form(request.POST, request.FILES)
+		form = Register2Form(request.POST, request.FILES, instance=request.user.profile)
 		page_number = self.page_number
 		if form.is_valid():
 			form.save()

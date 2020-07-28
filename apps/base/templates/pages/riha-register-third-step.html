@@ -1,0 +1,335 @@
+{% extends 'pages/riha-base.html' %}
+{% load static %}
+
+{% block css-files-unique-for-this-page %} 
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/steps.css' %}">
+{% endblock%} 
+
+{% block menu %}
+
+
+{% endblock %}
+
+
+
+{% block body-line %}
+
+<body class="vertical-layout 1-column bg-full-screen-image pace-done menu-hide vertical-overlay-menu" data-open="click" data-menu="vertical-menu" data-color="bg-primary" data-col="1-column">
+<div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+
+    
+{% endblock %}
+
+
+{% block main-content %}
+
+ 
+<section class="container">
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-wrapper-before"></div>
+            <div class="content-header row">
+                <div class="content-header-left col-md-4 col-12 mb-2">
+                    <h3 class="content-header-title font-medium-3">
+                        <i class="ft-log-in"></i> ENREGISTREMENT
+                    </h3>
+                </div>
+            </div>
+
+
+            <div class="content-body">
+                <!-- Form wizard with icon tabs section start -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+
+
+                                        <div class="row"> <!-- steps -->
+                                            <div class="col-md-12 mx-0">
+                                                <div id="msform">
+                                                    <!-- progressbar -->
+                                                    <ul id="progressbar">
+                                                        <li id="account" class="active"><strong>Compte</strong></li>
+                                                        <li id="personal" class="active"><strong>Informations Personnelles</strong></li>
+                                                        <li id="images" class="active"><strong>CNI</strong></li>
+                                                    </ul> 
+                                                </div>
+                                            </div>
+                                        </div><!-- end steps -->
+                                            <form method="POST" enctype="multipart/form-data" action=".">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">CNI</label>
+                                                            {{ form.CNI }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Date</label>
+                                                            {{ form.date_delivrated }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Place</label>
+                                                            {{ form.place_delivrated }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Face 1</label>
+                                                            {{ form.cni_recto }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="emailAddress3">Face 2</label>
+                                                            {{ form.cni_verso }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <hr/>
+                                                <div class="text-right">
+                                                    
+                                                <button class="btn btn-info"><i class="ft-navigation"></i> Envoyer</button>
+
+                                                <button class="btn btn-warning"><i class="ft-slash"></i> Reinitialiser</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>               
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Chameleon Admin is a modern Bootstrap 4 webapp &amp; admin dashboard html template with a large number of components, elegant design, clean and organized code.">
+    <meta name="keywords" content="admin template, Chameleon admin template, dashboard template, gradient admin template, responsive admin template, webapp, eCommerce dashboard, analytic dashboard">
+    <meta name="author" content="ThemeSelect">
+    <title>Form Wizard - Chameleon Admin - Modern Bootstrap 4 WebApp & Dashboard HTML Template + UI Kit</title>
+    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i%7CComfortaa:300,400,700" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/pickers/daterange/daterangepicker.css">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/components.css">
+    <!-- END: Theme CSS-->
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/core/colors/palette-gradient.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/plugins/forms/wizard.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/plugins/pickers/daterange/daterange.css">
+    <!-- END: Page CSS-->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!-- END: Custom CSS-->
+
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu 1-column bg-full-screen-image" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="1-column">
+
+
+
+  
+
+    <!-- BEGIN: Content-->
+
+    <section class="container">
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-wrapper-before"></div>
+            <div class="content-header row">
+                <div class="content-header-left col-md-4 col-12 mb-2">
+                    <h3 class="content-header-title">REGISTER</h3>
+                </div>
+                <div class="content-header-right col-md-8 col-12">
+                    <div class="breadcrumbs-top float-md-right">
+                        <div class="breadcrumb-wrapper mr-1">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#">Forms</a>
+                                </li>
+                                <li class="breadcrumb-item active">Form Wizard
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Form wizard with icon tabs section start -->
+                <section id="icon-tabs">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Form wizard with icon tabs</h4>
+                                    <a class="heading-elements-toggle"><i class="la la-ellipsis-h font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <form action="#" class="icons-tab-steps">
+
+                                            <!-- Step 1 -->
+                                            <h6 ><i class="step-icon ft-home"></i> Step 1</h6>
+
+                                            <fieldset>
+
+
+
+                                            
+
+                                            </fieldset>
+
+                                            <!-- Step 2 -->
+                                            <h6><i class="step-icon ft-file-text"></i>Step 2</h6>
+                                            
+                                            <fieldset>
+                                            </fieldset>
+
+                                            <!-- Step 3 -->
+                                            <h6><i class="step-icon ft-activity"></i>Step 3</h6>
+                                            <fieldset>
+                                            </fieldset>
+
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Form wizard with icon tabs section end -->
+
+
+            </div>
+        </div>
+    </div>
+    </section>
+    <!-- END: Content-->
+
+
+    <!-- BEGIN: Footer--><a class="btn btn-try-builder btn-bg-gradient-x-purple-red btn-glow white" href="https://www.themeselection.com/layout-builder/horizontal" target="_blank">Try Layout Builder</a>
+    <footer class="footer footer-static footer-light navbar-border navbar-shadow">
+        <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">2019 &copy; Copyright <a class="text-bold-800 grey darken-2" href="https://themeselection.com" target="_blank">ThemeSelection</a></span>
+            <ul class="list-inline float-md-right d-block d-md-inline-blockd-none d-lg-block mb-0">
+                <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/" target="_blank"> More themes</a></li>
+                <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/support" target="_blank"> Support</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- END: Footer-->
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="app-assets/vendors/js/extensions/jquery.steps.min.js" type="text/javascript"></script>
+    <script src="app-assets/vendors/js/pickers/dateTime/moment-with-locales.min.js" type="text/javascript"></script>
+    <script src="app-assets/vendors/js/pickers/daterange/daterangepicker.js" type="text/javascript"></script>
+    <script src="app-assets/vendors/js/forms/validation/jquery.validate.min.js" type="text/javascript"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
+    <script src="app-assets/js/core/app.js" type="text/javascript"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="app-assets/js/scripts/forms/wizard-steps.js" type="text/javascript"></script>
+    <!-- END: Page JS-->
+
+</body>
+<!-- END: Body-->
+
+</html>

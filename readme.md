@@ -30,8 +30,9 @@ rejection_msg = models.TextField(null=True, blank=True)
 secretary_validated = models.BooleanField(default=False)
 ready = models.BooleanField(default=False)
 ```
-	
-	elle doit aussi avoir les methodes simple suivantes
+
+elle doit aussi avoir les methodes simple suivantes
+
 ```python
 def requirements():
 	return ["cahier de menage",...]

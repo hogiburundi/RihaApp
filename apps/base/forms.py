@@ -15,15 +15,14 @@ class Register2Form(forms.ModelForm):
 			attrs={'placeholder':'CNI ','class':'form-control'}),
 		label='CNI', required=False)
 	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
-	date_delivrated = forms.DateField(widget=forms.SelectDateWidget(
-			years=range(1990, date.today().year+1),
-			attrs={'placeholder':'date delivrated ', 'class':'form-control',
-			'style':'display:inline-block; width:auto'}),
+	date_delivrated = forms.DateField(widget=forms.TextInput(
+			attrs={'placeholder':'date delivrated ', 'type':'date',
+				'class':'form-control',}),
 		label='Délivrée le', required=False,initial=date.today())
 
 	place_delivrated = forms.CharField(
 		widget=forms.TextInput(
-			attrs={'placeholder':'provice de livraison','class':'form-control'}),
+			attrs={'placeholder':'province de livraison','class':'form-control'}),
 		label='Délivrée à', required=False)
 	cni_recto = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'CNI Picture 1','class':'form-control'}), label='CNI Picture 1')
 	cni_verso = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'CNI Picture 2','class':'form-control'}), label='CNI Picture 2')
@@ -53,10 +52,8 @@ class ProfileForm(forms.ModelForm):
 	father = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Father ','class':'form-control'}), label='Father')
 	mother = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Mother ','class':'form-control'}), label='Mother')
 	birthdate = forms.DateField(
-		widget=forms.SelectDateWidget(
-			years=range(1960, date.today().year),
-			attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
-				'style':'width: auto;display: inline-block;'}),
+		widget=forms.TextInput(
+			attrs={'placeholder':'yyyy-mm-dd ', 'type':'date', 'class':'form-control'}),
 		label='Birthdate')
 	
 	is_married = forms.BooleanField(
@@ -73,15 +70,6 @@ class ProfileForm(forms.ModelForm):
 			attrs={'placeholder':'Example : Hon. Dr. Ir. ','class':'form-control'}),
 		label='Prefix', required=False)
 	
-	def clean_quarter(self, *arg,**kwargs):
-		try:
-			name = self.cleaned_data.get("quarter").split()[0]
-			zone = self.cleaned_data.get("quarter").split()[-1]
-			quarter = Quarter.objects.get(name=name, zone__name=zone)
-			return quarter
-		except Exception as e:
-			raise forms.ValidationError("this quarter is unknown")	
-
 	class Meta:
 		model = Profile
 		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job")

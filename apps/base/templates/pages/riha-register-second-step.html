@@ -1,0 +1,159 @@
+{% extends 'pages/riha-base.html' %}
+{% load static %}
+
+{% block css-files-unique-for-this-page %} 
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/steps.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+{% endblock%} 
+{% block menu %}
+{% endblock %}
+{% block body-line %}
+
+<body class="vertical-layout 1-column bg-full-screen-image pace-done menu-hide vertical-overlay-menu" data-open="click" data-menu="vertical-menu" data-color="bg-primary" data-col="1-column">
+<div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+{% endblock %}
+{% block main-content %}
+<section class="container">
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-wrapper-before"></div>
+            <div class="content-header row">
+                <div class="content-header-left col-md-4 col-12 mb-2">
+                    <h3 class="content-header-title font-medium-3">
+                        <i class="ft-log-in"></i> ENREGISTREMENT
+                    </h3>
+                </div>
+            </div>
+            <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="row"> <!-- steps -->
+                                    <div class="col-md-12 mx-0">
+                                        <div id="msform">
+                                            <!-- progressbar -->
+                                            <ul id="progressbar">
+                                                <li id="account" class="active"><strong>Compte</strong></li>
+                                                <li id="personal" class="active"><strong>Informations Personnelles</strong></li>
+                                                <li id="images"><strong>Images</strong></li>
+                                            </ul> 
+                                        </div>
+                                    </div>
+                                </div><!-- end steps -->
+                                    <form method="POST" action=".">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="gender">Gender:</label>
+                                                    {{ form.gender }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nationality">Nationality</label>
+                                                    {{ form.nationnalite }}
+                                                </div>                                                  
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="quarter">Quarter:</label>
+                                                    {{ form.quarter }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="adress">Adress</label>
+                                                    {{ form.address }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="father">Father</label>
+                                                    {{ form.father }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mother">Mother</label>
+                                                    {{ form.mother }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="birth_year">Birthdate</label>
+                                                    {{ form.birthdate }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="job">job</label>
+                                                    <input type="text" class="form-control" id="job">
+                                                </div>                                                  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="residence-quarter">Residence quarter:</label>
+                                                            {{ form.residence }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="prefix">Prefix</label>
+                                                            {{ form.prefix }}
+                                                        </div>                                                  
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="civil-status">Are you married :</label>
+                                                            {{ form.is_married }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <hr/>
+                                            <div class="text-right">
+                                                <button class="btn btn-info"><i class="ft-navigation"></i> Envoyer</button>
+                                                <button class="btn btn-warning" type="reset"><i class="ft-slash"></i> Reinitialiser</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>               
+            </div>
+        </div>
+    </div>
+
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
+<script>
+    $('#residences').chosen({ width: '100%' });
+    $('#quarters').chosen({ width: '100%' });
+</script>
+    </section>
+{% endblock %}

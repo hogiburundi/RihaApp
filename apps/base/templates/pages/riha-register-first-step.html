@@ -1,0 +1,117 @@
+{% extends 'pages/riha-base.html' %}
+{% load static %}
+{% block css-files-unique-for-this-page %} 
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/steps.css' %}">
+{% endblock%} 
+{% block menu %}
+{% endblock %}
+{% block body-line %}
+
+<body class="vertical-layout 1-column bg-full-screen-image pace-done menu-hide vertical-overlay-menu" data-open="click" data-menu="vertical-menu" data-color="bg-primary" data-col="1-column">
+<div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+{% endblock %}
+{% block main-content %}
+<section class="container">
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-wrapper-before"></div>
+            <div class="content-header row">
+                <div class="content-header-left col-md-4 col-12 mb-2">
+                    <h3 class="content-header-title font-medium-3">
+                        <i class="ft-log-in"></i> ENREGISTREMENT
+                    </h3>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Form wizard with icon tabs section start -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-md-12 mx-0">
+                                                <div id="msform">
+                                                    <!-- progressbar -->
+                                                    <ul id="progressbar">
+                                                        <li id="account" class="active"><strong>Compte</strong></li>
+                                                        <li id="personal"><strong>Informations Personnelles</strong></li>
+                                                        <li id="images"><strong>Images</strong></li>
+                                                    </ul> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form action="." method="POST">
+                                            {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="contact">
+                                                            Phone number :</label>
+                                                            {{ form.telephone }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="name">First Name</label>
+                                                            {{ form.firstname }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="lastname">Last Name</label>
+                                                            {{ form.lastname }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="password">Password</label>
+                                                            {{ form.password }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="confirm-password">Confirm Password</label>
+                                                            {{ form.password2 }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="text-right">
+                                                    
+                                                <button class="btn btn-info"><i class="ft-navigation"></i> Envoyer</button>
+
+                                                <button class="btn btn-warning"><i class="ft-slash"></i> Reinitialiser</button>
+                                                </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+
+
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+
+{% endblock %}
+

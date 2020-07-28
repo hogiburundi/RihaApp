@@ -18,6 +18,7 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control',
                     'list':'profiles'}),
         label = "Nom complet du Défunt")
+    
 
     residence_quarter_DM = forms.CharField(
         widget = forms.TextInput(
@@ -49,18 +50,11 @@ class DocumentForm(forms.ModelForm):
                     'list':'profiles'}),
         label = "2ème Témoin")
 
-    quarter_leader = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Quartier', 
-                    'class': 'form-control', 
-                    'list':'profiles'}),
-        label = "Chef de quartier")
-
     class Meta:
         model = Document
         # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
         fields = ("zone", "dead_man","residence_quarter_DM","DM_date",
-            "first_witness","second_witness","quarter_leader")
+            "first_witness","second_witness")
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -72,8 +66,8 @@ class DocumentForm(forms.ModelForm):
 
     def clean_dead_man(self, *arg, **kwargs):
         try:
-            first_name = self.cleaned_data.get("dead_man").split()[0]
-            last_name = self.cleaned_data.get("dead_man").split()[-1]
+            last_name = self.cleaned_data.get("dead_man").split()[0]
+            first_name = self.cleaned_data.get("dead_man").split()[-1]
             profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
             return profile
         except Exception as e:
@@ -90,8 +84,8 @@ class DocumentForm(forms.ModelForm):
 
     def clean_first_witness(self, *arg, **kwargs):
         try:
-            first_name = self.cleaned_data.get("first_witness").split()[0]
-            last_name = self.cleaned_data.get("first_witness").split()[-1]
+            last_name = self.cleaned_data.get("first_witness").split()[0]
+            first_name = self.cleaned_data.get("first_witness").split()[-1]
             profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
             return profile
         except Exception as e:
@@ -99,21 +93,13 @@ class DocumentForm(forms.ModelForm):
 
     def clean_second_witness(self, *arg, **kwargs):
         try:
-            first_name = self.cleaned_data.get("second_witness").split()[0]
-            last_name = self.cleaned_data.get("second_witness").split()[-1]
+            last_name = self.cleaned_data.get("second_witness").split()[0]
+            first_name = self.cleaned_data.get("second_witness").split()[-1]
             profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
             return profile
         except Exception as e:
             raise forms.ValidationError("unknown user")
 
-    def clean_quarter_leader(self, *arg, **kwargs):
-        try:
-            first_name = self.cleaned_data.get("quarter_leader").split()[0]
-            last_name = self.cleaned_data.get("quarter_leader").split()[-1]
-            profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
 
 
 

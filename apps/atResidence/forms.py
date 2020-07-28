@@ -1,7 +1,7 @@
 from django import forms
 from .models import *
 from apps.base.models import *
-from django.contrib.auth.models import User
+from django import forms
 
 class DocumentForm(forms.ModelForm):    
     zone = forms.CharField(
@@ -10,14 +10,13 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control', 
                     'list':'zones'}),
         label = 'Zone')
+
     residence_quarter = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
         label = 'Residence Quarter')
-
-
 
     first_witness = forms.CharField(
         widget = forms.TextInput(
@@ -33,16 +32,9 @@ class DocumentForm(forms.ModelForm):
                     'list':'witness'}),
         label = "Témoin 1 : ")
 
-    quarter_leader = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'witness', 
-                    'class': 'form-control', 
-                    'list':'witness'}),
-        label = "Chef de Quartier : ")
-
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", "first_witness","second_witness","quarter_leader")
+        fields = ("zone", "residence_quarter", "first_witness","second_witness")
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -74,15 +66,6 @@ class DocumentForm(forms.ModelForm):
         try:
             first_name = self.cleaned_data.get("second_witness").split()[0]
             last_name = self.cleaned_data.get("second_witness").split()[-1]
-            profile = User.objects.get(first_name=first_name, last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
-
-    def clean_quarter_leader(self, *arg, **kwargs):
-        try:
-            first_name = self.cleaned_data.get("quarter_leader").split()[0]
-            last_name = self.cleaned_data.get("quarter_leader").split()[-1]
             profile = User.objects.get(first_name=first_name, last_name=last_name)
             return profile
         except Exception as e:

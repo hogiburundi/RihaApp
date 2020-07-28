@@ -10,7 +10,7 @@
 		- ecocash : {{ document.zone.ecocash }}<br>
 		- bcb : {{ document.zone.bcb }}<br>
 	</div>
-	<form action="{% url payform id_compl %}" method="post" enctype="multipart/form-data" class="new-added-form">
+	<form action="{% url payform document_id %}" method="post" enctype="multipart/form-data" class="new-added-form">
 		{% csrf_token %}
 		{# {% for form in forms %} #}
 			{{ form.as_p }}

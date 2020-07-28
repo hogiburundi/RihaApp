@@ -48,30 +48,23 @@ class DocumentForm(forms.ModelForm):
 
     first_witness = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Mère', 
+            attrs = {'placeholder': 'Témoin 1', 
                     'class': 'form-control', 
                     'list':'profiles'}),
-        label = "Mère de l'enafant")
+        label = "Temoins 1 : ")
 
     second_witness = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Mère', 
+            attrs = {'placeholder': 'Temoin 2', 
                     'class': 'form-control', 
                     'list':'profiles'}),
-        label = "Mère de l'enafant")
-
-    supervisor = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Mère', 
-                    'class': 'form-control', 
-                    'list':'profiles'}),
-        label = "Mère de l'enafant")
+        label = "Témoin 2 : ")
 
     class Meta:
         model = Document
         # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
         fields = ("zone", "residence_quarter","child_name","child_birth",
-            "child_mother","first_witness","second_witness","supervisor")
+            "child_mother","first_witness","second_witness")
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -90,7 +83,7 @@ class DocumentForm(forms.ModelForm):
         except Exception as e:
             raise forms.ValidationError("this quarter is unknown")
 
-    def clean_mother(self, *arg, **kwargs):
+    def clean_child_mother(self, *arg, **kwargs):
         try:
             first_name = self.cleaned_data.get("clean_mother").split()[0]
             last_name = self.cleaned_data.get("clean_mother").split()[-1]
@@ -99,7 +92,7 @@ class DocumentForm(forms.ModelForm):
         except Exception as e:
             raise forms.ValidationError("unknown user")
 
-    def first_witness(self, *arg, **kwargs):
+    def clean_first_witness(self, *arg, **kwargs):
         try:
             first_name = self.cleaned_data.get("first_witness").split()[0]
             last_name = self.cleaned_data.get("first_witness").split()[-1]
@@ -108,19 +101,10 @@ class DocumentForm(forms.ModelForm):
         except Exception as e:
             raise forms.ValidationError("unknown user")
 
-    def second_witness(self, *arg, **kwargs):
+    def clean_second_witness(self, *arg, **kwargs):
         try:
             first_name = self.cleaned_data.get("second_witness").split()[0]
             last_name = self.cleaned_data.get("second_witness").split()[-1]
-            profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
-
-    def supervisor(self, *arg, **kwargs):
-        try:
-            first_name = self.cleaned_data.get("supervisor").split()[0]
-            last_name = self.cleaned_data.get("supervisor").split()[-1]
             profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
             return profile
         except Exception as e:

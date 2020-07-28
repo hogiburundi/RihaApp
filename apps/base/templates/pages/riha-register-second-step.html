@@ -1,0 +1,261 @@
+{% extends 'pages/riha-base.html' %}
+{% load static %}
+
+{% block css-files-unique-for-this-page %} 
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/steps.css' %}">
+{% endblock%} 
+
+{% block menu %}
+
+
+{% endblock %}
+
+
+
+{% block body-line %}
+
+<body class="vertical-layout 1-column bg-full-screen-image pace-done menu-hide vertical-overlay-menu" data-open="click" data-menu="vertical-menu" data-color="bg-primary" data-col="1-column">
+<div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div>
+
+    
+{% endblock %}
+
+
+{% block main-content %}
+
+ 
+<section class="container">
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-wrapper-before"></div>
+            <div class="content-header row">
+                <div class="content-header-left col-md-4 col-12 mb-2">
+                    <h3 class="content-header-title font-medium-3">
+                        <i class="ft-log-in"></i> ENREGISTREMENT
+                    </h3>
+                </div>
+            </div>
+
+
+            <div class="content-body">
+                <!-- Form wizard with icon tabs section start -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+
+
+                                        <div class="row"> <!-- steps -->
+                                            <div class="col-md-12 mx-0">
+                                                <div id="msform">
+                                                    <!-- progressbar -->
+                                                    <ul id="progressbar">
+                                                        <li id="account" class="active"><strong>Compte</strong></li>
+                                                        <li id="personal" class="active"><strong>Informations Personnelles</strong></li>
+                                                        <li id="images"><strong>Images</strong></li>
+                                                    </ul> 
+                                                </div>
+                                            </div>
+                                        </div><!-- end steps -->
+
+
+
+
+
+
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="gender">Gender:</label>
+                                                            <select class="custom-select form-control" id="gender" name="gender">
+                                                                <option value="">Select Gender</option>
+                                                                <option value="Homme">Homme</option>
+                                                                <option value="Femme">Femme</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="nationality">Nationality</label>
+                                                            <input type="text" class="form-control" id="nationality">
+                                                        </div>                                                  
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="quarter">Quarter:</label>
+                                                            <select class="custom-select form-control" id="quarter" name="quarter">
+                                                                <option value="">Select Gender</option>
+                                                                <option value="Gisandema-Gihosha">Gisandema-Gihosha</option>
+                                                                <option value="Gikungu-Gihosha">Gikungu-Gihosha</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="adress">Adress</label>
+                                                            <input type="texte" class="form-control" id="adress">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="father">Father</label>
+                                                            <input type="text" class="form-control" id="father">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="mother">Mother</label>
+                                                            <input type="text" class="form-control" id="mother">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="birth_year">Birth Year</label>
+
+                                                               
+                                                                    
+                                                                <select class="custom-select form-control" id="birth_year" name="month">
+                                                                    <option value="">Select year</option>
+
+                                                                    <option value="1992">1992</option>
+                                                                    <option value="1993">1993</option>
+                                                                </select>
+                                                           
+                                                        </div>
+                                                        </div> 
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="birth_month">Birth Month</label>
+  
+                                                                    
+                                                                <select class="custom-select form-control" id="birth_month" name="month">
+                                                                    <option value="">Select month</option>
+
+                                                                    <option value="Janvier">Janvier</option>
+                                                                    <option value="Fevrier">Fevrier</option>
+                                                                </select>
+                                                            
+                                                        </div>
+                                                        </div> 
+
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="birth_day">Birth day</label>
+                                                                  
+                                                                <select class="custom-select form-control" id="birth_day" name="month">
+                                                                    <option value="">Select day</option>
+
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                </select>
+                                                            
+                                                        </div>
+                                                        </div> 
+
+
+                                                    </div>
+                                            
+
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="civil-status">Civil Status:</label>
+                                                            <select class="custom-select form-control" id="civil-status" name="location">
+                                                                <option value="">Select civil status</option>
+                                                                <option value="Marie">Marie</option>
+                                                                <option value="Celibataire">Celibataire</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="job">job</label>
+                                                            <input type="text" class="form-control" id="job">
+                                                        </div>                                                  
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="residence-quarter">Residence quarter:</label>
+                                                            <select class="custom-select form-control" id="residence-quarter" name="residence-quarter">
+                                                                <option value="">Select residence quarter</option>
+                                                                <option value="Marie">Gisandema-Gihosha</option>
+                                                                <option value="Celibataire">Gikungu-Gihosha</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                  
+                                                        <div class="form-group">
+                                                            <label for="prefix">Prefix</label>
+                                                            <input type="text" class="form-control" id="prefix">
+                                                        </div>                                                  
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                                <hr/>
+                                                <div class="text-right">
+                                                    
+                                                <button class="btn btn-info"><i class="ft-navigation"></i> Envoyer</button>
+
+                                                <button class="btn btn-warning"><i class="ft-slash"></i> Reinitialiser</button>
+                                                </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>               
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+
+{% endblock %}

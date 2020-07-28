@@ -18,16 +18,13 @@
                                 <h1 class="text-white mb-0">
                                     <button class="btn btn-sm btn-danger round" type="button">30%</button>
                                 </h1>
-
                                 <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
                                     <div class="progress-bar bg-gradient-x-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
                                 </div>
                             </div>
-
                             <div class="align-self-top">
                                 <i class="icon-user text-white font-large-4 float-right"></i>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -40,9 +37,7 @@
        <div class="card p-1 border-top-warning border-top-5 padding-0">
             <div class="card-content">
                 <div class="card-body">
-
                     <input type="text" class="form-control" placeholder="rechercher le document"/></br>
-
                     <select type="text" class="form-control">
                         <option value="select">Select Document</option>
                         <option value="Identite">Attestation d'Identite Complete</option>
@@ -68,12 +63,17 @@
 
 
 <hr class="bg.danger" />
-<div class="row"><!-- Row documents -->
+<div class="row">
+{% for document, index, home_url in home_urls %}
     <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-primary border-top-5">
+        <div class="card p-1
+        {% if index == 0 %}border-top-primary{% elif index == 1 %}
+        border-top-warning{% elif index == 2 %}border-top-success
+        {% elif index == 3 %}border-top-info{% endif %}
+        border-top-5">
             <div class="card-content">
                 <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center"> 
-                    <strong>ATTESTATION D'IDENTITE COMPLETE</strong>
+                    <strong>{{ document }}</strong>
                 </h1>
                                                     
                 <div class="card-body">
@@ -89,160 +89,7 @@
             </div>
         </div>
     </div>
-
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-success border-top-5">
-            <div class="card-content">
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center">            <strong>ATTESTATION DE RESIDENCE </strong>
-                </h1>
-        
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 info">
-                             <i class="icon-plus icon-opacity success font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-info border-top-5">
-            <div class="card-content">
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center"> 
-                    <strong>ATTESTATION DE RECOMMANDATION</strong>
-                </h1>                                     
-
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 info">
-                            <i class="icon-plus icon-opacity info font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-danger border-top-5">
-            <div class="card-content">
-
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center">  
-                    <strong> ATTESTATION DE NAISSANCE</strong>
-                </h1>
-                   
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 info">
-                             <i class="icon-plus icon-opacity danger font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- End Row Documents -->
-
-
-<div class="row mt-2"><!-- Row documents -->
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-primary border-top-5">
-            <div class="card-content">
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center"> 
-                    <strong>ATTESTATION D'IDENTITE COMPLETE</strong>
-                </h1>
-                                                    
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 primary">
-                             <i class="icon-plus icon-opacity primary font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-success border-top-5">
-            <div class="card-content">
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center">            <strong>ATTESTATION DE RESIDENCE </strong>
-                </h1>
-        
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 info">
-                             <i class="icon-plus icon-opacity success font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-info border-top-5">
-            <div class="card-content">
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center"> 
-                    <strong>ATTESTATION DE RECOMMANDATION</strong>
-                </h1>                                     
-
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 info">
-                            <i class="icon-plus icon-opacity info font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card p-1 border-top-danger border-top-5">
-            <div class="card-content">
-
-                <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center">  
-                    <strong> ATTESTATION DE NAISSANCE</strong>
-                </h1>
-                   
-                <div class="card-body">
-                    <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
-                    </div>
-                    <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 info">
-                             <i class="icon-plus icon-opacity danger font-large-3 float-right"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% endfor %}
 </div> <!-- End Row Documents -->
 
 

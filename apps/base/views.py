@@ -47,12 +47,14 @@ class Home(View):
 		if request.user.is_authenticated:
 			profile = Profile.objects.filter(user=request.user)
 			home_urls = []
-			for directory in MODULES:
+			for i, directory in enumerate(MODULES):
 				basename = os.path.basename(directory)
 				module_name = directory.replace(os.sep, ".")
 				module = importlib.import_module(module_name)
 				app_name = module.APP_NAME
-				home_urls.append((app_name, basename+"_list"))
+				# price = module.models.Document.price()
+				# home_urls.append((app_name, price, basename+"_list"))
+				home_urls.append((app_name.upper(), i%4, basename+"_list"))
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")

@@ -61,14 +61,14 @@ class Home(View):
 
 # @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class Secretariat(View):
-	template_name = "secretariat.html"
+	template_name = "pages/secretariat.html"
 
 	def get(self, request, *args, **kwargs):
 		home_urls = []
 		
 		if not (request.user.is_authenticated):return redirect("login")
 
-		for directory in MODULES:
+		for i, directory in enumerate(MODULES):
 			models = os.path.join(directory, "models")
 			models = importlib.import_module(models.replace(os.sep, '.'))
 			#=============================================================
@@ -81,7 +81,7 @@ class Secretariat(View):
 			module_name = directory.replace(os.sep, ".")
 			module = importlib.import_module(module_name)
 			app_name = module.APP_NAME
-			home_urls.append((app_name, basename+"_secr_list", counts))#counts))
+			home_urls.append((app_name.upper(), i%4, basename+"_secr_list", counts))#counts))
 
 		return render(request, self.template_name, locals())
 

@@ -9,6 +9,7 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control', 
                     'list':'zones'}),
         label = 'Zone')
+    
     residence_quarter = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Residence Quarter', 

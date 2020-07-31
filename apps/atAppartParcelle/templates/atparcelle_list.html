@@ -10,12 +10,15 @@
 			<th scope="col">traitement</th>
 			<th scope="col">date</th>
 			<th scope="col">ready</th>
+			<th scope="col">Action</th>
+			<th scope="col">Selection</th>
+
 		</tr>
 	</thead>
 	<tbody>
 		{% for document in documents %}
 		<tr class="document-item" data-id="{{ document.id }}">
-			<td> {{ document.residence_quarter }}</td>
+			<td> {{ document.user_residence_quarter }}</td>
 			<td> <a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</a></td>
 			<td> {{ document.validation_percent }} % </td>
 			<td> {{ document.date }}</td>
@@ -27,8 +30,13 @@
 				{% endif %}
 			</td>
 			<td>
-				<i class="fas fa-trash text-secondary"></i>
+				<a type="button" class="btn btn-outline-danger btn-sm " href="{% url delete document.id %}">Supprimer</a>
 			</td>
+			<td>
+			<div class="form-check mb-2 mr-sm-2">
+		      <input class="form-check-input" type="checkbox">
+		    </td>
+			</div>
 		</tr>
 		{% endfor %}
 	</tbody>

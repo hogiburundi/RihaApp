@@ -10,32 +10,32 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Your Current Residence Quarter')
+        label = 'Votre résidance actuelle (Quartier/Colline) : ')
 
     propriety_quarter = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Propriety Quarter Location')
+        label = 'Emplacement de la pacelle (Quartier/Colline) : ')
 
     propriety_surfaces_a = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'surface (a)', 
+            attrs = {'placeholder': '0 ares', 
                     'class': 'form-control'}),
-        label = "Surface en Ares")
+        label = "Surface de la parcelle ")
 
-    propriety_surfaces_a = forms.CharField(
+    propriety_surfaces_ca = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'surface (ca)', 
+            attrs = {'placeholder': '0 centaiares', 
                     'class': 'form-control'}),
-        label = "Surface en Centiare")
+        label = "Surface de la parcelle ")
 
     propriety_contenency = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'surface (ca)', 
+            attrs = {'placeholder': 'Maison, Cultures, Arbres, etc ...', 
                     'class': 'form-control'}),
-        label = "Contenence")
+        label = "Contenance de votre parcelle : ")
 
 
     class Meta:

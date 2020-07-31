@@ -15,34 +15,18 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Residence Quarter')
+        label = 'Quartier de résidance actuel : ')
 
-
-
-    first_witness = forms.CharField(
+    quarter_propriety = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'witness', 
-                    'class': 'form-control', 
-                    'list':'witness'}),
-        label = "Témoin 1 : ")
-
-    second_witness = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'witness', 
-                    'class': 'form-control', 
-                    'list':'witness'}),
-        label = "Témoin 1 : ")
-
-    quarter_leader = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'witness', 
-                    'class': 'form-control', 
-                    'list':'witness'}),
-        label = "Chef de Quartier : ")
+            attrs = {'placeholder': 'Residence Quarter', 
+                    'class': 'form-control',
+                    'list':'quarters'}),
+        label = 'Quartier dans lequel se trouve la parcelle : ')
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", "first_witness","second_witness","quarter_leader")
+        fields = ("zone",'residence_quarter','quarter_propriety','quarter_surface')
 
 
     def clean_zone(self, *arg,**kwargs):
@@ -62,29 +46,12 @@ class DocumentForm(forms.ModelForm):
         except Exception as e:
             raise forms.ValidationError("this quarter is unknown")
 
-    def clean_first_witness(self, *arg, **kwargs):
+    def clean_quarter_propriety(self, *arg,**kwargs):
         try:
-            first_name = self.cleaned_data.get("first_witness").split()[0]
-            last_name = self.cleaned_data.get("first_witness").split()[-1]
-            profile = User.objects.get(first_name=first_name, last_name=last_name)
-            return profile
+            name = self.cleaned_data.get("quarter_propriety").split()[0]
+            zone = self.cleaned_data.get("quarter_propriety").split()[-1]
+            quarter = Quarter.objects.get(name=name, zone__name=zone)
+            return quarter
         except Exception as e:
-            raise forms.ValidationError("unknown user")
+            raise forms.ValidationError("this quarter is unknown")
 
-    def clean_second_witness(self, *arg, **kwargs):
-        try:
-            first_name = self.cleaned_data.get("second_witness").split()[0]
-            last_name = self.cleaned_data.get("second_witness").split()[-1]
-            profile = User.objects.get(first_name=first_name, last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
-
-    def clean_quarter_leader(self, *arg, **kwargs):
-        try:
-            first_name = self.cleaned_data.get("quarter_leader").split()[0]
-            last_name = self.cleaned_data.get("quarter_leader").split()[-1]
-            profile = User.objects.get(first_name=first_name, last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")

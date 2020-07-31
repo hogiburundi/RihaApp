@@ -8,14 +8,14 @@
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ deces_dom.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ deces_dom.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ deces_dom.zone.name }}</u></strong><br/><br>
+		<strong>MUNICIPALITE DE {{ deces_dom.zone.commune.province|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ deces_dom.zone.commune|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ deces_dom.zone.name|upper }}</u></strong><br/><br>
 		<p style="text-align: center;"><strong><u>ATTESTATION  DE NAISSANCE A DOMICILE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>&nbsp;</p>
 		 
 
-		<p>Je soussign&eacute;, {{ deces_dom.zone.leader}}, Chef de Zone {{ deces_dom.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ deces_dom.dead_man.last_name }} {{ deces_dom.dead_man.first_name }}, {% if deces_dom.dead_man.profile.gender == 'Homme' %} fils {% else %}fille {% endif %} de {{ deces_dom.dead_man.profile.father|default:"sans",upper }} et de  {{ deces_dom.dead_man.profile.mother|default:"sans",upper }}, qui était originaire de la Colline {{ deces_dom.zone.name|upper }}, Commune {{ deces_dom.zone.commune|upper }}, Province {{ deces_dom.zone.commune.province|upper }}, ayant résidé de son vivant la Municipalité de {{ deces_dom.residence_quarter_DM.zone.commune.province|upper }} à l’adresse ci-après : {{ deces_dom.residence_quarter_DM.zone|upper }}, Q. {{ deces_dom.residence_quarter_DM|upper }}, est décédée à domicile en date du {{ deces_dom.DM_date }}.</p>
+		<p>Je soussign&eacute;, {{ deces_dom.zone.leaderFullName}}, Chef de Zone {{ deces_dom.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ deces_dom.dead_man.last_name }} {{ deces_dom.dead_man.first_name }}, {% if deces_dom.dead_man.profile.gender == 'Homme' %} fils {% else %}fille {% endif %} de {{ deces_dom.dead_man.profile.father|upper }} et de  {{ deces_dom.dead_man.profile.mother|upper }}, qui était originaire de la Colline {{ deces_dom.zone.name|upper }}, Commune {{ deces_dom.zone.commune|upper }}, Province {{ deces_dom.zone.commune.province|upper }}, ayant résidé de son vivant la Municipalité de {{ deces_dom.residence_quarter_DM.zone.commune.province|upper }} à l’adresse ci-après : {{ deces_dom.residence_quarter_DM.zone|upper }}, Q. {{ deces_dom.residence_quarter_DM|upper }}, est décédée à domicile en date du {{ deces_dom.DM_date }}.</p>
 
 
 		<p><strong>Le déclarant :</strong></p> 
@@ -25,18 +25,16 @@
 
 		<p><strong>Les  témoins :</strong></p>
 
-		<p>{{ deces_dom.first_witness.profile.user.first_name }} {{ deces_dom.first_witness.profile.user.last_name }}</p>
-		<p>C.N.I : {{ deces_dom.first_witness.profile.CNI }} </p>
+		<p>{{ deces_dom.first_witness.profile.user.first_name }} {{ deces_dom.first_witness.user.last_name }}</p>
+		<p>C.N.I : {{ deces_dom.first_witness.CNI }} </p>
 
-		<p>{{ deces_dom.second_witness.profile.user.first_name }} {{ deces_dom.second_witness.profile.user.last_name }}</p>
-		CNI: {{ deces_dom.second_witness.profile.CNI }}
+		<p>{{ deces_dom.second_witness.user.first_name }} {{ deces_dom.second_witness.user.last_name }}</p>
+		<p>CNI: {{ deces_dom.second_witness.CNI }}</p>
 
 
-		<p><strong>Chef de Quartier  TABA</strong></p> 
+		<p><strong>Chef de Quartier  {{ deces_dom.residence_quarter_DM.name|upper }}</strong></p> 
 
-		<p>Chef de Quartier {{ deces_dom.child_birth_quarter.quarter.name }},</p>
-
-		<p>{{ deces_dom.supervisor.profile.user.first_name }} {{ deces_dom.supervisor.profile.user.last_name }}</p>
+		<p>{{ deces_dom.residence_quarter_DM.leaderFullName }} </p>
 		
 		
 		<p>&nbsp;</p>
@@ -48,7 +46,7 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ deces_dom.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ deces_dom.zone.leader}}</strong></p>
+		<p style="text-align: center;"><strong>{{ deces_dom.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -61,16 +59,21 @@
 	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 		{% csrf_token %}
 		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{ form.as_p }}
-			<p>Create an account to simplify operations</p><input type="submit" name="create" value="create an account">
+			{{form.zone}}<br>
+			{{form.dead_man}}<a href="{% url 'register' %}">Ajout</a><br>
+			{{form.residence_quarter_DM}}<br>
+			{{form.DM_date}}<br>
+            {{form.first_witness}}<a href="{% url 'register' %}">Ajout<br>
+            {{form.second_witness}}<a href="{% url 'register' %}">Ajout<br>
 		</div>
 		{% if preview %}
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
 		{% else %}
 			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
+			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
+			
 		{% endif %}
-
 		<datalist id="zones">
 			{% for zone in zones %}
 				<option value="{{ zone.name }}"/> 

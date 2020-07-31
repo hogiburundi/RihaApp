@@ -105,5 +105,6 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.zone_payment = zone_payment
 			document.save()
 			return redirect(BASE_NAME+"_list")
+		print(form)
 		return render(request, self.template_name, locals())
 

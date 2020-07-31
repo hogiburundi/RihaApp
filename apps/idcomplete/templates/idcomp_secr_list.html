@@ -1,79 +1,302 @@
-{% extends "index.html" %}
-{% load static %}
-{% block main %}
-{% if documents %}
-	<table class="table table-hover" id="commande">
-		<thead>
-			<tr>
-				<th scope="col">person</th>
-				<th scope="col">payment</th>
-				<th scope="col">CNI recto</th>
-				<th scope="col">CNI verso</th>
-				<th scope="col">action</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for document in documents %}
-			<tr class="document-item" data-id="{{ document.id }}">
-				<td>
-					<a href="./{{ document.id }}">
-						{{ document.user }}
-					</a>
-				</td>
-				<td>
-					<a href="./pay/{{ document.id }}">
-						{{ document.zone_payment.id_transaction }}
-					</a>
-				</td>
-				<td>
-					<a href="{{ document.user.profile.cni_recto.url }}">
-						recto
-					</a>
-				</td>
-				<td>
-					<a href="{{ document.user.profile.cni_verso.url }}">
-						verso
-					</a>
-				</td>
-				<td>
-					<a href="#">rejeter</a>
-					<a href="#">imprimer</a>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-{% endif %}
+{% extends 'pages/riha-base.html' %}
+{% block main-content %}
+<div class="row"> <!-- begin global row -->
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-success">
+                        <i class="ft-package"></i> Comptes
+                    </h6>
+                </div>
 
-<div class="modal fade " id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Document verification</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success">
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                                <strong> Prix : BIF 2,000 </strong> 
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="blue-grey darken-1 font-medium-1"> 
+                                <i class="ft-shopping-cart success"></i> LUMICASH : 86800
+                            </a>   
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="blue-grey darken-1 font-medium-1"> 
+                                <i class="ft-shopping-cart success"></i> ECOCASH : 86800
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="blue-grey darken-1 font-medium-1"> 
+                                <i class="ft-shopping-cart success"></i> BCB : 202689458600
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+
+
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-shopping-cart"></i> Payment</h1>
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            <div class="card-body"><!-- Begin card body -->
+
+                    <div class="form-group">                     
+                        <p>
+                            <label for="large-select" class="text-bold-600 font-medium-2">Payment Method</label>
+                        </p>
+
+                        <select class="select2-size-lg form-control" id="large-select">
+                            <option value="HI">Select Payment Method</option>
+                            <option value="CT">ECOCASH</option>
+                            <option value="DE">LUMICASH</option>
+                            <option value="DE">BCB</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">                     
+                        <p>
+                            <label for="Transaction-code" class="text-bold-600 font-medium-2">Transaction Code</label>  
+                        </p>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="form-group">                     
+                        <p>
+                            <label for="Transaction-code" class="text-bold-600 font-medium-2">Bordereau</label>   
+                        </p>
+                    <input type="file" class="form-control">
+                    </div>
+            
+
+                    <hr/>
+                    <div class="text-right">
+                        <button class="btn btn-outline-info round font-medium-2">
+                            <i class="ft-corner-up-left"></i> Retour 
+                        </button>
+
+                        <button class="btn btn-outline-success"><i class="ft-navigation"></i>Envoyer</button>                                              
+                    </div>
+          
+            </div><!-- End card body -->
+        </div><!-- End card -->
+    </div> <!-- End right column --> 
+</div><!-- end global row -->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-wrapper">
+
+        <div class="content-body">
+
+            <div class="row">
+                <div class="col-xl-3 col-md-12">
+
+
+                    <div class="sidebar-content card d-none d-lg-block">
+                        <div class="card-body">
+
+
+                            <div class="category-title pb-1">
+                                <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                                    <i class="ft-package"></i> Comptes
+                                </h6>
+                            </div>
+
+                            <div>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <span class="badge badge-success badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Prix : BIF 2,000</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="badge badge-success badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; LUMICASH : 86800</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="badge badge-success badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; ECOCASH : 86800</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="badge badge-success badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; BCB : 202689458600</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+                
+                </div>  
+
+
+                <div class="col-xl-9 col-md-12">
+                
+
+
+
+                            <div class="card border-info border-lighten-1">
+
+
+                              <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                               
+                                    <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-shopping-cart"></i> Payment</h1>
+                          
+                              </div>
+
+                              <div class="card-body">
+
+
+                                           <div>
+
+
+
+
+
+
+
+
+
+                              </div>
+
+
+                            </div>
+
+
+
+                </div>  
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+  
+
+
+        </div>
     </div>
-</div>
+    <!-- END: Content-->
 
-<script type="text/javascript">
-jQuery(document).ready(function($) {
 
-// $('.document-item').on('click',function(event){
-//     event.preventDefault();
-//     $('.modal-body').load($(this).find('a').attr('href'),function(){
-//     	$('#myModal').modal('handleUpdate')
-//         $('#myModal').modal({show:true});
-//     });
-// }); 
+    <!-- BEGIN: Footer-->
+    <a class="btn btn-try-builder btn-bg-gradient-x-purple-red btn-glow white" href="https://www.themeselection.com/layout-builder/horizontal" target="_blank">
+            Contact Support
+    </a>
 
-});
-</script>
-{% endblock main %}
+    <footer class="footer footer-static footer-light navbar-border navbar-shadow">
+        <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">2019 &copy; Copyright <a class="text-bold-800 grey darken-2" href="https://themeselection.com" target="_blank">ThemeSelection</a></span>
+            <ul class="list-inline float-md-right d-block d-md-inline-blockd-none d-lg-block mb-0">
+                <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/" target="_blank"> More themes</a></li>
+                <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/support" target="_blank"> Support</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- END: Footer-->
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script type="text/javascript" src="app-assets/vendors/js/ui/jquery.sticky.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
+    <script src="app-assets/js/core/app.js" type="text/javascript"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script type="text/javascript" src="app-assets/js/scripts/pages/sk-content-sidebar.js"></script>
+    <!-- END: Page JS-->
+
+
+
+
+
+    <!-- BEGIN: Page JS-->
+    <script src="app-assets/js/scripts/forms/select/form-select2.js" type="text/javascript"></script>
+    <!-- END: Page JS-->
+
+
+
+</body>
+<!-- END: Body-->
+
+</html>

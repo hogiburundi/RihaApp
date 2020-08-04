@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div class="m-auto col-12 col-md-6">
+	{% if not payee %}
+	<div>
+		vous devez payez dans la zone {{ document.zone }}
+		la somme {{ document.price }} sur un des comptes suivants:<br>
+		- lumicash : {{ document.zone.lumicash }}<br>
+		- ecocash : {{ document.zone.ecocash }}<br>
+		- bcb : {{ document.zone.bcb }}<br>
+	</div>
+	<form action="{% url payform id_compl %}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		{# {% for form in forms %} #}
+			{{ form.as_p }}
+		{# {% endfor %} #}
+		<input type="submit" class="btn btn-outline-secondary" name="submit" value="submit">
+	</form>
+	{% else %}
+	<h1>Le document est entierement payé</h1>
+	{% endif %}
+</div>
+{% endblock main %}

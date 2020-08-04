@@ -1,58 +1,57 @@
+from django.forms import ModelForm, inlineformset_factory
+from .models import *
+from .models import *
 from django import forms
-from .models import *
-from django.forms import formset_factory
-from .models import *
 from apps.base.models import *
 
-class DocumentForm(forms.ModelForm):
-    zone = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
-                    'class': 'form-control', 
-                    'list':'zones'}),
-        label = 'Zone')
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter')
-    fullname_lady      = forms.CharField(
-        label="Nom&Prenom du conjoint", 
-        max_length=100, 
+class DocumentForm(ModelForm):
+
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
+        label = 'Zone',
+        queryset = Zone.objects.all())
+    
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
+        label = 'Residence Quarter',
+        queryset = Quarter.objects.all())
+
+    conjoint      = forms.CharField(
+        label="Conjoint",
         widget=forms.TextInput(attrs={'class':'form-control',
-                                      'placeholder':'nom et prenom du conjoint '}))
+                                      'placeholder':'numero de CNI du conjoint '}))
     
 
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", 'fullname_lady')
+        fields = ("zone", "residence_quarter", 'conjoint')
 
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
 
-    def clean_residence_quarter(self, *arg,**kwargs):
+
+    def clean_conjoint(self, *arg, **kwargs):
         try:
-            name = self.cleaned_data.get("residence_quarter").split()[0]
-            zone = self.cleaned_data.get("residence_quarter").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
+            CNI = self.cleaned_data.get('conjoint')
+            conjoint = Profile.objects.get(CNI = CNI)
+            return conjoint
         except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")
+            raise forms.ValidationError("Desole, le conjoint  n'existe pas!! ")
+
+   
 
 
-class ChildForm(forms.Form):
+class ChildForm(ModelForm):
+    class Meta:
+        model = Child
+        exclude = ()
+    def save(self):
+        formset = Child.objects.create(
+        name=self.cleaned_data['name'],
+        age=self.cleaned_data['age'])
+        return formset
 
-    fullname_child      = forms.CharField(
-        label="Nom&Prenom de l'enfant", 
-        max_length=100, 
-        widget=forms.TextInput(attrs={'class':'form-control',
-                                      'placeholder':'nom et prenom de l\'enfant'}))
+ChildFormset = inlineformset_factory(Document, Child, 
+                                form = ChildForm, extra=1)
 
-ChildFormset = formset_factory(ChildForm, extra=1)

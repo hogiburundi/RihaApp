@@ -7,18 +7,18 @@ class DocumentForm(forms.ModelForm):
     objet_abandon     = forms.CharField(label="objet abandone", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'objet abandonne '}))
     tuteurAcueillantObjetAbandon      = forms.CharField(label="Tutilleur", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'tuteur acueillant l\'bjet abandonne '}))
 
-    zone = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
-                    'class': 'form-control', 
-                    'list':'zones'}),
-        label = 'Zone')
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter')
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
+        label = 'Zone',
+        queryset = Zone.objects.all())
+    
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
+        label = 'Residence Quarter',
+        queryset = Quarter.objects.all())
+
     
     date_delivrated = forms.DateField(
         widget=forms.SelectDateWidget(
@@ -31,19 +31,4 @@ class DocumentForm(forms.ModelForm):
         model = Document
         fields = ("zone", "residence_quarter", "objet_abandon", 'date_delivrated',"tuteurAcueillantObjetAbandon")
 
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
-
-    def clean_residence_quarter(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("residence_quarter").split()[0]
-            zone = self.cleaned_data.get("residence_quarter").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
-        except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")
+    

@@ -24,10 +24,12 @@ class Document(models.Model):
 	def requirements():
 		return ["CNI",
 				"presence physique ou autre document prouvant son existance" ]
+	
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
 			Notification(self.user, f"l'attestation d'abandon que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
 
 	def price(self):
 		try:
@@ -38,8 +40,14 @@ class Document(models.Model):
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
 
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
 
 
 
@@ -50,3 +58,5 @@ class PriceHistory(models.Model):
 	
 	def total(self):
 		return self.zone_price
+
+

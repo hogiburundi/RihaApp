@@ -1,75 +1,114 @@
-
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-{% if preview %}
-<div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-	<div style="text-transform: uppercase;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ chomage.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ chomage.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ chomage.zone.name }}</u></strong><br/>
 
-	<br><br>
-		<p style="text-align: center;"><strong><u>ATTESTATION DE chomage</u></strong></p>
-	</div>	
-		<p>
-			Je soussigné, {{ chomage.zone.leaderFullName }}, Chef de Zone {{chomage.zone.name}}, atteste par la présente que Monsieur {{ chomage.user.first_name }} {{ chomage.user.last_name }}, fils de {{chomage.profile.father}} et de {{chomage.profile.mother}}, originaire de la Colline {{chomage.user.profile.quarter}}, Commune {{chomage.zone.commune}}, Province {{chomage.zone.commune.province}}, de nationalité {{chomage.profile.nationalite}}, résidant actuellement dans la Municipalité de {{chomage.zone.commune.province}}, à l’adresse ci-après : Commune {{chomage.zone.commune}}, Quartier {{chomage.residence_quarter}}, est en Chômage depuis {{ chomage.anneeEnChomage }}.
+{% block main-content %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
+
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                        <i class="ft-corner-left-down"></i> Requirements
+                    </h6>
+                </div>
+
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; presence physique ou autre document prouvant son existance</a>
+                        </li>
+                    </ul>
+                </div>                          
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION DE CHOMAGE</h1>
+            </div>
+            <div class="card-body">
+				{% if preview %}
+					<div id="document" class="col-12">
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+					<div style="text-transform: uppercase;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+						<strong>MUNICIPALITE DE {{ chomage.zone.commune.province }}</strong><br/>
+						<strong>COMMUN E URBAINE DE {{ chomage.zone.commune }}</strong><br/>
+						<strong><u>ZONE DE {{ chomage.zone.name }}</u></strong><br/>
+
+					<br><br>
+						<p style="text-align: center;"><strong><u>ATTESTATION DE chomage</u></strong></p>
+					</div>	
+						<p>
+							Je soussigné, {{ chomage.zone.leaderFullName }}, Chef de Zone {{chomage.zone.name}}, atteste par la présente que Monsieur {{ chomage.user.first_name }} {{ chomage.user.last_name }}, fils de {{chomage.profile.father}} et de {{chomage.profile.mother}}, originaire de la Colline {{chomage.user.profile.quarter}}, Commune {{chomage.zone.commune}}, Province {{chomage.zone.commune.province}}, de nationalité {{chomage.profile.nationalite}}, résidant actuellement dans la Municipalité de {{chomage.zone.commune.province}}, à l’adresse ci-après : Commune {{chomage.zone.commune}}, Quartier {{chomage.residence_quarter}}, est en Chômage depuis {{ chomage.anneeEnChomage }}.
 
 
-		</p>
+						</p>
 
-		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
-		<p>&nbsp;</p>
-				<p>&nbsp;</p>
-		<p style="text-align: left;"><strong><u>Sous-Couvert   :</u></strong></p>
-		<p style="text-align: left;">Chef  de Quartier {{ chomage.residence_quarter}}</p>
-		<p style="text-align: left;">{{ chomage.residence_quarter.leaderFullName }}</p>
+						<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
+						<p>&nbsp;</p>
+								<p>&nbsp;</p>
+						<p style="text-align: left;"><strong><u>Sous-Couvert   :</u></strong></p>
+						<p style="text-align: left;">Chef  de Quartier {{ chomage.residence_quarter}}</p>
+						<p style="text-align: left;">{{ chomage.residence_quarter.leaderFullName }}</p>
 
-		<table style="width: 588px;">
-		<tbody>
-		<tr>
-		<td style="width: 315px;">&nbsp;</td>
-		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ chomage.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ chomage.zone.leaderFullName}}</strong></p>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<p style="text-align: right;">&nbsp;</p>
-	</div>
+						<table style="width: 588px;">
+						<tbody>
+						<tr>
+						<td style="width: 315px;">&nbsp;</td>
+						<td style="width: 275px;">
+						<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+						<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ chomage.zone.name}}</strong></p>
+						<p style="text-align: center;"><strong>{{ chomage.zone.leaderFullName}}</strong></p>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+						<p style="text-align: right;">&nbsp;</p>
+					</div>
+					</div>
+				{% endif %}
+				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+					{% csrf_token %}
+					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+		                <div class="form-group"> 
+		                	{{ form.as_p}}
+		                </div>                  
+		               
+		            </div>
+
+					{% if preview %}
+					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
+						<i class="ft-corner-up-left"></i> Retour 
+					</button>
+					{% else %}
+					<button type="submit" class="btn btn-outline-warning" name="preview" value="preview">
+						<i class="ft-eye"></i> Preview
+					</button>
+					{% endif %}
+					<button type="submit" class="btn btn-outline-success" name="submit" value="submit">
+						<i class="ft-navigation"></i>Envoyer</a>
+					</button>
+		        </form>
+		    </div> <!-- End card body -->
+</div>	
 </div>
-{% endif %}
-<div class="m-auto col-12 col-md-6">
-
-	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{ form.as_p }}
-		</div>
-		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
-		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
-		{% endif %}
-
-		<datalist id="zones">
-			{% for zone in zones %}
-				<option value="{{ zone.name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="quarters">
-			{% for quarter in quarters %}
-				<option value="{{ quarter }}"/> 
-			{% endfor %}
-		</datalist>
-	</form>
 </div>
-{% endblock main %}
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
+<script>
+	$('#zones').chosen({ width: '100%' });
+	$('#quarters').chosen({ width: '100%' });
+</script>
+{% endblock %}

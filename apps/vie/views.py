@@ -13,7 +13,7 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "vie_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.objects.all()
+		documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -48,6 +48,16 @@ class DocumentListView(LoginRequiredMixin, View):
 		print(documents)
 		return render(request, self.template_name, locals())
 
+
+class SecretaryPayView(LoginRequiredMixin, View):
+	template_name = "vie_secr_pay.html"
+
+	def get(self, request, document_id, *args, **kwargs):
+		modal_mode = False
+		vie = get_object_or_404(Document, id=document_id)
+		return render(request, self.template_name, locals())
+
+		
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "vie_form.html"
 	quarters = Quarter.objects.all()
@@ -80,6 +90,8 @@ class DocumentFormView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 
+
+
 class DocumentPayView(LoginRequiredMixin, View):
 	template_name = "vie_pay_form.html"
 
@@ -102,5 +114,5 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.zone_payment = zone_payment
 			document.save()
 			return redirect(BASE_NAME+"_list")
+		print(form)
 		return render(request, self.template_name, locals())
-

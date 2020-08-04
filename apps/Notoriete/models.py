@@ -43,6 +43,9 @@ class Document(models.Model):
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+
 	def dateString(self):
 		return lireDate(self.date)
 

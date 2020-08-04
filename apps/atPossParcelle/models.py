@@ -8,7 +8,7 @@ class Document(models.Model):
 	zone = models.ForeignKey(Zone, related_name="atposs_parc_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="atposs_residence_user", max_length=64, null=True, on_delete=models.SET_NULL)
 	quarter_propriety = models.ForeignKey(Quarter, related_name="atposs_parc_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	quarter_surface = models.FloatField(null=True, blank=True)
+	propriety_surface = models.FloatField(null=True, blank=True)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)

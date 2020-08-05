@@ -53,3 +53,5 @@ def total(self):
 	return self.zone_price # + self.commune_price ...
 ```
 plusieres champs peuvent faire partie de l'application comme ```date, zone, zone_price, commune, commune_price...```
+
+5) le fichier ```forms.py``` doit contenir une formulaire ```ValidationForm``` variant selon le requis pouvant être cause de rejection et ainsi il faudra revoir par consequent la readaptations de ```SecretaryListView``` et ```SecretaryView``` et les templates y relatifs

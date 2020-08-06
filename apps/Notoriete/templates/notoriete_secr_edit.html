@@ -1,102 +1,211 @@
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-<div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>PROVINCE DE {{ notoriete.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ notoriete.zone.commune }}</strong><br/>
-		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/>
-		<p style="text-align: center;"><strong><u>ACTE DE NOTORIETE</u></strong></p>
-		<p>
-			L’an {{notoriete.year}}, le {{notoriete.jour}} jour du mois de {{notoriete.mois}} devant nous,  {{ notoriete.user.last_name}}, Maire de la Ville de {{notoriete.zone.commune.province}}, ont comparu :<br> <br>
 
-			
-				1.{{ notoriete.nom_prenom_1ercomparant}}, fils(fille) de {{notoriete.nom_prenom_1ercomparant_pere}}  et de  {{notoriete.nom_prenom_1ercomparant_mere}}, née à {{notoriete.user.profile.colline_natal}},  en {{notoriete.nom_prenom_1ercomparant_anneDeNaissance}}, résidant à {{notoriete.zone.commune.province}} de nationnalité {{notoriete.user.profile.nationnalite}}, premier comparant. 	<br> <br>
-				
-				
-			Lesquels nous ont déclaré qu’en {{notoriiete.user.profile.birthday}}, est né à {{notoriete.user.profile.colline_natal}}, le nommé {{notorriete.user.first_name}} {{notoriete.user.last_name}}, {{notoriete.user.profile.job }}, fils de {{notoriete.user.profile.father}} et de {{notoriete.user.profile.mother}}, résidant à {{notoriete.zone.commune.province}} de nationalité {{notoriete.user.profile.nationnalite}} et que l’intéressé se trouve dans l’impossibilité de produire son acte de naissance qu’il est 	     		{% if deces.user.profile.is_married %}
-				marrié(e)
-			{% else %}
-				célibataire
-			{% endif %}.. <br> <br>
+{% block main-content %}
+<style type="text/css" media="screen">
+    .popover{
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+</style>
 
-			En conséquence, le présent acte de notoriété remplace valablement son acte de naissance. <br>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
 
-			Nous attestons en outre que les déclarations faites ci-dessus concordent avec les énonciations de sa Carte d’Identité délivrée par l’Administrateur Communal, portant le №  {{notoriete.user.profile.CNI}} obtenue en date du {{notoriete.date_delivrated}}.<br><br>
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                        <i class="ft-corner-left-down"></i> pièces jointes
+                    </h6>
+                </div>
 
-			En foi de quoi, nous avons délivré le présent acte et après que connaissance de son contenu en a été faite aux comparants, l’avons signé avec eux. <br><br>
-
-			<strong><u>LES COMPARANTS :</u></strong><br>
-
-			1.{{notoriete.nom_prenom_1ercomparant}}<br>
-
-						        
-
-		                                                                                  
-
-		</p>
-
-		<table style="width: 588px;">
-		<tbody>
-		<tr>
-		<td style="width: 315px;">&nbsp;</td>
-		<td style="width: 275px;">
-		<p style="text-align: center;"><strong> LE MAIRE DE LA VILLE DE BUJUMBURA</strong></p>
-		<p style="text-align: center;"><strong>{{ notoriete.user.first_name}}</strong></p>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<p style="text-align: right;">&nbsp;</p>
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ id_compl.user.profile.cni_recto.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                            	<i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto </a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ id_compl.user.profile.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                            	<i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Verso</a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<b>{{ id_compl.zone_payment.place }}/{{ id_compl.zone_payment.type_payement }} : <i>{{ id_compl.zone_payment.id_transaction }}</i></b>">
+                            <span class="badge badge-warning badge-pill float-right">
+                            	<i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; Paiement</a>
+                        </li>
+                    </ul>
+                </div>                          
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+            </div>
+            <div class="card-body">
+				<div id="document" class="col-12 mb-2" style="overflow:auto;">
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+						<strong>MUNICIPALITE DE {{ id_compl.zone.commune.province }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
+						<strong><u>ZONE DE {{ id_compl.zone.name }}</u></strong><br/>
+						<p style="text-align: center;"><strong><u>ATTESTATION D&rsquo;IDENTITE COMPLETE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+						<p>&nbsp;</p>
+						<p>Je soussign&eacute;, {{ id_compl.zone.leaderFullName }}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;identit&eacute; compl&egrave;te de&nbsp;Monsieur&nbsp; {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, est le suivant&nbsp;:</p>
+						<table>
+						<tbody>
+						<tr>
+						<td>NOM</td>
+						<td>: {{ id_compl.user.last_name }}</td>
+						</tr>
+						<tr>
+						<td>PRENOM</td>
+						<td>: {{ id_compl.user.first_name }}</td>
+						</tr>
+						<tr>
+						<td>NOM DU PERE</td>
+						<td>: {{ id_compl.user.profile.father|default:"sans" }}</td>
+						</tr>
+						<tr>
+						<td>NOM&nbsp; DE&nbsp; LA MERE</td>
+						<td>: {{ id_compl.user.profile.mother|default:"sans" }}</td>
+						</tr>
+						<tr>
+						<td>LIEU ET DATE DE NAISSANCE</td>
+						<td>: {{ id_compl.zone.name }}, {{ id_compl.user.profile.birthdate }}</td>
+						</tr>
+						<tr>
+						<td>COMMUNE</td>
+						<td>: {{ id_compl.zone.commune.name }}</td>
+						</tr>
+						<tr>
+						<td>PROVINCE</td>
+						<td>: {{ id_compl.zone.commune.province }}</td>
+						</tr>
+						<tr>
+						<td>NATIONALITE</td>
+						<td>: {{ id_compl.user.profile.nationnalite }}</td>
+						</tr>
+						<tr>
+						<td>ETAT-CIVIL</td>
+						<td>: {% if id_compl.user.profile.is_married %}
+								marrié(e)
+							{% else %}
+								célibataire
+							{% endif %}
+						</td>
+						</tr>
+						<tr>
+						<td>PROFESSION</td>
+						<td>: {{ id_compl.user.profile.job }}</td>
+						</tr>
+						<tr>
+						<td>RESIDENCE ACTUELLE&nbsp;</td>
+						<td>: zone&nbsp;{{ id_compl.residence_quarter.zone.name }}, Q. {{ id_compl.residence_quarter.name }}</td>
+						</tr>
+						</tbody>
+						</table>
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+						<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte&nbsp; Nationale d&rsquo;Identit&eacute; &nbsp;portant &nbsp;num&eacute;ro {{ id_compl.user.profile.CNI|default:'-' }}.</p>
+						<p>&nbsp;</p>
+						<table style="width: 588px;">
+						<tbody>
+						<tr>
+						<td style="width: 315px;">&nbsp;</td>
+						<td style="width: 275px;">
+						<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+						<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ id_compl.zone.name}}</strong></p>
+						<p style="text-align: center;"><strong>{{ id_compl.zone.leaderFullName }}</strong></p>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+						<p style="text-align: right;">&nbsp;</p>
+					</div>
+				</div>
+	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
+						<i class="ft-corner-up-left"></i> Retour 
+					</button>
+					<button type="submit" class="btn btn-outline-warning" name="preview" value="validate">
+						<i class="ft-eye"></i> Valider
+					</button>
+					<button type="submit" class="btn btn-outline-success" name="preview" value="validate">
+						<i class="ft-eye"></i> Imprimer
+					</button>
+					<button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
+						<i class="ft-navigation"></i>Rejeter</a>
+					</button>
+	            </form>
+	        </div> <!-- End card body -->
+	    </div>	
 	</div>
 </div>
-<div style="position: fixed; right: 0px; top:40%">
-  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ notoriete.user.profile.cni_recto.url }}' height='300' />">
-	  CNI Recto
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ notoriete.user.profile.cni_verso.url }}' height='300' />">
-	  CNI verso
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ notoriete.payment_method }} : <i>{{ notoriete.payment_serial }}</i></b>">
-	  Payements
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-	  Other
-	</button>
-  </div>
-</div>
-<div class="m-2">
-	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
-		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
-		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
-		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
-		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
-	</form>
-</div>
+
+<template id="poprejeter">
+    <form id="myform" role="form" method="POST" action=".">
+        {% csrf_token %} 
+        {{ validation_form.as_p }}
+        <input type="submit" name="reject" value="rejeter" class="btn btn-outline-warning"/>
+        <input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
+    </form>
+</template>
+
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
-$("#rejection-button").on('click', function(event) {
-	$rejection_msg = $(".rejection-msg");
-	if($rejection_msg.css('display')=="none"){
-		$rejection_msg.css('display',"");
-		event.preventDefault();
-	}else{
-		if($rejection_msg.val().trim().length>0){
-
-		}else{
-			$rejection_msg.css('display',"none");
-			event.preventDefault();
-		}
-	}
-});
+	$(function(){
+        $("#rejection-button").popover({
+            title: '<h3>Motif</h3>',
+            container: 'body',
+            placement: 'bottom',
+            html: true, 
+            sanitize: false,
+            content: $('#poprejeter').html()
+        }).on('click', function(event) {
+        	event.preventDefault();
+            id = $(this).attr('data-id');
+            $("button[type=reset]").click(function(){
+                $("#rejection-button").popover('hide');
+            });
+            $("#myform").on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: "./"+id,
+                    type: 'POST',
+                    data: $(this).serialize()+"&reject=true",
+                })
+                .done(function() {
+                    $("#rejection-button").popover('hide');
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                });
+            });
+        });
+    });
 $("#print-button").on('click', function(event) {
 	event.preventDefault();
 	printDiv();
@@ -113,7 +222,6 @@ function printDiv() {
 	a.print(); 
 	a.close();
 }
-
 });
 </script>
-{% endblock main %}
+{% endblock %}

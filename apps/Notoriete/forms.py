@@ -25,20 +25,20 @@ class DocumentForm(forms.ModelForm):
 
     comparant_1 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Nom et Prenom du comparant', 
+            attrs = {'placeholder': 'CNI premier du comparant', 
                     'class': 'form-control'}),
         label = 'CNI du premier comparant') 
         
     comparant_2 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Nom et Prenom du comparant', 
+            attrs = {'placeholder': 'CNI second du comparant', 
                     'class': 'form-control'}),
         label = 'CNI du second comparant',
         required=False) 
         
     comparant_3 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Nom et Prenom du comparant', 
+            attrs = {'placeholder': 'CNI troisième du comparant', 
                     'class': 'form-control'}),
         label = 'CNI du troisième comparant',
         required=False) 
@@ -75,3 +75,18 @@ class DocumentForm(forms.ModelForm):
             return comparant
         except:
             raise forms.ValidationError("Ce comparant n'est pas abonné")
+
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image recto '}),
+        label='image recto', required=False)
+    cni_verso = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
+        label='image verso', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

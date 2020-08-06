@@ -6,7 +6,6 @@ from apps.base.date_conversion import lireDate
 
 
 class Document(models.Model):
-	name_apps = models.CharField(max_length = 50, default = "Attestation de notoriete")
 	user = models.ForeignKey(User, related_name="notoriete_user", null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
 	comparant_1 = models.ForeignKey(Profile, related_name="notoriete_comparant_1", on_delete=models.CASCADE)

@@ -11,7 +11,7 @@
       <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
         <div class="row">
             <div class="col-xl-6 col-lg-12">
-                    <h1 class="font-medium-3 text-bold-700 text-white">IDENTITE COMPLETE</h1>
+                    <h1 class="font-medium-3 text-bold-700 text-white">ACTE DE NOTORIETE</h1>
             </div>
         </div>
       </div><!-- end card header --> 
@@ -19,12 +19,18 @@
         <table class="table table-xl mb-0 table-responsive">
 
             <thead>
-                <tr>     
-                    <th class="border-top-0">Document</th>
+                <tr>
+                    <th class="border-top-0">Personne</th>
                     <th class="border-top-0">Payment</th>
-                    <th class="border-top-0">CNI</th>
-                    <th class="border-top-0">CNI Recto</th>
-                    <th class="border-top-0">CNI Verso</th>
+                    <th class="border-top-0">identite</th>
+                    <th class="border-top-0">CNI recto</th>
+                    <th class="border-top-0">CNI verso</th>
+                    <th class="border-top-0">comparant 1</th>
+                    <th class="border-top-0">CNI 1</th>
+                    <th class="border-top-0">CNI 1</th>
+                    <th class="border-top-0">comparant 2</th>
+                    <th class="border-top-0">CNI 2</th>
+                    <th class="border-top-0">CNI 2</th>
                     <th class="border-top-0">Actions</th>
                 </tr>
             </thead>
@@ -39,14 +45,76 @@
                     <td class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ document.zone_payment.place }} : <i>{{ document.zone_payment.id_transaction }}</i></b>" data-trigger="focus" tabindex="-1">
                         {{ document.zone_payment.type_payement }}
                     </td>
-                    <td class="text-truncate">
+                    <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.user.last_name }}</b><br>
+                      prenom: <b>{{ document.user.first_name }}</b><br>
+                      CNI: <b>{{ document.user.profile.CNI }}</b><br>
+                      delivrée à: <b>{{ document.user.profile.place_delivrated }}</b><br>
+                      né à: <b>{{ document.user.profile.quarter }}</b><br>
+                      residence: <b>{{ document.user.profile.residence }}</b><br>
+                      father: <b>{{ document.user.profile.father }}</b><br>
+                      mother: <b>{{ document.user.profile.mother }}</b><br>
+                      sexe: <b>{{ document.user.profile.gender }}</b><br>
+                      nationnalité: <b>{{ document.user.profile.nationnalite }}</b><br>
+                      date de naissance: <b>{{ document.user.profile.birthdate }}</b><br>
+                      job: <b>{{ document.user.profile.job }}</b><br>
+                      " data-trigger="focus" tabindex="-1">
                         {{ document.user.profile.CNI }}
                     </td>
-                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ document.user.profile.cni_recto.url }}' height='300' />" data-trigger="focus" tabindex="-1">
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.user.profile.cni_recto %}{{ document.user.profile.cni_recto.url }} {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
                         photo 1
                     </td>
-                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ document.user.profile.cni_verso.url }}' height='300' />" data-trigger="focus" tabindex="-1">
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.user.profile.cni_verso %}{{ document.user.profile.cni_verso.url }}{% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
                         photo 2
+                    </td>
+                    <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.comparant_1.user.last_name }}</b><br>
+                      prenom: <b>{{ document.comparant_1.user.first_name }}</b><br>
+                      CNI: <b>{{ document.comparant_1.CNI }}</b><br>
+                      delivrée à: <b>{{ document.comparant_1.place_delivrated }}</b><br>
+                      né à: <b>{{ document.comparant_1.quarter }}</b><br>
+                      residence: <b>{{ document.comparant_1.residence }}</b><br>
+                      father: <b>{{ document.comparant_1.father }}</b><br>
+                      mother: <b>{{ document.comparant_1.mother }}</b><br>
+                      sexe: <b>{{ document.comparant_1.gender }}</b><br>
+                      nationnalité: <b>{{ document.comparant_1.nationnalite }}</b><br>
+                      date de naissance: <b>{{ document.comparant_1.birthdate }}</b><br>
+                      job: <b>{{ document.comparant_1.job }}</b><br>
+                      " data-trigger="focus" tabindex="-1">
+                        {{ document.comparant_1.CNI }}
+                    </td>
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.comparant_1.cni_recto %}
+                    {{ document.comparant_1.cni_recto.url }}  
+                    {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
+                        recto
+                    </td>
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.comparant_1.cni_verso %}
+                    {{ document.comparant_1.cni_verso.url }}  
+                    {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
+                        verso
+                    </td>
+                    <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.comparant_2.user.last_name }}</b><br>
+                      prenom: <b>{{ document.comparant_2.user.first_name }}</b><br>
+                      CNI: <b>{{ document.comparant_2.CNI }}</b><br>
+                      delivrée à: <b>{{ document.comparant_2.place_delivrated }}</b><br>
+                      né à: <b>{{ document.comparant_2.quarter }}</b><br>
+                      residence: <b>{{ document.comparant_2.residence }}</b><br>
+                      father: <b>{{ document.comparant_2.father }}</b><br>
+                      mother: <b>{{ document.comparant_2.mother }}</b><br>
+                      sexe: <b>{{ document.comparant_2.gender }}</b><br>
+                      nationnalité: <b>{{ document.comparant_2.nationnalite }}</b><br>
+                      date de naissance: <b>{{ document.comparant_2.birthdate }}</b><br>
+                      job: <b>{{ document.comparant_2.job }}</b><br>
+                      " data-trigger="focus" tabindex="-1">
+                        {{ document.comparant_2.CNI }}
+                    </td>
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.comparant_1.cni_recto %}
+                    {{ document.comparant_2.cni_recto.url }}  
+                    {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
+                        recto
+                    </td>
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.comparant_1.cni_verso %}
+                    {{ document.comparant_2.cni_verso.url }}  
+                    {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
+                        verso
                     </td>
                     <td>
                         <div>

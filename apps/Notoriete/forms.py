@@ -39,7 +39,7 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", "date", "comparant_1", "comparant_2","comparant_3")
+        fields = ("zone", "date", "comparant_1", "comparant_2","comparant_3")
 
     def clean_comparant_1(self, *arg,**kwargs):
         try:

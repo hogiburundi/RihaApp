@@ -1,66 +1,132 @@
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-{% if preview %}
-<div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ id_compl.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ id_compl.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ id_compl.zone.name }}</u></strong><br/><br>
-		<p style="text-align: center;"><strong><u>ATTESTATION DE RECOMMENDATION N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-		<p>&nbsp;</p>
-		<p>Je soussign&eacute;, {{ id_compl.zone.leader}}, Chef de Zone {{ id_compl.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e {{ id_compl.user.last_name }} {{ id_compl.user.first_name }}, fille {{ id_compl.user.profile.father|default:"sans" }} et de  {{ id_compl.user.profile.mother|default:"sans" }}, originaire de la Colline {{ id_compl.zone.name }}, Commune {{ id_compl.zone.commune.name }}, Province {{ id_compl.zone.commune.province }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ id_compl.residence_quarter.zone.name|upper }} Q. {{ id_compl.residence_quarter.name }}, est recommand&eacute; &agrave; ex&eacute;cuter les travaux mis &agrave; sa disponibilit&eacute;.
 
-				<p style="text-align:center;">La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
-		</p>
+{% block main-content %}
 
-		
-		
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<table style="width: 588px;">
-		<tbody>
-		<tr>
-		<td style="width: 315px;">&nbsp;</td>
-		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ id_compl.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ id_compl.zone.leader}}</strong></p>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<p style="text-align: right;">&nbsp;</p>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
+
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                        <i class="ft-corner-left-down"></i> Requirements
+                    </h6>
+                </div>
+
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
+                        </li>
+                    </ul>
+                </div>                          
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+            </div>
+            <div class="card-body">
+				{% if preview %}
+				<div id="document" class="col-12 mb-2" style="overflow:auto;">
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+						<strong>MUNICIPALITE DE {{ recomm.zone.commune.province|upper }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ recomm.zone.commune|upper }}</strong><br/>
+						<strong><u>ZONE DE {{ recomm.zone.name|upper }}</u></strong><br/><br>
+						<p style="text-align: center;"><strong><u>ATTESTATION DE RECOMMENDATION N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+						<p>&nbsp;</p>
+							
+						<p>Je soussign&eacute;, {{ recomm.zone.leader}}, Chef de Zone {{ recomm.zone.name }}, atteste par la pr&eacute;sente que {% if recomm.user.profile.gender == 'H' %}le nomm&eacute;{% else %} la nomm&eacute;e {% endif %} {{ recomm.user.last_name }} {{ recomm.user.first_name }}, {% if recomm.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ recomm.user.profile.father|default:"sans" }} et de  {{ recomm.user.profile.mother|default:"sans" }}, originaire de la Colline {{ recomm.zone.name }}, Commune {{ recomm.zone.commune.name }}, Province {{ recomm.zone.commune.province }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ recomm.residence_quarter.zone.name|upper }} Q. {{ recomm.residence_quarter.name }}, est recommand&eacute; &agrave; ex&eacute;cuter les travaux mis &agrave; sa disponibilit&eacute;.
+
+								La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.
+						</p>
+
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+						<table style="width: 588px;">
+						<tbody>
+						<tr>
+						<td style="width: 315px;">&nbsp;</td>
+						<td style="width: 275px;">
+						<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+						<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ recomm.zone.name}}</strong></p>
+						<p style="text-align: center;"><strong>{{ recomm.zone.leader}}</strong></p>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+						<p style="text-align: right;">&nbsp;</p>
+					</div>
+				</div>
+				{% endif %}
+                
+				<form class="form-horizontal" method="POST" action="." novalidate>
+                        {% csrf_token %}                     
+
+                        <div class="row" id="formulaire" {% if preview %} style="display: none;" {% endif %} >
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gender">Zone:</label>
+                                    {{ form.zone }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nationality">Nationality</label>
+                                    {{ form.residence_quarter }}
+                                </div>                                                  
+                            </div>
+                        </div>
+
+                    <div class="text-right">
+                    {% if preview %} 
+                    <div class="text-center mt-2">      
+                        <button type="cancel" name="cancel" class="btn btn-outline-info round font-medium-2">
+                            <i class="ft-corner-up-left"></i>Retour
+                        </button>
+                                                                                                                  
+                        <button type="submit" name="submit" class="btn btn-outline-success">
+                            <i class="ft-navigation"></i>Envoyer
+                        </button>
+                    </div>
+                    {% else %}
+                        <button type="submit" name="preview" href="recom_preview.html" class="btn btn-outline-warning"> 
+                            <i class="ft-eye"></i> Preview
+                        </button>
+
+                        <button type="submit" name="submit" class="btn btn-outline-success">
+                            <i class="ft-navigation"></i>Envoyer
+                        </button>
+                         
+                    {% endif %}
+
+                      </div>
+                    </form>
+	        </div> <!-- End card body -->
+	    </div>	
 	</div>
 </div>
-{% endif %}
-<div class="m-auto col-12 col-md-6">
-	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{ form.as_p }}
-		</div>
-		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
-		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
-		{% endif %}
-
-		<datalist id="zones">
-			{% for zone in zones %}
-				<option value="{{ zone.name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="quarters">
-			{% for quarter in quarters %}
-				<option value="{{ quarter }}"/> 
-			{% endfor %}
-		</datalist>
-	</form>
-</div>
-{% endblock main %}
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
+<script>
+	$('#zones').chosen({ width: '100%' });
+	$('#quarters').chosen({ width: '100%' });
+</script>
+{% endblock %}

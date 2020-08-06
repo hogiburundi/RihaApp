@@ -10,6 +10,7 @@ class Document(models.Model):
 	zone = models.ForeignKey(Zone, related_name="indigence_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="indigence_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date_delivrated    = models.DateField(default=timezone.now)
+	sous_couvert      = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = 'temoin')
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
@@ -31,6 +32,8 @@ class Document(models.Model):
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:
 			return 500
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
 
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
@@ -48,10 +51,3 @@ class PriceHistory(models.Model):
 	def total(self):
 		return self.zone_price
 
-
-class SousCouvert(models.Model):
-	document                = models.ForeignKey(Document, on_delete = models.CASCADE) 
-	nom_prenom_sous_couvert = models.CharField(max_length = 64)
-
-	def __str__(self):
-		return self.nom_prenom_sous_couvert

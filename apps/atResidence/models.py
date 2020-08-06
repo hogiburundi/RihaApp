@@ -8,9 +8,8 @@ class Document(models.Model):
 	zone = models.ForeignKey(Zone, related_name="atresidence_parc_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="atresidence_parc_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
-	first_witness = models.ForeignKey(User, related_name='atresidence_parc_witness1',max_length=64, on_delete=models.CASCADE)
-	second_witness = models.ForeignKey(User, related_name='atresidence_parc_witness2',max_length=64, on_delete=models.CASCADE)
-	quarter_leader = models.ForeignKey(User, related_name='atresidence_parc_quater_leader',max_length=64, on_delete=models.CASCADE)
+	first_witness = models.ForeignKey(Profile, related_name='atresidence_parc_witness1',max_length=64, on_delete=models.CASCADE)
+	second_witness = models.ForeignKey(Profile, related_name='atresidence_parc_witness2',max_length=64, on_delete=models.CASCADE)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
@@ -26,6 +25,25 @@ class Document(models.Model):
 			return 0
 
 
+	def save(self, *args, **kwargs):
+		super(Document, self).save(*args, **kwargs)
+		if self.ready:
+			Notification(self.user, f"l'attestation de résidance que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
+	def payment_percent(self):
+		return 100 if self.zone_payment else 0
+
+	def validation_percent(self):
+		return 100 if self.secretary_validated  else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
+		
+	def onlyPaid(): # /!\ sans self
+		return Document.objects.filter(zone_payment=True)
+		# tout les filter necessaire en fait pas seulement zone
+		# si il y a pas de payments requises : return Document.objects.all()
+
 class PriceHistory(models.Model):
 	date = models.DateField()
 	zone = models.ForeignKey(Zone, related_name="atresidence_price_province", on_delete=models.CASCADE)
@@ -33,23 +51,4 @@ class PriceHistory(models.Model):
 	
 	def total(self):
 		return self.zone_price
-
-
-class Incognito(models.Model):
-	
-	incognito_gender = models.CharField(max_length=20) 
-	incognito_last_name = models.CharField(max_length=20) 
-	incognito_first_name = models.CharField(max_length=20)
-	incognito_father_name = models.CharField(max_length=20)
-	incognito_mother_name = models.CharField(max_length=20)
-	incognito_birthday_name = models.CharField(max_length=20)
-	incognito_birth_quarter = models.CharField(max_length=20)
-	incognito_birth_zone = models.CharField(max_length=20) 
-	incognito_birth_province = models.CharField(max_length=20) 
-	incognito_nationality = models.CharField(max_length=20) 
-	incognito_marital_statute = models.CharField(max_length=20) 
-	incognito_marital_CNI = models.CharField(max_length=20)
-
-	def __str__(self):
-		return f"{ self.incognito_last_name } -- {self.incognito_first_name}"
 

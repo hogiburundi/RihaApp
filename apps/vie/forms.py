@@ -3,22 +3,27 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
-                    'class': 'form-control', 
-                    'list':'zones'}),
-        label = 'Zone')
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter')
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
+        label = 'Zone',
+        queryset = Zone.objects.all())
+    
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
+        label = 'Residence Quarter',
+        queryset = Quarter.objects.all())
 
+    matricule = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder' :'optional',
+                     'class': 'form-control'}),
+        label = 'Matrcule', required=False)
+ 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter")
+        fields = ("zone", "residence_quarter", 'matricule')
 
     def clean_zone(self, *arg,**kwargs):
         try:
@@ -36,3 +41,10 @@ class DocumentForm(forms.ModelForm):
             return quarter
         except Exception as e:
             raise forms.ValidationError("this quarter is unknown")
+
+    def clean_matricule(self, *arg,**kwargs):
+        try:
+            name = self.cleaned_data.get("matricule")
+            return name
+        except:
+            raise forms.ValidationError("this matricule is unknown")

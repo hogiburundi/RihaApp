@@ -8,70 +8,57 @@
 		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ cession.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ cession.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ cession.zone.name }}</u></strong><br/>
+		<strong>MUNICIPALITE DE {{ acte_reconnais.zone.commune.province|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ acte_reconnais.zone.commune.name|upper }}</strong><br/>
+		<strong><u>ZONE DE {{ acte_reconnais.zone.name|upper }}</u></strong><br/>
 
 		<div class="row">
 			
 			<div class="col-3">
 				MARRIAGE <br>
-				ACTE : <br>VOLUME :
+				ACTE : {{ acte_reconnais.acte }}<br>VOLUME : {{ acte_reconnais.volume }}
 			</div>
 			<div class="col-9 text-center">
 				
 
 			<p style="text-align: center;"><strong><u>ACTE DE L’ETAT CIVIL N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020 <br> ACTE DE RECONNAISSANCE</u></strong></p>
 			<p>&nbsp;</p>
-			<p class="text-justify">&emsp;&emsp;&emsp;L’an .........., le ........ jour du mois de ....., devant nous {{ cession.zone.leader }}
-			, Officier de l’Etat Civil à {{ cession.zone.commune.province }}, a comparu : {{ cession.user.first_name }} {{ cession.user.last_name }} ,
-			 .......... , {% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ cession.user.profile.father|default:"sans" }} et de
-			  {{ cession.user.profile.mother|default:"sans" }}, {% if profiles.gender == 'H' %} né {% else %} née {% endif %} à ........ en .........,
-			   résidant actuellement à {{ cession.residence_quarter.zone.commune.province.name }}, de nationalité ............. , lequel nous a déclaré en présence de
-			.............. , Fonctionnaire , agé de .............. ans, résidant à .......... ,de nationalité .......... , et de ......., Fonctionnaire, âgée ....... ans,
-			résidant à ......., de nationalité ..........., qu’il reconnait pour son enfant naturel l’enfant de sexe ............. auquel a été donné le nom et prénom de ............,
-			 né à ................., le ......... du mois d’..........., l’an .................. de lui-même déclarant et de ..................., âgée de .............. ans, 
-			 Sans profession, résidant à ................., de nationalité .................
+			<p class="text-justify">&emsp;&emsp;&emsp;L’an {{ acte_reconnais.years_letter }}, le {{ acte_reconnais.days_letter }} jour du mois de {{ acte_reconnais.months_letter }}, devant nous {{ acte_reconnais.zone.leaderFullName }}
+			, Officier de l’Etat Civil à {{ acte_reconnais.zone.commune.province }}, a comparu : {{ acte_reconnais.user.first_name }} {{ acte_reconnais.user.last_name }} ,
+			{{ acte_reconnais.work }} , {% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ acte_reconnais.user.profile.father|default:"sans" }} et de
+			  {{ acte_reconnais.user.profile.mother|default:"sans" }}, {% if profiles.gender == 'H' %} né {% else %} née {% endif %} à {{ profiles.quarter.name }} en {{ profiles.birthdate }},
+			   résidant actuellement à {{ acte_reconnais.residence_quarter.zone.commune.province.name }}, de nationalité {{ profiles.nationnalite }} , lequel nous a déclaré en présence de
+			   {{ acte_reconnais.witness1 }} , {{ acte_reconnais.witness_work1 }} , agé de {{ acte_reconnais.witness_age1 }} ans, résidant à {{ acte_reconnais.witness_province1 }} ,de nationalité .......... , et de ......., {{ acte_reconnais.witness_work2 }}, âgée {{ acte_reconnais.witness_age2 }} ans,
+			résidant à {{ acte_reconnais.witness_province2 }}, de nationalité ..........., qu’il reconnait pour son enfant naturel l’enfant de sexe ....... auquel a été donné le nom et prénom de {{ acte_reconnais.child }},
+			 né à {{ acte_reconnais.residence_quarter.zone.commune.province.name }}, le {{ acte_reconnais.child_day }} du mois d’{{ acte_reconnais.child_month }}, l’an {{ acte_reconnais.child_year }} de lui-même déclarant et de {{ acte_reconnais.wife }}, âgée de {{ acte_reconnais.wife_age }} ans, 
+			 {{ acte_reconnais.wife_work }}, résidant à {{ acte_reconnais.wife_province }}, de nationalité .................
 
-
-			 En foi de quoi, nous avons dressé le présent acte et après que connaissance de son contenu en a été donnée aux comparants et aux témoins, l’avons signé avec eux.
 			</p>
+			<br>
+			<p class="text-justify">En foi de quoi, nous avons dressé le présent acte et après que connaissance de son contenu en a été donnée aux comparants et aux témoins, l’avons signé avec eux.</p>
 			<p class="text-center">L’OFFICIER DE L’ETAT CIVIL <br>
-					Sé/ {{ cession.zone.leader }}</p>
-
-				 Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
-			Monsieur {% else %} Madame {% endif %} ,
-			 
-			originaire de la Colline {{ cession.quarter.name }}, Commune {{ cession.zone.commune.name }},
-			Province {{ cession.zone.commune.province.name }}, résidant actuellement dans la Municipalité de  à l’adresse ci-après :
-			Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.realestate_quarter.name }} à  {{ cession.beneficiary }} , fils de
-			{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_zone.name }}, Commune {{ cession.beneficiary_zone.commune.name }} , Province {{ cession.beneficiary_zone.commune.province.name }} ,
-			résidant actuellement dans la Municipalité de {{ cession.beneficiary_residence_zone.commune.province.name }} à l’adresse ci-après : {{ cession.beneficiary_residence_zone.name }}, Q. {{ cession.beneficiary_residence_quarter.name }}
-
-			<p>&emsp;&emsp;&emsp;Cette cession a eu lieu en présence des témoins ci-après :</p>
-
+					Sé/ {{ acte_reconnais.zone.leaderFullName }}</p>
+		
 			<div class="row">
-				<div class="col-6">
+				<div class="col-6 text-justify">
 					<b><u>LES COMPARANTS</u></b> <br>
-					1. {{ cession.giv_eyewitness1 }} <br>
-					2. {{ cession.giv_eyewitness2 }} <br>
-					<b>LE CHEF DE QUARTIER {{ cession.quarter.name }}</b>
-					{{ cession.quarter.leader }}
+					1. {{ acte_reconnais.user.first_name }} {{ acte_reconnais.user.last_name }}<br>
+					2. {{ acte_reconnais.wife }} <br>
+					<b>LE CHEF DE QUARTIER {{ acte_reconnais.residence_quarter.name|upper }}</b>
+					{{ acte_reconnais.residence_quarter.leaderFullName }}
 				</div>
-				<div class="col-6">
+				<div class="col-6 text-justify">
 					<b><u>LES TEMOINS</u></b> <br>
-					1. {{ cession.ben_eyewitness1 }} <br>
-					2. {{ cession.ben_eyewitness2 }} <br>
-					<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date }}</strong></p>
-					<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name}}</strong></p>
-					<p style="text-align: center;"><strong>{{ cession.zone.leader}}</strong></p>
+					1. {{ acte_reconnais.witness1 }} <br>
+					2. {{ acte_reconnais.witness2 }} <br>
+					<p style="text-align: justify;"><strong>Fait &agrave; {{ acte_reconnais.zone.commune.province }}, le {{ acte_reconnais.date|date:'d/m/Y' }}</strong></p>
+					<p style="text-align: justify;"><strong>LE CHEF DE ZONE {{ acte_reconnais.zone.name|upper }}</strong></p>
+					<p style="text-align: justify;"><strong>{{ acte_reconnais.zone.leaderFullName }}</strong></p>
 				</div>
 			</div>
 
 			</div>
 		</div>
-
-
 
 	</div>
 </div>
@@ -80,14 +67,48 @@
 	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 		{% csrf_token %}
 		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{ form.as_p }}
+			{% for fo in form %}
+
+			<div class="step-one">
+				{% if forloop.counter <= 8 %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+				{% endif %}
+			</div>
+
+			<div class="step-two">
+				{% if forloop.counter >= 9 and forloop.counter <= 17 %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+				{% endif %}
+			</div>
+
+			<div class="step-three">
+				{% if forloop.counter >= 18 %}
+				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+				{{ fo.non_field_errors }}
+				{{ fo.errors }}
+				{{ fo }}
+				{% endif %}
+			</div>
+
+			{% endfor %}
+			<br>
 		</div>
+
 		{% if preview %}
 			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
 			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% else %}
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
+			<input id="preview" type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
+			<input id="continue1" class="btn btn-outline-primary" value="Step 1">
+			<input id="continue2" class="btn btn-outline-primary" value="Step 2">
+			<input id="continue3" class="btn btn-outline-primary" value="Step 3">
+			<input id="submit" type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
 		{% endif %}
 
 		<datalist id="zones">
@@ -103,3 +124,56 @@
 	</form>
 </div>
 {% endblock main %}
+
+
+{% block scripts %}
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $(".step-two").hide();
+    $(".step-three").hide();
+	$("#continue1").hide();
+	$("#continue2").show();
+	$("#continue3").hide();
+	$("#preview").hide();
+	$("#submit").hide();
+
+    $("#continue1").click(function(){
+		$(".step-one").show();
+		$(".step-two").hide();
+		$(".step-three").hide();
+		$("#continue1").hide();
+		$("#continue2").show();
+		$("#continue3").hide();
+		$("#preview").hide();
+		$("#submit").hide();
+    });
+
+    $("#continue2").click(function(){
+        $(".step-one").hide();
+        $(".step-two").show();
+        $(".step-three").hide();
+		$("#continue2").hide();
+		$("#continue3").show();
+		$("#preview").hide();
+		$("#submit").hide();
+    });
+
+    $("#continue3").click(function(){
+        $(".step-one").hide();
+        $(".step-two").hide();
+        $(".step-three").show();
+		$("#continue1").show();
+		$("#continue2").hide();
+		$("#continue3").hide();
+		$("#preview").show();
+		$("#submit").show();
+    });
+
+});
+
+{% endblock scripts %}

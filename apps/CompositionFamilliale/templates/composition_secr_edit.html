@@ -4,33 +4,35 @@
 <div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ composition.zone.commune.province}}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ composition.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ composition.zone.name }}</u></strong><br/>
+			<div style="text-transform: uppercase;">
+			<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+			<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+			<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+			<strong>MUNICIPALITE DE {{ composition.zone.commune.province}}</strong><br/>
+			<strong>COMMUNE URBAINE DE {{ composition.zone.commune }}</strong><br/>
+			<strong><u>ZONE DE {{ composition.zone.name }}</u></strong><br/>
+		</div><br><br><br>
 		<p style="text-align: center;"><strong><u>ATTESTATION DE COMPOSITION FAMILIALE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;.../2020</u></strong></p>
 		<p>
 			
-			Je  soussigné, {{ composition.zone.leader.first_name}} {{ composition.zone.leader.last_name}}, Chef de Zone {{ composition.zone.name}}, atteste par la présente que la composition familiale de Monsieur {{composition.user.first_name}} {{composition.user.last_name}}, fils de {{composition.user.profile.father}} et de {{composition.user.profile.mother}}, originaire de la Colline {{composition.user.profile.colline}}, Commune {{composition.user.profile.commune_natal}}, Province {{composition.user.profile.province_natal}}, de nationalité {{composition.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{composition.zone.commune.province }} à l’adresse ci–après : {{composition.zone.name}}, Q.{{composition.residence_quarter}}, est la suivante : Marié  à  {{composition.fullname_lady}}.<br>
+			Je  soussigné, {{ composition.zone.leaderFullName }}, Chef de Zone {{ composition.zone.name}}, atteste par la présente que la composition familiale de Monsieur {{composition.user.first_name}} {{composition.user.last_name}}, fils de {{composition.user.profile.father}} et de {{composition.user.profile.mother}}, originaire de la Colline {{composition.user.profile.colline}}, Commune {{composition.user.profile.commune_natal}}, Province {{composition.user.profile.province_natal}}, de nationalité {{composition.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{composition.zone.commune.province }} à l’adresse ci–après : {{composition.zone.name}}, Q.{{composition.residence_quarter}}, est la suivante : Marié  à  {{composition.conjoint.fullName}}.<br>
 			<br><br>
 		</p>
 			<p><strong><u>Enfants issus du Mariage avec</u></strong> <br>
-			- {{composition.fullname_child}} née en {{composition.date_delivrated}} <br>
+			- {{comosition.child.name}} née en {{child.age}} <br>
 
 		</p>
 
-		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte  Nationale d’Identité  portant  numéro {{ composition.user.profile.CNI }} délivrée  à {{composition.user.profile.commune_natal}},  {{composition.date_delivrated}}.</p>
+		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte  Nationale d’Identité  portant  numéro {{ composition.user.profile.CNI }} délivrée  à {{composition.user.profile.commune_natal}},  {{composition.date_delivrated.date}}.</p>
 		<p>&nbsp;</p>
 		<table style="width: 588px;">
 		<tbody>
 		<tr>
 		<td style="width: 415px;">&nbsp;</td>
 		<td style="width: 375px;">
-		<p style="text-align: center;margin: 5px;float: right;"><strong>Fait &agrave; Bujumbura, le {{ composition.date_delivrated }}</strong></p>
+		<p style="text-align: center;margin: 5px;"><strong>Fait &agrave; Bujumbura, {{ composition.date_delivrated.date }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ composition.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ composition.zone.leader.first_name}} {{ composition.zone.leader.last_name}}</strong></p>
+		<p style="text-align: center;"><strong>{{ composition.zone.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -40,13 +42,13 @@
 </div>
 <div style="position: fixed; right: 0px; top:40%">
   <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_recto.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ composition.user.profile.cni_recto.url }}' height='300' />">
 	  CNI Recto
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_verso.url }}' height='300' />">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ composition.user.profile.cni_verso.url }}' height='300' />">
 	  CNI verso
 	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ id_compl.payment_method }} : <i>{{ id_compl.payment_serial }}</i></b>">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ composition.payment_method }} : <i>{{ composition.payment_serial }}</i></b>">
 	  Payements
 	</button>
 	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">

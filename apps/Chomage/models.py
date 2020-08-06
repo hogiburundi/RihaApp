@@ -32,6 +32,8 @@ class Document(models.Model):
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:
 			return 500
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
 
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0

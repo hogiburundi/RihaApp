@@ -1,56 +1,66 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 
-etat_civil = (
-    ("Celibataire", 'Celibataire'),
-    ("Marie", "Marie")
-)
+
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
-                    'class': 'form-control', 
-                    'list':'zones'}),
-        label = 'Zone')
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter')
-    etat_civil = forms.ChoiceField(
-        widget=forms.Select(
-            attrs={'placeholder':'etatcivil ','class':'form-control'}),
-        label='Etat Civil',
-        choices=etat_civil)
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
+        label = 'Zone',
+        queryset = Zone.objects.all())
+    
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
+        label = 'Residence Quarter',
+        queryset = Quarter.objects.all())
 
-    age = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'age en lettre ','class':'form-control'}), label='Age du defunt')
-    annee = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'annee en lettre ','class':'form-control'}), label='Annee')
-    jour = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'jour en lettre ','class':'form-control'}), label='Jour')
-    mois = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'mois en lettre ','class':'form-control'}), label='Mois')
+    defunt    = forms.CharField(
+        widget = forms.TextInput(
+            attrs = {'placeholder' : 'Le numero de Cni du defunt',
+                     'class': 'form-control'}),
+        label = 'Defunt')
+
+
+    date = forms.DateField(
+        widget = forms.SelectDateWidget(
+            attrs = {'placeholder': 'date' , 
+                    'class': 'form-control',
+                    'style': 'display:inline-block; width: auto'}),
+            label = 'date')
+
+
+
+    acte = forms.IntegerField(
+            widget = forms.NumberInput(
+                attrs = {'placeholder': 'numero d\'acte' , 
+                        'class': 'form-control'}),
+                label = 'Acte')
+
+            
+    volume = forms.IntegerField(
+            widget = forms.NumberInput(
+                attrs = {'placeholder': 'numero de volume', 
+                        'class': 'form-control'}),
+                label = 'Volume')
+
+            
+    class Meta:
+        model = Document
+        fields = ("zone", "residence_quarter",'date','defunt', 'acte', 'volume' )
 
     
 
-    class Meta:
-        model = Document
-        fields = ("zone", "residence_quarter", "etat_civil",'annee', 'jour', 'mois', "age" )
 
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
 
-    def clean_residence_quarter(self, *arg,**kwargs):
+    def clean_defunt(self, *arg, **kwargs):
         try:
-            name = self.cleaned_data.get("residence_quarter").split()[0]
-            zone = self.cleaned_data.get("residence_quarter").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
+            CNI = self.cleaned_data.get('defunt')
+            conjoint = Profile.objects.get(CNI = CNI)
+            return conjoint
         except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")
+            raise forms.ValidationError("Desolee, le defunt n'existe pas!! ")

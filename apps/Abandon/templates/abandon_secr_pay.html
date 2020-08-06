@@ -1,0 +1,8 @@
+{% extends 'pages/riha-base.html' %}
+{% block main-content %}
+
+{% if modal_mode %}
+	{% block main %}
+		Jonkur {{ modal_mode}}
+	{% endblock main %}
+{% endif %}

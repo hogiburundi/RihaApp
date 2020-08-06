@@ -10,8 +10,10 @@ class Document(models.Model):
 	user = models.ForeignKey(User, related_name="vie_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="vie_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="vie_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	# date = models.DateField(default=timezone.now)
-	date_delivrated    = models.DateField(default=timezone.now)
+	
+	# date_delivrated    = models.DateField(default=timezone.now)
+	matricule = models.CharField(max_length = 30)
+	
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
@@ -36,10 +38,15 @@ class Document(models.Model):
 
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
+		
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
 
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 
+	def __str__(self):
+		return f"{self.user} {self.zone}"
 
 
 class PriceHistory(models.Model):

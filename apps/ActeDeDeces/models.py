@@ -2,19 +2,23 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
+from apps.base.date_conversion import lireDate
+import inflect
+from datetime import date
+
+
 
 class Document(models.Model):
 	name_apps          = models.CharField(max_length = 50, default = "Attestation d'acte de deces")
 	user = models.ForeignKey(User, related_name="acte_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="acte_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="acte_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	date_delivrated   = models.DateField(default=timezone.now)
-
-	annee             = models.CharField(max_length = 100)
-	jour              = models.CharField(max_length = 100)
-	mois              = models.CharField(max_length = 100)
-	age               = models.CharField(max_length = 100)
-	# etat_civil_defunt = models.ChoiceField(blank = True, choices=etat_civil)
+	
+	defunt = models.ForeignKey(Profile, related_name = 'defunt', null = True, on_delete = models.SET_NULL)
+	date  = models.DateField(default=timezone.now)
+	acte  = models.IntegerField()
+	volume = models.IntegerField()	
+	# age_defunt = models.IntegerField()
 
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
@@ -42,11 +46,25 @@ class Document(models.Model):
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
 
+
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 
+	def dateString(self):
+		return lireDate(self.date)
 
 
+	def ageString(self): 
+		age_user = date.today().year - birthdate.year
+		
+		p = inflect.engine()
+		return p.number_to_words(self.age_user)
+		return age_user
+
+	
 class PriceHistory(models.Model):
 	date = models.DateField()
 	zone = models.ForeignKey(Zone, related_name="acte_price_province", on_delete=models.CASCADE)

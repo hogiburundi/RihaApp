@@ -8,9 +8,11 @@ class Document(models.Model):
 	user                = models.ForeignKey(User, related_name="abandon_user", null=True, on_delete=models.SET_NULL)
 	zone                = models.ForeignKey(Zone, related_name="abandon_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter   = models.ForeignKey(Quarter, related_name="abandon_residence", max_length=64, null=True, on_delete=models.SET_NULL)
+	
 	tuteurAcueillantObjetAbandon  = models.CharField(max_length = 150)
 	objet_abandon                 = models.CharField(max_length=50)
 	date_delivrated     = models.DateField(default=timezone.now)
+	
 	rejection_msg       = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready               = models.BooleanField(default=False)
@@ -22,10 +24,12 @@ class Document(models.Model):
 	def requirements():
 		return ["CNI",
 				"presence physique ou autre document prouvant son existance" ]
+	
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
 			Notification(self.user, f"l'attestation d'abandon que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+
 
 	def price(self):
 		try:
@@ -36,8 +40,14 @@ class Document(models.Model):
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
 
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
 
 
 
@@ -48,3 +58,5 @@ class PriceHistory(models.Model):
 	
 	def total(self):
 		return self.zone_price
+
+

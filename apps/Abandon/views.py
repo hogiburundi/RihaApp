@@ -6,6 +6,7 @@ from django.views import View
 
 from .forms import DocumentForm
 from apps.base.forms import *
+from apps.base.models import *
 from .models import *
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
@@ -13,7 +14,7 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "abandon_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.objects.all()
+		documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -39,8 +40,16 @@ class SecretaryView(LoginRequiredMixin, View):
 			return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
+class SecretaryPayView(LoginRequiredMixin, View):
+	template_name = "abandon_secr_pay.html"
+
+	def get(self, request, document_id, *args, **kwargs):
+		modal_mode = False
+		abandon = get_object_or_404(Document, id=document_id)
+		return render(request, self.template_name, locals())
+
 class DocumentListView(LoginRequiredMixin, View):
-	template_name = "vie_list.html"
+	template_name = "abandon_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+"_form"
 		payform = BASE_NAME+"_payform"
@@ -50,18 +59,12 @@ class DocumentListView(LoginRequiredMixin, View):
 
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "abandon_form.html"
-	quarters = Quarter.objects.all()
-	zones = Zone.objects.all()
 
 	def get(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
 			preview = True
@@ -102,5 +105,6 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.zone_payment = zone_payment
 			document.save()
 			return redirect(BASE_NAME+"_list")
+		print(form)
 		return render(request, self.template_name, locals())
 

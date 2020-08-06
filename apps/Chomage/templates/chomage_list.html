@@ -20,7 +20,7 @@
 			<td> {{ document.validation_percent }} % </td>
 			<td> {{ document.date_delivrated }}</td>
 			<td>
-				{% if document.ready %}
+				{% if document.payment_percent == 100 and document.validation_percent == 100 %}
 					<i class="fas fa-check text-success"></i>
 				{% else %}
 					<i class="fas fa-times text-danger"></i>

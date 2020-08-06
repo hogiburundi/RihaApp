@@ -13,7 +13,7 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "chomage_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.objects.all()
+		documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -38,6 +38,15 @@ class SecretaryView(LoginRequiredMixin, View):
 			chomage.save()
 			return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
+
+class SecretaryPayView(LoginRequiredMixin, View):
+	template_name = "chomage_secr_pay.html"
+
+	def get(self, request, document_id, *args, **kwargs):
+		modal_mode = False
+		chomage = get_object_or_404(Document, id=document_id)
+		return render(request, self.template_name, locals())
+
 
 class DocumentListView(LoginRequiredMixin, View):
 	template_name = "chomage_list.html"

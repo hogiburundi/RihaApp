@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
+from apps.base.date_conversion import lireDate
+import inflect
 
 
 class Document(models.Model):
@@ -9,18 +11,13 @@ class Document(models.Model):
 	user = models.ForeignKey(User, related_name="marriage_user", null=True, on_delete=models.SET_NULL)
 	
 
-	age_epoux         = models.CharField(max_length = 100)
-	year              = models.CharField(max_length = 100)#for the user en lettres
-	jour              = models.CharField(max_length = 100)
-	mois              = models.CharField(max_length = 100)
+
+	conjoint = models.ForeignKey(Profile, related_name="epoux_epouse", null=True, on_delete=models.SET_NULL)
+	acte  = models.IntegerField()
+	volume = models.IntegerField()
+	date  = models.DateField(default=timezone.now)
+
 	
-	nom_prenom_epouse= models.CharField(max_length = 100)
-	nom_prenom_pere_epouse  = models.CharField(max_length = 100)
-	nom_prenom_mere_epouse  = models.CharField(max_length = 100)
-	age_epouse              = models.CharField(max_length = 100)
-	job_epouse         = models.CharField(max_length = 100)
-	residence_epouse   = models.CharField(max_length = 100)
-	nationalite_epouse = models.CharField(max_length = 100, default = "Burundaise")
 	
 	zone = models.ForeignKey(Zone, related_name="marriage_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="marriage_residence", max_length=64, null=True, on_delete=models.SET_NULL)
@@ -50,8 +47,24 @@ class Document(models.Model):
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
 
+
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
+
+	def __str__(self):
+		return f"{self.user} {self.zone}"
+
+
+	def dateString(self):
+		return lireDate(self.date)
+
+	def ageString(self):
+		p = inflect.engine()
+		return p.number_to_words(self.date)
+
 
 
 

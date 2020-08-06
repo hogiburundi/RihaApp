@@ -13,7 +13,6 @@ class Document(models.Model):
 	comparant_3 = models.ForeignKey(Profile, related_name="notoriete_comparant_3", null=True, on_delete=models.SET_NULL)
 
 	zone = models.ForeignKey(Zone, related_name="notoriete_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	residence_quarter = models.ForeignKey(Quarter, related_name="notoriete_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)

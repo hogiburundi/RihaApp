@@ -1,83 +1,153 @@
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-{% if preview %}
-<div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>PROVINCE DE {{ bans_mariage.zone.commune.province.name|upper }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ bans_mariage.zone.commune.name|upper }}</strong><br/>
-		<strong>ZONE DE {{ bans_mariage.zone.name|upper }}</strong><br/>
-		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/><br/>
+{% block main-content %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
+
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                        <i class="ft-corner-left-down"></i> Requirements
+                    </h6>
+                </div>
+
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
+                        </li>
+                    </ul>
+                </div>                          
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+            </div>
+            <div class="card-body">
+				{% if preview %}
+				<div id="document" class="col-12 mb-2" style="overflow:auto;">
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+                        <strong>PROVINCE DE {{ bans_mariage.zone.commune.province.name|upper }}</strong><br/>
+                        <strong>COMMUNE URBAINE DE {{ bans_mariage.zone.commune.name|upper }}</strong><br/>
+                        <strong>ZONE DE {{ bans_mariage.zone.name|upper }}</strong><br/>
+                        <strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/><br/>
 
 
-		<p style="text-align: center;"><strong>PROCES-VERBAL D&rsquo;AFFICHAGE DE PUBLICATION DES BANS DE <br>
-		<u>MARIAGE </u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-		<p>&nbsp;</p>
+                        <p style="text-align: center;"><strong>PROCES-VERBAL D&rsquo;AFFICHAGE DE PUBLICATION DES BANS DE <br>
+                        <u>MARIAGE </u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+                        <p>&nbsp;</p>
 
-		L’an deux mille dix neuf, le septi&egrave;me jour du mois  de mai
-		Nous {{ bans_mariage.zone.leaderFullName}} Officier de l’Etat civil &agrave; {{ bans_mariage.zone.name }}, avons conform&eacute;ment &agrave; la l’article cent treize du D&eacute;cret-loi № 1/024 du 28 Avril 1993 portant reforme du Code des Personnes et de la Famille proclam&eacute; et affich&eacute; &agrave; la porte de notre Office qu’il y a projet de mariage entre :<br/><br/>
+                        L’an deux mille dix neuf, le septi&egrave;me jour du mois  de mai
+                        Nous {{ bans_mariage.zone.leaderFullName}} Officier de l’Etat civil &agrave; {{ bans_mariage.zone.name }}, avons conform&eacute;ment &agrave; la l’article cent treize du D&eacute;cret-loi № 1/024 du 28 Avril 1993 portant reforme du Code des Personnes et de la Famille proclam&eacute; et affich&eacute; &agrave; la porte de notre Office qu’il y a projet de mariage entre :<br/><br/>
 
-		Mr. {{ bans_mariage.user.last_name }} {{ bans_mariage.user.first_name }}, {% if bans_mariage.user.profile.job %}Profession {{ bans_mariage.user.profile.job }}{% else %} Sans Profession{% endif %}, fils de {{ bans_mariage.user.profile.father|upper }} et de {{ bans_mariage.user.profile.mother|upper }}, n&eacute; le {{ bans_mariage.user.profile.birthdate }} &agrave; {{ bans_mariage.zone.name|upper }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave; {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalit&eacute; {{ bans_mariage.user.profile.nationality }}, {% if bans_mariage.user.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’une part.<br/><br/>
-
-
-		<p id="normal">Mlle {{ bans_mariage.bride.last_name }} {{ bans_mariage.bride.first_name }},{% if bans_mariage.bride.profile.job %} Profession {{ bans_mariage.bride.profile.job }} {% else %} Sans Profession {% endif %}, fille de {{ bans_mariage.bride.profile.father|upper }} et de {{ bans_mariage.bride.profile.mother|upper }}, née &agrave; NYAMUGARI, le {{ bans_mariage.bride.profile.birthdate }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalité {{ bans_mariage.bride.profile.nationality }}, {% if bans_mariage.bride.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’autre part.</p>
-
-		Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la {{ bans_mariage.zone.commune.province }} &agrave; partir du {{ bans_mariage.date|date:"SHORT_DATE_FORMAT" }}.<br/><br/>
-
-		Toute personne qui a des objections &agrave; l’encontre dudit mariage peut soit former opposition conform&eacute;ment  aux articles cent quatre, cent cinq et cent six du Code des Personnes et de la Famille soit communiquer ses objections &agrave; l’Officier d’&eacute;tat civil de {{ bans_mariage.zone.commune.province }}.<br/><br/>
-
-		En foi de quoi, nous avons dress&eacute; le pr&eacute;sent proc&egrave;s-verbal au jour, mois et an que dessus.<br/><br/>
+                        Mr. {{ bans_mariage.user.last_name }} {{ bans_mariage.user.first_name }}, {% if bans_mariage.user.profile.job %}Profession {{ bans_mariage.user.profile.job }}{% else %} Sans Profession{% endif %}, fils de {{ bans_mariage.user.profile.father|upper }} et de {{ bans_mariage.user.profile.mother|upper }}, n&eacute; le {{ bans_mariage.user.profile.birthdate }} &agrave; {{ bans_mariage.zone.name|upper }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave; {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalit&eacute; {{ bans_mariage.user.profile.nationality }}, {% if bans_mariage.user.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’une part.<br/><br/>
 
 
-		<table style="width: 588px;">
-		<tbody>
-		<tr>
-		<td style="width: 315px;">&nbsp;</td>
-		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>L’OFFICIER DE L’ETAT CIVIL </strong></p>
-		<p style="text-align: center;"><strong>{{ bans_mariage.zone.leaderFullName }}</strong></p>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<p style="text-align: right;">&nbsp;</p>
+                        <p id="normal">Mlle {{ bans_mariage.bride.last_name }} {{ bans_mariage.bride.first_name }},{% if bans_mariage.bride.profile.job %} Profession {{ bans_mariage.bride.profile.job }} {% else %} Sans Profession {% endif %}, fille de {{ bans_mariage.bride.profile.father|upper }} et de {{ bans_mariage.bride.profile.mother|upper }}, née &agrave; NYAMUGARI, le {{ bans_mariage.bride.profile.birthdate|date:"SHORT_DATE_FORMAT" }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalité {{ bans_mariage.bride.profile.nationality }}, {% if bans_mariage.bride.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’autre part.</p>
+
+                        Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la {{ bans_mariage.zone.commune.province }} &agrave; partir du {{ bans_mariage.date|date:"SHORT_DATE_FORMAT" }}.<br/><br/>
+
+                        Toute personne qui a des objections &agrave; l’encontre dudit mariage peut soit former opposition conform&eacute;ment  aux articles cent quatre, cent cinq et cent six du Code des Personnes et de la Famille soit communiquer ses objections &agrave; l’Officier d’&eacute;tat civil de {{ bans_mariage.zone.commune.province }}.<br/><br/>
+
+                        En foi de quoi, nous avons dress&eacute; le pr&eacute;sent proc&egrave;s-verbal au jour, mois et an que dessus.<br/><br/>
+
+
+                        <table style="width: 588px;">
+                        <tbody>
+                        <tr>
+                        <td style="width: 315px;">&nbsp;</td>
+                        <td style="width: 275px;">
+                        <p style="text-align: center;"><strong>L’OFFICIER DE L’ETAT CIVIL </strong></p>
+                        <p style="text-align: center;"><strong>{{ bans_mariage.zone.leaderFullName }}</strong></p>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <p style="text-align: right;">&nbsp;</p>
+					</div>
+				</div>
+				{% endif %}
+                
+				<form class="form-horizontal" method="POST" action="." novalidate>
+                        {% csrf_token %}                     
+
+                        <div class="row" id="formulaire" {% if preview %} style="display: none;" {% endif %} >
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gender">Zone:</label>
+                                    {{ form.zone }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nationality">Quartier de résidance : </label>
+                                    {{ form.residence_quarter }}
+                                </div>                                                  
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nationality">Epouse : </label>
+                                    {{ form.bride }}
+                                </div>                                                  
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nationality">Date de mariage : </label>
+                                    {{ form.date }}
+                                </div>                                                  
+                            </div>
+                        </div>
+
+                    <div class="text-right">
+                    {% if preview %} 
+                    <div class="text-center mt-2">      
+                        <button type="cancel" name="cancel" class="btn btn-outline-info round font-medium-2">
+                            <i class="ft-corner-up-left"></i>Retour
+                        </button>
+                                                                                                                  
+                        <button type="submit" name="submit" class="btn btn-outline-success">
+                            <i class="ft-navigation"></i>Envoyer
+                        </button>
+                    </div>
+                    {% else %}
+                        <button type="submit" name="preview" href="recom_preview.html" class="btn btn-outline-warning"> 
+                            <i class="ft-eye"></i> Preview
+                        </button>
+
+                        <button type="submit" name="submit" class="btn btn-outline-success">
+                            <i class="ft-navigation"></i>Envoyer
+                        </button>
+                         
+                    {% endif %}
+
+                      </div>
+                    </form>
+	        </div> <!-- End card body -->
+	    </div>	
 	</div>
 </div>
-{% endif %}
-<div class="m-auto col-12 col-md-6">
-	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-			{{form.zone}}<br>
-			{{form.bride}}<a href="{% url 'register' %}">Ajout</a>
-			{{form.residence_quarter}}<br>
-			{{form.date}}<br>
-		</div>
-		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
-		{% else %}
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="submit">
-			<input type="submit" class="btn btn-outline-secondary" name="preview" value="preview">
-		{% endif %}
-
-		<datalist id="zones">
-			{% for zone in zones %}
-				<option value="{{ zone.name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="profiles">
-			{% for profile in profiles %}
-				<option value="{{ profile.user.first_name }} {{ profile.user.last_name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="quarters">
-			{% for quarter in quarters %}
-				<option value="{{ quarter }}"/> 
-			{% endfor %}
-		</datalist>
-	</form>
-</div>
-{% endblock main %}
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
+<script>
+	$('#zones').chosen({ width: '100%' });
+	$('#quarters').chosen({ width: '100%' });
+	$('#profiles').chosen({ width: '100%' });
+</script>
+{% endblock %}

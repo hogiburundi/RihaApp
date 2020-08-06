@@ -5,50 +5,51 @@ from datetime import date
 
 class DocumentForm(forms.ModelForm):
 
-    zone = forms.CharField(
-        widget = forms.TextInput(
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
                     'list':'zones'}),
-        label = 'Zone de residence actuelle')
+        label = 'Zone de residence actuelle',
+        queryset = Zone.objects.all())
 
-    dead_man =  forms.CharField(
-        widget = forms.TextInput(
+    dead_man =  forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': "Nom Défunt", 
                     'class': 'form-control',
                     'list':'profiles'}),
-        label = "Nom complet du Défunt")
+        label = "Nom complet du Défunt",
+        queryset = Profile.objects.all())
     
 
-    residence_quarter_DM = forms.CharField(
-        widget = forms.TextInput(
+    residence_quarter_DM = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Quartier de residence actuelle')
+        label = 'Quartier de residence actuelle',
+        queryset = Quarter.objects.all())
 
-    DM_date = forms.DateField(
-        widget=forms.SelectDateWidget(
-            years=range(1960, date.today().year),
-            attrs={'placeholder':'yyyy-mm-dd ',
-                'class':'form-control',
-                'style':'width: auto;display: inline-block;'}),
-        label='Date de décès')
+    DM_date = forms.DateField(widget=forms.TextInput(
+            attrs={'placeholder':'date delivrated ', 'type':'date',
+                'class':'form-control',}),
+        label='Date et heure de décès :', required=False,initial=date.today())
 
-
-    first_witness = forms.CharField(
-        widget = forms.TextInput(
+    first_witness = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Temoin', 
                     'class': 'form-control', 
                     'list':'profiles'}),
-        label = "1er Témoin")
+        label = "1er Témoin",
+        queryset =Profile.objects.all())
 
-    second_witness = forms.CharField(
-        widget = forms.TextInput(
+    second_witness = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Temoin', 
                     'class': 'form-control', 
                     'list':'profiles'}),
-        label = "2ème Témoin")
+        label = "2ème Témoin",
+        queryset =Profile.objects.all())
 
     class Meta:
         model = Document
@@ -56,49 +57,6 @@ class DocumentForm(forms.ModelForm):
         fields = ("zone", "dead_man","residence_quarter_DM","DM_date",
             "first_witness","second_witness")
 
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
-
-    def clean_dead_man(self, *arg, **kwargs):
-        try:
-            last_name = self.cleaned_data.get("dead_man").split()[0]
-            first_name = self.cleaned_data.get("dead_man").split()[-1]
-            profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
-
-    def clean_residence_quarter_DM(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("residence_quarter_DM").split()[0]
-            zone = self.cleaned_data.get("residence_quarter_DM").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
-        except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")
-
-    def clean_first_witness(self, *arg, **kwargs):
-        try:
-            last_name = self.cleaned_data.get("first_witness").split()[0]
-            first_name = self.cleaned_data.get("first_witness").split()[-1]
-            profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
-
-    def clean_second_witness(self, *arg, **kwargs):
-        try:
-            last_name = self.cleaned_data.get("second_witness").split()[0]
-            first_name = self.cleaned_data.get("second_witness").split()[-1]
-            profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")
 
 
 

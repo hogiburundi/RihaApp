@@ -4,59 +4,36 @@ from apps.base.models import *
 from datetime import date
 
 class DocumentForm(forms.ModelForm):
-    bride = forms.CharField(
-        widget = forms.TextInput(
+    bride = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Bride', 
                     'class': 'form-control', 
                     'list':'profiles'}),
-        label = 'Bride')
+        label = 'Bride',
+        queryset = Profile.objects.all())
 
-    zone = forms.CharField(
-        widget = forms.TextInput(
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
                     'list':'zones'}),
-        label = 'Zone')
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
+        label = 'Zone',
+        queryset = Zone.objects.all())
+
+
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
                     'list':'quarters'}),
-        label = 'Residence Quarter')
+        label = 'Residence Quarter',
+        queryset = Quarter.objects.all())
 
-    date = forms.DateField(widget=forms.SelectDateWidget(
-        years=range(1990, date.today().year),
-            attrs={'placeholder':'date delivrated ',
-                     'class':'form-control',
-                    'style':'display:inline-block; width:auto'}),
-        label="Date d'Etat-Civil")
+    date = forms.DateField(widget=forms.TextInput(
+            attrs={'placeholder':'date delivrated ', 'type':'date',
+                'class':'form-control',}),
+        label='Date d\'etat civil :', required=False,initial=date.today())
 
     class Meta:
         model = Document
         fields = ("zone", "bride", "residence_quarter", 'date')
-
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
-
-    def clean_residence_quarter(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("residence_quarter").split()[0]
-            zone = self.cleaned_data.get("residence_quarter").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
-        except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")
-
-    def clean_bride(self, *arg, **kwargs):
-        try:
-            first_name = self.cleaned_data.get("bride").split()[0]
-            last_name = self.cleaned_data.get("bride").split()[-1]
-            profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-            return profile
-        except Exception as e:
-            raise forms.ValidationError("unknown user")

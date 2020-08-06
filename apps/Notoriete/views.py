@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import DocumentForm
+from .forms import DocumentForm, ValidationForm
 from apps.base.forms import *
 from .models import *
 
@@ -14,29 +14,32 @@ class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "notoriete_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		documents = Document.objects.all()
+		validation_form = ValidationForm()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
 	template_name = "notoriete_secr_edit.html"
 
 	def get(self, request, document_id, *args, **kwargs):
+		validation_form = ValidationForm()
 		notoriete = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		notoriete = get_object_or_404(Document, id=document_id)
-		if "reject" in request.POST:
-			notoriete.rejection_msg = request.POST["rejection_msg"]
-			notoriete.secretary_validated = True
-			notoriete.save()
-			return redirect(BASE_NAME+'_secr_list')
-
-		if "cancel" in request.POST:
-			pass
-		if "validate" in request.POST:
-			notoriete.secretary_validated = True
-			notoriete.save()
-			return redirect(BASE_NAME+'_secr_list')
+		validation_form = ValidationForm(request.POST)
+		if(validation_form.is_valid()):
+			print(request.POST)
+			if "reject" in request.POST:
+				print(validation_form.cleaned_data["cni_recto"],
+					validation_form.cleaned_data["cni_recto"],
+					validation_form.cleaned_data["cni"],
+					validation_form.cleaned_data["payment"])
+			if "ready" in request.POST:
+				pass
+			if "valid" in request.POST:
+				id_compl.secretary_validated = True
+				id_compl.save()
+				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
 class DocumentListView(LoginRequiredMixin, View):

@@ -1,89 +1,131 @@
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-<div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ reconnais.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ reconnais.zone.commune.name }}</strong><br/>
-		<strong><u>ZONE DE {{ reconnais.zone.name }}</u></strong><br/>
-		<p style="text-align: center;"><strong><u>ATTESTATION DE RECONNAISSANCE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-		<p>&nbsp;</p>
-		<p>Je soussign&eacute;, {{ reconnais.zone.leader}}, Chef de Zone {{ reconnais.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;Association "{{ reconnais.association }}" exerce ses activit&eacute;s dans la Commune Urbaine de {{ reconnais.zone.commune.name }},Zone {{ reconnais.zone.name }},depuis {{ reconnais.start_year }} <br>
-		La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour servir et faire valoir ce que de droit.</p>
 
-		<p>
-			<b><u>Sous-Couvert de :</u></b><br>                              
+{% block main-content %}
 
-			Chef de Quartier {{ reconnais.zone.name }}   <br>         
-		
-			{{ reconnais.zone.leaderFullName }}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
 
-		</p><p>&nbsp;</p>
-		<table style="width: 588px;">
-		<tbody>
-		<tr>
-		<td style="width: 315px;">&nbsp;</td>
-		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ reconnais.date }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ reconnais.zone.name }}</strong></p>
-		<p style="text-align: center;"><strong>{{ reconnais.zone.profile }}</strong></p>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<p style="text-align: right;">&nbsp;</p>
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                        <i class="ft-corner-left-down"></i> pièces jointes
+                    </h6>
+                </div>
+
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_recto.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-left">
+                            	<i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto </a>
+                        </li>
+                        <li class="list-group-item"data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ id_compl.user.profile.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-left">
+                            	<i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Verso</a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ id_compl.zone_payment.place }}/{{ id_compl.zone_payment.type_payement }} : <i>{{ id_compl.zone_payment.id_transaction }}</i></b>">
+                            <span class="badge badge-warning badge-pill float-left">
+                            	<i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; Paiement</a>
+                        </li>
+                    </ul>
+                </div>                          
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i>Attestation de Reconnaissance</h1>
+            </div>
+            <div class="card-body">
+				<div id="document" class="col-12">
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+						<strong>MUNICIPALITE DE {{ reconnais.zone.commune.province }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ reconnais.zone.commune.name }}</strong><br/>
+						<strong><u>ZONE DE {{ reconnais.zone.name }}</u></strong><br/>
+						<p style="text-align: center;"><strong><u>ATTESTATION DE RECONNAISSANCE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+						<p>&nbsp;</p>
+						<p>Je soussign&eacute;, {{ reconnais.zone.leader}}, Chef de Zone {{ reconnais.zone.name }}, atteste par la pr&eacute;sente que l&rsquo;Association "{{ reconnais.association }}" exerce ses activit&eacute;s dans la Commune Urbaine de {{ reconnais.zone.commune.name }},Zone {{ reconnais.zone.name }},depuis {{ reconnais.start_year }} <br>
+						La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour servir et faire valoir ce que de droit.</p>
+				
+						<p>
+							<b><u>Sous-Couvert de :</u></b><br>                              
+				
+							Chef de Quartier {{ reconnais.zone.name }}   <br>         
+						
+							{{ reconnais.zone.leaderFullName }}
+				
+						</p><p>&nbsp;</p>
+						<table style="width: 588px;">
+						<tbody>
+						<tr>
+						<td style="width: 315px;">&nbsp;</td>
+						<td style="width: 275px;">
+						<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ reconnais.date }}</strong></p>
+						<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ reconnais.zone.name }}</strong></p>
+						<p style="text-align: center;"><strong>{{ reconnais.zone.profile }}</strong></p>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+						<p style="text-align: right;">&nbsp;</p>
+					</div>
+				</div>
+	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-info ml-1 mt-1" name="cancel" value="cancel">
+						<i class="ft-corner-up-left"></i> Retour 
+					</button>
+					<button type="submit" class="btn btn-outline-warning mt-1" name="preview" value="validate">
+						<i class="ft-eye"></i> Valider
+					</button>
+					<button type="submit" class="btn btn-outline-success mt-1" name="preview" value="validate">
+						<i class="ft-eye"></i> Imprimer
+					</button>
+					<button type="submit" class="btn btn-outline-danger mt-1" name="submit" value="reject">
+						<i class="ft-navigation"></i>Rejeter</a>
+					</button>
+	            </form>
+	        </div> <!-- End card body -->
+	    </div>	
 	</div>
 </div>
-<div style="position: fixed; right: 0px; top:40%">
-  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ reconnais.user.profile.cni_recto.url }}' height='300' />">
-	  CNI Recto
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ reconnais.user.profile.cni_verso.url }}' height='300' />">
-	  CNI verso
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ reconnais.payment_method }} : <i>{{ reconnais.payment_serial }}</i></b>">
-	  Payements
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-	  Other
-	</button>
-  </div>
-</div>
-<div class="m-2">
-	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
-		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
-		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
-		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
-		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
-	</form>
-</div>
+
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
-$("#rejection-button").on('click', function(event) {
-	$rejection_msg = $(".rejection-msg");
-	if($rejection_msg.css('display')=="none"){
-		$rejection_msg.css('display',"");
-		event.preventDefault();
-	}else{
-		if($rejection_msg.val().trim().length>0){
+// $("#rejection-button").on('click', function(event) {
+// 	$rejection_msg = $(".rejection-msg");
+// 	if($rejection_msg.css('display')=="none"){
+// 		$rejection_msg.css('display',"");
+// 		event.preventDefault();
+// 	}else{
+// 		if($rejection_msg.val().trim().length>0){
 
-		}else{
-			$rejection_msg.css('display',"none");
-			event.preventDefault();
-		}
-	}
-});
+// 		}else{
+// 			$rejection_msg.css('display',"none");
+// 			event.preventDefault();
+// 		}
+// 	}
+// });
 $("#print-button").on('click', function(event) {
 	event.preventDefault();
 	printDiv();
@@ -100,7 +142,6 @@ function printDiv() {
 	a.print(); 
 	a.close();
 }
-
 });
 </script>
-{% endblock main %}
+{% endblock %}

@@ -1,136 +1,171 @@
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-{% if preview %}
-<div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ cession.zone.commune.province|upper }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ cession.zone.commune.name|upper }}</strong><br/>
-		<strong><u>ZONE DE {{ cession.zone.name|upper }}</u></strong><br/> <br> <br>
-		<p style="text-align: center;"><strong><u>ATTESTATION DE CESSION DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-		<p>&nbsp;</p>
-		<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.zone.leaderFullName }}, Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
-		Monsieur {% else %} Madame {% endif %} {{ cession.user.first_name }} {{ cession.user.last_name }},
-		{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ cession.user.profile.father|default:"sans" }} et de {{ cession.user.profile.mother|default:"sans" }},
-		originaire de la Colline {{ profiles.quarter.name }}, Commune {{ cession.zone.commune.name }},
-		Province {{ cession.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ cession.residence_quarter.zone.commune.province.name }} à l’adresse ci-après :
-		Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.property_quarter.name }} à  {{ cession.beneficiary }} , {% if check_cni.gender == 'F' %} fille {% else %} fils {% endif %} de
-		{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_residence_zone.name }},
-		Commune {{ cession.beneficiary_residence_zone.commune.name }} , Province {{ cession.beneficiary_residence_zone.commune.province.name }} ,
-		résidant actuellement dans la Municipalité de {{ cession.beneficiary_residence_zone.commune.province.name }} à l’adresse ci-après : {{ cession.beneficiary_residence_zone.name }}, Q. {{ cession.beneficiary_residence_quarter.name }}
 
+{% block main-content %}
 
-		<p>&emsp;&emsp;&emsp;Cette cession a eu lieu en présence des témoins ci-après :</p>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
 
-		<div class="row">
-			<div class="col-6">
-				<b><u>LE CESSIONNAIRE</u></b> <br>
-				{{ cession.user.first_name }} {{ cession.user.last_name }} <br>
-				{{ profiles.CNI }} <br> <br>
-				<b><u>LES TEMOINS</u></b> <br>
-				1. {{ cession.witness11 }} <br>
-				CNI : {{ cession.cnis11 }} <br>
-				2. {{ cession.witness12 }} <br>
-				CNI : {{ cession.cnis12 }} <br> <br>
-				<b>LE CHEF DE QUARTIER {{ cession.residence_quarter.name|upper }}</b>
-				{{ cession.quarter.leaderFullName }}
+	<div class="col-xl-3 col-md-12"><!-- begin left  column -->
+		<div class="card">
+			<div class="card-body">
+				<div class="category-title pb-1">
+					<h6 class="text-center font-medium-1 text-bold-800 text-info">
+						<i class="ft-corner-left-down"></i> Requirements
+					</h6>
+				</div>
+
+				<div>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
+						</li>
+					</ul>
+				</div>                          
+			</div> 
+		</div>             
+	</div> <!-- end left  column --> 
+	<div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+		<div class="card border-info border-lighten-1"> <!-- begin card -->
+			<div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+				<h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i>Cession de parcelle</h1>
 			</div>
-			<div class="col-6">
-				<b><u>LE BENEFICIAIRE</u></b> <br>
-				{{ cession.beneficiary }} <br>
-				{{ check_cni.CNI }} <br> <br>
-				<b><u>LES TEMOINS</u></b> <br>
-				1. {{ cession.witness21 }} <br>
-				CNI : {{ cession.cnis21 }} <br>
-				2. {{ cession.witness22 }} <br>
-				CNI : {{ cession.cnis22 }} <br> <br>
-				<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date|date:'d/m/Y' }}</strong></p>
-				<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name|upper }}</strong></p>
-				<p style="text-align: center;"><strong>{{ cession.zone.leaderFullName }}</strong></p>
-			</div>
-		</div>
+			<div class="card-body">
+				{% if preview %}
+				<div id="document" class="col-12">
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+						<strong>MUNICIPALITE DE {{ cession.zone.commune.province|upper }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ cession.zone.commune.name|upper }}</strong><br/>
+						<strong><u>ZONE DE {{ cession.zone.name|upper }}</u></strong><br/> <br> <br>
+						<p style="text-align: center;"><strong><u>ATTESTATION DE CESSION DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+						<p>&nbsp;</p>
+						<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.zone.leaderFullName }}, Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
+						Monsieur {% else %} Madame {% endif %} {{ cession.user.first_name }} {{ cession.user.last_name }},
+						{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ cession.user.profile.father|default:"sans" }} et de {{ cession.user.profile.mother|default:"sans" }},
+						originaire de la Colline {{ profiles.quarter.name }}, Commune {{ cession.zone.commune.name }},
+						Province {{ cession.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ cession.residence_quarter.zone.commune.province.name }} à l’adresse ci-après :
+						Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.property_quarter.name }} à  {{ cession.beneficiary }} , {% if check_cni.gender == 'F' %} fille {% else %} fils {% endif %} de
+						{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_residence_zone.name }},
+						Commune {{ cession.beneficiary_residence_zone.commune.name }} , Province {{ cession.beneficiary_residence_zone.commune.province.name }} ,
+						résidant actuellement dans la Municipalité de {{ cession.beneficiary_residence_zone.commune.province.name }} à l’adresse ci-après : {{ cession.beneficiary_residence_zone.name }}, Q. {{ cession.beneficiary_residence_quarter.name }}
 
 
+						<p>&emsp;&emsp;&emsp;Cette cession a eu lieu en présence des témoins ci-après :</p>
+
+						<div class="row">
+							<div class="col-6">
+								<b><u>LE CESSIONNAIRE</u></b> <br>
+								{{ cession.user.first_name }} {{ cession.user.last_name }} <br>
+								{{ profiles.CNI }} <br> <br>
+								<b><u>LES TEMOINS</u></b> <br>
+								1. {{ cession.witness11 }} <br>
+								CNI : {{ cession.cnis11 }} <br>
+								2. {{ cession.witness12 }} <br>
+								CNI : {{ cession.cnis12 }} <br> <br>
+								<b>LE CHEF DE QUARTIER {{ cession.residence_quarter.name|upper }}</b>
+								{{ cession.quarter.leaderFullName }}
+							</div>
+							<div class="col-6">
+								<b><u>LE BENEFICIAIRE</u></b> <br>
+								{{ cession.beneficiary }} <br>
+								{{ check_cni.CNI }} <br> <br>
+								<b><u>LES TEMOINS</u></b> <br>
+								1. {{ cession.witness21 }} <br>
+								CNI : {{ cession.cnis21 }} <br>
+								2. {{ cession.witness22 }} <br>
+								CNI : {{ cession.cnis22 }} <br> <br>
+								<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date|date:'d/m/Y' }}</strong></p>
+								<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name|upper }}</strong></p>
+								<p style="text-align: center;"><strong>{{ cession.zone.leaderFullName }}</strong></p>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+				{% endif %}
+				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+					{% csrf_token %}
+					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+						{% for fo in form %}
+
+						<div class="step-one">
+							{% if forloop.counter <= 7 %}
+							<label style="margin-top:2%; margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+							{{ fo.non_field_errors }}
+							{{ fo.errors }}
+							{{ fo }}
+							{% endif %}
+						</div>
+
+						<div class="step-two">
+							{% if forloop.counter >= 8 and forloop.counter <= 13 %}
+							<label style="margin-top:2%; margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+							{{ fo.non_field_errors }}
+							{{ fo.errors }}
+							{{ fo }}
+							{% endif %}
+						</div>
+
+						<div class="step-three">
+							{% if forloop.counter >= 14 %}
+							<label style="margin-top:2%; margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
+							{{ fo.non_field_errors }}
+							{{ fo.errors }}
+							{{ fo }}
+							{% endif %}
+						</div>
+
+						{% endfor %}
+					<br>
+				</div>
+					{% if preview %}
+					<button input type="submit" class="btn btn-outline-danger mt-1 ml-1" name="cancel" value="cancel">
+					<i class="ft-corner-up-left"></i> Retour 
+				</button>
+					{% else %}
+					<button type="submit" class="btn btn-outline-warning mt-1" name="preview" value="preview">
+						<i class="ft-eye"></i> Preview
+					</button>
+					<a id="continue1" class="btn btn-outline-primary mt-1">Step 1</a>
+					<a id="continue2" class="btn btn-outline-primary mt-1">Step 2</a>
+					<a id="continue3" class="btn btn-outline-primary mt-1">Step 3</a>
+					{% endif %}
+					<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
+						<i class="ft-navigation"></i>Envoyer</a>
+					</button>
+				</form>
+			</div> <!-- End card body -->
+		</div>	
 	</div>
 </div>
-{% endif %}
-<div class="m-auto col-12 col-md-6">
-	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
+<script>
+	$('#zone').chosen({ width: '100%' });
+	$('#residence_quarter').chosen({ width: '100%' });
+	$('#beneficiary_residence_zone').chosen({ width: '100%' });
+	$('#property_quarter').chosen({ width: '100%' });
+	$('#beneficiary_residence_quarter').chosen({ width: '100%' });
+	$('#giver_witness_residence1').chosen({ width: '100%' });
+	$('#giver_witness_residence2').chosen({ width: '100%' });
+	$('#beneficiary_witness_residence1').chosen({ width: '100%' });
+	$('#beneficiary_witness_residence2').chosen({ width: '100%' });
 
-			{% for fo in form %}
-
-			<div class="step-one">
-				{% if forloop.counter <= 7 %}
-				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
-				{{ fo.non_field_errors }}
-				{{ fo.errors }}
-				{{ fo }}
-				{% endif %}
-			</div>
-
-			<div class="step-two">
-				{% if forloop.counter >= 8 and forloop.counter <= 13 %}
-				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
-				{{ fo.non_field_errors }}
-				{{ fo.errors }}
-				{{ fo }}
-				{% endif %}
-			</div>
-
-			<div class="step-three">
-				{% if forloop.counter >= 14 %}
-				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
-				{{ fo.non_field_errors }}
-				{{ fo.errors }}
-				{{ fo }}
-				{% endif %}
-			</div>
-
-			{% endfor %}
-			<br>
-		</div>
-		{% if preview %}
-			<input type="submit" class="btn btn-outline-danger" name="cancel" value="Cancel">
-			<input type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
-		{% else %}
-			<input id="preview" type="submit" class="btn btn-outline-secondary" name="preview" value="Preview">
-			<input id="continue1" class="btn btn-outline-primary" value="Step 1">
-			<input id="continue2" class="btn btn-outline-primary" value="Step 2">
-			<input id="continue3" class="btn btn-outline-primary" value="Step 3">
-			<input id="submit" type="submit" class="btn btn-outline-primary" name="submit" value="Submit">
-		{% endif %}
-
-		<datalist id="zones">
-			{% for zone in zones %}
-				<option value="{{ zone.name }}"/> 
-			{% endfor %}
-		</datalist>
-		<datalist id="quarters">
-			{% for quarter in quarters %}
-				<option value="{{ quarter }}"/> 
-			{% endfor %}
-		</datalist>
-	</form>
-</div>
-
-{% endblock main %}
-
-
-{% block scripts %}
-
-<script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
-<script src="{% static 'js/scripts.js' %}"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-
-    $(".step-two").hide();
+	$(".step-two").hide();
     $(".step-three").hide();
 	$("#continue1").hide();
 	$("#continue2").show();
@@ -170,6 +205,5 @@ $(document).ready(function(){
 		$("#submit").show();
     });
 
-});
-
-{% endblock scripts %}
+</script>
+{% endblock %}

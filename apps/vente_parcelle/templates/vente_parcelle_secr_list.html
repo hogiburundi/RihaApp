@@ -1,79 +1,77 @@
-{% extends "index.html" %}
+{% extends 'pages/riha-base.html' %}
 {% load static %}
-{% block main %}
-{% if documents %}
-	<table class="table table-hover" id="commande">
-		<thead>
-			<tr>
-				<th scope="col">Person</th>
-				<th scope="col">Payment</th>
-				<th scope="col">CNI Recto</th>
-				<th scope="col">CNI Verso</th>
-				<th scope="col">Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for document in documents %}
-			<tr class="document-item" data-id="{{ document.id }}">
-				<td>
-					<a href="./{{ document.id }}">
-						{{ document.user }}
-					</a>
-				</td>
-				<td>
-					<a href="./pay/{{ document.id }}">
-						{{ document.zone_payment.id_transaction }}
-					</a>
-				</td>
-				<td>
-					<a href="{{ document.user.profile.cni_recto.url }}">
-						recto
-					</a>
-				</td>
-				<td>
-					<a href="{{ document.user.profile.cni_verso.url }}">
-						verso
-					</a>
-				</td>
-				<td>
-					<a href="#">rejeter</a>
-					<a href="#">imprimer</a>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-{% endif %}
-
-<div class="modal fade " id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Document verification</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+{% block main-content %}
+<div class="card border-info border-lighten-1"> <!-- start card --> 
+      <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
+        <div class="row">
+            <div class="col-xl-6 col-lg-12">
+                    <h1 class="font-medium-3 text-bold-700 text-white">VENTE PARCELLE</h1>
             </div>
         </div>
-    </div>
-</div>
+      </div><!-- end card header --> 
+      <div class="card-body">  <!-- card body -->          
+        <table class="table table-xl mb-0 table-responsive">
 
+            <thead>
+                <tr>     
+                    <th class="border-top-0">Document</th>
+                    <th class="border-top-0">Payment</th>
+                    <th class="border-top-0">CNI</th>
+                    <th class="border-top-0">CNI Recto</th>
+                    <th class="border-top-0">CNI Verso</th>
+                    <th class="border-top-0">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for document in documents %}
+                <tr class="document-item" data-id="{{ document.id }}">
+                    <td class="text-truncate">
+                        <a href="./{{ document.id }}">
+                            {{ document.user }}
+                        </a>
+                    </td>
+                    <td class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ document.zone_payment.place }} : <i>{{ document.zone_payment.id_transaction }}</i></b>">
+                        {{ document.zone_payment.type_payement }}
+                    </td>
+                    <td class="text-truncate">
+                        {{ document.user.profile.CNI }}
+                    </td>
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ document.user.profile.cni_recto.url }}' height='300' />">
+                        photo 1
+                    </td>
+                    <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ document.user.profile.cni_verso.url }}' height='300' />">
+                        photo 2
+                    </td>
+                    <td>
+                        <div>
+                            <a href="#">
+                                <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
+                            </a>
+
+                            <a href="#">
+                                <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
+                            </a>
+
+                            <a href="#">
+                                <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
+                            </a>                                                            
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div><!-- end card body -->
+
+</div> <!-- end  card -->
+
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
-jQuery(document).ready(function($) {
+$(document).ready(function () {
 
-// $('.document-item').on('click',function(event){
-//     event.preventDefault();
-//     $('.modal-body').load($(this).find('a').attr('href'),function(){
-//     	$('#myModal').modal('handleUpdate')
-//         $('#myModal').modal({show:true});
-//     });
-// }); 
-
+$(function () {
+  $('[data-toggle="popover"]').popover()
+});
 });
 </script>
-{% endblock main %}
+{% endblock %}

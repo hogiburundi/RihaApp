@@ -64,7 +64,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 	quarters = Quarter.objects.all()
 	zones = Zone.objects.all()
 
-
 	def get(self, request, *args, **kwargs):
 		quarters = self.quarters 
 		zones = self.zones
@@ -159,5 +158,13 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.save()
 			messages.error(request, "Payment is done!")
 			return redirect(BASE_NAME+"_list")
+		return render(request, self.template_name, locals())
+
+class SecretaryPayView(LoginRequiredMixin, View):
+	template_name = "vente_parcelle_secr_pay.html"
+
+	def get(self, request, document_id, *args, **kwargs):
+		modal_mode = False
+		vente_parcelle = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 

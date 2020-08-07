@@ -7,6 +7,7 @@ from django.views import View
 from .forms import *
 from apps.base.forms import *
 from .models import *
+from apps.base.models import *
 from django.contrib import messages
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
@@ -114,5 +115,13 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.save()
 			messages.success(request, "Payment is done!")
 			return redirect(BASE_NAME+"_list")
+		return render(request, self.template_name, locals())
+
+class SecretaryPayView(LoginRequiredMixin, View):
+	template_name = "reconnais_secr_pay.html"
+
+	def get(self, request, document_id, *args, **kwargs):
+		modal_mode = False
+		reconnais = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 

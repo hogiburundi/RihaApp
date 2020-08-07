@@ -118,3 +118,11 @@ class DocumentPayView(LoginRequiredMixin, View):
 			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
 
+class SecretaryPayView(LoginRequiredMixin, View):
+	template_name = "acte_reconnais_secr_pay.html"
+
+	def get(self, request, document_id, *args, **kwargs):
+		modal_mode = False
+		acte_reconnais = get_object_or_404(Document, id=document_id)
+		return render(request, self.template_name, locals())
+

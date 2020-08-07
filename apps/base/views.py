@@ -1,6 +1,6 @@
 import os, importlib
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from django.contrib.auth import login, logout, authenticate 
 from django.contrib import messages
@@ -41,32 +41,34 @@ for directory in os.listdir('apps'):
 		MODULES.append(directory, )
 
 class Home(View):
-	template_name = "index.html"
+	template_name = 'pages/riha-dashboard.html'
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
 			profile = Profile.objects.filter(user=request.user)
 			home_urls = []
-			for directory in MODULES:
+			for i, directory in enumerate(MODULES):
 				basename = os.path.basename(directory)
 				module_name = directory.replace(os.sep, ".")
 				module = importlib.import_module(module_name)
 				app_name = module.APP_NAME
-				home_urls.append((app_name, basename+"_list"))
+				# price = module.models.Document.price()
+				# home_urls.append((app_name, price, basename+"_list"))
+				home_urls.append((app_name.upper(), i%4, basename+"_list"))
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")
 
 # @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class Secretariat(View):
-	template_name = "secretariat.html"
+	template_name = "pages/secretariat.html"
 
 	def get(self, request, *args, **kwargs):
 		home_urls = []
 		
 		if not (request.user.is_authenticated):return redirect("login")
 
-		for directory in MODULES:
+		for i, directory in enumerate(MODULES):
 			models = os.path.join(directory, "models")
 			models = importlib.import_module(models.replace(os.sep, '.'))
 			#=============================================================
@@ -79,7 +81,7 @@ class Secretariat(View):
 			module_name = directory.replace(os.sep, ".")
 			module = importlib.import_module(module_name)
 			app_name = module.APP_NAME
-			home_urls.append((app_name, basename+"_secr_list", counts))#counts))
+			home_urls.append((app_name.upper(), i%4, basename+"_secr_list", counts))#counts))
 
 		return render(request, self.template_name, locals())
 
@@ -90,7 +92,7 @@ def disconnect(request):
 
 
 class Connexion(View):
-	template_name = 'login.html'
+	template_name = 'pages/riha-login.html'
 	next_p = "home"
 
 	def get(self, request, *args, **kwargs):
@@ -116,7 +118,7 @@ class Connexion(View):
 		return render(request, self.template_name, locals())
 
 class Register(View):
-	template_name = 'register.html'
+	template_name = 'pages/riha-register-first-step.html'
 	page_number = 1
 
 	def get(self, request, *args, **kwargs):
@@ -150,7 +152,7 @@ class Register(View):
 		return render(request, self.template_name, locals())
 
 class ProfileView(View):
-	template_name = 'form.html'
+	template_name = 'pages/riha-register-second-step.html'
 	next_p = "register2"
 	page_number = 2
 
@@ -167,7 +169,6 @@ class ProfileView(View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = Quarter.objects.all()
 		profile = Profile.objects.get_or_create(user=request.user)[0]
 		form = ProfileForm(request.POST, instance=profile)
 		page_number = self.page_number
@@ -183,12 +184,12 @@ class ProfileView(View):
 		return render(request, self.template_name, locals())
 
 class Register2(View):
-	template_name = 'form.html'
+	template_name = 'pages/riha-register-third-step.html'
 	next_p = "home"
 	page_number = 3
 
 	def get(self, request, *args, **kwargs):
-		form = Register2Form()
+		form = Register2Form(instance=request.user.profile)
 		page_number = self.page_number
 		try:
 			self.next_p = request.GET["next"]
@@ -197,18 +198,10 @@ class Register2(View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		form = Register2Form(request.POST, request.FILES)
+		form = Register2Form(request.POST, request.FILES, instance=request.user.profile)
 		page_number = self.page_number
 		if form.is_valid():
-			try:
-				cni_recto = form.cleaned_data['cni_recto']
-				cni_verso = form.cleaned_data['cni_verso']
-				profile = request.user.profile
-				profile.cni_verso = cni_verso
-				profile.cni_recto = cni_recto
-				profile.save()
-				messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
-				return redirect(self.next_p)
-			except Exception as e:
-				messages.error(request, str(e))
+			form.save()
+			messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
+			return redirect(self.next_p)
 		return render(request, self.template_name, locals())

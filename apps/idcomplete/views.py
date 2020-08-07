@@ -28,15 +28,25 @@ class SecretaryView(LoginRequiredMixin, View):
 
 	def post(self, request, document_id, *args, **kwargs):
 		validation_form = ValidationForm(request.POST)
+		print(request)
 		if(validation_form.is_valid()):
-			print(request.POST)
+			document = get_object_or_404(Document, id=document_id)
 			if "reject" in request.POST:
-				print(validation_form.cleaned_data["cni_recto"],
-					validation_form.cleaned_data["cni_recto"],
-					validation_form.cleaned_data["cni"],
-					validation_form.cleaned_data["payment"])
+				document.secretary_validated=False
+				notification = "identite complete yanyu yanswe. imvo: "
+				notification+="\n- ifoto ya karangamuntu " if validation_form.cleaned_data["cni_recto"] or validation_form.cleaned_data["cni_verso"] else ""
+				notification+="\n- ibibaranga bihushanye na karangamuntu " if validation_form.cleaned_data["cni"] else ""
+				notification+="\n- amakuru yo kuriha " if validation_form.cleaned_data["payment"] else ""
+				document.rejection_msg=notification
+				document.save()
+				Notification(user=document.user, message=notification).save()
+
 			if "ready" in request.POST:
-				pass
+				document.ready=True
+				notification = "identite complete yanyu yatunganye. murashobora kuza kuyitora mwibangikanije "
+				notification += " ".join([x for x in document.requirements()])
+				Notification(user=document.user, message=notification).save()
+
 			if "valid" in request.POST:
 				id_compl.secretary_validated = True
 				id_compl.save()

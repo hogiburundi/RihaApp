@@ -65,14 +65,16 @@
                             <button href="#" data-id="{{ document.id }}"  class="btn p-0 btn-link rejeter">
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="rejeter"></i>
                             </button>
+                            <!-- <form role="form" method="POST" action="./{{ document.id }}">-->
+                                {% csrf_token %}
+                                <button type="submit" value="ready" href="#" data-toggle="popover" class="btn p-0 btn-link">
+                                    <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="approuver"></i>
+                                </button>
 
-                            <button href="#" data-id="{{ document.id }}" data-toggle="popover" class="btn p-0 btn-link">
-                                <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="approuver"></i>
-                            </button>
-
-                            <button href="#" data-id="{{ document.id }}" data-toggle="popover" class="btn p-0 btn-link">
-                                <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="disponible"></i>
-                            </button>                                                            
+                                <button type="submit" value="valid" href="#" data-toggle="popover" class="btn p-0 btn-link">
+                                    <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="disponible"></i>
+                                </button> 
+                            <!--</form> -->
                         </div>
                     </td>
                 </tr>
@@ -87,7 +89,7 @@
         {% csrf_token %} 
         {{ validation_form.as_p }}
         <input type="submit" name="reject" value="rejeter" class="btn btn-outline-warning"/>
-        <input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
+        <input type="reset" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
     </form>
 </template>
 
@@ -106,9 +108,10 @@ $(document).ready(function () {
             sanitize: false,
             content: $('#poprejeter').html()
         }).on('click', function(event) {
-            id = $(this).attr('data-id');
-            $("button[type=reset]").click(function(){
-                $(".rejeter").popover('hide');
+            var id = $(this).attr('data-id');
+            var toggler = $(this)
+            $("input[type=reset]").click(function(){
+                toggler.popover('hide');
             });
             $("#myform").on('submit', function(event) {
                 event.preventDefault();

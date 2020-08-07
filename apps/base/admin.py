@@ -15,4 +15,5 @@ admin.site.register(PaymentQuarter)
 admin.site.register(PaymentCommune)
 admin.site.register(PaymentProvince)
 admin.site.register(PaymentZone)
+admin.site.register(Notification)
 admin.site.site_header = "RIHA App"

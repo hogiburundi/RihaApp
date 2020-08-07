@@ -95,6 +95,20 @@ class Notification(models.Model):
 	message = models.CharField(max_length=128)
 	seen = models.BooleanField(default=False)
 	date = models.DateTimeField(default=timezone.now)
+	
+	def save(self, *args, **kwargs):
+		super(Notification, self).save(*args, **kwargs)
+		try:
+			from twilio.rest import Client
+			account_sid = ""
+			auth_token  = ""
+			client = Client(account_sid, auth_token)
+			message = client.messages.create(
+				to="+257"+self.user.username, 
+				from_="+14702912751",
+				body=self.message[:159])
+		except Exception as e:
+			print("ERREUR TWILIO", str(e))
 
 class PlaceModel(models.Model):
 	name = models.CharField(max_length=64)

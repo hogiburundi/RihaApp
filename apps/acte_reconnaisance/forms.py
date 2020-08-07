@@ -3,19 +3,21 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.CharField(
-        widget = forms.TextInput(
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
-                    'list':'zones'}),
-        label = 'Zone')
+                    'id':'zone'}),
+        label='Zone',
+        queryset = Zone.objects.all())
     
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter')
+                    'id':'residence_quarter'}),
+        label='Residence Quarter',
+        queryset = Quarter.objects.all())
         
     volume = forms.CharField(
         widget = forms.TextInput(
@@ -83,17 +85,21 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control'}),
         label = 'Witness Work 2')
 
-    witness_province1 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness province 1', 
+    witness_province1 = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs={'placeholder': 'Witness province 1',
+                    'id':'witness_province1', 
                     'class': 'form-control'}),
-        label = 'Witness province 1')
+        label = 'Witness province 1',
+        queryset = Province.objects.all())
 
-    witness_province2 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness province 2', 
+    witness_province2 = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs={'placeholder': 'Witness province 2',
+                    'id':'witness_province2', 
                     'class': 'form-control'}),
-        label = 'Witness province 2')
+        label = 'Witness province 2',
+        queryset = Province.objects.all())
 
     witness_age1 = forms.CharField(
         widget = forms.TextInput(
@@ -143,11 +149,13 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control'}),
         label = 'Wife work')
 
-    wife_province = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Wife province', 
+    wife_province = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Wife province',
+                    'id':'wife_province',
                     'class': 'form-control'}),
-        label = 'Wife province')
+        label='Wife province',
+        queryset = Province.objects.all())
 
 
     class Meta:
@@ -156,20 +164,3 @@ class DocumentForm(forms.ModelForm):
         "months_letter", "work", "witness1", "witness2", "witness_work1", "witness_work2",
         "witness_age1", "witness_age2", "witness_province1", "witness_province2", "child", "child_day",
         "child_month", "child_year", "wife_age", "wife_work", "wife_province", "wife",  )
-
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
-
-    def clean_residence_quarter(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("residence_quarter").split()[0]
-            zone = self.cleaned_data.get("residence_quarter").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
-        except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")

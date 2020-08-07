@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
+from apps.base.date_conversion import lireDate
 
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="vente_user", null=True, on_delete=models.SET_NULL)
@@ -50,6 +51,9 @@ class Document(models.Model):
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
 
+	def onlyPaid():
+		return Document.objects.filter(zone_payment=True)
+		
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 

@@ -53,7 +53,7 @@
 						<p style="text-align: center;"><strong><u>ATTESTATION DE RECOMMENDATION N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 						<p>&nbsp;</p>
 							
-						<p>Je soussign&eacute;, {{ recomm.zone.leader}}, Chef de Zone {{ recomm.zone.name }}, atteste par la pr&eacute;sente que {% if recomm.user.profile.gender == 'H' %}le nomm&eacute;{% else %} la nomm&eacute;e {% endif %} {{ recomm.user.last_name }} {{ recomm.user.first_name }}, {% if recomm.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ recomm.user.profile.father|default:"sans" }} et de  {{ recomm.user.profile.mother|default:"sans" }}, originaire de la Colline {{ recomm.zone.name }}, Commune {{ recomm.zone.commune.name }}, Province {{ recomm.zone.commune.province }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ recomm.residence_quarter.zone.name|upper }} Q. {{ recomm.residence_quarter.name }}, est recommand&eacute; &agrave; ex&eacute;cuter les travaux mis &agrave; sa disponibilit&eacute;.
+						<p>Je soussign&eacute;, {{ recomm.zone.leaderFullName}}, Chef de Zone {{ recomm.zone.name }}, atteste par la pr&eacute;sente que {% if recomm.user.profile.gender == 'H' %}le nomm&eacute;{% else %} la nomm&eacute;e {% endif %} {{ recomm.user.last_name }} {{ recomm.user.first_name }}, {% if recomm.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ recomm.user.profile.father|default:"sans" }} et de  {{ recomm.user.profile.mother|default:"sans" }}, originaire de la Colline {{ recomm.zone.name }}, Commune {{ recomm.zone.commune.name }}, Province {{ recomm.zone.commune.province }}, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ recomm.residence_quarter.zone.name|upper }} Q. {{ recomm.residence_quarter.name }}, est recommand&eacute; &agrave; ex&eacute;cuter les travaux mis &agrave; sa disponibilit&eacute;.
 
 								La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.
 						</p>
@@ -67,7 +67,7 @@
 						<td style="width: 275px;">
 						<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 						<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ recomm.zone.name}}</strong></p>
-						<p style="text-align: center;"><strong>{{ recomm.zone.leader}}</strong></p>
+						<p style="text-align: center;"><strong>{{ recomm.zone.leaderFullName}}</strong></p>
 						</td>
 						</tr>
 						</tbody>

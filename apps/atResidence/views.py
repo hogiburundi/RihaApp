@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
 
-from .forms import DocumentForm
+from .forms import *
 from apps.base.forms import *
 from .models import *
 

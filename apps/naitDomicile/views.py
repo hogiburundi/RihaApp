@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
 
-from .forms import DocumentForm
+from .forms import *
 from apps.base.forms import *
 from .models import *
 
@@ -58,8 +58,8 @@ class DocumentListView(LoginRequiredMixin, View):
 
 	def delete(self, request, document_id, *args, **kwargs):
 		delete = BASE_NAME+'_deleteDoc'
-	    document = Document.objects.get(id=document_id)
-	    return redirect(BASE_NAME+'_list')
+		document = Document.objects.get(id=document_id)
+		return redirect(BASE_NAME+'_list')
 
 
 

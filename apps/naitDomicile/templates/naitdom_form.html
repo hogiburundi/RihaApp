@@ -134,19 +134,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="gender">Mère de l'enfant : </label>
-                                    {{ form.child_mother }}
+                                    {{ form.child_mother }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Témoin 1 :  </label>
-                                    {{ form.first_witness }}
+                                    {{ form.first_witness }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Témoin 2 :  </label>
-                                    {{ form.second_witness }}
+                                    {{ form.second_witness }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                         </div>

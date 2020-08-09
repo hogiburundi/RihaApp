@@ -68,7 +68,9 @@
 
                     <td>
                         <div>
-
+                            {% if document.ready %}
+                            <p class="blue-gray" >DONE</p>
+                            {% else %}
                             <a href="{% url delete document.id %}">
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
@@ -79,7 +81,8 @@
 
                             <a href="#">
                                 <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
-                            </a>                                                            
+                            </a>
+                            {% endif %}                                                     
                         </div>
                     </td>
                 </tr>

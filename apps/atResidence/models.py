@@ -40,7 +40,7 @@ class Document(models.Model):
 		return f"{self.user} {self.zone}"
 		
 	def onlyPaid(): # /!\ sans self
-		return Document.objects.filter(zone_payment=True)
+		return Document.objects.filter(zone_payment__isnull = False)
 		# tout les filter necessaire en fait pas seulement zone
 		# si il y a pas de payments requises : return Document.objects.all()
 

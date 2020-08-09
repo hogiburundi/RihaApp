@@ -48,10 +48,16 @@ class DocumentListView(LoginRequiredMixin, View):
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+'_form'
 		payform = BASE_NAME+'_payform'
-		delete = BASE_NAME+'_delconfirm'
+		delete = BASE_NAME+'_deleteDoc'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
+
+	def delete(self, request, document_id, *args, **kwargs):
+		delete = BASE_NAME+'_deleteDoc'
+	    document = Document.objects.get(id=document_id)
+	    return redirect(BASE_NAME+'_list')
+
 
 # class SecretaryPayView(LoginRequiredMixin, View):
 # 	template_name = "idcomp_secr_pay.html"

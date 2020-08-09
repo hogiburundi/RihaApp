@@ -37,3 +37,17 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
         fields = ("zone", "bride", "residence_quarter", 'date')
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image recto '}),
+        label='image recto', required=False)
+    cni_verso = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
+        label='image verso', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

@@ -44,53 +44,53 @@
 				<div id="document" class="col-12 mb-2" style="overflow:auto;">
 					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-        <strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-        <strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-        <strong>PROVINCE DE {{ att_resi.zone.commune.province.name|upper }}</strong><br/>
-        <strong>COMMUNE URBAINE DE {{ att_resi.zone.commune.name|upper }}</strong><br/>
-        <strong><u>ZONE DE {{ att_resi.zone.name|upper }}</u></strong><br/><br>
+                        <strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+                        <strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+                        <strong>PROVINCE DE {{ att_resi.zone.commune.province.name|upper }}</strong><br/>
+                        <strong>COMMUNE URBAINE DE {{ att_resi.zone.commune.name|upper }}</strong><br/>
+                        <strong><u>ZONE DE {{ att_resi.zone.name|upper }}</u></strong><br/><br>
 
-        <p style="text-align: center;"><strong><u>ATTESTATION DE RESIDENCE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-        <p>&nbsp;</p>
+                        <p style="text-align: center;"><strong><u>ATTESTATION DE RESIDENCE №</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+                        <p>&nbsp;</p>
 
-        <p>Je soussign&eacute;, {{ att_resi.zone.leaderFullName }}, Chef de Zone {{ att_resi.zone.name|upper }}, atteste par la pr&eacute;sente que {% if att_resi.user.profile.gender == 'H' %}le nomm&eacute; {% else %} la nomm&eacute;e{% endif %} {{ att_resi.user.last_name }} {{ att_resi.user.first_name }}, {% if att_resi.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ att_resi.user.profile.father|upper }} et de  {{ att_resi.user.profile.mother|upper }}, originaire de la Colline {{ att_resi.zone.name|upper }}, Commune {{ att_resi.zone.commune.name|upper }}, Province {{ att_resi.zone.commune.province|upper }}, de nationalité Burundaise, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ att_resi.residence_quarter.zone.name|upper }} Q. {{ att_resi.residence_quarter.name|upper }}.
+                        <p>Je soussign&eacute;, {{ att_resi.zone.leaderFullName }}, Chef de Zone {{ att_resi.zone.name|upper }}, atteste par la pr&eacute;sente que {% if att_resi.user.profile.gender == 'H' %}le nomm&eacute; {% else %} la nomm&eacute;e{% endif %} {{ att_resi.user.last_name }} {{ att_resi.user.first_name }}, {% if att_resi.user.profile.gender == 'H' %} fils {% else %}fille {% endif %} de {{ att_resi.user.profile.father|upper }} et de  {{ att_resi.user.profile.mother|upper }}, originaire de la Colline {{ att_resi.zone.name|upper }}, Commune {{ att_resi.zone.commune.name|upper }}, Province {{ att_resi.zone.commune.province|upper }}, de nationalité Burundaise, r&eacute;sidant actuellement dans la Municipalit&eacute; de Bujumbura &agrave; l’adresse ci-apr&egrave;s : {{ att_resi.residence_quarter.zone.name|upper }} Q. {{ att_resi.residence_quarter.name|upper }}.
 
-                <p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte&nbsp; Nationale d&rsquo;Identit&eacute; &nbsp;portant &nbsp;num&eacute;ro {{ att_resi.user.profile.CNI }} delivré à {{ att_resi.user.profile.place_delivrated }}, le {{ att_resi.user.profile.date_delivrated|date:"SHORT_DATE_FORMAT" }}</p>
-        </p>
-
-
-
-        <p><strong>Sous couvert :</strong></p>
-
-        <p>- {{ att_resi.first_witness.user.first_name }} {{ att_resi.first_witness.user.last_name }}</p>
-
-        <p>- {{ att_resi.second_witness.user.first_name }} {{ att_resi.second_witness.user.last_name }}</p>
-        
+                                <p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte&nbsp; Nationale d&rsquo;Identit&eacute; &nbsp;portant &nbsp;num&eacute;ro {{ att_resi.user.profile.CNI }} delivré à {{ att_resi.user.profile.place_delivrated }}, le {{ att_resi.user.profile.date_delivrated|date:"SHORT_DATE_FORMAT" }}</p>
+                        </p>
 
 
-        <p><strong>Chef de Quartier  {{ att_resi.residence_quarter.name|upper }} </strong></p> 
+
+                        <p><strong>Sous couvert :</strong></p>
+
+                        <p>- {{ att_resi.first_witness.user.first_name }} {{ att_resi.first_witness.user.last_name }}</p>
+
+                        <p>- {{ att_resi.second_witness.user.first_name }} {{ att_resi.second_witness.user.last_name }}</p>
+                        
 
 
-        <p>{{ att_resi.residence_quarter.leaderFullName }}</p>
-                                          
+                        <p><strong>Chef de Quartier  {{ att_resi.residence_quarter.name|upper }} </strong></p> 
 
-        
-        
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <table style="width: 588px;">
-        <tbody>
-        <tr>
-        <td style="width: 315px;">&nbsp;</td>
-        <td style="width: 275px;">
-        <p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ att_resi.zone.name }}</strong></p>
-        <p style="text-align: center;"><strong>{{ att_resi.zone.leaderFullName }}</strong></p>
-        </td>
-        </tr>
-        </tbody>
-        </table>
-        <p style="text-align: right;">&nbsp;</p>
+
+                        <p>{{ att_resi.residence_quarter.leaderFullName }}</p>
+                                                          
+
+                        
+                        
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <table style="width: 588px;">
+                        <tbody>
+                        <tr>
+                        <td style="width: 315px;">&nbsp;</td>
+                        <td style="width: 275px;">
+                        <p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+                        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ att_resi.zone.name }}</strong></p>
+                        <p style="text-align: center;"><strong>{{ att_resi.zone.leaderFullName }}</strong></p>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <p style="text-align: right;">&nbsp;</p>
 					</div>
 				</div>
 				{% endif %}
@@ -115,13 +115,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Témoin 1 : </label>
-                                    {{ form.first_witness }}
+                                    {{ form.first_witness }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Témoin 2 : </label>
-                                    {{ form.second_witness }}
+                                    {{ form.second_witness }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                         </div>

@@ -32,10 +32,12 @@ class SecretaryView(LoginRequiredMixin, View):
 		if(validation_form.is_valid()):
 			print(request.POST)
 			if "reject" in request.POST:
-				print(validation_form.cleaned_data["cni_recto"],
-					validation_form.cleaned_data["cni_recto"],
-					validation_form.cleaned_data["cni"],
-					validation_form.cleaned_data["payment"])
+				notification = "Document mwasavye yanswe bivuye kuri ibi bikurikira : \n"
+				notification +="\n Inomero :  "+ validation_form.cleaned_data["cni"] +" : ntizihuye"
+				notification +="\n Code :  "+ validation_form.cleaned_data["payment"] +" : siyo"
+				work_doc_copy
+				return(notification)
+
 			if "ready" in request.POST:
 				pass
 			if "valid" in request.POST:
@@ -51,18 +53,15 @@ class DocumentListView(LoginRequiredMixin, View):
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+'_form'
 		payform = BASE_NAME+'_payform'
-		delete = BASE_NAME+'_delconfirm'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
 
-# class SecretaryPayView(LoginRequiredMixin, View):
-# 	template_name = "idcomp_secr_pay.html"
+	def delete_view(self, request, document_id, *args, **kwargs):
+		delete = BASE_NAME+'_deleteDoc'
+		document = Document.objects.get(id=document_id)
+		return redirect(BASE_NAME+'_list')
 
-# 	def get(self, request, document_id, *args, **kwargs):
-# 		modal_mode = False
-# 		recomm = get_object_or_404(Document, id=document_id)
-# 		return render(request, self.template_name, locals())
 
 
 class DocumentFormView(LoginRequiredMixin, View):
@@ -79,7 +78,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 	def post(self, request, *args, **kwargs):
 		quarters = self.quarters 
 		zones = self.zones 
-		form = DocumentForm(request.POST)
+		form = DocumentForm(request.POST, request.FILES)
 		if "preview" in request.POST:
 			if form.is_valid():
 				preview = True
@@ -89,6 +88,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				recomm = form.save(commit=False)
 				recomm.user = request.user
+				recomm.residence_quarter = request.user.profil.residence
 				recomm.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", recomm.id)
@@ -96,6 +96,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			recomm = form.save(commit=False)
 			recomm.user = request.user
+			recomm.residence_quarter = request.user.profil.residence
 		return render(request, self.template_name, locals())
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -104,6 +105,10 @@ class DocumentPayView(LoginRequiredMixin, View):
 	def get(self, request, document_id, *args, **kwargs):
 		payform = BASE_NAME+"_payform"
 		document = Document.objects.get(id=document_id)
+		price = document.price()
+		print("\n###############################\n")
+		print(price)
+		print("\n###############################\n")
 		if document.zone_payment:
 			return redirect(BASE_NAME+"_list")
 		form = PaymentZoneForm()
@@ -123,26 +128,26 @@ class DocumentPayView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 
-class DocumentDeleteView(LoginRequiredMixin, View):
-	template_name = PREFIX_DOC_TEMP+'_del.html'
+# class DocumentDeleteView(LoginRequiredMixin, View):
+# 	template_name = PREFIX_DOC_TEMP+'_del.html'
 
-	def get(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_delconfirm'
-		document = Document.objects.get(id=document_id)
-		return render(request, self.template_name, locals())
+# 	def get(self, request, document_id, *args, **kwargs):
+# 		delete = BASE_NAME+'_delconfirm'
+# 		document = Document.objects.get(id=document_id)
+# 		return render(request, self.template_name, locals())
 
-	def post(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_delconfirm'
-		document = Document.objects.get(id=document_id)
+# 	def post(self, request, document_id, *args, **kwargs):
+# 		delete = BASE_NAME+'_delconfirm'
+# 		document = Document.objects.get(id=document_id)
 
-		if "oui" in request.POST:
-			document.delete()
-			messages.success(request, "Document Supprimé avec Succes ! ")
-			return redirect(BASE_NAME+'_list')
+# 		if "oui" in request.POST:
+# 			document.delete()
+# 			messages.success(request, "Document Supprimé avec Succes ! ")
+# 			return redirect(BASE_NAME+'_list')
 
-		if "non" in request.POST:
-			return redirect(BASE_NAME+'_list')
+# 		if "non" in request.POST:
+# 			return redirect(BASE_NAME+'_list')
 
-		return render(request, self.template_name, locals())
+# 		return render(request, self.template_name, locals())
 
 

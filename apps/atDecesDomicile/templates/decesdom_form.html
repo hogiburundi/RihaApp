@@ -109,7 +109,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Defunt : </label>
-                                    {{ form.dead_man }}
+                                    {{ form.dead_man }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                             <div class="col-md-6">
@@ -127,13 +127,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Témoin 1 : </label>
-                                    {{ form.first_witness }}
+                                    {{ form.first_witness }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nationality">Témoin 2 : </label>
-                                    {{ form.second_witness }}
+                                    {{ form.second_witness }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
                                 </div>                                                  
                             </div>
                         </div>

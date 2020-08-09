@@ -7,6 +7,7 @@ class Document(models.Model):
 	user = models.ForeignKey(User, related_name='recom_Beneficiare', on_delete=models.CASCADE)
 	zone = models.ForeignKey(Zone, max_length=64, related_name='recom_Zone', on_delete=models.CASCADE)
 	residence_quarter = models.ForeignKey(Quarter, related_name='recom_Quartier', max_length=64, on_delete=models.CASCADE)
+	work_doc_copy = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	date = models.DateField(default=timezone.now)
 	payment_method = models.CharField(max_length=64)
 	payment_serial = models.CharField(max_length=64)

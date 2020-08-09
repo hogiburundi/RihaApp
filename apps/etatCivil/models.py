@@ -50,3 +50,4 @@ class PriceHistory(models.Model):
 	
 	def total(self):
 		return self.zone_price
+

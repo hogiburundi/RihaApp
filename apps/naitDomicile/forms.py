@@ -9,17 +9,9 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
-                    'list':'zones'}),
+                    'id':'zones'}),
         label = 'Zone de residence actuelle',
         queryset = Zone.objects.all())
-
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Quartier de residence actuelle',
-        queryset = Quarter.objects.all())
 
     child_name =  forms.CharField(
         widget = forms.TextInput(
@@ -36,7 +28,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.TextInput(
             attrs = {'placeholder': 'Quartier naissance', 
                     'class': 'form-control', 
-                    'list':'quarters'}),
+                    'id':'quarters'}),
         label = "Quartier de naissance de l'enfant",
         queryset = Quarter.objects.all())
 
@@ -44,7 +36,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Mère', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles'}),
         label = "Mère de l'enafant",
         queryset = Profile.objects.all())
 
@@ -52,7 +44,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Témoin 1', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles1'}),
         label = "Temoins 1 : ",
         queryset = Profile.objects.all())
 
@@ -60,28 +52,52 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Temoin 2', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles2'}),
         label = "Témoin 2 : ",
         queryset = Profile.objects.all())
 
     class Meta:
         model = Document
         # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
-        fields = ("zone", "residence_quarter","child_name","child_birth",
+        fields = ("zone","child_name","child_birth","child_birth_quarter",
             "child_mother","first_witness","second_witness")
 
 
 class ValidationForm(forms.Form):
-    cni_recto = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'placeholder':'image recto '}),
-        label='image recto', required=False)
-    cni_verso = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
-        label='image verso', required=False)
-    payment = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
-        label='le code de paiement', required=False)
-    cni = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
-        label='numero CNI', required=False)
+    cni_recto_declarant = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'Votre CNI recto '}),
+        label='Votre CNI recto', required=False)
+    cni_verso_declarant = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'Votre CNI verso '}),
+        label='Votre CNI verso ', required=False)
+    cni_declarant = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'Votre CNI '}),
+        label='Votre CNI', required=False)
+
+    cni_recto_1_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI recto temoin1 '}),
+        label='CNI recto temoin1', required=False)
+    cni_verso_1_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI verso temoin1 '}),
+        label='CNI verso temoin1', required=False)
+    cni_1_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':' CNI temoin1 '}),
+        label='CNI temoin1', required=False)
+
+    cni_recto_2_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI recto temoin2 '}),
+        label='CNI recto temoin2', required=False)
+    cni_verso_2_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI verso temoin2 '}),
+        label='CNI verso temoin2', required=False)
+    cni_2_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI temoin2 '}),
+        label='CNI temoin2', required=False)
+
+    # payment = forms.BooleanField(
+    #     widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+    #     label='le code de paiement', required=False)
+    
+    
+    
 

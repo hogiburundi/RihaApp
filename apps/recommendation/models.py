@@ -29,7 +29,7 @@ class Document(models.Model):
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+			Notification(self.user, f"la recommendation que vous avez demandé le {self.date} à {self.zone} est disponible").save()
 
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0

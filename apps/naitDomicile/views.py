@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import *
 from apps.base.forms import *
@@ -16,7 +17,7 @@ class SecretaryListView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		validation_form = ValidationForm()
-		documents = Document.onlyPaid()
+		documents = Document.objects.all()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
@@ -90,36 +91,36 @@ class DocumentFormView(LoginRequiredMixin, View):
 				nait_dom.user = request.user
 				nait_dom.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
-				return redirect(BASE_NAME+"_payform", nait_dom.id)
+				return redirect(BASE_NAME+"_list")
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			nait_dom = form.save(commit=False)
 			nait_dom.user = request.user
 		return render(request, self.template_name, locals())
 
-class DocumentPayView(LoginRequiredMixin, View):
-	template_name = PREFIX_DOC_TEMP+"_pay_form.html"
+# class DocumentPayView(LoginRequiredMixin, View):
+# 	template_name = PREFIX_DOC_TEMP+"_pay_form.html"
 
-	def get(self, request, document_id, *args, **kwargs):
-		payform = BASE_NAME+"_payform"
-		document = Document.objects.get(id=document_id)
-		if document.zone_payment:
-			return redirect(BASE_NAME+"_list")
-		form = PaymentZoneForm()
-		return render(request, self.template_name, locals())
+# 	def get(self, request, document_id, *args, **kwargs):
+# 		payform = BASE_NAME+"_payform"
+# 		document = Document.objects.get(id=document_id)
+# 		if document.zone_payment:
+# 			return redirect(BASE_NAME+"_list")
+# 		form = PaymentZoneForm()
+# 		return render(request, self.template_name, locals())
 
-	def post(self, request, document_id, *args, **kwargs):
-		payform = BASE_NAME+"_payform"
-		document = Document.objects.get(id=document_id)
-		form = PaymentZoneForm(request.POST, request.FILES)
-		if form.is_valid():
-			zone_payment = form.save(commit=False)
-			zone_payment.place = document.zone
-			zone_payment.save()
-			document.zone_payment = zone_payment
-			document.save()
-			return redirect(BASE_NAME+"_list")
-		return render(request, self.template_name, locals())
+# 	def post(self, request, document_id, *args, **kwargs):
+# 		payform = BASE_NAME+"_payform"
+# 		document = Document.objects.get(id=document_id)
+# 		form = PaymentZoneForm(request.POST, request.FILES)
+# 		if form.is_valid():
+# 			zone_payment = form.save(commit=False)
+# 			zone_payment.place = document.zone
+# 			zone_payment.save()
+# 			document.zone_payment = zone_payment
+# 			document.save()
+# 			return redirect(BASE_NAME+"_list")
+# 		return render(request, self.template_name, locals())
 
 
 class DocumentDeleteView(LoginRequiredMixin, View):
@@ -143,5 +144,33 @@ class DocumentDeleteView(LoginRequiredMixin, View):
 			return redirect(BASE_NAME+'_list')
 
 		return render(request, self.template_name, locals())
+
+@login_required(login_url='/login/')
+def delete_doc(request, document_id):
+	delete = delete = BASE_NAME+'_delconfirm'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		document.delete()
+		messages.success(request, "Document Supprimé avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
+
+@login_required(login_url='/login/')
+def update_doc(request, document_id):
+	template_name = PREFIX_DOC_TEMP+"_form.html"
+	update = BASE_NAME+'_update'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		form = DocumentForm(request.POST, request.FILES, instance =  document)	
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Document mis à jour avec Succes ! ")
+			return redirect(BASE_NAME+'_list')
+		else:
+			messages.error(request, "Vous avez pas le droit !")
+	else:
+		form = DocumentForm(instance=document)
+	return render(request, template_name, locals())
 
 

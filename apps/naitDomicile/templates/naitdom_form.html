@@ -67,11 +67,11 @@
                         <p>C.N.I : {{ nait_dom.first_witness.CNI }} </p>
 
                         <p>{{ nait_dom.second_witness.user.first_name }} {{ nait_dom.second_witness.user.last_name }}</p>
-                        CNI: {{ nait_dom.second_witness.profile.CNI }}
+                        CNI: {{ nait_dom.second_witness.CNI }}
 
                         <p><strong>Chef de Quartier {{ nait_dom.child_birth_quarter.name|upper }}</strong></p>
 
-                        <p><strong>{{ nait_dom.child_birth_quarter.quarter.leaderFullName }}<strong></p>
+                        <p><strong>{{ nait_dom.child_birth_quarter.leaderFullName|upper }}<strong></p>
 
                         
                         
@@ -83,8 +83,8 @@
                         <td style="width: 315px;">&nbsp;</td>
                         <td style="width: 275px;">
                         <p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-                        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ nait_dom.zone.name }}</strong></p>
-                        <p style="text-align: center;"><strong>{{ nait_dom.zone.leaderFullName }}</strong></p>
+                        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ nait_dom.zone.name|upper }}</strong></p>
+                        <p style="text-align: center;"><strong>{{ nait_dom.zone.leaderFullName|upper }}</strong></p>
                         </td>
                         </tr>
                         </tbody>

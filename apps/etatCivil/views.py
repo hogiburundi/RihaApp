@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import *
 from apps.base.forms import *
@@ -52,6 +53,7 @@ class DocumentListView(LoginRequiredMixin, View):
 		formurl = BASE_NAME+'_form'
 		payform = BASE_NAME+'_payform'
 		delete = BASE_NAME+'_delconfirm'
+		update = BASE_NAME+'_update'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
@@ -82,6 +84,11 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				etat_civil = form.save(commit=False)
 				etat_civil.user = request.user
+				userQ = request.user
+				etat_civil.residence_quarter = userQ.profile.residence
+				print("##################################\n")
+				print(userQ.profile.residence)
+				print("#################################\n")
 				etat_civil.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", etat_civil.id)
@@ -89,6 +96,8 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			etat_civil = form.save(commit=False)
 			etat_civil.user = request.user
+			userQ = request.user
+			etat_civil.residence_quarter = userQ.profile.residence
 		return render(request, self.template_name, locals())
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -138,4 +147,31 @@ class DocumentDeleteView(LoginRequiredMixin, View):
 
 		return render(request, self.template_name, locals())
 
+@login_required(login_url='/login/')
+def delete_doc(request, document_id):
+	delete = delete = BASE_NAME+'_delconfirm'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		document.delete()
+		messages.success(request, "Document Supprimé avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
+
+@login_required(login_url='/login/')
+def update_doc(request, document_id):
+	template_name = PREFIX_DOC_TEMP+"_form.html"
+	update = BASE_NAME+'_update'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		form = DocumentForm(request.POST, request.FILES, instance =  document)	
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Document mis à jour avec Succes ! ")
+			return redirect(BASE_NAME+'_list')
+		else:
+			messages.error(request, "Vous avez pas le droit !")
+	else:
+		form = DocumentForm(instance=document)
+	return render(request, template_name, locals())
 

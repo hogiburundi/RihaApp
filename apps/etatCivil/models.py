@@ -4,17 +4,18 @@ from django.contrib.auth.models import User
 from apps.base.models import *
 
 class Document(models.Model):
-	user = models.ForeignKey(User, related_name="etatcivil_Beneficiaire_EtatCivil", on_delete=models.CASCADE)
-	zone = models.ForeignKey(Zone, max_length=64, related_name="etatcivil_Zone_EtatCivil" , on_delete=models.CASCADE)
-	residence_quarter = models.ForeignKey(Quarter, related_name="etatcivil_Quartier_EtatCivil" , max_length=64, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, related_name="etatcivil_Beneficiaire_EtatCivil",null=True, on_delete=models.SET_NULL)
+	zone = models.ForeignKey(Zone, max_length=64, related_name="etatcivil_Zone_EtatCivil" , null=True, on_delete=models.SET_NULL)
+	residence_quarter = models.ForeignKey(Quarter, related_name="etatcivil_Quartier_EtatCivil" , null=True, on_delete=models.SET_NULL)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(default=False)
+	date = models.DateField(default=timezone.now)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="etatcivil_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	
 
 	def requirements():
-		return ["CNI", "Presence Physique"]
+		return ["CNI", "Presence Physique", "500"]
 
 
 	def price(self):
@@ -45,7 +46,7 @@ class Document(models.Model):
 
 class PriceHistory(models.Model):
 	date = models.DateField()
-	zone = models.ForeignKey(Zone, related_name="etatcivil_etat_civil_price_province", on_delete=models.CASCADE)
+	zone = models.ForeignKey(Zone, related_name="etatcivil_etat_civil_price_province",null=True, on_delete=models.SET_NULL)
 	zone_price = models.IntegerField(default=0)
 	
 	def total(self):

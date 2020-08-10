@@ -7,21 +7,14 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
-                    'list':'zones'}),
+                    'id':'zones'}),
         label = 'Zone',
         queryset = Zone.objects.all())
-    
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter',
-        queryset = Quarter.objects.all())
+
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter")
+        fields = ("zone",)
 
 
 class ValidationForm(forms.Form):

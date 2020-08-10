@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import *
 from apps.base.forms import *
@@ -46,22 +47,17 @@ class SecretaryView(LoginRequiredMixin, View):
 				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
-
 class DocumentListView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+'_list.html'
 
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+'_form'
 		payform = BASE_NAME+'_payform'
+		delete = BASE_NAME+'_delconfirm'
+		update = BASE_NAME+'_update'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
-
-	def delete_view(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_deleteDoc'
-		document = Document.objects.get(id=document_id)
-		return redirect(BASE_NAME+'_list')
-
 
 
 class DocumentFormView(LoginRequiredMixin, View):
@@ -88,7 +84,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				recomm = form.save(commit=False)
 				recomm.user = request.user
-				recomm.residence_quarter = request.user.profil.residence
+				recomm.residence_quarter = request.user.profile.residence
 				recomm.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", recomm.id)
@@ -96,7 +92,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			recomm = form.save(commit=False)
 			recomm.user = request.user
-			recomm.residence_quarter = request.user.profil.residence
+			recomm.residence_quarter = request.user.profile.residence
 		return render(request, self.template_name, locals())
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -128,26 +124,65 @@ class DocumentPayView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 
-# class DocumentDeleteView(LoginRequiredMixin, View):
-# 	template_name = PREFIX_DOC_TEMP+'_del.html'
+class DocumentDeleteView(LoginRequiredMixin, View):
+	template_name = PREFIX_DOC_TEMP+'_del.html'
 
-# 	def get(self, request, document_id, *args, **kwargs):
-# 		delete = BASE_NAME+'_delconfirm'
-# 		document = Document.objects.get(id=document_id)
-# 		return render(request, self.template_name, locals())
+	def get(self, request, document_id, *args, **kwargs):
+		delete = BASE_NAME+'_delconfirm'
+		document = Document.objects.get(id=document_id)
+		return render(request, self.template_name, locals())
 
-# 	def post(self, request, document_id, *args, **kwargs):
-# 		delete = BASE_NAME+'_delconfirm'
-# 		document = Document.objects.get(id=document_id)
+	def post(self, request, document_id, *args, **kwargs):
+		delete = BASE_NAME+'_delconfirm'
+		document = Document.objects.get(id=document_id)
 
-# 		if "oui" in request.POST:
-# 			document.delete()
-# 			messages.success(request, "Document Supprimé avec Succes ! ")
-# 			return redirect(BASE_NAME+'_list')
+		if "oui" in request.POST:
+			document.delete()
+			messages.success(request, "Document Supprimé avec Succes ! ")
+			return redirect(BASE_NAME+'_list')
 
-# 		if "non" in request.POST:
-# 			return redirect(BASE_NAME+'_list')
+		if "non" in request.POST:
+			return redirect(BASE_NAME+'_list')
 
-# 		return render(request, self.template_name, locals())
+		return render(request, self.template_name, locals())
+
+@login_required(login_url='/login/')
+def delete_doc(request, document_id):
+	delete = delete = BASE_NAME+'_delconfirm'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		document.delete()
+		messages.success(request, "Document Supprimé avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
+
+@login_required(login_url='/login/')
+def update_doc(request, document_id):
+	template_name = PREFIX_DOC_TEMP+"_form.html"
+	update = BASE_NAME+'_update'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		form = DocumentForm(request.POST, request.FILES, instance =  document)	
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Document mis à jour avec Succes ! ")
+			return redirect(BASE_NAME+'_list')
+		else:
+			messages.error(request, "Vous avez pas le droit !")
+	else:
+		form = DocumentForm(instance=document)
+	return render(request, template_name, locals())
 
 
+# @login_required(login_url='/connexion/')
+# def update_music_view(request, id):
+#     music_id = Music.objects.get(id=id)
+    
+#         form = MusicForm(request.POST, request.FILES, instance = music_id)
+#         if form.is_valid():
+#             form.save()
+#         return redirect('music')
+#     else:
+#         form = MusicForm(instance= music_id)
+#     return render(request, 'update_music.html', {'form': form})

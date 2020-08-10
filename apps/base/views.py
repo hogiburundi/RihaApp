@@ -90,7 +90,6 @@ def disconnect(request):
 	logout(request)
 	return redirect("login")
 
-
 class Connexion(View):
 	template_name = 'pages/riha-login.html'
 	next_p = "home"
@@ -176,6 +175,7 @@ class ProfileView(View):
 			try:
 				profile = form.save(commit=False)
 				profile.user = request.user
+				print(profile.residence)
 				profile.save()
 				messages.success(request, "Hello "+request.user.first_name+", your profile created successfully!")
 				return redirect(self.next_p)

@@ -36,7 +36,10 @@ class Document(models.Model):
 		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
 
 	def validation_percent(self):
-		return 100 if self.secretary_validated != None else 0
+		progression = 0
+		progression += 70 if self.secretary_validated != None else 0
+		progression += 30 if self.ready else 0
+		return progression
 
 	def __str__(self):
 		return f"{self.user} {self.zone}"

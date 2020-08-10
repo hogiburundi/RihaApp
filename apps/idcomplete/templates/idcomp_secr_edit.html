@@ -23,13 +23,19 @@
 
                 <div>
                     <ul class="list-group">
-                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ id_compl.user.profile.cni_recto.url }}' height='300' />">
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='
+                        {% if id_compl.user.cni_recto %}
+                        	{{ id_compl.user.profile.cni_recto.url }}
+                        {% endif %}' height='300' />">
                             <span class="badge badge-warning badge-pill float-right">
                             	<i class="ft-check-circle"></i>
                             </span> <a href="#" class="blue-grey darken-1 font-medium-1">
                             &nbsp; CNI Recto </a>
                         </li>
-                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ id_compl.user.profile.cni_verso.url }}' height='300' />">
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='src='
+                        {% if id_compl.user.cni_verso %}
+                        	{{ id_compl.user.profile.cni_verso.url }}
+                        {% endif %}'' height='300' />">
                             <span class="badge badge-warning badge-pill float-right">
                             	<i class="ft-check-circle"></i>
                             </span>
@@ -138,16 +144,19 @@
 						<p style="text-align: right;">&nbsp;</p>
 					</div>
 				</div>
-	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+	            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
 						<i class="ft-corner-up-left"></i> Retour 
 					</button>
-					<button type="submit" class="btn btn-outline-warning" name="preview" value="validate">
-						<i class="ft-eye"></i> Valider
+					<button type="submit" class="btn btn-outline-primary" name="valid" value="valid">
+						<i class="ft-eye"></i> Approuver
 					</button>
-					<button type="submit" class="btn btn-outline-success" name="preview" value="validate">
+					<button type="submit" class="btn btn-outline-success" name="preview" value="preview">
 						<i class="ft-eye"></i> Imprimer
+					</button>
+					<button type="submit" class="btn btn-outline-warning" name="ready" value="ready">
+						<i class="ft-eye"></i> Disponible
 					</button>
 					<button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
 						<i class="ft-navigation"></i>Rejeter</a>

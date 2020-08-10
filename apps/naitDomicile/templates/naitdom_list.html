@@ -9,7 +9,7 @@
       <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
         <div class="row">
             <div class="col-xl-6 col-lg-12">
-                    <h1 class="font-medium-3 text-bold-700 text-white">Naissance à Domicile</h1>
+                    <h1 class="font-medium-3 text-bold-700 text-white">NAISSANCE À DOMICILE</h1>
             </div>
 
             <div class="col-xl-6 col-lg-12 text-right">     
@@ -27,8 +27,6 @@
             <thead>
                 <tr>                                                   
                     <th class="border-top-0">Quarter</th>
-                    <th class="border-top-0">Payment</th>
-                    <th class="border-top-0">Traitement</th>
                     <th class="border-top-0">Date</th>
                     <th class="border-top-0">Progression</th>
                     <th class="border-top-0">Message</th>
@@ -43,17 +41,8 @@
                     <td class="text-truncate">{{ document.residence_quarter }}</td>
 
                     <td class="text-truncate">
-                        <button class="btn btn-sm btn-outline-success round" type="button"><a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</button>
-                    </td>
-
-                    <td class="text-truncate">
-                       <button class="btn btn-sm btn-outline-danger round" type="button">{{ document.validation_percent }} %</button>
-                    </td>
-
-                    <td class="text-truncate">
                         {{ document.date }} 
                     </td>
-
 
                     <td>
                         <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
@@ -75,7 +64,7 @@
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url update document.id %}">
                                 <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
                             </a>
 

@@ -27,22 +27,42 @@
                             <span class="badge badge-warning badge-pill float-right">
                             	<i class="ft-check-circle"></i>
                             </span> <a href="#" class="blue-grey darken-1 font-medium-1">
-                            &nbsp; CNI Recto </a>
+                            &nbsp; CNI Recto Declarant </a>
                         </li>
                         <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ nait_dom.user.profile.cni_verso.url }}' height='300' />">
                             <span class="badge badge-warning badge-pill float-right">
                             	<i class="ft-check-circle"></i>
                             </span>
                             <a href="#" class="blue-grey darken-1 font-medium-1">
-                            &nbsp; CNI Verso</a>
+                            &nbsp; CNI Verso Declarant</a>
                         </li>
-                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<b>{{ nait_dom.zone_payment.place }}/{{ nait_dom.zone_payment.type_payement }} : <i>{{ nait_dom.zone_payment.id_transaction }}</i></b>">
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ nait_dom.first_witness.cni_recto.url }}' height='300' />">
                             <span class="badge badge-warning badge-pill float-right">
-                            	<i class="ft-check-circle"></i>
+                                <i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto Témoin 1 </a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ nait_dom.first_witness.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
                             </span>
                             <a href="#" class="blue-grey darken-1 font-medium-1">
-                            &nbsp; Paiement</a>
+                            &nbsp; CNI Verso Témoin 1</a>
                         </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ nait_dom.second_witness.cni_recto.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto Témoin 2 </a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ nait_dom.second_witness.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Verso Témoin 2</a>
+                        </li>
+                        
                     </ul>
                 </div>                          
             </div> 
@@ -51,65 +71,62 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> NAISSANCE À DOMICILE</h1>
             </div>
             <div class="card-body">
 				<div id="document" class="col-12 mb-2" style="overflow:auto;">
 					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-						<strong>MUNICIPALITE DE {{ nait_dom.zone.commune.province.name|upper }}</strong><br/>
-						<strong>COMMUNE URBAINE DE {{ nait_dom.zone.commune.name|upper }}</strong><br/>
-						<strong><u>ZONE DE {{ nait_dom.zone.name|upper }}</u></strong><br/><br>
-						<p style="text-align: center;"><strong><u>ATTESTATION  DE NAISSANCE A DOMICILE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-						<p>&nbsp;</p>
-						 
+                        <strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+                        <strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+                        <strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+                        <strong>MUNICIPALITE DE {{ nait_dom.zone.commune.province.name|upper }}</strong><br/>
+                        <strong>COMMUNE URBAINE DE {{ nait_dom.zone.commune.name|upper }}</strong><br/>
+                        <strong><u>ZONE DE {{ nait_dom.zone.name|upper }}</u></strong><br/><br>
+                        <p style="text-align: center;"><strong><u>ATTESTATION  DE NAISSANCE A DOMICILE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+                        <p>&nbsp;</p>
+                         
 
 
-						<p>Je soussign&eacute;, {{ nait_dom.zone.leaderFullName }}, Chef de Zone {{ nait_dom.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ nait_dom.child_name }}, est né le {{ nait_dom.child_birth|date:"SHORT_DATE_FORMAT" }}, à domicile, à {{ nait_dom.child_birth_zone.zone.name|upper }} Q. {{ nait_dom.child_birth_quarter.quarter.name|upper }}, fils de {{ nait_dom.user.first_name }} {{ nait_dom.user.last_name }} et de {{ nait_dom.child_mother.profile.user.first_name }} {{ nait_dom.child_mother.profile.user.last_name }}.
+                        <p>Je soussign&eacute;, {{ nait_dom.zone.leaderFullName }}, Chef de Zone {{ nait_dom.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ nait_dom.child_name }}, est né le {{ nait_dom.child_birth|date:"SHORT_DATE_FORMAT" }}, à domicile, à {{ nait_dom.child_birth_quarter.zone.name|upper }} Q. {{ nait_dom.child_birth_quarter.name|upper }}, fils de {{ nait_dom.user.first_name }} {{ nait_dom.user.last_name }} et de {{ nait_dom.child_mother.user.first_name }} {{ nait_dom.child_mother.user.last_name }}.
 
-								<p style="text-align:center;">La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e en vue de l’obtention de l’extrait d’acte de naissance.</p>
-						</p>
+                                <p style="text-align:center;">La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e en vue de l’obtention de l’extrait d’acte de naissance.</p>
+                        </p>
 
-						<p><strong>Le déclarant :</strong></p> 
+                        <p><strong>Le déclarant :</strong></p> 
 
-						<p>{{ nait_dom.user.first_name }} {{ nait_dom.user.last_name }}</p>
-							<p>C.N.I: {{ nait_dom.user.profile.CNI }}</p>
+                        <p>{{ nait_dom.user.first_name }} {{ nait_dom.user.last_name }}</p>
+                            <p>C.N.I: {{ nait_dom.user.profile.CNI }}</p>
 
-						<p><strong>Les  témoins :</strong></p>
+                        <p><strong>Les  témoins :</strong></p>
 
-						<p>{{ nait_dom.first_witness.profile.user.first_name }} {{ nait_dom.first_witness.profile.user.last_name }}</p>
-						<p>C.N.I : {{ nait_dom.first_witness.profile.CNI }} </p>
+                        <p>{{ nait_dom.first_witness.user.first_name }} {{ nait_dom.first_witness.user.last_name }}</p>
+                        <p>C.N.I : {{ nait_dom.first_witness.CNI }} </p>
 
-						<p>{{ nait_dom.second_witness.profile.user.first_name }} {{ nait_dom.second_witness.profile.user.last_name }}</p>
-						CNI: {{ nait_dom.second_witness.profile.CNI }}
+                        <p>{{ nait_dom.second_witness.user.first_name }} {{ nait_dom.second_witness.user.last_name }}</p>
+                        <p>CNI: {{ nait_dom.second_witness.CNI }}</p> <br>
 
+                        <p><strong>Chef de Quartier {{ nait_dom.child_birth_quarter.name|upper }}</strong></p>
 
-						<p>Chef de Quartier  TABA</p> 
+                        <p><strong>{{ nait_dom.child_birth_quarter.leaderFullName|upper }}<strong></p>
 
-						<p><strong>Chef de Quartier {{ nait_dom.child_birth_quarter.quarter.name|upper }}</strong></p>
-
-						<p><strong>{{ nait_dom.child_birth_quarter.quarter.leaderFullName }}<strong></p>
-
-						
-						
-						<p>&nbsp;</p>
-						<p>&nbsp;</p>
-						<table style="width: 588px;">
-						<tbody>
-						<tr>
-						<td style="width: 315px;">&nbsp;</td>
-						<td style="width: 275px;">
-						<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-						<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ nait_dom.zone.name }}</strong></p>
-						<p style="text-align: center;"><strong>{{ nait_dom.zone.leaderFullName }}</strong></p>
-						</td>
-						</tr>
-						</tbody>
-						</table>
-						<p style="text-align: right;">&nbsp;</p>
+                        
+                        
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <table style="width: 588px;">
+                        <tbody>
+                        <tr>
+                        <td style="width: 315px;">&nbsp;</td>
+                        <td style="width: 275px;">
+                        <p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+                        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ nait_dom.zone.name|upper }}</strong></p>
+                        <p style="text-align: center;"><strong>{{ nait_dom.zone.leaderFullName|upper }}</strong></p>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <p style="text-align: right;">&nbsp;</p>
 					</div>
 				</div>
 	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
@@ -120,7 +137,7 @@
 					<button type="submit" class="btn btn-outline-warning" name="valid" value="validate">
 						<i class="ft-eye"></i> Valider
 					</button>
-					<button type="submit" class="btn btn-outline-success" name="preview" value="validate">
+					<button type="submit" class="btn btn-outline-success" id="print-button" value="validate">
 						<i class="ft-eye"></i> Imprimer
 					</button>
 					<button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">

@@ -21,10 +21,11 @@
             <thead>
                 <tr>     
                     <th class="border-top-0">Document</th>
-                    <th class="border-top-0">Payment</th>
                     <th class="border-top-0">CNI</th>
                     <th class="border-top-0">CNI Recto</th>
                     <th class="border-top-0">CNI Verso</th>
+                    <th class="border-top-0">CNI T1</th>
+                    <th class="border-top-0">CNI T2</th>
                     <th class="border-top-0">Actions</th>
                 </tr>
             </thead>
@@ -33,12 +34,10 @@
                 <tr class="document-item" data-id="{{ document.id }}">
                     <td class="text-truncate">
                         <a href="./{{ document.id }}">
-                            {{ document.user }}
+                            {{ document.first_witness }}
                         </a>
                     </td>
-                    <td class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ document.zone_payment.place }} : <i>{{ document.zone_payment.id_transaction }}</i></b>" data-trigger="focus" tabindex="-1">
-                        {{ document.zone_payment.type_payement }}
-                    </td>
+                    
                     <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.user.last_name }}</b><br>
                       prenom: <b>{{ document.user.first_name }}</b><br>
                       CNI: <b>{{ document.user.profile.CNI }}</b><br>
@@ -55,10 +54,40 @@
                         {{ document.user.profile.CNI }}
                     </td>
                     <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.user.profile.cni_recto %} {{ document.user.profile.cni_recto.url }} {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
-                        photo 1
+                        CNI Recto
                     </td>
                     <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.user.profile.cni_verso %} {{ document.user.profile.cni_verso.url }} {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
-                        photo 2
+                        CNI Verso
+                    </td>
+                    <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.first_witness.user.last_name }}</b><br>
+                      prenom: <b>{{ document.first_witness.user.first_name }}</b><br>
+                      CNI: <b>{{ document.first_witness.CNI }}</b><br>
+                      delivrée à: <b>{{ document.first_witness.place_delivrated }}</b><br>
+                      né à: <b>{{ document.first_witness.quarter }}</b><br>
+                      residence: <b>{{ document.first_witness.residence }}</b><br>
+                      father: <b>{{ document.first_witness.father }}</b><br>
+                      mother: <b>{{ document.first_witness.mother }}</b><br>
+                      sexe: <b>{{ document.first_witness.gender }}</b><br>
+                      nationnalité: <b>{{ document.first_witness.nationnalite }}</b><br>
+                      date de naissance: <b>{{ document.first_witness.birthdate }}</b><br>
+                      job: <b>{{ document.first_witness.job }}</b><br>
+                      " data-trigger="focus" tabindex="-1">
+                        {{ document.first_witness.CNI }}
+                    </td>
+                    <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.second_witness.user.last_name }}</b><br>
+                      prenom: <b>{{ document.second_witness.user.first_name }}</b><br>
+                      CNI: <b>{{ document.second_witness.CNI }}</b><br>
+                      delivrée à: <b>{{ document.second_witness.place_delivrated }}</b><br>
+                      né à: <b>{{ document.second_witness.quarter }}</b><br>
+                      residence: <b>{{ document.second_witness.residence }}</b><br>
+                      father: <b>{{ document.second_witness.father }}</b><br>
+                      mother: <b>{{ document.second_witness.mother }}</b><br>
+                      sexe: <b>{{ document.second_witness.gender }}</b><br>
+                      nationnalité: <b>{{ document.second_witness.nationnalite }}</b><br>
+                      date de naissance: <b>{{ document.second_witness.birthdate }}</b><br>
+                      job: <b>{{ document.second_witness.job }}</b><br>
+                      " data-trigger="focus" tabindex="-1">
+                        {{ document.second_witness.CNI }}
                     </td>
                     <td>
                         <div>

@@ -32,6 +32,8 @@ class SecretaryView(LoginRequiredMixin, View):
 		validation_form = ValidationForm(request.POST)
 		if(validation_form.is_valid()):
 			print(request.POST)
+			if "cancel" in request.POST:
+				return redirect(BASE_NAME+'_secr_list')
 			if "reject" in request.POST:
 				print(validation_form.cleaned_data["cni_recto"],
 					validation_form.cleaned_data["cni_recto"],
@@ -51,18 +53,11 @@ class DocumentListView(LoginRequiredMixin, View):
 
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+'_form'
-		payform = BASE_NAME+'_payform'
-		delete = BASE_NAME+'_deleteDoc'
+		delete = BASE_NAME+'_delconfirm'
+		update = BASE_NAME+'_update'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
-
-	def delete(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_deleteDoc'
-		document = Document.objects.get(id=document_id)
-		return redirect(BASE_NAME+'_list')
-
-
 
 
 class DocumentFormView(LoginRequiredMixin, View):

@@ -24,8 +24,12 @@ class Register2Form(forms.ModelForm):
 		widget=forms.TextInput(
 			attrs={'placeholder':'province de livraison','class':'form-control'}),
 		label='Délivrée à', required=False)
-	cni_recto = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'CNI Picture 1','class':'form-control'}), label='CNI Picture 1')
-	cni_verso = forms.ImageField( widget=forms.FileInput(attrs={'placeholder':'CNI Picture 2','class':'form-control'}), label='CNI Picture 2')
+	cni_recto = forms.ImageField( widget=forms.FileInput(
+			attrs={'placeholder':'CNI Picture 1','class':'form-control'}),
+		label='CNI Picture 1', required=False)
+	cni_verso = forms.ImageField( widget=forms.FileInput(
+			attrs={'placeholder':'CNI Picture 2','class':'form-control'}),
+		label='CNI Picture 2', required=False)
 	
 	class Meta:
 		model = Profile
@@ -55,12 +59,6 @@ class ProfileForm(forms.ModelForm):
 		widget=forms.TextInput(
 			attrs={'placeholder':'yyyy-mm-dd ', 'type':'date', 'class':'form-control'}),
 		label='Birthdate')
-	
-	is_married = forms.BooleanField(
-		widget=forms.CheckboxInput(
-			attrs={'placeholder':'Married '}),
-		label='Married',
-		required=False)
 	job = forms.CharField(
 		widget=forms.TextInput(
 			attrs={'placeholder':'Job ','class':'form-control'}),
@@ -69,10 +67,14 @@ class ProfileForm(forms.ModelForm):
 		widget=forms.TextInput(
 			attrs={'placeholder':'Example : Hon. Dr. Ir. ','class':'form-control'}),
 		label='Prefix', required=False)
-	
+		
+	is_married = forms.BooleanField(
+		widget=forms.CheckboxInput( attrs={'placeholder':'Married '}),
+		label='Married', required=False)
+
 	class Meta:
 		model = Profile
-		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "is_married", "job")
+		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "job", "is_married")
 
 class RegisterForm(forms.Form):
 	telephone = forms.CharField( widget=forms.NumberInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')

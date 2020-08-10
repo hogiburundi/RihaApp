@@ -138,12 +138,12 @@
 						<p style="text-align: right;">&nbsp;</p>
 					</div>
 				</div>
-	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+	            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
 						<i class="ft-corner-up-left"></i> Retour 
 					</button>
-					<button type="submit" class="btn btn-outline-warning" name="preview" value="validate">
+					<button type="submit" class="btn btn-outline-warning" name="valid" value="valid">
 						<i class="ft-eye"></i> Valider
 					</button>
 					<button type="submit" class="btn btn-outline-success" name="preview" value="validate">

@@ -75,7 +75,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				preview = False
 			if "submit" in request.POST:
 				notoriete.save()
-				return redirect("home")
+				return redirect(BASE_NAME+"_payform", notoriete=notoriete.id)
 		return render(request, self.template_name, locals())
 
 

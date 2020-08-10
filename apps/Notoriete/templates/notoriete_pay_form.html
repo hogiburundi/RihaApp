@@ -51,26 +51,12 @@
             <div class="card-body"><!-- Begin card body -->
                 <form action="{% url payform notoriete %}" method="post">
                     {% csrf_token %}
-                    <div class="form-group">                     
-                        <p>
-                            <label for="large-select" class="text-bold-600 font-medium-2">Payment Method</label>
-                        </p>
-                        {{ form.type_payement }}
-                    </div>
-
-                    <div class="form-group">                     
-                        <p>
-                            <label for="Transaction-code" class="text-bold-600 font-medium-2">Transaction Code</label>  
-                        </p>
-                        {{ form.id_transaction }}
-                    </div>
-
-                    <div class="form-group">                     
-                        <p>
-                            <label for="Transaction-code" class="text-bold-600 font-medium-2">Bordereau</label>   
-                        </p>
-                        {{ form.bordereau }}
-                    </div>
+                    {% for field in form %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field.non_field_errors }}
+                        {{ field.errors }}
+                        {{ field }}
+                    {% endfor %}
                     <hr/>
                     <div class="text-right">
                         <a href=".." class="btn btn-outline-info round font-medium-2">

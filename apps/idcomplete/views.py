@@ -48,8 +48,8 @@ class SecretaryView(LoginRequiredMixin, View):
 				Notification(user=document.user, message=notification).save()
 
 			if "valid" in request.POST:
-				id_compl.secretary_validated = True
-				id_compl.save()
+				document.secretary_validated = True
+				document.save()
 				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
@@ -88,7 +88,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				id_compl = form.save(commit=False)
 				id_compl.user = request.user
 				id_compl.save()
-				return redirect("home")
+				return redirect(BASE_NAME+"_payform", id_compl=id_compl.id)
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			id_compl = form.save(commit=False)

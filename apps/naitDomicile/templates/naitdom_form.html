@@ -51,7 +51,7 @@
                          
 
 
-                        <p>Je soussign&eacute;, {{ nait_dom.zone.leaderFullName }}, Chef de Zone {{ nait_dom.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ nait_dom.child_name }}, est né le {{ nait_dom.child_birth|date:"SHORT_DATE_FORMAT" }}, à domicile, à {{ nait_dom.child_birth_zone.zone.name|upper }} Q. {{ nait_dom.child_birth_quarter.quarter.name|upper }}, fils de {{ nait_dom.user.first_name }} {{ nait_dom.user.last_name }} et de {{ nait_dom.child_mother.profile.user.first_name }} {{ nait_dom.child_mother.profile.user.last_name }}.
+                        <p>Je soussign&eacute;, {{ nait_dom.zone.leaderFullName }}, Chef de Zone {{ nait_dom.zone.name }}, atteste par la pr&eacute;sente que la nomm&eacute;e  {{ nait_dom.child_name }}, est né le {{ nait_dom.child_birth|date:"SHORT_DATE_FORMAT" }}, à domicile, à {{ nait_dom.child_birth_quarter.zone.name|upper }} Q. {{ nait_dom.child_birth_quarter.name|upper }}, fils de {{ nait_dom.user.first_name }} {{ nait_dom.user.last_name }} et de {{ nait_dom.child_mother.user.first_name }} {{ nait_dom.child_mother.user.last_name }}.
 
                                 <p style="text-align:center;">La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e en vue de l’obtention de l’extrait d’acte de naissance.</p>
                         </p>
@@ -63,16 +63,13 @@
 
                         <p><strong>Les  témoins :</strong></p>
 
-                        <p>{{ nait_dom.first_witness.profile.user.first_name }} {{ nait_dom.first_witness.profile.user.last_name }}</p>
-                        <p>C.N.I : {{ nait_dom.first_witness.profile.CNI }} </p>
+                        <p>{{ nait_dom.first_witness.user.first_name }} {{ nait_dom.first_witness.user.last_name }}</p>
+                        <p>C.N.I : {{ nait_dom.first_witness.CNI }} </p>
 
-                        <p>{{ nait_dom.second_witness.profile.user.first_name }} {{ nait_dom.second_witness.profile.user.last_name }}</p>
+                        <p>{{ nait_dom.second_witness.user.first_name }} {{ nait_dom.second_witness.user.last_name }}</p>
                         CNI: {{ nait_dom.second_witness.profile.CNI }}
 
-
-                        <p>Chef de Quartier  TABA</p> 
-
-                        <p><strong>Chef de Quartier {{ nait_dom.child_birth_quarter.quarter.name|upper }}</strong></p>
+                        <p><strong>Chef de Quartier {{ nait_dom.child_birth_quarter.name|upper }}</strong></p>
 
                         <p><strong>{{ nait_dom.child_birth_quarter.quarter.leaderFullName }}<strong></p>
 

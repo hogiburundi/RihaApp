@@ -89,6 +89,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				nait_dom = form.save(commit=False)
 				nait_dom.user = request.user
+				nait_dom.residence_quarter = request.user.profile.residence
 				nait_dom.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_list")
@@ -96,6 +97,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			nait_dom = form.save(commit=False)
 			nait_dom.user = request.user
+			nait_dom.residence_quarter = request.user.profile.residence
 		return render(request, self.template_name, locals())
 
 # class DocumentPayView(LoginRequiredMixin, View):

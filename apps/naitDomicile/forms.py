@@ -25,11 +25,11 @@ class DocumentForm(forms.ModelForm):
         label='Date de naissance enfant :', required=False,initial=date.today())
 
     child_birth_quarter = forms.ModelChoiceField(
-        widget = forms.TextInput(
+        widget = forms.Select(
             attrs = {'placeholder': 'Quartier naissance', 
                     'class': 'form-control', 
                     'id':'quarters'}),
-        label = "Quartier de naissance de l'enfant",
+        label = "Quartier naissance",
         queryset = Quarter.objects.all())
 
     child_mother = forms.ModelChoiceField(
@@ -58,7 +58,6 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
         fields = ("zone","child_name","child_birth","child_birth_quarter",
             "child_mother","first_witness","second_witness")
 

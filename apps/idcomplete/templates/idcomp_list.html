@@ -1,86 +1,86 @@
 {% extends 'pages/riha-base.html' %}
 {% block main-content %}
 <div class="card border-info border-lighten-1"> <!-- start card --> 
-      <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
-        <div class="row">
-            <div class="col-xl-6 col-lg-12">
-                    <h1 class="font-medium-3 text-bold-700 text-white">IDENTITE COMPLETE</h1>
+    <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
+    <div class="row">
+      <div class="col-xl-6 col-lg-12">
+          <h1 class="font-medium-3 text-bold-700 text-white">IDENTITE COMPLETE</h1>
+      </div>
+      <div class="col-xl-6 col-lg-12 text-right">   
+          <a type="button" href="{% url formurl %}" class="btn btn-dark round font-medium-2">
+            <i class="ft-plus-circle"></i> Nouveau document
+          </a>
+      </div>
+    </div>
+    </div><!-- end card header --> 
+    <div class="card-body">  <!-- card body -->      
+    <table class="table table-xl mb-0 table-responsive">
+
+      <thead>
+        <tr>   
+          <th class="border-top-0">Quarter</th>
+          <th class="border-top-0">Payment</th>
+          <th class="border-top-0">Traitement</th>
+          <th class="border-top-0">Date</th>
+          <th class="border-top-0">Progression</th>
+          <th class="border-top-0">Message</th>
+          <th class="border-top-0">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for document in documents %}
+        <tr class="document-item" data-id="{{ document.id }}">
+          <td class="text-truncate">
+            {{ document.residence_quarter }}
+          </td>
+          <td class="text-truncate">
+            <a href="{% url payform  document.id  %}">
+            <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
+              <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.payment_percent }}%" aria-valuenow="{{ document.payment_percent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.payment_percent }}%"></div>
             </div>
-            <div class="col-xl-6 col-lg-12 text-right">     
-                    <a type="button" href="{% url formurl %}" class="btn btn-dark round font-medium-2">
-                        <i class="ft-plus-circle"></i> Nouveau document
-                    </a>
+            </a>
+          </td>
+          <td class="text-truncate">
+            <a href="{% url payform  document.id  %}">
+            <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
+              <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.validation_percent }}%" aria-valuenow="{{ document.validation_percent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.validation_percent }}%"></div>
             </div>
-        </div>
-      </div><!-- end card header --> 
-      <div class="card-body">  <!-- card body -->          
-        <table class="table table-xl mb-0 table-responsive">
+            </a>
+          </td>
+          <td class="text-truncate">{{ document.date }}</td>
+          <td>
+          {% if document.ready %}
+            <i class="fas fa-check text-success"></i>
+          {% else %}
+            <i class="fas fa-times text-danger"></i>
+          {% endif %}
+          </td>
+          <td>
+            <p class="blue-gray"> - </p>
+          </td>
+          <td>
+            <div>
+              <a href="#">
+                <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
+              </a>
 
-            <thead>
-                <tr>     
-                    <th class="border-top-0">Quarter</th>
-                    <th class="border-top-0">Payment</th>
-                    <th class="border-top-0">Traitement</th>
-                    <th class="border-top-0">Date</th>
-                    <th class="border-top-0">Progression</th>
-                    <th class="border-top-0">Message</th>
-                    <th class="border-top-0">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for document in documents %}
-                <tr class="document-item" data-id="{{ document.id }}">
-                    <td class="text-truncate">
-                        {{ document.residence_quarter }}
-                    </td>
-                    <td class="text-truncate">
-                        <a href="{% url payform  document.id  %}">
-                        <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-                            <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.payment_percent }}%" aria-valuenow="{{ document.payment_percent }}" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
-                        </div>
-                        </a>
-                    </td>
-                    <td class="text-truncate">
-                        <a href="{% url payform  document.id  %}">
-                        <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-                            <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.validation_percent }}%" aria-valuenow="{{ document.validation_percent }}" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
-                        </div>
-                        </a>
-                    </td>
-                    <td class="text-truncate">{{ document.date }}</td>
-                    <td>
-                    {% if document.ready %}
-                        <i class="fas fa-check text-success"></i>
-                    {% else %}
-                        <i class="fas fa-times text-danger"></i>
-                    {% endif %}
-                    </td>
-                    <td>
-                        <p class="blue-gray"> - </p>
-                    </td>
-                    <td>
-                        <div>
-                            <a href="#">
-                                <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
-                            </a>
+              <a href="#">
+                <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
+              </a>
 
-                            <a href="#">
-                                <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
-                            </a>                                                            
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div><!-- end card body -->
+              <a href="#">
+                <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
+              </a>                              
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div><!-- end card body -->
 
   <div class="card-footer bg-transparent border-top-info text-right">
-    <a href="{% url formurl %}" class="btn btn-info round font-medium-2"><i class="ft-plus-circle"></i> Nouveau Document</a>
+  <a href="{% url formurl %}" class="btn btn-info round font-medium-2"><i class="ft-plus-circle"></i> Nouveau Document</a>
   </div>
 
 </div> <!-- end  card -->

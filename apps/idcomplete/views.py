@@ -44,8 +44,9 @@ class SecretaryView(LoginRequiredMixin, View):
 			if "ready" in request.POST:
 				document.ready=True
 				notification = "identite complete yanyu yatunganye. murashobora kuza kuyitora mwibangikanije "
-				notification += " ".join([x for x in document.requirements()])
+				notification += " ".join([x for x in Document.requirements()])
 				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
 
 			if "valid" in request.POST:
 				document.secretary_validated = True

@@ -11,23 +11,23 @@
             <div class="card-body">
                 <div class="category-title pb-1">
                     <h6 class="text-center font-medium-1 text-bold-800 text-info">
-                        <i class="ft-corner-left-down"></i> Requirements
+                        <i class="ft-corner-left-down"></i>Attention</i> :  Requis
                     </h6>
                 </div>
 
                 <div>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Votre presence et CNI </a>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; 2 Témoins et leurs CNI</a>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; 500 Fbu du document</a>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Cahier de ménage</a>
                         </li>
                     </ul>
                 </div>                          
@@ -37,7 +37,7 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> RÉSIDENCE</h1>
             </div>
             <div class="card-body">
 				{% if preview %}
@@ -62,10 +62,11 @@
 
                         <p><strong>Sous couvert :</strong></p>
 
-                        <p>- {{ att_resi.first_witness.user.first_name }} {{ att_resi.first_witness.user.last_name }}</p>
+                        <p>- {{ att_resi.first_witness.first_name|upper }} {{ att_resi.first_witness.last_name }}</p>
+                        <p>CNI : {{ att_resi.first_witness.CNI }}</p>
 
-                        <p>- {{ att_resi.second_witness.user.first_name }} {{ att_resi.second_witness.user.last_name }}</p>
-                        
+                        <p>- {{ att_resi.second_witness.first_name|upper }} {{ att_resi.second_witness.last_name }}</p>
+                        <p>CNI : {{ att_resi.second_witness.CNI }}</p>
 
 
                         <p><strong>Chef de Quartier  {{ att_resi.residence_quarter.name|upper }} </strong></p> 
@@ -102,15 +103,9 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="gender">Zone:</label>
+                                    <label for="gender">Zone recherche du document</label>
                                     {{ form.zone }}
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nationality">Quariter de résidance : </label>
-                                    {{ form.residence_quarter }}
-                                </div>                                                  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

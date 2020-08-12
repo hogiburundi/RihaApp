@@ -47,9 +47,34 @@ class ValidationForm(forms.Form):
     cni_verso = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
         label='image verso', required=False)
-    payment = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
-        label='le code de paiement', required=False)
     cni = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
         label='numero CNI', required=False)
+
+    cni_recto_first_witness = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image recto témoin 1 '}),
+        label='image recto', required=False)
+    cni_verso_first_witness = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image verso témoin 1 '}),
+        label='image verso', required=False)
+    cni_first_witness = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI témoin 1'}),
+        label='numero CNI', required=False)
+
+    cni_recto_second_witness = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image recto témoin 2 '}),
+        label='image recto', required=False)
+    cni_verso_second_witness = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image verso témoin 2 '}),
+        label='image verso', required=False)
+    cni_second_witness = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI témoin 2'}),
+        label='numero CNI', required=False)
+    
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+
+    first_witness
+    second_witness
+    

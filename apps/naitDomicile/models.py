@@ -15,7 +15,7 @@ class Document(models.Model):
 	first_witness = models.ForeignKey(Profile, related_name='naitdom_WitnessNaDO',max_length=64, null=True, on_delete=models.SET_NULL)
 	second_witness = models.ForeignKey(Profile, related_name='naitdom_WitnessNaDT',max_length=64, null=True, on_delete=models.SET_NULL)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(default=False)
+	secretary_validated = models.BooleanField(default=False, blank=True, null=True)
 	ready = models.BooleanField(default=False)
 	
 

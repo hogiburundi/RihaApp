@@ -12,7 +12,7 @@ class Document(models.Model):
 	date = models.DateField(default=timezone.now)
 	propriety_contenency = models.CharField(max_length=100)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(null=True)
+	secretary_validated = models.BooleanField(default=False, null=True, blank=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="at_app_parc_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 

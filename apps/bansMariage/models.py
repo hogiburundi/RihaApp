@@ -8,9 +8,10 @@ class Document(models.Model):
 	bride = models.ForeignKey(Profile, related_name="banmariage_bride", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="banmariage_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="banmariage_residence", max_length=64, null=True, on_delete=models.SET_NULL)
-	date = models.DateField()
+	date_mariage = models.DateField()
+	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(null=True, blank=True)
+	secretary_validated = models.BooleanField(default=False, null=True, blank=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="banmariage_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 

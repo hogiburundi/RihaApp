@@ -65,7 +65,7 @@
 
                         <p id="normal">Mlle {{ bans_mariage.bride.user.last_name }} {{ bans_mariage.bride.user.first_name }},{% if bans_mariage.bride.job %} Profession {{ bans_mariage.bride.job }} {% else %} Sans Profession {% endif %}, fille de {{ bans_mariage.bride.father|upper }} et de {{ bans_mariage.bride.mother|upper }}, née &agrave; NYAMUGARI, le {{ bans_mariage.bride.profile.birthdate|date:"SHORT_DATE_FORMAT" }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalité {{ bans_mariage.bride.nationality }}, {% if bans_mariage.bride.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’autre part.</p>
 
-                        Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la {{ bans_mariage.zone.commune.province }} &agrave; partir du {{ bans_mariage.date|date:"SHORT_DATE_FORMAT" }}.<br/><br/>
+                        Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la {{ bans_mariage.zone.commune.province }} &agrave; partir du {{ bans_mariage.date_mariage|date:"SHORT_DATE_FORMAT" }}.<br/><br/>
 
                         Toute personne qui a des objections &agrave; l’encontre dudit mariage peut soit former opposition conform&eacute;ment  aux articles cent quatre, cent cinq et cent six du Code des Personnes et de la Famille soit communiquer ses objections &agrave; l’Officier d’&eacute;tat civil de {{ bans_mariage.zone.commune.province }}.<br/><br/>
 
@@ -144,7 +144,6 @@
 <script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
 <script>
 	$('#zones').chosen({ width: '100%' });
-	$('#quarters').chosen({ width: '100%' });
 	$('#profiles').chosen({ width: '100%' });
 </script>
 {% endblock %}

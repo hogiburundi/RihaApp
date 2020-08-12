@@ -18,7 +18,7 @@ class Document(models.Model):
 	second_witness = models.ForeignKey(Profile, related_name='at_deces_dom_T2',max_length=64, on_delete=models.CASCADE)
 	
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(default=False)
+	secretary_validated = models.BooleanField(default=False, null=True, blank=True)
 	ready = models.BooleanField(default=False)
 
 	def price(self):

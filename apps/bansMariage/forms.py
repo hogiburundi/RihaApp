@@ -8,7 +8,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Bride', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles'}),
         label = 'Bride',
         queryset = Profile.objects.all())
 
@@ -16,27 +16,18 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
-                    'list':'zones'}),
+                    'id':'zones'}),
         label = 'Zone',
         queryset = Zone.objects.all())
 
-
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter',
-        queryset = Quarter.objects.all())
-
-    date = forms.DateField(widget=forms.TextInput(
+    date_mariage = forms.DateField(widget=forms.TextInput(
             attrs={'placeholder':'date delivrated ', 'type':'date',
                 'class':'form-control',}),
-        label='Date d\'etat civil :', required=False,initial=date.today())
+        label='Date de mariage :', required=False,initial=date.today())
 
     class Meta:
         model = Document
-        fields = ("zone", "bride", "residence_quarter", 'date')
+        fields = ("zone", "bride", 'date_mariage')
 
 class ValidationForm(forms.Form):
     cni_recto = forms.BooleanField(

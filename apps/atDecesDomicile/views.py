@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
 from .forms import *
 from apps.base.forms import *
 from apps.base.views import *

@@ -11,7 +11,7 @@ class Document(models.Model):
 	propriety_surface = models.FloatField(null=True, blank=True)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(null=True)
+	secretary_validated = models.BooleanField(default=False,null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="atposs_parc_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 

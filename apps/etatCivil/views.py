@@ -96,9 +96,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 				etat_civil.user = request.user
 				userQ = request.user
 				etat_civil.residence_quarter = userQ.profile.residence
-				print("##################################\n")
-				print(userQ.profile.residence)
-				print("#################################\n")
 				etat_civil.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", etat_civil.id)

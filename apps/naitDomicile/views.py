@@ -36,7 +36,7 @@ class SecretaryView(LoginRequiredMixin, View):
 				document.secretary_validated=False
 				notification = "Attestation de naissance à domicile yanyu yanswe. imvo: \n"
 				notification += "\n- Ifoto yawe ya karangamuntu " if validation_form.cleaned_data["cni_recto_declarant"] or validation_form.cleaned_data["cni_verso_declarant"] else "" 
-			    notification += "\n- Inomero ya karangamuntu yawe siyo " if validation_form.cleaned_data["cni_declarant"] else "" 
+				notification += "\n- Inomero ya karangamuntu yawe siyo " if validation_form.cleaned_data["cni_declarant"] else "" 
 				notification += "\n- Ifoto ya karangamuntu y'icabona ca 1 siyo " if validation_form.cleaned_data["cni_recto_1_temoin"] or validation_form.cleaned_data["cni_verso_1_temoin"] else "" 
 				notification += "\n- Inomero ya karangamuntu y'icabona ca 1 siyo " if validation_form.cleaned_data["cni_1_temoin"] else "" 
 				notification += "\n- Ifoto ya karangamuntu y'icabona ca 2 siyo " if validation_form.cleaned_data["cni_recto_2_temoin"] or validation_form.cleaned_data["cni_verso_2_temoin"] else ""

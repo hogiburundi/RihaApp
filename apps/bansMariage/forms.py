@@ -36,7 +36,7 @@ class ValidationForm(forms.Form):
     cni_verso = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
         label='image verso', required=False)
-     cni = forms.BooleanField(
+    cni = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
         label='numero CNI', required=False)
 
@@ -46,7 +46,7 @@ class ValidationForm(forms.Form):
     cni_verso_bride = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
         label='image verso', required=False)
-     cni_bride = forms.BooleanField(
+    cni_bride = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
         label='numero CNI', required=False)
 

@@ -66,7 +66,3 @@ class ValidationForm(forms.Form):
     payment = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
         label='le code de paiement', required=False)
-
-    first_witness
-    second_witness
-    

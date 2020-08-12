@@ -36,8 +36,8 @@ class SecretaryView(LoginRequiredMixin, View):
 				document.secretary_validated=False
 				notification = "Document mwasavye yanswe bivuye kuri ibi bikurikira : \n"
 				notification +="\n- Ifoto yawe ya karangamuntu siyo " if validation_form.cleaned_data["cni_recto"] or validation_form.cleaned_data["cni_verso"] else ""
-				notification +="\n- Amakuru ajanye no kuriha " if validation_form.cleaned_data["payment"]
-				notification +="\n- Inomero ya karangamuntu yawe siyo " if validation_form.cleaned_data["cni"]
+				notification +="\n- Amakuru ajanye no kuriha " if validation_form.cleaned_data["payment"] else ""
+				notification +="\n- Inomero ya karangamuntu yawe siyo " if validation_form.cleaned_data["cni"] else ""
 				document.rejection_msg = notification
 				document.save()
 				Notification(user=document.user, messages=document.notification)

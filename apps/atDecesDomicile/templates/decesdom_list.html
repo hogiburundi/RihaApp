@@ -27,7 +27,6 @@
             <thead>
                 <tr>                                                   
                     <th class="border-top-0">Quarter</th>
-                    <th class="border-top-0">Payment</th>
                     <th class="border-top-0">Traitement</th>
                     <th class="border-top-0">Date</th>
                     <th class="border-top-0">Progression</th>
@@ -41,11 +40,6 @@
                 {% for document in documents %}
                 <tr> 
                     <td class="text-truncate">{{ document.residence_quarter }}</td>
-
-                    <td class="text-truncate">
-                        <button class="btn btn-sm btn-outline-success round" type="button"><a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</button>
-                    </td>
-
                     <td class="text-truncate">
                        <button class="btn btn-sm btn-outline-danger round" type="button">{{ document.validation_percent }} %</button>
                     </td>
@@ -73,11 +67,11 @@
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url update document.id %}">
                                 <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url clone document.id %}">
                                 <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
                             </a>                                                            
                         </div>

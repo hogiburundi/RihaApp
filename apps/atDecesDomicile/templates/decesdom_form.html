@@ -102,7 +102,7 @@
                           
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="gender">Zone:</label>
+                                    <label for="gender">Zone recherche du document : </label>
                                     {{ form.zone }}
                                 </div>
                             </div>
@@ -110,12 +110,6 @@
                                 <div class="form-group">
                                     <label for="nationality">Defunt : </label>
                                     {{ form.dead_man }}<a href="{% url 'register' %}"><i class="ft-plus-circle"></i></a>
-                                </div>                                                  
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nationality">Quartier de résidance du défunt :  </label>
-                                    {{ form.residence_quarter_DM }}
                                 </div>                                                  
                             </div>
                             <div class="col-md-6">
@@ -170,7 +164,8 @@
 <script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
 <script>
 	$('#zones').chosen({ width: '100%' });
-	$('#quarters').chosen({ width: '100%' });
 	$('#profiles').chosen({ width: '100%' });
+    $('#profiles1').chosen({ width: '100%' });
+    $('#profiles2').chosen({ width: '100%' });
 </script>
 {% endblock %}

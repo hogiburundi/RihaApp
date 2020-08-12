@@ -36,12 +36,33 @@
                             <a href="#" class="blue-grey darken-1 font-medium-1">
                             &nbsp; CNI Verso</a>
                         </li>
-                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<b>{{ deces_dom.zone_payment.place }}/{{ deces_dom.zone_payment.type_payement }} : <i>{{ deces_dom.zone_payment.id_transaction }}</i></b>">
+
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ deces_dom.first_witness.cni_recto.url }}' height='300' />">
                             <span class="badge badge-warning badge-pill float-right">
-                            	<i class="ft-check-circle"></i>
+                                <i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto Témoin 1</a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ deces_dom.first_witness.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
                             </span>
                             <a href="#" class="blue-grey darken-1 font-medium-1">
-                            &nbsp; Paiement</a>
+                            &nbsp; CNI Verso Témoin 1</a>
+                        </li>
+
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ deces_dom.second_witness.cni_recto.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto Témoin 2 </a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ deces_dom.second_witness.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Verso Témoin 2</a>
                         </li>
                     </ul>
                 </div>                          
@@ -77,7 +98,7 @@
 
 						<p><strong>Les  témoins :</strong></p>
 
-						<p>{{ deces_dom.first_witness.profile.user.first_name }} {{ deces_dom.first_witness.user.last_name }}</p>
+						<p>{{ deces_dom.first_witness.user.first_name }} {{ deces_dom.first_witness.user.last_name }}</p>
 						<p>C.N.I : {{ deces_dom.first_witness.CNI }} </p>
 
 						<p>{{ deces_dom.second_witness.user.first_name }} {{ deces_dom.second_witness.user.last_name }}</p>
@@ -106,24 +127,27 @@
 						<p style="text-align: right;">&nbsp;</p>
 					</div>
 				</div>
-	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
-						<i class="ft-corner-up-left"></i> Retour 
-					</button>
-					<button type="submit" class="btn btn-outline-warning" name="preview" value="validate">
-						<i class="ft-eye"></i> Valider
-					</button>
-					<button type="submit" class="btn btn-outline-success" name="preview" value="validate">
-						<i class="ft-eye"></i> Imprimer
-					</button>
-					<button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
-						<i class="ft-navigation"></i>Rejeter</a>
-					</button>
-	            </form>
-	        </div> <!-- End card body -->
-	    </div>	
-	</div>
+	            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
+                        <i class="ft-corner-up-left"></i> Retour 
+                    </button>
+                    <button type="submit" class="btn btn-outline-primary" name="valid" value="valid">
+                        <i class="ft-eye"></i> Approuver
+                    </button>
+                    <button type="submit" class="btn btn-outline-success" name="preview" value="preview">
+                        <i class="ft-eye"></i> Imprimer
+                    </button>
+                    <button type="submit" class="btn btn-outline-warning" name="ready" value="ready">
+                        <i class="ft-eye"></i> Disponible
+                    </button>
+                    <button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
+                        <i class="ft-navigation"></i>Rejeter
+                    </button>
+                </form>
+            </div> <!-- End card body -->
+        </div>  
+    </div>
 </div>
 
 <template id="poprejeter">
@@ -142,7 +166,7 @@ $(document).ready(function () {
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
-	$(function(){
+    $(function(){
         $("#rejection-button").popover({
             title: '<h3>Motif</h3>',
             container: 'body',
@@ -151,7 +175,7 @@ $(function () {
             sanitize: false,
             content: $('#poprejeter').html()
         }).on('click', function(event) {
-        	event.preventDefault();
+            event.preventDefault();
             id = $(this).attr('data-id');
             $("button[type=reset]").click(function(){
                 $("#rejection-button").popover('hide');
@@ -175,20 +199,20 @@ $(function () {
         });
     });
 $("#print-button").on('click', function(event) {
-	event.preventDefault();
-	printDiv();
+    event.preventDefault();
+    printDiv();
 });
 
 function printDiv() { 
-	var divContents = document.getElementById("template").innerHTML; 
-	var a = window.open('', '', 'height=500, width=1000'); 
-	a.document.write('<html>'); 
-	a.document.write('<body>'); 
-	a.document.write(divContents); 
-	a.document.write('</body></html>'); 
-	a.document.close(); 
-	a.print(); 
-	a.close();
+    var divContents = document.getElementById("template").innerHTML; 
+    var a = window.open('', '', 'height=500, width=1000'); 
+    a.document.write('<html>'); 
+    a.document.write('<body>'); 
+    a.document.write(divContents); 
+    a.document.write('</body></html>'); 
+    a.document.close(); 
+    a.print(); 
+    a.close();
 }
 });
 </script>

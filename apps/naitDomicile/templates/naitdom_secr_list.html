@@ -91,22 +91,22 @@
                     </td>
                     <td>
                         <div>
-              <form role="form" method="POST" action="./{{ document.id }}">
-                {% csrf_token %}
-                <button href="#" data-id="{{ document.id }}"  class="btn p-0 btn-link rejeter">
-                  <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="rejeter"></i>
-                </button>
-                <button type="submit" value="ready" href="#" data-toggle="popover" class="btn p-0 btn-link" name="ready">
-                  <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="approuver"></i>
-                </button>
-                <button type="submit" value="valid" href="#" data-toggle="popover" class="btn p-0 btn-link">
-                  <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="disponible"></i>
-                </button> 
-              </form>
-            </div>
-          </td>
-        </tr>
-      {% endfor %}
+                          <form role="form" method="POST" action="./{{ document.id }}">
+                            {% csrf_token %}
+                            <button href="#" data-id="{{ document.id }}"  class="btn p-0 btn-link rejeter">
+                              <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="rejeter"></i>
+                            </button>
+                            <button type="submit" value="ready" href="#" data-toggle="popover" class="btn p-0 btn-link" name="ready">
+                              <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="approuver"></i>
+                            </button>
+                            <button type="submit" value="valid" href="#" data-toggle="popover" class="btn p-0 btn-link">
+                              <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="disponible"></i>
+                            </button> 
+                          </form>
+                        </div>
+                    </td>
+              </tr>
+          {% endfor %}
       </tbody>
     </table>
   </div><!-- end card body -->

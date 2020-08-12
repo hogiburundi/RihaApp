@@ -15,7 +15,7 @@ class Document(models.Model):
 	
 
 	def requirements():
-		return ["CNI", "Presence Physique", "500"]
+		return ["CNI", "Presence Physique",]
 
 
 	def price(self):

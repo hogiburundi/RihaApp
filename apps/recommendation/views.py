@@ -191,8 +191,6 @@ def clone_doc(request, document_id):
 	if request.user == document.user:
 		cloned_doc = document
 		cloned_doc.pk = None
-		cloned_doc.payment_method = None
-		cloned_doc.payment_serial = None
 		cloned_doc.zone_payment =None
 		cloned_doc.ready = False
 		cloned_doc.secretary_validated = None

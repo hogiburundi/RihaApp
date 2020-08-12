@@ -11,7 +11,7 @@
 
                 <div class="category-title pb-1">
                     <h6 class="text-center font-medium-1 text-bold-800 text-success">
-                        <i class="ft-package"></i> Comptes
+                        <i class="ft-package"></i> Comptes et Prix
                     </h6>
                 </div>
 
@@ -19,22 +19,22 @@
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-success">
                             <a href="#" class="blue-grey darken-1 font-medium-1">
-                                <strong> Prix : BIF 2,000 </strong> 
+                                <strong> Prix : 10 000 Fbu </strong> 
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a href="#" class="blue-grey darken-1 font-medium-1"> 
-                                <i class="ft-shopping-cart success"></i> LUMICASH : 86800
+                                <i class="ft-shopping-cart success"></i> LUMICASH : <strong>{{document.lumicash}}</strong>
                             </a>   
                         </li>
                         <li class="list-group-item">
                             <a href="#" class="blue-grey darken-1 font-medium-1"> 
-                                <i class="ft-shopping-cart success"></i> ECOCASH : 86800
+                                <i class="ft-shopping-cart success"></i> ECOCASH : <strong>{{ document.ecocash }}</strong>
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a href="#" class="blue-grey darken-1 font-medium-1"> 
-                                <i class="ft-shopping-cart success"></i> BCB : 202689458600
+                                <i class="ft-shopping-cart success"></i> BCB : <strong>{{ document.bcb }}</strong>
                             </a>
                         </li>
                     </ul>
@@ -50,7 +50,7 @@
 
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
 
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-shopping-cart"></i> Payment</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-shopping-cart"></i> Paiments</h1>
 
             </div>
             {% if not payee %}
@@ -60,7 +60,7 @@
                     <div class="form-group">
                     {% csrf_token %}                    
                         <p>
-                            <label for="large-select" class="text-bold-600 font-medium-2">Payment Method</label>
+                            <label for="large-select" class="text-bold-600 font-medium-2">Méthodes de paiement</label>
                         </p>
                         {{ form.type_payement }}
                         
@@ -68,7 +68,7 @@
 
                     <div class="form-group">                     
                         <p>
-                            <label for="Transaction-code" class="text-bold-600 font-medium-2">Transaction Code</label>  
+                            <label for="Transaction-code" class="text-bold-600 font-medium-2">Code de transaction</label>  
                         </p>
                         {{ form.id_transaction }}
                     </div>

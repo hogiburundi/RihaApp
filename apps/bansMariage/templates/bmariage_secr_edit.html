@@ -27,14 +27,27 @@
                             <span class="badge badge-warning badge-pill float-right">
                             	<i class="ft-check-circle"></i>
                             </span> <a href="#" class="blue-grey darken-1 font-medium-1">
-                            &nbsp; CNI Recto </a>
+                            &nbsp; Votre CNI Recto </a>
                         </li>
                         <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ bans_mariage.user.profile.cni_verso.url }}' height='300' />">
                             <span class="badge badge-warning badge-pill float-right">
                             	<i class="ft-check-circle"></i>
                             </span>
                             <a href="#" class="blue-grey darken-1 font-medium-1">
-                            &nbsp; CNI Verso</a>
+                            &nbsp; Votre CNI Verso</a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ bans_mariage.bride.cni_recto.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto Epouse </a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='{{ bans_mariage.bride.cni_verso.url }}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                                <i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Verso Epouse </a>
                         </li>
                         <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<b>{{ bans_mariage.zone_payment.place }}/{{ bans_mariage.zone_payment.type_payement }} : <i>{{ bans_mariage.zone_payment.id_transaction }}</i></b>">
                             <span class="badge badge-warning badge-pill float-right">
@@ -46,7 +59,15 @@
                     </ul>
                 </div>                          
             </div> 
-        </div>             
+        </div> 
+
+        cni_recto
+cni_verso
+cni
+cni_recto_bride
+cni_verso_bride
+cni_bride
+payment            
     </div> <!-- end left  column --> 
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
@@ -73,7 +94,7 @@
 						Mr. {{ bans_mariage.user.last_name }} {{ bans_mariage.user.first_name }}, {% if bans_mariage.user.profile.job %}Profession {{ bans_mariage.user.profile.job }}{% else %} Sans Profession{% endif %}, fils de {{ bans_mariage.user.profile.father|upper }} et de {{ bans_mariage.user.profile.mother|upper }}, n&eacute; le {{ bans_mariage.user.profile.birthdate }} &agrave; {{ bans_mariage.zone.name|upper }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave; {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalit&eacute; {{ bans_mariage.user.profile.nationality }}, {% if bans_mariage.user.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’une part.<br/><br/>
 
 
-						<p id="normal">Mlle {{ bans_mariage.bride.last_name }} {{ bans_mariage.bride.first_name }},{% if bans_mariage.bride.profile.job %} Profession {{ bans_mariage.bride.profile.job }} {% else %} Sans Profession {% endif %}, fille de {{ bans_mariage.bride.profile.father|upper }} et de {{ bans_mariage.bride.profile.mother|upper }}, née &agrave; NYAMUGARI, le {{ bans_mariage.bride.profile.birthdate }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalité {{ bans_mariage.bride.profile.nationality }}, {% if bans_mariage.bride.profile.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’autre part.</p>
+						<p id="normal">Mlle {{ bans_mariage.bride.user.last_name }} {{ bans_mariage.bride.user.first_name }},{% if bans_mariage.bride.job %} Profession {{ bans_mariage.bride.job }} {% else %} Sans Profession {% endif %}, fille de {{ bans_mariage.bride.father|upper }} et de {{ bans_mariage.bride.mother|upper }}, née &agrave; NYAMUGARI, le {{ bans_mariage.bride.birthdate }}, Commune {{ bans_mariage.zone.commune.name|upper }}, Province {{ bans_mariage.zone.commune.province|upper }}, r&eacute;sidant actuellement &agrave;  {{ bans_mariage.residence_quarter.zone.province.name }}, de nationalité {{ bans_mariage.bride.nationality }}, {% if bans_mariage.bride.is_maried %} <strong>MARIE</strong> {% else %} <strong> CELIBATAIRE</strong> {% endif %}, d’autre part.</p>
 
 						Ledit mariage pourra être c&eacute;l&eacute;br&eacute; par l’officier de l’&eacute;tat civil de la {{ bans_mariage.zone.commune.province }} &agrave; partir du {{ bans_mariage.date|date:"SHORT_DATE_FORMAT" }}.<br/><br/>
 

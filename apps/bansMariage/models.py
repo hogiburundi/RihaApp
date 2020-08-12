@@ -10,14 +10,14 @@ class Document(models.Model):
 	residence_quarter = models.ForeignKey(Quarter, related_name="banmariage_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField()
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(null=True)
+	secretary_validated = models.BooleanField(null=True, blank=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="banmariage_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 
 
 
 	def requirements():
-		return ["copie de contrat d'execution d'un travail quelconque", ]
+		return ["CNI(complet)","attestation de celibat","extrait d'etat civil", ]
 
 	def price(self):
 		try:
@@ -34,13 +34,16 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def validation_percent(self):
-		return 100 if self.secretary_validated  else 0
+		progression = 0
+		progression += 70 if self.secretary_validated != None else 0
+		progression += 30 if self.ready else 0
+		return progression
 
 	def __str__(self):
 		return f"{self.user} {self.zone}"
 
 	def onlyPaid(): # /!\ sans self
-		return Document.objects.filter(zone_payment__isnull = False)
+		return Document.objects.filter(zone_payment__isnull = False, secretary_validated__isnull=True)
 		# tout les filter necessaire en fait pas seulement zone
 		# si il y a pas de payments requises : return Document.objects.all()
 

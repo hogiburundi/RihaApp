@@ -29,7 +29,7 @@ class Document(models.Model):
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"la recommendation que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+			Notification(self.user, f"l' Attestation de recommendation que vous avez demandé le {self.date} à {self.zone} est disponible").save()
 
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
@@ -44,7 +44,7 @@ class Document(models.Model):
 		return f"{self.user} {self.zone}"
 
 	def onlyPaid(): # /!\ sans self
-		return Document.objects.filter(zone_payment__isnull = False)
+		return Document.objects.filter(zone_payment__isnull = False, secretary_validated__isnull=True)
 		# tout les filter necessaire en fait pas seulement zone
 		# si il y a pas de payments requises : return Document.objects.all()
 

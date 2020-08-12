@@ -10,7 +10,9 @@ urlpatterns = [
     path('payform/recomm/<document_id>', views.DocumentPayView.as_view(), name=BASE_NAME+"_payform"),
     path('secretary/', views.SecretaryListView.as_view(), name=BASE_NAME+'_secr_list'),
     path('secretary/<document_id>', views.SecretaryView.as_view(), name=BASE_NAME+'_secr_edit'),
-    path('delete/<document_id>', views.DocumentDeleteView.as_view(), name=BASE_NAME+"_delconfirm"),
+    path('delete/<document_id>', views.DocumentDeleteView.as_view(), name=BASE_NAME+"_delete"),
+	path('update/recomm/<document_id>', views.update_doc, name=BASE_NAME+"_update"),
+	path('clone/recomm/<document_id>', views.clone_doc, name=BASE_NAME+"_clone"),
     
     ]
 

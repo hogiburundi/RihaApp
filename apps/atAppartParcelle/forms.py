@@ -9,7 +9,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
-                    'list':'quarters'}),
+                    'id':'quarters'}),
         label = 'Votre résidance actuelle (Quartier/Colline) : ',
         queryset = Quarter.objects.all())
 
@@ -17,7 +17,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 
                     'class': 'form-control',
-                    'list':'quarters'}),
+                    'id':'quarters1'}),
         label = 'Emplacement de la pacelle (Quartier/Colline) : ',
         queryset = Quarter.objects.all())
 

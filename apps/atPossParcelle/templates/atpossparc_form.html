@@ -11,23 +11,24 @@
             <div class="card-body">
                 <div class="category-title pb-1">
                     <h6 class="text-center font-medium-1 text-bold-800 text-info">
-                        <i class="ft-corner-left-down"></i> Requirements
+                        <i class="ft-corner-left-down"></i> </i>Attention</i> :  Requis
                     </h6>
                 </div>
 
                 <div>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Votre presence et CNI </a>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Les papier de la dite parcelle</a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; 10 000 Fbu du document</a>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Cahier de menage</a>
                         </li>
                     </ul>
                 </div>                          
@@ -37,7 +38,7 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> POSSESION DE PARCELLE </h1>
             </div>
             <div class="card-body">
 				{% if preview %}
@@ -91,15 +92,9 @@
                             
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="gender">Zone:</label>
+                                    <label for="gender">Zone recherche du document : </label>
                                     {{ form.zone }}
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nationality">Quartier de résidance : </label>
-                                    {{ form.residence_quarter }}
-                                </div>                                                  
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

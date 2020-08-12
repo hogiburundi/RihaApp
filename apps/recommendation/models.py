@@ -9,10 +9,10 @@ class Document(models.Model):
 	residence_quarter = models.ForeignKey(Quarter, related_name='recom_Quartier', max_length=64, on_delete=models.CASCADE)
 	work_doc_copy = models.ImageField(upload_to='cnis/', null=True, blank=True)
 	date = models.DateField(default=timezone.now)
-	payment_method = models.CharField(max_length=64)
-	payment_serial = models.CharField(max_length=64)
+	payment_method = models.CharField(max_length=64, blank=True, null=True)
+	payment_serial = models.CharField(max_length=64, blank=True, null=True)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(default=False)
+	secretary_validated = models.BooleanField(default=False,blank=True, null=True)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="recom_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	ready = models.BooleanField(default=False)
 
@@ -35,7 +35,10 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def validation_percent(self):
-		return 100 if self.secretary_validated  else 0
+		progression = 0
+		progression += 70 if self.secretary_validated != None else 0
+		progression += 30 if self.ready else 0
+		return progression
 
 	def __str__(self):
 		return f"{self.user} {self.zone}"

@@ -88,24 +88,27 @@
 						<p style="text-align: right;">&nbsp;</p>
 					</div>
 				</div>
-	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
-						<i class="ft-corner-up-left"></i> Retour 
-					</button>
-					<button type="submit" class="btn btn-outline-warning" name="preview" value="validate">
-						<i class="ft-eye"></i> Valider
-					</button>
-					<button type="submit" class="btn btn-outline-success" name="preview" value="validate">
-						<i class="ft-eye"></i> Imprimer
-					</button>
-					<button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
-						<i class="ft-navigation"></i>Rejeter</a>
-					</button>
-	            </form>
-	        </div> <!-- End card body -->
-	    </div>	
-	</div>
+	            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
+                        <i class="ft-corner-up-left"></i> Retour 
+                    </button>
+                    <button type="submit" class="btn btn-outline-primary" name="valid" value="valid">
+                        <i class="ft-eye"></i> Approuver
+                    </button>
+                    <button type="submit" class="btn btn-outline-success" name="preview" value="preview">
+                        <i class="ft-eye"></i> Imprimer
+                    </button>
+                    <button type="submit" class="btn btn-outline-warning" name="ready" value="ready">
+                        <i class="ft-eye"></i> Disponible
+                    </button>
+                    <button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
+                        <i class="ft-navigation"></i>Rejeter</a>
+                    </button>
+                </form>
+            </div> <!-- End card body -->
+        </div>  
+    </div>
 </div>
 
 <template id="poprejeter">
@@ -124,7 +127,7 @@ $(document).ready(function () {
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
-	$(function(){
+    $(function(){
         $("#rejection-button").popover({
             title: '<h3>Motif</h3>',
             container: 'body',
@@ -133,7 +136,7 @@ $(function () {
             sanitize: false,
             content: $('#poprejeter').html()
         }).on('click', function(event) {
-        	event.preventDefault();
+            event.preventDefault();
             id = $(this).attr('data-id');
             $("button[type=reset]").click(function(){
                 $("#rejection-button").popover('hide');
@@ -157,20 +160,20 @@ $(function () {
         });
     });
 $("#print-button").on('click', function(event) {
-	event.preventDefault();
-	printDiv();
+    event.preventDefault();
+    printDiv();
 });
 
 function printDiv() { 
-	var divContents = document.getElementById("template").innerHTML; 
-	var a = window.open('', '', 'height=500, width=1000'); 
-	a.document.write('<html>'); 
-	a.document.write('<body>'); 
-	a.document.write(divContents); 
-	a.document.write('</body></html>'); 
-	a.document.close(); 
-	a.print(); 
-	a.close();
+    var divContents = document.getElementById("template").innerHTML; 
+    var a = window.open('', '', 'height=500, width=1000'); 
+    a.document.write('<html>'); 
+    a.document.write('<body>'); 
+    a.document.write(divContents); 
+    a.document.write('</body></html>'); 
+    a.document.close(); 
+    a.print(); 
+    a.close();
 }
 });
 </script>

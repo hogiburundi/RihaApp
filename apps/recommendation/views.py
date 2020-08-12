@@ -34,13 +34,21 @@ class SecretaryView(LoginRequiredMixin, View):
 			print(request.POST)
 			if "reject" in request.POST:
 				notification = "Document mwasavye yanswe bivuye kuri ibi bikurikira : \n"
-				notification +="\n Inomero :  "+ validation_form.cleaned_data["cni"] +" : ntizihuye"
-				notification +="\n Code :  "+ validation_form.cleaned_data["payment"] +" : siyo"
-				work_doc_copy
+				notification +="\n- Inomero ya karangamuntu :  " if validation_form.cleaned_data["cni"] else ""
+				notification +="\n- Code :  " if validation_form.cleaned_data["payment"] else ""
+				work_doc_copy += "\nUrupapuro rwerekana akazi mukora rurahajije " if validation_form.cleaned_data["work_doc_copy"] else ""
+				document.rejection_msg = notification
+				document.save()
+				Notification(user=document.user, messages=document.notification)
 				return(notification)
 
 			if "ready" in request.POST:
-				pass
+				document.ready = True
+				notification = "Attestationde recommendation mwasavye yatunganijwe.\n Muze mwibangikanije : "
+				notification += " ".join([x for x in Document.requirements()])
+				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
+				
 			if "valid" in request.POST:
 				recomm.secretary_validated = True
 				recomm.save()
@@ -53,8 +61,9 @@ class DocumentListView(LoginRequiredMixin, View):
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+'_form'
 		payform = BASE_NAME+'_payform'
-		delete = BASE_NAME+'_delconfirm'
+		delete = BASE_NAME+'_delete'
 		update = BASE_NAME+'_update'
+		clone = BASE_NAME+'_clone'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
@@ -128,12 +137,12 @@ class DocumentDeleteView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+'_del.html'
 
 	def get(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_delconfirm'
+		delete = BASE_NAME+'_delete'
 		document = Document.objects.get(id=document_id)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_delconfirm'
+		delete = BASE_NAME+'_delete'
 		document = Document.objects.get(id=document_id)
 
 		if "oui" in request.POST:
@@ -148,7 +157,7 @@ class DocumentDeleteView(LoginRequiredMixin, View):
 
 @login_required(login_url='/login/')
 def delete_doc(request, document_id):
-	delete = delete = BASE_NAME+'_delconfirm'
+	delete = delete = BASE_NAME+'_delete'
 	document = Document.objects.get(id=document_id)
 	if request.user == document.user:
 		document.delete()
@@ -175,14 +184,21 @@ def update_doc(request, document_id):
 	return render(request, template_name, locals())
 
 
-# @login_required(login_url='/connexion/')
-# def update_music_view(request, id):
-#     music_id = Music.objects.get(id=id)
-    
-#         form = MusicForm(request.POST, request.FILES, instance = music_id)
-#         if form.is_valid():
-#             form.save()
-#         return redirect('music')
-#     else:
-#         form = MusicForm(instance= music_id)
-#     return render(request, 'update_music.html', {'form': form})
+@login_required(login_url='/login/')
+def clone_doc(request, document_id):
+	clone = BASE_NAME+'_clone'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		cloned_doc = document
+		cloned_doc.pk = None
+		cloned_doc.payment_method = None
+		cloned_doc.payment_serial = None
+		cloned_doc.zone_payment =None
+		cloned_doc.ready = False
+		cloned_doc.secretary_validated = None
+		cloned_doc.save()
+		messages.success(request, "Document Cloné avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
+

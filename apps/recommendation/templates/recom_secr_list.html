@@ -11,7 +11,7 @@
       <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
         <div class="row">
             <div class="col-xl-6 col-lg-12">
-                    <h1 class="font-medium-3 text-bold-700 text-white">IDENTITE COMPLETE</h1>
+                    <h1 class="font-medium-3 text-bold-700 text-white">Recommendation</h1>
             </div>
         </div>
       </div><!-- end card header --> 
@@ -62,17 +62,18 @@
                     </td>
                     <td>
                         <div>
-                            <button href="#" data-id="{{ document.id }}"  class="btn p-0 btn-link rejeter">
-                                <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="rejeter"></i>
-                            </button>
-
-                            <button href="#" data-id="{{ document.id }}" data-toggle="popover" class="btn p-0 btn-link">
-                                <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="approuver"></i>
-                            </button>
-
-                            <button href="#" data-id="{{ document.id }}" data-toggle="popover" class="btn p-0 btn-link">
-                                <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="disponible"></i>
-                            </button>                                                            
+                            <form role="form" method="POST" action="./{{ document.id }}">
+                            {% csrf_token %}
+                                <button href="#" data-id="{{ document.id }}"  class="btn p-0 btn-link rejeter">
+                                  <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="rejeter"></i>
+                                </button>
+                                <button type="submit" value="ready" href="#" data-toggle="popover" class="btn p-0 btn-link" name="ready">
+                                  <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="approuver"></i>
+                                </button>
+                                <button type="submit" value="valid" href="#" data-toggle="popover" class="btn p-0 btn-link">
+                                  <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="disponible"></i>
+                                </button> 
+                            </form>                                                            
                         </div>
                     </td>
                 </tr>
@@ -94,40 +95,42 @@
 <script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    $(function () {
-      $('[data-toggle="popover"]').popover();
-    });
-    $(function(){
-        $(".rejeter").popover({
-            title: '<h3>Motif</h3>',
-            container: 'body',
-            placement: 'bottom',
-            html: true, 
-            sanitize: false,
-            content: $('#poprejeter').html()
-        }).on('click', function(event) {
-            id = $(this).attr('data-id');
-            $("button[type=reset]").click(function(){
-                $(".rejeter").popover('hide');
-            });
-            $("#myform").on('submit', function(event) {
-                event.preventDefault();
-                $.ajax({
-                    url: "./"+id,
-                    type: 'POST',
-                    data: $(this).serialize()+"&reject=true",
-                })
-                .done(function() {
-                    $(".rejeter").popover('hide');
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                });
-            });
+  $(function () {
+    $('[data-toggle="popover"]').popover();
+  });
+  $(function(){
+    $(".rejeter").popover({
+      title: '<h3>Motif</h3>',
+      container: 'body',
+      placement: 'bottom',
+      html: true, 
+      sanitize: false,
+      content: $('#poprejeter').html()
+    }).on('click', function(event) {
+      event.preventDefault();
+      var id = $(this).attr('data-id');
+      var toggler = $(this)
+      $("input[type=reset]").click(function(){
+        toggler.popover('hide');
+      });
+      $("#myform").on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+          url: "./"+id,
+          type: 'POST',
+          data: $(this).serialize()+"&reject=true",
+        })
+        .done(function() {
+          $(".rejeter").popover('hide');
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
         });
+      });
     });
+  });
 });
 </script>
 {% endblock %}

@@ -1,6 +1,66 @@
 {% extends 'pages/riha-base.html' %}
+{% load static %}
+
 {% block main-content %}
-<div id="document" class="col-12">
+<style type="text/css" media="screen">
+    .popover{
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+</style>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
+
+    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+        <div class="card">
+            <div class="card-body">
+                <div class="category-title pb-1">
+                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
+                        <i class="ft-corner-left-down"></i> pièces jointes
+                    </h6>
+                </div>
+
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='
+                        {% if deces.user.cni_recto %}
+                        	{{ deces.user.profile.cni_recto.url }}
+                        {% endif %}' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                            	<i class="ft-check-circle"></i>
+                            </span> <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Recto </a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<img src='src='
+                        {% if deces.user.cni_verso %}
+                        	{{ deces.user.profile.cni_verso.url }}
+                        {% endif %}'' height='300' />">
+                            <span class="badge badge-warning badge-pill float-right">
+                            	<i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; CNI Verso</a>
+                        </li>
+                        <li class="list-group-item" data-container="body" data-toggle="popover" data-trigger="focus" data-html="true" data-placement="right" data-content="<b>{{ deces.zone_payment.place }}/{{ deces.zone_payment.type_payement }} : <i>{{ deces.zone_payment.id_transaction }}</i></b>">
+                            <span class="badge badge-warning badge-pill float-right">
+                            	<i class="ft-check-circle"></i>
+                            </span>
+                            <a href="#" class="blue-grey darken-1 font-medium-1">
+                            &nbsp; Paiement</a>
+                        </li>
+                    </ul>
+                </div>                          
+            </div> 
+        </div>             
+    </div> <!-- end left  column --> 
+    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i>ACTE DE DECES</h1>
+            </div>
+            <div class="card-body">
+				<div id="document" class="col-12">
 	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 	<div style="text-transform: uppercase;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
@@ -15,7 +75,7 @@
 		<p style="text-align: center;"><strong>ATTESTATION D'ABANDON </strong></p> <br>
 		
 		<p>
-			Je soussigné, <strong>{{ abandon.zone.leader}}</strong>, Chef de Zone <strong> {{abandon.zone}}</strong>, atteste par la présente que l'(le, la) <strong> {{abandon.objet_abandon }}</strong> a été trouvé abandonner en Commune <strong> {{abandon.zone.commune }}</strong>, Quartier <strong> {{abandon.quarter }}</strong> en date du <strong>{{ abandon.date_abandon}}</strong>.<br><br>
+			Je soussigné, <strong>{{ abandon.zone.leaderFullName}}</strong>, Chef de Zone <strong> {{abandon.zone}}</strong>, atteste par la présente que l'(le, la) <strong> {{abandon.objet_abandon }}</strong> a été trouvé abandonner en Commune <strong> {{abandon.zone.commune }}</strong>, Quartier <strong> {{abandon.quarter }}</strong> en date du <strong>{{ abandon.date_abandon}}</strong>.<br><br>
 
 				L’enquête que nous avons commence à mener le même jour pour retrouver la famille de cet enfant a été sans succès.
 
@@ -29,59 +89,84 @@
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
 		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ abandon.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ abandon.user.zone.leaderFullName}}</strong></p>
+		<p style="text-align: center;"><strong>{{ abandon.zone.leaderFullName}}</strong></p>
 		</td>
 		</tr>
 		</tbody>
 		</table>
 		<p style="text-align: right;">&nbsp;</p>
 	</div>
-<div style="position: fixed; right: 0px; top:40%">
-  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ abandon.user.profile.cni_recto.url }}' height='300' />">
-	  CNI Recto
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ abandon.user.profile.cni_verso.url }}' height='300' />">
-	  CNI verso
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ abandon.payment_method }} : <i>{{ abandon.payment_serial }}</i></b>">
-	  Payements
-	</button>
-	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-	  Other
-	</button>
-  </div>
+					            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
+						<i class="ft-corner-up-left"></i> Retour 
+					</button>
+                    <button type="submit" class="btn btn-outline-primary" name="valid" value="abandon.secretary_validated">
+                        <i class="ft-eye"></i> Approuver
+                    </button>
+					<button type="submit" id="print-button" class="btn btn-outline-success" name="print" value="print">
+                        <i class="ft-eye"></i> Imprimer
+                    </button>
+					<button type="submit" class="btn btn-outline-warning" name="ready" value="ready">
+						<i class="ft-eye"></i> Disponible
+					</button>
+					<button type="submit" data-id="{{ document_id }}" id="rejection-button" class="btn btn-outline-danger" name="submit" value="reject">
+						<i class="ft-navigation"></i>Rejeter</a>
+					</button>
+	            </form>
+	        </div> <!-- End card body -->
+	    </div>	
+	</div>
 </div>
-<div class="m-2">
-	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
-		{% csrf_token %}
-		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
-		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
-		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
-		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
-		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
-	</form>
-</div>
+
+<template id="poprejeter">
+    <form id="myform" role="form" method="POST" action=".">
+        {% csrf_token %} 
+        {{ validation_form.as_p }}
+        <input type="submit" name="reject" value="rejeter" class="btn btn-outline-warning"/>
+        <input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
+    </form>
+</template>
+
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
-$("#rejection-button").on('click', function(event) {
-	$rejection_msg = $(".rejection-msg");
-	if($rejection_msg.css('display')=="none"){
-		$rejection_msg.css('display',"");
-		event.preventDefault();
-	}else{
-		if($rejection_msg.val().trim().length>0){
-
-		}else{
-			$rejection_msg.css('display',"none");
-			event.preventDefault();
-		}
-	}
-});
+	$(function(){
+        $("#rejection-button").popover({
+            title: '<h3>Motif</h3>',
+            container: 'body',
+            placement: 'bottom',
+            html: true, 
+            sanitize: false,
+            content: $('#poprejeter').html()
+        }).on('click', function(event) {
+        	event.preventDefault();
+            id = $(this).attr('data-id');
+            $("button[type=reset]").click(function(){
+                $("#rejection-button").popover('hide');
+            });
+            $("#myform").on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: "./"+id,
+                    type: 'POST',
+                    data: $(this).serialize()+"&reject=true",
+                })
+                .done(function() {
+                    $("#rejection-button").popover('hide');
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                });
+            });
+        });
+    });
 $("#print-button").on('click', function(event) {
 	event.preventDefault();
 	printDiv();
@@ -98,7 +183,6 @@ function printDiv() {
 	a.print(); 
 	a.close();
 }
-
 });
 </script>
-{% endblock main %}
+{% endblock %}

@@ -24,21 +24,22 @@ class Document(models.Model):
 	def requirements():
 		return ["CNI",
 				"presence physique ou autre document prouvant son existance" ]
-	
+
+				
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"l'attestation d'abandon que vous avez demandé le {self.date} à {self.zone} est disponible").save()
-
+			Notification(self.user, f"l'attestation d'abandon de deces que vous avez demandé le {self.date_delivrated} à {self.zone} est disponible").save()
 
 	def price(self):
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:
-			return 0
+			return 1000
 
 	def payment_percent(self):
 		return 100 if self.zone_payment else 0
+
 
 	def onlyPaid():
 		return Document.objects.filter(zone_payment=True)
@@ -46,8 +47,20 @@ class Document(models.Model):
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0
 
-	def __str__(self):
-		return f"{self.user} {self.zone}"
+	def dateString(self):
+		return lireDate(self.date)
+
+
+	def ageString(self): 
+		age_user = date.today().year - birthdate.year
+		
+		p = inflect.engine()
+		return p.number_to_words(self.age_user)
+		return age_user
+
+	def ageString(self):
+		p = inflect.engine()
+		return p.number_to_words(self.date)
 
 
 
@@ -58,5 +71,3 @@ class PriceHistory(models.Model):
 	
 	def total(self):
 		return self.zone_price
-
-

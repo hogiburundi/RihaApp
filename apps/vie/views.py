@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import DocumentForm
+from .forms import *
 from apps.base.forms import *
 from .models import *
 
@@ -13,39 +13,44 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "vie_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.onlyPaid()
+		documents = Document.objects.all()
+		# documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
 	template_name = "vie_secr_edit.html"
 
 	def get(self, request, document_id, *args, **kwargs):
+		validation_form = ValidationForm()
 		vie = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		vie = get_object_or_404(Document, id=document_id)
-		if "reject" in request.POST:
-			vie.rejection_msg = request.POST["rejection_msg"]
-			vie.secretary_validated = True
-			vie.save()
-			return redirect(BASE_NAME+'_secr_list')
+		validation_form = ValidationForm(request.POST)
+		print(request)
+		if(validation_form.is_valid()):
+			document = get_object_or_404(Document, id=document_id)
+			if "reject" in request.POST:
+				document.secretary_validated=False
+				notification = "identite complete yanyu yanswe. imvo: "
+				notification+="\n- ifoto ya karangamuntu " if validation_form.cleaned_data["cni_recto"] or validation_form.cleaned_data["cni_verso"] else ""
+				notification+="\n- ibibaranga bihushanye na karangamuntu " if validation_form.cleaned_data["cni"] else ""
+				notification+="\n- amakuru yo kuriha " if validation_form.cleaned_data["payment"] else ""
+				document.rejection_msg=notification
+				document.save()
+				Notification(user=document.user, message=notification).save()
 
-		if "cancel" in request.POST:
-			pass
-		if "validate" in request.POST:
-			vie.secretary_validated = True
-			vie.save()
-			return redirect(BASE_NAME+'_secr_list')
-		return render(request, self.template_name, locals())
+			if "ready" in request.POST:
+				document.ready=True
+				notification = "identite complete yanyu yatunganye. murashobora kuza kuyitora mwibangikanije "
+				notification += " ".join([x for x in Document.requirements()])
+				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
 
-class DocumentListView(LoginRequiredMixin, View):
-	template_name = "vie_list.html"
-	def get(self, request, document_id=None, *args, **kwargs):
-		formurl = BASE_NAME+"_form"
-		payform = BASE_NAME+"_payform"
-		documents = Document.objects.filter(user=request.user)
-		print(documents)
+			if "valid" in request.POST:
+				document.secretary_validated = True
+				document.save()
+				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
 
@@ -57,21 +62,26 @@ class SecretaryPayView(LoginRequiredMixin, View):
 		vie = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 
-		
+
+class DocumentListView(LoginRequiredMixin, View):
+	template_name = "vie_list.html"
+	def get(self, request, document_id=None, *args, **kwargs):
+		formurl = BASE_NAME+"_form"
+		payform = BASE_NAME+"_payform"
+		documents = Document.objects.filter(user=request.user)
+		print(documents)
+		return render(request, self.template_name, locals())
+
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "vie_form.html"
-	quarters = Quarter.objects.all()
-	zones = Zone.objects.all()
+
 
 	def get(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
+
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
 			preview = True
@@ -82,14 +92,12 @@ class DocumentFormView(LoginRequiredMixin, View):
 				vie = form.save(commit=False)
 				vie.user = request.user
 				vie.save()
-				return redirect("home")
-			return render(request, self.template_name, locals())
-		if form.is_valid():
-			vie = form.save(commit=False)
-			vie.user = request.user
-		return render(request, self.template_name, locals())
-
-
+				return redirect(BASE_NAME+"_payform", vie=vie.id)
+		# 	return render(request, self.template_name, locals())
+		# if form.is_valid():
+		# 	vie = form.save(commit=False)
+		# 	vie.user = request.user
+		# return render(request, self.template_name, locals())
 
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -114,5 +122,5 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.zone_payment = zone_payment
 			document.save()
 			return redirect(BASE_NAME+"_list")
-		print(form)
 		return render(request, self.template_name, locals())
+

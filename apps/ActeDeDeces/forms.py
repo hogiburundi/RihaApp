@@ -37,7 +37,7 @@ class DocumentForm(forms.ModelForm):
 
     acte = forms.IntegerField(
             widget = forms.NumberInput(
-                attrs = {'placeholder': 'numero d\'acte' , 
+                attrs  = {'placeholder': 'numero d\'acte' , 
                         'class': 'form-control'}),
                 label = 'Acte')
 
@@ -64,3 +64,19 @@ class DocumentForm(forms.ModelForm):
             return conjoint
         except Exception as e:
             raise forms.ValidationError("Desolee, le defunt n'existe pas!! ")
+
+
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image recto '}),
+        label='image recto', required=False)
+    cni_verso = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'image verso '}),
+        label='image verso', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

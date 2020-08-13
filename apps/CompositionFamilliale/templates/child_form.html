@@ -1,0 +1,18 @@
+{% extends 'pages/riha-base.html' %}
+{% load static %}
+
+{% block main-content %}
+<h1>Add children</h1>
+<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+    {% csrf_token %}
+    <div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+        <div class="form-group">  
+        {{ form.as_p }}                  
+         </div>
+    </div>
+    <button type="submit" class="btn btn-outline-success" name="submit" value="submit">
+        <i class="ft-navigation"></i>Envoyer</a>
+    </button>
+</form>
+      
+{% endblock %}

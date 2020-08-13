@@ -20,11 +20,11 @@ class Document(models.Model):
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="composition_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	
-	def get_absolute_url(self):
-	    return reverse('home', kwargs={'pk': self.pk})
+	# def get_absolute_url(self):
+	#     return reverse('', kwargs={'pk': self.pk})
 	
-	# def __str__(self):
-	# 	return '{} {}'.format(self.user.last_name, self.user.first_name)
+	def __str__(self):
+		return '{} {}'.format(self.user.last_name, self.user.first_name)
 	
 	def requirements():
 		return ["CNI",
@@ -48,9 +48,6 @@ class Document(models.Model):
 
 
 
-	def get_child(self):
-		return ', '.join(self.fullname_child.all().values_list('fullname_child', flat=True))
-
 
 class PriceHistory(models.Model):
 	date = models.DateField()
@@ -66,10 +63,9 @@ class PriceHistory(models.Model):
 
 
 class Child(models.Model):
-	# document   = models.ForeignKey(Document, on_delete = models.CASCADE, related_name = 'child_set')
-	document   = models.ForeignKey(Document, on_delete = models.PROTECT, related_name = 'child_set')
+	document   = models.ForeignKey('Document',null = False, blank = False, on_delete = models.PROTECT, related_name = 'child_set')
 	name       = models.CharField(max_length = 50)
-	age        = models.CharField(max_length = 50)
+	age        = models.IntegerField()
 
 	def __str__(self):
 		return self.name

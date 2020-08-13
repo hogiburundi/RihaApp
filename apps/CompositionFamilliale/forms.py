@@ -1,5 +1,5 @@
-from django.forms import ModelForm, inlineformset_factory
-from .models import *
+from django.forms import ModelForm, BaseInlineFormSet, inlineformset_factory
+from .abc import is_empty_form, is_form_persisted
 from .models import *
 from django import forms
 from apps.base.models import *
@@ -39,19 +39,24 @@ class DocumentForm(ModelForm):
         except Exception as e:
             raise forms.ValidationError("Desole, le conjoint  n'existe pas!! ")
 
-   
 
 
+
+# 
 class ChildForm(ModelForm):
+
+    name      = forms.CharField(
+        label="Name",
+        widget=forms.TextInput(attrs={'class':'form-control',
+                                      'placeholder':'nom et prenom de l\'enfant'}))
+    
+
+    age      = forms.IntegerField(
+        label="Age",
+        widget=forms.NumberInput(attrs={'class':'form-control',
+                                      'placeholder':'age de l\'enfant '}))
+    
+
     class Meta:
         model = Child
-        exclude = ()
-    def save(self):
-        formset = Child.objects.create(
-        name=self.cleaned_data['name'],
-        age=self.cleaned_data['age'])
-        return formset
-
-ChildFormset = inlineformset_factory(Document, Child, 
-                                form = ChildForm, extra=1)
-
+        fields = ('name', 'age')

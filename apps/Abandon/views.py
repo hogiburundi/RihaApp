@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import DocumentForm
+from .forms import DocumentForm, ValidationForm
 from apps.base.forms import *
 from apps.base.models import *
 from .models import *
@@ -13,31 +13,45 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "abandon_secr_list.html"
-	def get(self, request, document_id=None, *args, **kwargs):
-		documents = Document.onlyPaid()
+	def get(self, request, *args, **kwargs):
+		validation_form = ValidationForm()
+		documents = Document.objects.all()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):
 	template_name = "abandon_secr_edit.html"
 
 	def get(self, request, document_id, *args, **kwargs):
+		validation_form = ValidationForm()
 		abandon = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		abandon = get_object_or_404(Document, id=document_id)
-		if "reject" in request.POST:
-			abandon.rejection_msg = request.POST["rejection_msg"]
-			abandon.secretary_validated = True
-			abandon.save()
-			return redirect(BASE_NAME+'_secr_list')
+		validation_form = ValidationForm(request.POST)
+		print(request)
+		if(validation_form.is_valid()):
+			document = get_object_or_404(Document, id=document_id)
+			if "reject" in request.POST:
+				document.secretary_validated=False
+				notification = "identite complete yanyu yanswe. imvo: "
+				notification+="\n- ifoto ya karangamuntu " if validation_form.cleaned_data["cni_recto"] or validation_form.cleaned_data["cni_verso"] else ""
+				notification+="\n- ibibaranga bihushanye na karangamuntu " if validation_form.cleaned_data["cni"] else ""
+				notification+="\n- amakuru yo kuriha " if validation_form.cleaned_data["payment"] else ""
+				document.rejection_msg=notification
+				document.save()
+				Notification(user=document.user, message=notification).save()
 
-		if "cancel" in request.POST:
-			pass
-		if "validate" in request.POST:
-			abandon.secretary_validated = True
-			abandon.save()
-			return redirect(BASE_NAME+'_secr_list')
+			if "ready" in request.POST:
+				document.ready=True
+				notification = "identite complete yanyu yatunganye. murashobora kuza kuyitora mwibangikanije "
+				notification += " ".join([x for x in Document.requirements()])
+				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
+
+			if "valid" in request.POST:
+				document.secretary_validated = True
+				document.save()
+				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
 class SecretaryPayView(LoginRequiredMixin, View):
@@ -61,7 +75,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "abandon_form.html"
 
 	def get(self, request, *args, **kwargs):
-		form = DocumentForm()
+		form = DocumentForm(initial = {'residence_quarter': request.user.profile.residence })
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
@@ -75,7 +89,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				abandon = form.save(commit=False)
 				abandon.user = request.user
 				abandon.save()
-				return redirect("home")
+				return redirect(BASE_NAME+"_payform", abandon=abandon.id)
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			abandon = form.save(commit=False)

@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
 from apps.base.date_conversion import lireDate
-import inflect
+# import inflect
 from datetime import date
 
 
@@ -57,12 +57,12 @@ class Document(models.Model):
 		return lireDate(self.date)
 
 
-	def ageString(self): 
-		age_user = date.today().year - birthdate.year
+	# def ageString(self): 
+	# 	age_user = date.today().year - birthdate.year
 		
-		p = inflect.engine()
-		return p.number_to_words(self.age_user)
-		return age_user
+	# 	p = inflect.engine()
+	# 	return p.number_to_words(self.age_user)
+	# 	return age_user
 
 	
 class PriceHistory(models.Model):

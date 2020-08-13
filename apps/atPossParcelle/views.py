@@ -4,8 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
-
-from .forms import DocumentForm
+from django.contrib.auth.decorators import login_required
+from .forms import *
 from apps.base.forms import *
 from .models import *
 
@@ -15,6 +15,7 @@ PREFIX_DOC_TEMP = "atpossparc"
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
+		validation_form = ValidationForm()
 		documents = Document.onlyPaid()
 		return render(request, self.template_name, locals())
 
@@ -22,23 +23,36 @@ class SecretaryView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_secr_edit.html"
 
 	def get(self, request, document_id, *args, **kwargs):
-		poss_parcelle = get_object_or_404(Document, id=document_id)
+		validation_form = ValidationForm()
+		recomm = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		poss_parcelle = get_object_or_404(Document, id=document_id)
-		if "reject" in request.POST:
-			poss_parcelle.rejection_msg = request.POST["rejection_msg"]
-			poss_parcelle.secretary_validated = True
-			poss_parcelle.save()
-			return redirect(BASE_NAME+'_secr_list')
+		validation_form = ValidationForm(request.POST)
+		if(validation_form.is_valid()):
+			print(request.POST)
+			if "reject" in request.POST:
+				document.secretary_validated=False
+				notification = "Attestation de naissance à domicile yanyu yanswe. imvo: \n"
+				notification += "\n- Ifoto yawe ya karangamuntu " if validation_form.cleaned_data["cni_recto_declarant"] or validation_form.cleaned_data["cni_verso_declarant"] else "" 
+				notification += "\n- Inomero ya karangamuntu yawe siyo " if validation_form.cleaned_data["cni_declarant"] else "" 
+				notification +="\n- Amakuru yo kuriha siyo :  " if validation_form.cleaned_data["payment"] else ""
+				document.rejection_msg = notification
+				document.save()
+				Notification(user=document.user, messages=document.notification)
+				return(notification)
 
-		if "cancel" in request.POST:
-			pass
-		if "validate" in request.POST:
-			poss_parcelle.secretary_validated = True
-			poss_parcelle.save()
-			return redirect(BASE_NAME+'_secr_list')
+			if "ready" in request.POST:
+				document.ready = True
+				notification = "Attestation de possesion de parcelle mwasavye yatunganijwe.\n Muze mwibangikanije : "
+				notification += " ".join([x for x in Document.requirements()])
+				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
+				
+			if "valid" in request.POST:
+				recomm.secretary_validated = True
+				recomm.save()
+				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
 
@@ -48,18 +62,13 @@ class DocumentListView(LoginRequiredMixin, View):
 	def get(self, request, document_id=None, *args, **kwargs):
 		formurl = BASE_NAME+'_form'
 		payform = BASE_NAME+'_payform'
-		delete = BASE_NAME+'_delconfirm'
+		delete = BASE_NAME+'_delete'
+		update = BASE_NAME+'_update'
+		clone = BASE_NAME+'_clone'
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
 
-# class SecretaryPayView(LoginRequiredMixin, View):
-# 	template_name = "idcomp_secr_pay.html"
-
-# 	def get(self, request, document_id, *args, **kwargs):
-# 		modal_mode = False
-# 		poss_parcelle = get_object_or_404(Document, id=document_id)
-# 		return render(request, self.template_name, locals())
 
 
 class DocumentFormView(LoginRequiredMixin, View):
@@ -86,6 +95,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				poss_parcelle = form.save(commit=False)
 				poss_parcelle.user = request.user
+				poss_parcelle.residence_quarter = poss_parcelle.user.profile.residance
 				poss_parcelle.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", poss_parcelle.id)
@@ -93,6 +103,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			poss_parcelle = form.save(commit=False)
 			poss_parcelle.user = request.user
+			poss_parcelle.residence_quarter = poss_parcelle.user.profile.residance
 		return render(request, self.template_name, locals())
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -120,26 +131,47 @@ class DocumentPayView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 
-class DocumentDeleteView(LoginRequiredMixin, View):
-	template_name = PREFIX_DOC_TEMP+'_del.html'
+@login_required(login_url='/login/')
+def delete_doc(request, document_id):
+	delete = delete = BASE_NAME+'_delete'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		document.delete()
+		messages.success(request, "Document Supprimé avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
 
-	def get(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_delconfirm'
-		document = Document.objects.get(id=document_id)
-		return render(request, self.template_name, locals())
-
-	def post(self, request, document_id, *args, **kwargs):
-		delete = BASE_NAME+'_delconfirm'
-		document = Document.objects.get(id=document_id)
-
-		if "oui" in request.POST:
-			document.delete()
-			messages.success(request, "Document Supprimé avec Succes ! ")
+@login_required(login_url='/login/')
+def update_doc(request, document_id):
+	template_name = PREFIX_DOC_TEMP+"_form.html"
+	update = BASE_NAME+'_update'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		form = DocumentForm(request.POST, request.FILES, instance =  document)	
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Document mis à jour avec Succes ! ")
 			return redirect(BASE_NAME+'_list')
+		else:
+			messages.error(request, "Vous avez pas le droit !")
+	else:
+		form = DocumentForm(instance=document)
+	return render(request, template_name, locals())
 
-		if "non" in request.POST:
-			return redirect(BASE_NAME+'_list')
 
-		return render(request, self.template_name, locals())
-
-
+@login_required(login_url='/login/')
+def clone_doc(request, document_id):
+	clone = BASE_NAME+'_clone'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		cloned_doc = document
+		cloned_doc.pk = None
+		cloned_doc.zone_payment =None
+		cloned_doc.ready = False
+		cloned_doc.secretary_validated = None
+		cloned_doc.save()
+		messages.success(request, "Document Cloné avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')

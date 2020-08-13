@@ -9,17 +9,9 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Zone', 
                     'class': 'form-control', 
-                    'list':'zones'}),
+                    'id':'zones'}),
         label = 'Zone de residence actuelle',
         queryset = Zone.objects.all())
-
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Quartier de residence actuelle',
-        queryset = Quarter.objects.all())
 
     child_name =  forms.CharField(
         widget = forms.TextInput(
@@ -33,18 +25,18 @@ class DocumentForm(forms.ModelForm):
         label='Date de naissance enfant :', required=False,initial=date.today())
 
     child_birth_quarter = forms.ModelChoiceField(
-        widget = forms.TextInput(
+        widget = forms.Select(
             attrs = {'placeholder': 'Quartier naissance', 
                     'class': 'form-control', 
-                    'list':'quarters'}),
-        label = "Quartier de naissance de l'enfant",
+                    'id':'quarters'}),
+        label = "Quartier naissance",
         queryset = Quarter.objects.all())
 
     child_mother = forms.ModelChoiceField(
         widget = forms.Select(
             attrs = {'placeholder': 'Mère', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles'}),
         label = "Mère de l'enafant",
         queryset = Profile.objects.all())
 
@@ -52,7 +44,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Témoin 1', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles1'}),
         label = "Temoins 1 : ",
         queryset = Profile.objects.all())
 
@@ -60,60 +52,51 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Temoin 2', 
                     'class': 'form-control', 
-                    'list':'profiles'}),
+                    'id':'profiles2'}),
         label = "Témoin 2 : ",
         queryset = Profile.objects.all())
 
     class Meta:
         model = Document
-        # fields = ("zone_leader", "zone", "beneficiary", "father", "mother", "birth_quarter", "birth_year", "birth_commune", "birth_province", "nationality", "etat_civil", "proffession", "residence_quarter", "residence_zone", "CNI", "payment_method", "payment_serial")
-        fields = ("zone", "residence_quarter","child_name","child_birth",
+        fields = ("zone","child_name","child_birth","child_birth_quarter",
             "child_mother","first_witness","second_witness")
 
-    # def clean_zone(self, *arg,**kwargs):
-    #     try:
-    #         name = self.cleaned_data.get("zone")
-    #         zone = Zone.objects.get(name=name)
-    #         return zone
-    #     except:
-    #         raise forms.ValidationError("this zone is unknown")
 
-    # def clean_residence_quarter(self, *arg,**kwargs):
-    #     try:
-    #         name = self.cleaned_data.get("residence_quarter").split()[0]
-    #         zone = self.cleaned_data.get("residence_quarter").split()[-1]
-    #         quarter = Quarter.objects.get(name=name, zone__name=zone)
-    #         return quarter
-    #     except Exception as e:
-    #         raise forms.ValidationError("this quarter is unknown")
+class ValidationForm(forms.Form):
+    cni_recto_declarant = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'Votre CNI recto '}),
+        label='Votre CNI recto', required=False)
+    cni_verso_declarant = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'Votre CNI verso '}),
+        label='Votre CNI verso ', required=False)
+    cni_declarant = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'Votre CNI '}),
+        label='Votre CNI', required=False)
 
-    # def clean_child_mother(self, *arg, **kwargs):
-    #     try:
-    #         first_name = self.cleaned_data.get("clean_mother").split()[0]
-    #         last_name = self.cleaned_data.get("clean_mother").split()[-1]
-    #         profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-    #         return profile
-    #     except Exception as e:
-    #         raise forms.ValidationError("unknown user")
+    cni_recto_1_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI recto temoin1 '}),
+        label='CNI recto temoin1', required=False)
+    cni_verso_1_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI verso temoin1 '}),
+        label='CNI verso temoin1', required=False)
+    cni_1_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':' CNI temoin1 '}),
+        label='CNI temoin1', required=False)
 
-    # def clean_first_witness(self, *arg, **kwargs):
-    #     try:
-    #         first_name = self.cleaned_data.get("first_witness").split()[0]
-    #         last_name = self.cleaned_data.get("first_witness").split()[-1]
-    #         profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-    #         return profile
-    #     except Exception as e:
-    #         raise forms.ValidationError("unknown user")
+    cni_recto_2_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI recto temoin2 '}),
+        label='CNI recto temoin2', required=False)
+    cni_verso_2_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI verso temoin2 '}),
+        label='CNI verso temoin2', required=False)
+    cni_2_temoin = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'CNI temoin2 '}),
+        label='CNI temoin2', required=False)
 
-    # def clean_second_witness(self, *arg, **kwargs):
-    #     try:
-    #         first_name = self.cleaned_data.get("second_witness").split()[0]
-    #         last_name = self.cleaned_data.get("second_witness").split()[-1]
-    #         profile = Profile.objects.get(user__first_name=first_name, user__last_name=last_name)
-    #         return profile
-    #     except Exception as e:
-    #         raise forms.ValidationError("unknown user")
-
-
-
+    # payment = forms.BooleanField(
+    #     widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+    #     label='le code de paiement', required=False)
+    
+    
+    
 

@@ -53,16 +53,13 @@
                     <td class="text-truncate">
                         {{ document.date }} 
                     </td>
-
-
                     <td>
-                        <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-                            <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
-                        </div>
+                        <td class="text-truncate">
+                       <button class="btn btn-sm btn-outline-danger round" type="button">0 %</button>
                     </td>
 
                     <td>
-                        <p class="blue-gray"> - </p>
+                        <p class="blue-gray">{% if document.rejection_msg %} {{ document.rejection_msg }} {% else %} - {% endif %}</p>
                         
                     </td>
 
@@ -73,11 +70,11 @@
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url update document.id %}">
                                 <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url clone document.id %}">
                                 <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
                             </a>                                                            
                         </div>
@@ -98,3 +95,5 @@
 </div> <!-- end  card -->
 
 {% endblock %}
+
+

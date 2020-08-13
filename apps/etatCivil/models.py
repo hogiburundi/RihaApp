@@ -4,17 +4,18 @@ from django.contrib.auth.models import User
 from apps.base.models import *
 
 class Document(models.Model):
-	user = models.ForeignKey(User, related_name="etatcivil_Beneficiaire_EtatCivil", on_delete=models.CASCADE)
-	zone = models.ForeignKey(Zone, max_length=64, related_name="etatcivil_Zone_EtatCivil" , on_delete=models.CASCADE)
-	residence_quarter = models.ForeignKey(Quarter, related_name="etatcivil_Quartier_EtatCivil" , max_length=64, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, related_name="etatcivil_Beneficiaire_EtatCivil",null=True, on_delete=models.SET_NULL)
+	zone = models.ForeignKey(Zone, max_length=64, related_name="etatcivil_Zone_EtatCivil" , null=True, on_delete=models.SET_NULL)
+	residence_quarter = models.ForeignKey(Quarter, related_name="etatcivil_Quartier_EtatCivil" , null=True, on_delete=models.SET_NULL)
 	rejection_msg = models.TextField(null=True, blank=True)
-	secretary_validated = models.BooleanField(default=False)
+	secretary_validated = models.BooleanField(default=False, blank=True, null=True)
+	date = models.DateField(default=timezone.now)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="etatcivil_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	
 
 	def requirements():
-		return ["CNI", "Presence Physique"]
+		return ["CNI", "Presence Physique",]
 
 
 	def price(self):
@@ -32,21 +33,25 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def validation_percent(self):
-		return 100 if self.secretary_validated  else 0
+		progression = 0
+		progression += 70 if self.secretary_validated != None else 0
+		progression += 30 if self.ready else 0
+		return progression
 
 	def __str__(self):
 		return f"{self.user} {self.zone}"
 
 	def onlyPaid(): # /!\ sans self
-		return Document.objects.filter(zone_payment=True)
+		return Document.objects.filter(zone_payment__isnull = False, secretary_validated__isnull=True)
 		# tout les filter necessaire en fait pas seulement zone
 		# si il y a pas de payments requises : return Document.objects.all()
 
 
 class PriceHistory(models.Model):
 	date = models.DateField()
-	zone = models.ForeignKey(Zone, related_name="etatcivil_etat_civil_price_province", on_delete=models.CASCADE)
+	zone = models.ForeignKey(Zone, related_name="etatcivil_etat_civil_price_province",null=True, on_delete=models.SET_NULL)
 	zone_price = models.IntegerField(default=0)
 	
 	def total(self):
 		return self.zone_price
+

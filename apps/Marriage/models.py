@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
 from apps.base.date_conversion import lireDate
-import inflect
+# import inflect
 
 
 class Document(models.Model):
@@ -61,9 +61,9 @@ class Document(models.Model):
 	def dateString(self):
 		return lireDate(self.date)
 
-	def ageString(self):
-		p = inflect.engine()
-		return p.number_to_words(self.date)
+	# def ageString(self):
+	# 	p = inflect.engine()
+	# 	return p.number_to_words(self.date)
 
 
 

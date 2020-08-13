@@ -140,8 +140,15 @@
 
 <template id="poprejeter">
     <form id="myform" role="form" method="POST" action=".">
-        {% csrf_token %} 
-        {{ validation_form.as_p }}
+        {% csrf_token %}
+        <div class="row">
+        {% for field in validation_form %}
+        <div class="form-group col-6 mb-0" style="white-space: nowrap;">
+          {{ field }}  
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        </div>
+        {% endfor %} 
+        </div> 
         <input type="submit" name="reject" value="rejeter" class="btn btn-outline-warning"/>
         <input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
     </form>

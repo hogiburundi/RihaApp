@@ -241,10 +241,11 @@ class ModelPayement(models.Model):
 
 	def save(self, *args, **kwargs):
 		super(ModelPayement, self).save(*args, **kwargs)
-		UsedSN(self.id_transaction, self.type_payement).save()
+		UsedSN(id_transaction = self.id_transaction,\
+			name_transaction = self.type_payement).save()
 
 class UsedSN(models.Model):
-	id_transaction = models.CharField(max_length=64)
+	id_transaction = models.CharField(max_length=64, unique=True)
 	name_transaction = models.CharField(max_length=64)
 
 class ModelDocument(models.Model):
@@ -319,10 +320,4 @@ def createPaymentModelDocument(sender, instance, *args, **kwargs):
 		document_id = self.id,
 		priority = 2 # Elevée
 	)
-
-def createUsedSN(sender, instance, *args, **kwargs):
-	self = instance
-	if self.is_valid:
-		last_sn = UsedSN.objects.filter(id_transaction = self.id_transaction)
-
 post_save.connect(createPaymentModelDocument, sender=ModelPayement)

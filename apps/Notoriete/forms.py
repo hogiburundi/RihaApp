@@ -44,15 +44,22 @@ class DocumentForm(forms.ModelForm):
     def clean_comparant_1(self, *arg,**kwargs):
         try:
             CNI = self.cleaned_data.get("comparant_1")
+            eval(CNI)
             comparant = Profile.objects.get(CNI=CNI)
             return comparant
         except:
             raise forms.ValidationError("Ce comparant n'est pas abonné")
 
     def clean_comparant_2(self, *arg,**kwargs):
+        CNI1 = self.cleaned_data.get("comparant_1")
         CNI = self.cleaned_data.get("comparant_2")
-        if not CNI.strip():
-            return None
+        try:
+            eval(CNI)
+        except Exception as e:
+            raise forms.ValidationError("CNI invalide")
+
+        if CNI.strip() == CNI1.CNI:
+            raise forms.ValidationError("Duplication de comparant")
         try:
             comparant = Profile.objects.get(CNI=CNI)
             return comparant
@@ -60,11 +67,12 @@ class DocumentForm(forms.ModelForm):
             raise forms.ValidationError("Ce comparant n'est pas abonné")
 
     def clean_comparant_3(self, *arg,**kwargs):
+        CNI1 = self.cleaned_data.get("comparant_1")
+        CNI2 = self.cleaned_data.get("comparant_2")
         CNI = self.cleaned_data.get("comparant_3")
-        if not CNI.strip():
+        if not CNI.strip() or CNI in (CNI2, CNI1):
             return None
         try:
-            CNI = self.cleaned_data.get("comparant_3")
             comparant = Profile.objects.get(CNI=CNI)
             return comparant
         except:

@@ -3,33 +3,12 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Zone', 
-                    'class': 'form-control', 
-                    'id':'zone'}),
-        label='Residence Zone',
-        queryset = Zone.objects.all())
-        
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'id':'residence_quarter'}),
-        label='Residence Quarter',
-        queryset = Quarter.objects.all())
 
     amount = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Amount', 
                     'class': 'form-control'}),
         label = 'Amount')
-        
-    # cellule = forms.CharField(
-    #     widget = forms.TextInput(
-    #         attrs = {'placeholder': 'Cellule', 
-    #                 'class': 'form-control'}),
-    #     label = 'Cellule')
 
     property_quarter = forms.ModelChoiceField(
         widget = forms.Select(
@@ -44,46 +23,6 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Buyer CNI', 
                     'class': 'form-control'}),
         label = 'Buyer CNI')
-
-    buyer_zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Buyer Zone', 
-                    'class': 'form-control',
-                    'id':'buyer_zone'}),
-        label='Buyer Residence Zone',
-        queryset = Zone.objects.all())
-    
-    buyer_residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Buyer Residence Quarter', 
-                    'class': 'form-control',
-                    'id':'buyer_residence_quarter'}),
-        label='Buyer Residence Quarter',
-        queryset = Quarter.objects.all())
-
-    witness11 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness name 1',
-                    'class': 'form-control'}),
-        label = 'Saler witness name 1')    
-           
-    witness12 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Saler witness name 2',
-                    'class': 'form-control'}),
-        label = 'Saler witness name 2')
-        
-    witness21 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness name 1',
-                    'class': 'form-control'}),
-        label = 'Buyer witness name 1')
-
-    witness22 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Buyer witness name 2',
-                    'class': 'form-control'}),
-        label = 'Buyer witness name 2')
 
     cnis11 = forms.CharField(
         widget = forms.TextInput(
@@ -108,42 +47,35 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Buyer witness CNI 2',
                     'class': 'form-control'}),
         label = 'Buyer witness CNI 2')
-
-    saler_witness_residence1 = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Saler witness residence 1',
-                    'id':'saler_witness_residence1', 
-                    'class': 'form-control'}),
-        label = 'Saler witness residence 1',
-        queryset = Zone.objects.all())  
-              
-    saler_witness_residence2 = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Saler witness residence 2',
-                    'id':'saler_witness_residence2', 
-                    'class': 'form-control'}),
-        label = 'Saler witness residence 2',
-        queryset = Zone.objects.all())
         
-    buyer_witness_residence1 = forms.ModelChoiceField( 
+    search_place = forms.ModelChoiceField(
         widget = forms.Select(
-            attrs = {'placeholder': 'Buyer witness residence 1',
-                    'id':'buyer_witness_residence1', 
-                    'class': 'form-control'}),
-        label = 'Buyer witness residence 1',
-        queryset = Zone.objects.all())
-
-    buyer_witness_residence2 = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Buyer witness residence 2',
-                    'id':'buyer_witness_residence2', 
-                    'class': 'form-control'}),
-        label='Buyer witness residence 2',
-        queryset = Zone.objects.all())
+            attrs = {'placeholder': 'Place to look for the document.', 
+                    'class': 'form-control',
+                    'id':'search_place'}),
+        label = 'Place to look for the document.',
+        queryset = Quarter.objects.all())
 
     class Meta:
         model = Document
-        fields = ("residence_quarter", "zone", "property_quarter", "amount", "buyer",
-        "buyer_residence_quarter", "buyer_zone", "witness11", "witness12", "witness21",
-        "witness22", "cnis11", "cnis12", "cnis21", "cnis22", "saler_witness_residence1",
-        "saler_witness_residence2","buyer_witness_residence1","buyer_witness_residence2")
+        fields = ("search_place", "property_quarter", "amount", "buyer", "cnis11", "cnis12", "cnis21", "cnis22")
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto', required=False)
+    cni_verso = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso', required=False)
+    cni_recto_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 1', required=False)
+    cni_verso_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 1', required=False)
+    cni_recto_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 2', required=False)
+    cni_verso_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 2', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

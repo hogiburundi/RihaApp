@@ -3,13 +3,6 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Work Zone', 
-                    'class': 'form-control', 
-                    'id':'zone'}),
-        label = 'Work Zone',
-        queryset = Zone.objects.all())
         
     residence_quarter = forms.ModelChoiceField(
         widget = forms.Select(
@@ -18,7 +11,6 @@ class DocumentForm(forms.ModelForm):
                     'id':'residence_quarter'}),
         label = 'Work Quarter',
         queryset = Quarter.objects.all())
-        
         
     association = forms.CharField(
         widget = forms.TextInput(
@@ -34,4 +26,24 @@ class DocumentForm(forms.ModelForm):
     
     class Meta:
         model = Document
-        fields = ("residence_quarter", "zone", "association","start_year")
+        fields = ("residence_quarter", "association", "start_year")
+        
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto', required=False)
+    cni_verso = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso', required=False)
+    cni_recto_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 1', required=False)
+    cni_verso_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 1', required=False)
+    cni_recto_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 2', required=False)
+    cni_verso_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 2', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

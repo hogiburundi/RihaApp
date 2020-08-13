@@ -14,7 +14,8 @@ class Document(models.Model):
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="vente_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	amount = models.CharField(max_length=64,null=True)
-	buyer = models.CharField(max_length=64,null=True)
+	buyer = models.CharField(max_length=64, null=True)
+	buyer_name = models.CharField(max_length=64,null=True)
 	buyer_father = models.CharField(max_length=64,null=True)
 	buyer_mother = models.CharField(max_length=64,null=True)
 	buyer_zone = models.ForeignKey(Zone, related_name="vente_zoneb", max_length=64, null=True, on_delete=models.SET_NULL)
@@ -28,10 +29,11 @@ class Document(models.Model):
 	cnis12 = models.CharField(max_length=64, null=True, blank=True)
 	cnis21 = models.CharField(max_length=64, null=True, blank=True)
 	cnis22 = models.CharField(max_length=64, null=True, blank=True)
-	saler_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
-	saler_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
-	buyer_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
-	buyer_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
+	saler_witness_residence1 = models.ForeignKey(Quarter, related_name="vente_residence11", max_length=64, null=True, on_delete=models.SET_NULL)
+	saler_witness_residence2 = models.ForeignKey(Quarter, related_name="vente_residence12", max_length=64, null=True, on_delete=models.SET_NULL)
+	buyer_witness_residence1 = models.ForeignKey(Quarter, related_name="vente_residence21", max_length=64, null=True, on_delete=models.SET_NULL)
+	buyer_witness_residence2 = models.ForeignKey(Quarter, related_name="vente_residence22", max_length=64, null=True, on_delete=models.SET_NULL)
+	search_place = models.ForeignKey(Quarter, related_name="vente_search", max_length=64, null=True, on_delete=models.SET_NULL)
 	
 
 	def requirements():
@@ -52,7 +54,8 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def onlyPaid():
-		return Document.objects.filter(zone_payment=True)
+		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
+
 		
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0

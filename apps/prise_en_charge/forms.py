@@ -3,43 +3,49 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Zone', 
-                    'class': 'form-control',
-                    'id':'zone'}),
-        label = 'Residence Zone',
-        queryset = Zone.objects.all())
-        
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'id':'residence_quarter'}),
-        label = 'Residence Quarter',
-        queryset = Quarter.objects.all())
 
     mr = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Taker in charge (Mr.)', 
+            attrs = {'placeholder': 'Taker in charge(Mr.)', 
                     'class': 'form-control'}),
         label = 'Taker in charge (Mr.)')
-
+        
     mrs = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Wife of taker in charge(Mrs.)', 
                     'class': 'form-control'}),
         label = 'Wife of taker in charge (Mrs.)')
 
-    mr_mrs_quarter = forms.ModelChoiceField(
+    search_place = forms.ModelChoiceField(
         widget = forms.Select(
-            attrs = {'placeholder': 'Takers in charge Residence Quarter', 
+            attrs = {'placeholder': 'Place to look for the document.', 
                     'class': 'form-control',
-                    'id':'mr_mrs_quarter'}),
-        label = 'Takers in charge Residence Quarter',
+                    'id':'search_place'}),
+        label = 'Place to look for the document.',
         queryset = Quarter.objects.all())
 
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter","mr","mrs","mr_mrs_quarter")
+        fields = ("search_place","mr","mrs")
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto', required=False)
+    cni_verso = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso', required=False)
+    cni_recto_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 1', required=False)
+    cni_verso_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 1', required=False)
+    cni_recto_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 2', required=False)
+    cni_verso_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 2', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)
+        

@@ -16,6 +16,7 @@ class Document(models.Model):
 	mr = models.CharField(max_length=100, null=True,blank=True)
 	mrs = models.CharField(max_length=100, null=True, blank=True)
 	mr_mrs_quarter = models.ForeignKey(Quarter, related_name="prise_charge_res_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
+	search_place = models.ForeignKey(Quarter, related_name="prise_charge_search", max_length=64, null=True, on_delete=models.SET_NULL)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -35,7 +36,8 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def onlyPaid():
-		return Document.objects.filter(zone_payment=True)
+		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
+
 		
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0

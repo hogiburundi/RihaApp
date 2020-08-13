@@ -17,9 +17,7 @@ class Document(models.Model):
 	acte = models.CharField(max_length=64, null=True, blank=True)
 	witness1 = models.CharField(max_length=64, null=True, blank=True)
 	witness2 = models.CharField(max_length=64, null=True, blank=True)
-	years_letter = models.CharField(max_length=64, null=True, blank=True)
-	days_letter = models.CharField(max_length=64, null=True, blank=True)
-	months_letter = models.CharField(max_length=64, null=True, blank=True)
+	day_month_year = models.DateField(default=timezone.now)
 	work = models.CharField(max_length=64, null=True, blank=True)
 	wife = models.CharField(max_length=64, null=True, blank=True)
 	wife_age = models.CharField(max_length=64, null=True, blank=True)
@@ -32,9 +30,17 @@ class Document(models.Model):
 	witness_age1 = models.CharField(max_length=64, null=True, blank=True)
 	witness_age2 = models.CharField(max_length=64, null=True, blank=True)
 	child = models.CharField(max_length=64, null=True, blank=True)
-	child_day = models.CharField(max_length=64, null=True, blank=True)
-	child_month = models.CharField(max_length=64, null=True, blank=True)
-	child_year = models.CharField(max_length=64, null=True, blank=True)
+	child_province = models.CharField(max_length=64, null=True, blank=True)
+	child_date = models.DateField(default=timezone.now)
+	child_age = models.CharField(max_length=64, null=True, blank=True)
+	witness_nationality1 = models.CharField(max_length=64, null=True, blank=True, default="Burundaise")
+	witness_nationality2 = models.CharField(max_length=64, null=True, blank=True, default="Burundaise")
+	wife_nationality = models.CharField(max_length=64, null=True, blank=True, default="Burundaise")
+	witness_gender1 = models.CharField(max_length=64, null=True, blank=True, default="Homme")
+	witness_gender2 = models.CharField(max_length=64, null=True, blank=True, default="Homme")
+	child_gender3 = models.CharField(max_length=64, null=True, blank=True, default="Homme")
+	wife_gender3 = models.CharField(max_length=64, null=True, blank=True, default="Femme")
+	search_place = models.ForeignKey(Quarter, related_name="act_recon_search", max_length=64, null=True, on_delete=models.SET_NULL)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -54,7 +60,14 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def onlyPaid():
-		return Document.objects.filter(zone_payment=True)
+		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
+
+
+	def dateString(self):
+		return lireDate(self.day_month_year)
+
+	def dateString1(self):
+		return lireDate(self.child_date)
 
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0

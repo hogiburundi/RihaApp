@@ -83,12 +83,14 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				reconnais = form.save(commit=False)
 				reconnais.user = request.user
+				reconnais.zone = form.cleaned_data['residence_quarter'].zone
 				reconnais.save()
 				return redirect("../payform/"+str(reconnais.id))
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			reconnais = form.save(commit=False)
 			reconnais.user = request.user
+			reconnais.zone = form.cleaned_data['residence_quarter'].zone
 		return render(request, self.template_name, locals())
 
 

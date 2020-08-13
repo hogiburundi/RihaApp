@@ -64,7 +64,12 @@ class Document(models.Model):
 		return p.number_to_words(self.age_user)
 		return age_user
 
-	
+	def ageString(self):
+		p = inflect.engine()
+		return p.number_to_words(self.date)
+
+
+
 class PriceHistory(models.Model):
 	date = models.DateField()
 	zone = models.ForeignKey(Zone, related_name="acte_price_province", on_delete=models.CASCADE)

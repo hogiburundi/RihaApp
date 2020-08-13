@@ -3,7 +3,7 @@
 
 {% block main-content %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
 <div class="row"> <!-- begin global row -->
 
     <div class="col-xl-3 col-md-12"><!-- begin left  column -->
@@ -18,18 +18,18 @@
                 <div>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Numero de volume </a>
                         </li>
 
                         <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; presence physique ou autre document prouvant son existance</a>
+                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Numero d'acte</a>
                         </li>
                     </ul>
                 </div>                          
             </div> 
         </div>             
     </div> <!-- end left  column --> 
-    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
                 <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION DE CHOMAGE</h1>
@@ -77,8 +77,7 @@
 						</table>
 						<p style="text-align: right;">&nbsp;</p>
 					</div>
-					</div>
-				{% endif %}
+					</div>			{% endif %}
 				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>

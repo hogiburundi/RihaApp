@@ -92,6 +92,8 @@ class Profile(models.Model):
 
 class Notification(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	document_type = models.CharField(max_length=20)
+	level = models.CharField(max_length=10)
 	message = models.CharField(max_length=128)
 	seen = models.BooleanField(default=False)
 	date = models.DateTimeField(default=timezone.now)

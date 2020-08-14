@@ -20,20 +20,20 @@ class DocumentForm(forms.ModelForm):
     comparant_1 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'CNI premier du comparant', 
-                    'class': 'form-control'}),
+                    'class': 'form-control check_cni'}),
         label = 'CNI du premier comparant') 
         
     comparant_2 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'CNI second du comparant', 
-                    'class': 'form-control'}),
+                    'class': 'form-control check_cni'}),
         label = 'CNI du second comparant',
         required=False) 
         
     comparant_3 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'CNI troisième du comparant', 
-                    'class': 'form-control'}),
+                    'class': 'form-control check_cni'}),
         label = 'CNI du troisième comparant',
         required=False) 
 

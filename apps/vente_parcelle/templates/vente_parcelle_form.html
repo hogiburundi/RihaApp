@@ -42,74 +42,76 @@
 			<div class="card-body">
 				{% if preview %}
 				<div id="document" class="col-12">
-						<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-							<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-							<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-							<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-							<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-							<strong>MUNICIPALITE DE {{ vente_parcelle.zone.commune.province|upper }}</strong><br/>
-							<strong>COMMUNE URBAINE DE {{ vente_parcelle.zone.commune.name|upper }}</strong><br/>
-							<strong><u>ZONE DE {{ vente_parcelle.zone.name|upper }}</u></strong><br/> <br> <br>
-							<p style="text-align: center;"><strong><u>ATTESTATION DE VENTE DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-							<p>&nbsp;</p>
-							<p style="text-align: justify;">Je soussign&eacute;, {{ vente_parcelle.zone.commune.leaderFullName }}, Administrateur de la Commune Urbaine  de  {{ vente_parcelle.zone.commune.name }}, atteste par la pr&eacute;sente que
-									 {% if profiles.gender == 'F' and profiles.is_married == True %} Mme {% elif profiles.gender == F %} Mlle {% else %} Mr {% endif %} {{ vente_parcelle.user.last_name }}
-									 {{ vente_parcelle.user.first_name }}, {% if profiles.gender == 'H' %} fils {% elif profiles.gender == 'F' %} fille {% endif %} de {{ vente_parcelle.user.profile.father|default:"sans" }} et de {{ vente_parcelle.user.profile.mother|default:"sans" }},
-									 originaire de la Colline {{ vente_parcelle.residence_quarter.name }}, Commune {{ vente_parcelle.zone.commune.name }}, Province {{ vente_parcelle.zone.commune.province }}, résidant actuellement dans la Municipalité de 
-									 {{ vente_parcelle.residence_quarter.zone.commune.province }} à l’adresse ci-après : Cellule {{ vente_parcelle.residence_quarter.name }},
-									  a vendu sa parcelle sise au Q {{ vente_parcelle.property_quarter.name }}
-									  
-									  à une somme de {{ vente_parcelle.amount }} à {% if check_cni.gender == 'F' and check_cni.is_married == True %} Mme {% elif check_cni.gender == 'F' and check_cni.is_married == False %} Mlle {% else %} Mr {% endif %}
-									   {{ vente_parcelle.buyer }}, {% if check_cni.gender == 'H' %} fils {% elif check_cni.gender == 'F' %} fille {% endif %} de {{ check_cni.father }} et de {{ check_cni.mother }},
-									   originaire de la Colline {{ check_cni.quarter.name }}, Commune  {{ check_cni.quarter.zone.commune.name }}, Province  {{ check_cni.quarter.zone.commune.province.name }},
-										résidant actuellement dans la Municipalité de  {{ vente_parcelle.buyer_zone.commune.province.name }} à l’adresse ci-après : Commune {{ vente_parcelle.buyer_zone.commune.name }}.
-										 Q. {{ vente_parcelle.buyer_residence_quarter.name }}. Cette somme a été versée en présence des témoins ci-après :</p>
-					
-								<div class="row">
-								 <div class="col-6">
-									<b><u>LE VENDEUR :</u></b> <br>
-									{{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }} <br>
-									CNI : {{ profiles.CNI }} <br>
-									<b><u>LES TEMOINS</u></b> <br>
-									1. {{ vente_parcelle.witness11 }} 
-									<br> CNI : {{ vente_parcelle.cnis11 }} résidant à {{ vente_parcelle.saler_witness_residence1 }}
-									<br>
-									2. {{ vente_parcelle.witness12 }} 
-									<br>CNI : {{ vente_parcelle.cnis12 }} résidant à {{ vente_parcelle.saler_witness_residence2 }} <br>
-									<br><br>
-									<b><u>Le sous-couvert de:</u></b> <br>
-									Chef de quartier {{ vente_parcelle.residence_quarter.name }} <br>
-									{{ vente_parcelle.residence_quarter.leaderFullName }} <br>
-									Chef de zone {{ vente_parcelle.zone.name }} <br>
-									{{ vente_parcelle.zone.leaderFullName }} <br>
-								 </div>
-								 <div class="col-6">
-									<b><u>L’ACHETEUR :</u></b> <br>
-									{{ vente_parcelle.buyer }} <br>
-									CNI : {{ check_cni.CNI }} <br>
-									<b><u>LES TEMOINS</u></b> <br> 
-									1. {{ vente_parcelle.witness21 }}  
-									<br> CNI : {{ vente_parcelle.cnis21 }} résidant à {{ vente_parcelle.buyer_witness_residence1 }}
-									<br>
-									2. {{ vente_parcelle.witness22 }} 
-									<br> CNI : {{ vente_parcelle.cnis22 }} résidant à {{ vente_parcelle.buyer_witness_residence1 }} <br>
-									<br><br>
-									<p style="text-align: center;"><strong>Fait &agrave; {{ vente_parcelle.zone.commune.province.name }}, le {{ vente_parcelle.date|date:'d/m/Y' }}</strong></p>
-									<p style="text-align: center;"><strong>L’ADMINISTRATEUR DE LA COMMUNE URBAINE DE {{ vente_parcelle.zone.commune.name|upper }}</strong></p>
-									<p style="text-align: center;"><strong>{{ vente_parcelle.zone.commune.leaderFullName }}</strong></p>
+					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+						<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+						<strong>MUNICIPALITE DE {{ vente_parcelle.search_place.zone.commune.province|upper }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ vente_parcelle.search_place.zone.commune.name|upper }}</strong><br/>
+						<strong><u>ZONE DE {{ vente_parcelle.search_place.zone.name|upper }}</u></strong><br/> <br> <br>
+						<p style="text-align: center;"><strong><u>ATTESTATION DE VENTE DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+						<p>&nbsp;</p>
+						<p style="text-align: justify;">Je soussign&eacute;, {{ vente_parcelle.search_place.zone.commune.leaderFullName }}, Administrateur de la Commune Urbaine  de  {{ vente_parcelle.search_place.zone.commune.name }}, atteste par la pr&eacute;sente que
+									{% if profiles.gender == 'F' and profiles.is_married == True %} Mme {% elif profiles.gender == F %} Mlle {% else %} Mr {% endif %} {{ vente_parcelle.user.last_name }}
+									{{ vente_parcelle.user.first_name }}, {% if profiles.gender == 'H' %} fils {% elif profiles.gender == 'F' %} fille {% endif %} de {{ vente_parcelle.user.profile.father|default:"sans" }} et de {{ vente_parcelle.user.profile.mother|default:"sans" }},
+									originaire de la Colline {{ profiles.quarter.name }}, Commune {{ profiles.quarter.zone.commune.name }}, Province {{ profiles.quarter.zone.commune.province }}, résidant actuellement dans la Municipalité de 
+									{{ profiles.residence.zone.commune.province }} à l’adresse ci-après : Cellule {{ profiles.residence.name }},
+									a vendu sa parcelle sise au Q {{ vente_parcelle.property_quarter.name }}
 									
-					
-									</div>
+									à une somme de {{ vente_parcelle.amount }} à {% if check_cni.gender == 'F' and check_cni.is_married == True %} Mme {% elif check_cni.gender == 'F' and check_cni.is_married == False %} Mlle {% else %} Mr {% endif %}
+									{{ vente_parcelle.buyer }}, {% if check_cni.gender == 'H' %} fils {% elif check_cni.gender == 'F' %} fille {% endif %} de {{ check_cni.father }} et de {{ check_cni.mother }},
+									originaire de la Colline {{ check_cni.quarter.name }}, Commune  {{ check_cni.quarter.zone.commune.name }}, Province  {{ check_cni.quarter.zone.commune.province.name }},
+									résidant actuellement dans la Municipalité de {{ check_cni.residence.zone.commune.province.name }} à l’adresse ci-après : Commune {{ check_cni.residence.zone.commune.name }}.
+										Q. {{ check_cni.residence.name }}. Cette somme a été versée en présence des témoins ci-après :</p>
+				
+							<div class="row">
+								<div class="col-6">
+								<b><u>LE VENDEUR :</u></b> <br>
+								{{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }} <br>
+								CNI : {{ profiles.CNI }} <br>
+
+								<b><u>LES TEMOINS</u></b> <br>
+								1. {{ check_cni_t11.user.last_name }} {{ check_cni_t11.user.first_name }} 
+								<br> CNI : {{ vente_parcelle.cnis11 }} résidant à {{ check_cni_t11.residence.name }}
+								<br>
+								2. {{ check_cni_t12.user.last_name }} {{ check_cni_t12.user.first_name }}  
+								<br>CNI : {{ vente_parcelle.cnis12 }} résidant à {{ check_cni_t12.residence.name }} <br>
+								<br><br>
+								<b><u>Le sous-couvert de:</u></b> <br>
+								Chef de quartier {{ vente_parcelle.search_place.name }} <br>
+								{{ vente_parcelle.search_place.leaderFullName }} <br>
+								Chef de zone {{ vente_parcelle.search_place.zone.name }} <br>
+								{{ vente_parcelle.search_place.zone.leaderFullName }} <br>
 								</div>
-						</div>
+								<div class="col-6">
+								<b><u>L’ACHETEUR :</u></b> <br>
+								{{ vente_parcelle.buyer }} <br>
+								CNI : {{ check_cni.CNI }} <br>
+
+								<b><u>LES TEMOINS</u></b> <br> 
+								1. {{ check_cni_t21.user.last_name }} {{ check_cni_t21.user.first_name }}   
+								<br> CNI : {{ vente_parcelle.cnis21 }} résidant à {{ check_cni_t21.residence.name }}
+								<br>
+								2. {{ check_cni_t22.user.last_name }} {{ check_cni_t22.user.first_name }}   
+								<br> CNI : {{ vente_parcelle.cnis22 }} résidant à {{ check_cni_t22.residence.name }} <br>
+								<br><br>
+								<p style="text-align: center;"><strong>Fait &agrave; {{ vente_parcelle.search_place.zone.commune.province.name }}, le {{ vente_parcelle.date|date:'d/m/Y' }}</strong></p>
+								<p style="text-align: center;"><strong>L’ADMINISTRATEUR DE LA COMMUNE URBAINE DE {{ vente_parcelle.search_place.zone.commune.name|upper }}</strong></p>
+								<p style="text-align: center;"><strong>{{ vente_parcelle.search_place.zone.commune.leaderFullName }}</strong></p>
+								
+				
+								</div>
+							</div>
 					</div>
+				</div>
 				{% endif %}
 				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
 						{% for fo in form %}
 						<div class="step-one">
-							{% if forloop.counter <= 7 %}
+							{% if forloop.counter <= 4 %}
 							<label style = "margin-top:2%;margin-bottom:2%;"  for="{{ fo.id_for_label }}">{{ fo.label }}</label>
 							{{ fo.non_field_errors }}
 							{{ fo.errors }}
@@ -118,16 +120,7 @@
 						</div>
 			
 						<div class="step-two">
-							{% if forloop.counter >= 8 and forloop.counter <= 13 %}
-							<label style = "margin-top:2%;margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
-							{{ fo.non_field_errors }}
-							{{ fo.errors }}
-							{{ fo }}
-							{% endif %}
-						</div>
-			
-						<div class="step-three">
-							{% if forloop.counter >= 14 %}
+							{% if forloop.counter >= 5 %}
 							<label style = "margin-top:2%;margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
 							{{ fo.non_field_errors }}
 							{{ fo.errors }}
@@ -147,7 +140,6 @@
 					</button>
 					<a id="continue1" class="btn btn-outline-primary mt-1">Step 1</a>
 					<a id="continue2" class="btn btn-outline-primary mt-1">Step 2</a>
-					<a id="continue3" class="btn btn-outline-primary mt-1">Step 3</a>
 
 					{% endif %}
 					<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
@@ -161,33 +153,20 @@
 <script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
 <script>
-	$('#zone').chosen({ width: '100%' });
-	$('#residence_quarter').chosen({ width: '100%' });
+	$('#search_place').chosen({ width: '100%' });
 	$('#property_quarter').chosen({ width: '100%' });
-	$('#buyer_zone').chosen({ width: '100%' });
-	$('#buyer_residence_quarter').chosen({ width: '100%' });
-	$('#saler_witness_residence1').chosen({ width: '100%' });
-	$('#saler_witness_residence2').chosen({ width: '100%' });
-	$('#saler_witness_residence1').chosen({ width: '100%' });
-	$('#saler_witness_residence2').chosen({ width: '100%' });
-	$('#buyer_witness_residence1').chosen({ width: '100%' });
-	$('#buyer_witness_residence2').chosen({ width: '100%' });
 
     $(".step-two").hide();
-    $(".step-three").hide();
 	$("#continue1").hide();
 	$("#continue2").show();
-	$("#continue3").hide();
 	$("#preview").hide();
 	$("#submit").hide();
 
     $("#continue1").click(function(){
 		$(".step-one").show();
 		$(".step-two").hide();
-		$(".step-three").hide();
 		$("#continue1").hide();
 		$("#continue2").show();
-		$("#continue3").hide();
 		$("#preview").hide();
 		$("#submit").hide();
     });
@@ -195,23 +174,12 @@
     $("#continue2").click(function(){
         $(".step-one").hide();
         $(".step-two").show();
-        $(".step-three").hide();
 		$("#continue2").hide();
-		$("#continue3").show();
-		$("#preview").hide();
-		$("#submit").hide();
-    });
-
-    $("#continue3").click(function(){
-        $(".step-one").hide();
-        $(".step-two").hide();
-        $(".step-three").show();
 		$("#continue1").show();
-		$("#continue2").hide();
-		$("#continue3").hide();
 		$("#preview").show();
 		$("#submit").show();
     });
+
 
 </script>
 {% endblock %}
@@ -223,7 +191,7 @@
 		<!-- {{ form.as_p }} -->
 			{% for fo in form %}
 			<div class="step-one">
-				{% if forloop.counter <= 7 %}
+				{% if forloop.counter <= 4 %}
 				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
 				{{ fo.non_field_errors }}
 				{{ fo.errors }}
@@ -232,16 +200,7 @@
 			</div>
 
 			<div class="step-two">
-				{% if forloop.counter >= 8 and forloop.counter <= 15 %}
-				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
-				{{ fo.non_field_errors }}
-				{{ fo.errors }}
-				{{ fo }}
-				{% endif %}
-			</div>
-
-			<div class="step-three">
-				{% if forloop.counter >= 16 %}
+				{% if forloop.counter >= 5 %}
 				<label for="{{ fo.id_for_label }}">{{ fo.label }}</label>
 				{{ fo.non_field_errors }}
 				{{ fo.errors }}

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
-from .forms import *
+from .forms import DocumentForm, ValidationForm
 from apps.base.forms import *
 from apps.base.models import *
 from .models import *
@@ -85,12 +85,17 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				prise_charge = form.save(commit=False)
 				prise_charge.user = request.user
+				prise_charge.zone = profiles.residence.zone
+				prise_charge.residence_quarter = profiles.residence
+				prise_charge.mr_mrs_quarter = form.cleaned_data['search_place']
 				prise_charge.save()
 				return redirect("../payform/"+str(prise_charge.id))
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			prise_charge = form.save(commit=False)
 			prise_charge.user = request.user
+			prise_charge.zone = profiles.residence.zone
+			prise_charge.residence_quarter = profiles.residence
 		return render(request, self.template_name, locals())
 
 class DocumentPayView(LoginRequiredMixin, View):

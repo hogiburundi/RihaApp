@@ -13,8 +13,11 @@ class Document(models.Model):
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="cession_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
-	mrs = models.CharField(max_length=64,null=True)
-	beneficiary = models.CharField(max_length=64,null=True)
+	mrs = models.CharField(max_length=64, null=True)
+	
+	# beneficiary = models.ForeignKey(Profile, related_name="cession_beneficiary", null=True, on_delete=models.SET_NULL)
+	beneficiary = models.CharField(max_length=64, null=True, blank=True)
+	
 	beneficiary_father = models.CharField(max_length=64,null=True)
 	beneficiary_mother = models.CharField(max_length=64,null=True)
 	beneficiary_residence_zone = models.ForeignKey(Zone, related_name="cession_res_zone", max_length=64, null=True, on_delete=models.SET_NULL)
@@ -32,6 +35,8 @@ class Document(models.Model):
 	giver_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
 	benficiary_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
 	benficiary_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
+	search_place = models.ForeignKey(Quarter, related_name="cession_search", max_length=64, null=True, on_delete=models.SET_NULL)
+
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -51,7 +56,8 @@ class Document(models.Model):
 		return 100 if self.zone_payment else 0
 
 	def onlyPaid():
-		return Document.objects.filter(zone_payment=True)
+		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
+
 
 	def validation_percent(self):
 		return 100 if self.secretary_validated != None else 0

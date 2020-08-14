@@ -1,23 +1,9 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Zone', 
-                    'class': 'form-control', 
-                    'id':'zone'}),
-        label='Zone',
-        queryset = Zone.objects.all())
-    
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'id':'residence_quarter'}),
-        label='Residence Quarter',
-        queryset = Quarter.objects.all())
         
     volume = forms.CharField(
         widget = forms.TextInput(
@@ -30,137 +16,75 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Acte', 
                     'class': 'form-control'}),
         label = 'Acte')
-	
-    witness1 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness 1', 
-                    'class': 'form-control'}),
-        label = 'Witness 1')
-
-    witness2 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness 2', 
-                    'class': 'form-control'}),
-        label = 'Witness 2')
-
-    years_letter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Year', 
-                    'class': 'form-control'}),
-        label = 'Year')
-
-    days_letter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Day', 
-                    'class': 'form-control'}),
-        label = 'Day')
-
-    months_letter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Month', 
-                    'class': 'form-control'}),
-        label = 'Month')
         
-    wife = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Wife', 
-                    'class': 'form-control'}),
-        label = 'Wife')
-        
-    work = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Work', 
-                    'class': 'form-control'}),
-        label = 'Work')
-        
-    witness_work1 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness Work 1', 
-                    'class': 'form-control'}),
-        label = 'Witness Work 1')
-        
-    witness_work2 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness Work 2', 
-                    'class': 'form-control'}),
-        label = 'Witness Work 2')
+    day_month_year = forms.DateField(
+        widget=forms.SelectDateWidget(
+            years=range(1950, date.today().year+1),
+            attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
+                'style':'width: 50%;'}),
+        label='Day')
 
-    witness_province1 = forms.ModelChoiceField(
+    child_date = forms.DateField(
+        widget=forms.SelectDateWidget(
+            years=range(1950, date.today().year+1),
+            attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
+                'style':'width: 50%;display:'}),
+        label='Child Day')
+
+    search_place = forms.ModelChoiceField(
         widget = forms.Select(
-            attrs={'placeholder': 'Witness province 1',
-                    'id':'witness_province1', 
-                    'class': 'form-control'}),
-        label = 'Witness province 1',
-        queryset = Province.objects.all())
+            attrs = {'placeholder': 'Place to look for the document.', 
+                    'class': 'form-control',
+                    'id':'search_place'}),
+        label = 'Place to look for the document.',
+        queryset = Quarter.objects.all())
 
-    witness_province2 = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs={'placeholder': 'Witness province 2',
-                    'id':'witness_province2', 
-                    'class': 'form-control'}),
-        label = 'Witness province 2',
-        queryset = Province.objects.all())
-
-    witness_age1 = forms.CharField(
+    cnis11 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness age 1', 
+            attrs = {'placeholder': 'First Witness CNI',
                     'class': 'form-control'}),
-        label = 'Witness age 1')
-
-    witness_age2 = forms.CharField(
+        label = 'First Witness CNI')  
+              
+    cnis12 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Witness age 2', 
+            attrs = {'placeholder': 'Second Witness CNI',
                     'class': 'form-control'}),
-        label = 'Witness age 2')
-
-    child = forms.CharField(
+        label = 'Second Witness CNI')
+        
+    cnis13 = forms.CharField( 
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Child name', 
+            attrs = {'placeholder': 'Child CNI',
                     'class': 'form-control'}),
-        label = 'Child name')
+        label = 'Child CNI')
 
-    child_day = forms.CharField(
+    cnis14 = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Child day', 
+            attrs = {'placeholder': 'Wife CNI',
                     'class': 'form-control'}),
-        label = 'Child day')
-
-    child_month = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Child month', 
-                    'class': 'form-control'}),
-        label = 'Child month')
-
-    child_year = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Child year', 
-                    'class': 'form-control'}),
-        label = 'Child year')
-
-    wife_age = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Wife age', 
-                    'class': 'form-control'}),
-        label = 'Wife age')
-
-    wife_work = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Wife work', 
-                    'class': 'form-control'}),
-        label = 'Wife work')
-
-    wife_province = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Wife province',
-                    'id':'wife_province',
-                    'class': 'form-control'}),
-        label='Wife province',
-        queryset = Province.objects.all())
+        label = 'Wife CNI')
 
 
     class Meta:
         model = Document
-        fields = ("residence_quarter", "zone", "volume", "acte", "years_letter", "days_letter",
-        "months_letter", "work", "witness1", "witness2", "witness_work1", "witness_work2",
-        "witness_age1", "witness_age2", "witness_province1", "witness_province2", "child", "child_day",
-        "child_month", "child_year", "wife_age", "wife_work", "wife_province", "wife",  )
+        fields = ("search_place", "volume", "acte", "day_month_year", "child_date","cnis11","cnis12","cnis13","cnis14")
+
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto', required=False)
+    cni_verso = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso', required=False)
+    cni_recto_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 1', required=False)
+    cni_verso_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 1', required=False)
+    cni_recto_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 2', required=False)
+    cni_verso_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 2', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

@@ -3,36 +3,12 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Zone', 
-                    'class': 'form-control', 
-                    'id':'zone'}),
-        label='Residence Zone',
-        queryset = Zone.objects.all())
-        
-        
-    residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'id':'residence_quarter'}),
-        label='Residence Quarter',
-        queryset = Quarter.objects.all())
 
     beneficiary = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Beneficiary CNI', 
                     'class': 'form-control'}),
         label = 'Beneficiary CNI')
-
-    beneficiary_residence_zone = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Beneficiary residence zone', 
-                    'class': 'form-control',
-                    'id':'beneficiary_residence_zone'}),
-        label='Beneficiary residence zone',
-        queryset = Zone.objects.all()) 
 
     property_quarter = forms.ModelChoiceField(
         widget = forms.Select(
@@ -42,47 +18,11 @@ class DocumentForm(forms.ModelForm):
         label='Property quarter',
         queryset = Quarter.objects.all())
 
-    beneficiary_residence_quarter = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Beneficiary residence quarter', 
-                    'class': 'form-control',
-                    'id':'beneficiary_residence_quarter'}),
-        label='Beneficiary residence quarter',
-        queryset = Quarter.objects.all())
-
     mrs = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Giver wife name', 
                     'class': 'form-control'}),
         label = 'Giver wife name')
-
-    witness11 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Giver witness name',
-                    'id':'', 
-                    'class': 'form-control'}),
-        label = 'Giver witness name 1')    
-           
-    witness12 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Giver witness name',
-                    'id':'', 
-                    'class': 'form-control'}),
-        label = 'Giver witness name 2')
-        
-    witness21 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Beneficiary witness name',
-                    'id':'', 
-                    'class': 'form-control'}),
-        label = 'Beneficiary witness 1')
-
-    witness22 = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Beneficiary witness name',
-                    'id':'', 
-                    'class': 'form-control'}),
-        label = 'Beneficiary witness 2')
 
     cnis11 = forms.CharField(
         widget = forms.TextInput(
@@ -112,46 +52,74 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control'}),
         label = 'Beneficiary witness CNI 2')
 
-    giver_witness_residence1 = forms.ModelChoiceField(
+    search_place = forms.ModelChoiceField(
         widget = forms.Select(
-            attrs = {'placeholder': 'Giver witness residence',
-                    'id':'giver_witness_residence1', 
-                    'class': 'form-control'}),
-        label='Giver witness residence 1',
-        queryset = Quarter.objects.all())  
-              
-    giver_witness_residence2 = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Giver witness residence',
-                    'id':'giver_witness_residence2', 
-                    'class': 'form-control'}),
-        label='Giver witness residence 2',
+            attrs = {'placeholder': 'Place to look for the document.', 
+                    'class': 'form-control',
+                    'id':'search_place'}),
+        label = 'Place to look for the document.',
         queryset = Quarter.objects.all())
         
-    beneficiary_witness_residence1 = forms.ModelChoiceField( 
-        widget = forms.Select(
-            attrs = {'placeholder': 'Beneficiary witness residence',
-                    'id':'beneficiary_witness_residence1', 
-                    'class': 'form-control'}),
-        label='Beneficiary witness residence 1',
-        queryset = Quarter.objects.all())
-
-    beneficiary_witness_residence2 = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Beneficiary witness residence',
-                    'id':'beneficiary_witness_residence2', 
-                    'class': 'form-control'}),
-        label='Beneficiary witness residence 2',
-        queryset = Quarter.objects.all())
-        
-
     class Meta:
         model = Document
-        fields = ("residence_quarter", "zone", "beneficiary", "beneficiary_residence_quarter",
-        "beneficiary_residence_zone", "property_quarter",
-        "mrs","witness11","witness12","witness22","witness21",
-        "cnis11","cnis12","cnis21","cnis22", "giver_witness_residence1",
-        "giver_witness_residence2","beneficiary_witness_residence1","beneficiary_witness_residence2")
+        fields = ("search_place","beneficiary","property_quarter","mrs","cnis11","cnis12","cnis21","cnis22")
 
+    # def clean_beneficiary(self, *arg,**kwargs):
+    #     try:
+    #         CNI = self.cleaned_data.get("beneficiary")
+    #         comparant = Profile.objects.get(CNI=CNI)
+    #         return comparant
+    #     except:
+    #         raise forms.ValidationError("CNI does not exist")
 
+    # def clean_cnis11(self, *arg,**kwargs):
+    #     try:
+    #         CNI = self.cleaned_data.get("cnis11")
+    #         comparant = Profile.objects.get(CNI=CNI)
+    #         return comparant
+    #     except:
+    #         raise forms.ValidationError("CNI does not exist")
 
+    # def clean_cnis12(self, *arg,**kwargs):
+    #     try:
+    #         CNI = self.cleaned_data.get("cnis12")
+    #         comparant = Profile.objects.get(CNI=CNI)
+    #         return comparant
+    #     except:
+    #         raise forms.ValidationError("CNI does not exist")
+
+    # def clean_cnis21(self, *arg,**kwargs):
+    #     try:
+    #         CNI = self.cleaned_data.get("cnis21")
+    #         comparant = Profile.objects.get(CNI=CNI)
+    #         return comparant
+    #     except:
+    #         raise forms.ValidationError("CNI does not exist")
+
+    # def clean_cnis22(self, *arg,**kwargs):
+    #     try:
+    #         CNI = self.cleaned_data.get("cnis22")
+    #         comparant = Profile.objects.get(CNI=CNI)
+    #         return comparant
+    #     except:
+    #         raise forms.ValidationError("CNI does not exist")
+
+class ValidationForm(forms.Form):
+    cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto', required=False)
+    cni_verso = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso', required=False)
+    cni_recto_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 1', required=False)
+    cni_verso_1 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 1', required=False)
+    cni_recto_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI recto comparant 2', required=False)
+    cni_verso_2 = forms.BooleanField(widget=forms.CheckboxInput(),
+        label='CNI verso comparant 2', required=False)
+    payment = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
+        label='le code de paiement', required=False)
+    cni = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
+        label='numero CNI', required=False)

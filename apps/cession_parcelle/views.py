@@ -79,7 +79,17 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				preview = True
 				cni = form.cleaned_data["beneficiary"]
+				cni_t11 = form.cleaned_data["cnis11"]
+				cni_t12 = form.cleaned_data["cnis12"]
+				cni_t21 = form.cleaned_data["cnis21"]
+				cni_t22 = form.cleaned_data["cnis22"]
+
 				check_cni = get_object_or_404(Profile, CNI=cni)
+				check_cni_t11 = get_object_or_404(Profile, CNI=cni_t11)
+				check_cni_t12 = get_object_or_404(Profile, CNI=cni_t12)
+				check_cni_t21 = get_object_or_404(Profile, CNI=cni_t21)
+				check_cni_t22 = get_object_or_404(Profile, CNI=cni_t22)
+
 				if not check_cni:
 					messages.error(request, "User doesn't exist")
 				else:
@@ -92,12 +102,34 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if "submit" in request.POST:
 			if form.is_valid():
 				cni = form.cleaned_data["beneficiary"]
+				cni_t11 = form.cleaned_data["cnis11"]
+				cni_t12 = form.cleaned_data["cnis12"]
+				cni_t21 = form.cleaned_data["cnis21"]
+				cni_t22 = form.cleaned_data["cnis22"]
+
 				check_cni = get_object_or_404(Profile, CNI=cni)
+				check_cni_t11 = get_object_or_404(Profile, CNI=cni_t11)
+				check_cni_t12 = get_object_or_404(Profile, CNI=cni_t12)
+				check_cni_t21 = get_object_or_404(Profile, CNI=cni_t21)
+				check_cni_t22 = get_object_or_404(Profile, CNI=cni_t22)
+
 				cession = form.save(commit=False)
 				cession.user = request.user
+				cession.zone = profiles.quarter.zone
+				cession.residence_quarter = profiles.residence
 				cession.beneficiary = str(check_cni.user.first_name + " " + check_cni.user.last_name)
 				cession.beneficiary_father = check_cni.father
 				cession.beneficiary_mother = check_cni.mother
+				cession.beneficiary_residence_zone = check_cni.residence.zone
+				cession.beneficiary_residence_quarter = check_cni.residence
+				cession.witness11 = str(check_cni_t11.user.first_name+" "+check_cni_t11.user.last_name)
+				cession.witness12 = str(check_cni_t12.user.first_name+" "+check_cni_t12.user.last_name)
+				cession.witness21 = str(check_cni_t21.user.first_name+" "+check_cni_t21.user.last_name)
+				cession.witness22 = str(check_cni_t22.user.first_name+" "+check_cni_t22.user.last_name)
+				cession.giver_witness_residence1 = check_cni_t11.residence
+				cession.giver_witness_residence2 = check_cni_t12.residence
+				cession.benficiary_witness_residence1 = check_cni_t21.residence
+				cession.benficiary_witness_residence2 = check_cni_t22.residence
 				cession.save()
 				return redirect("../payform/"+str(cession.id))
 			return render(request, self.template_name, locals())

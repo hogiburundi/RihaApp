@@ -10,7 +10,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="category-title pb-1">
-					<h6 class="text-center font-medium-1 text-bold-800 text-info">
+					<h6 class="text-center font-medium-1 text-bold-800 text-info">-
 						<i class="ft-corner-left-down"></i> Requirements
 					</h6>
 				</div>
@@ -47,9 +47,9 @@
 						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-						<strong>MUNICIPALITE DE {{ acte_reconnais.zone.commune.province|upper }}</strong><br/>
-						<strong>COMMUNE URBAINE DE {{ acte_reconnais.zone.commune.name|upper }}</strong><br/>
-						<strong><u>ZONE DE {{ acte_reconnais.zone.name|upper }}</u></strong><br/>
+						<strong>MUNICIPALITE DE {{ acte_reconnais.search_place.zone.commune.province|upper }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ acte_reconnais.search_place.zone.commune.name|upper }}</strong><br/>
+						<strong><u>ZONE DE {{ acte_reconnais.search_place.zone.name|upper }}</u></strong><br/>
 
 						<div class="row">
 							
@@ -62,37 +62,39 @@
 
 							<p style="text-align: center;"><strong><u>ACTE DE L’ETAT CIVIL N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020 <br> ACTE DE RECONNAISSANCE</u></strong></p>
 							<p>&nbsp;</p>
-							<p class="text-justify">&emsp;&emsp;&emsp;L’an {{ acte_reconnais.years_letter }}, le {{ acte_reconnais.days_letter }} jour du mois de {{ acte_reconnais.months_letter }}, devant nous {{ acte_reconnais.zone.leaderFullName }}
-							, Officier de l’Etat Civil à {{ acte_reconnais.zone.commune.province }}, a comparu : {{ acte_reconnais.user.first_name }} {{ acte_reconnais.user.last_name }} ,
-							{{ acte_reconnais.work }} , {% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ acte_reconnais.user.profile.father|default:"sans" }} et de
+							<p class="text-justify">&emsp;&emsp;&emsp;{{ acte_reconnais.dateString }} , devant nous {{ acte_reconnais.search_place.zone.leaderFullName }}
+							, Officier de l’Etat Civil à {{ acte_reconnais.search_place.zone.commune.province }}, a comparu : {{ acte_reconnais.user.first_name }} {{ acte_reconnais.user.last_name }} ,
+							{{ profiles.job }} , {% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ acte_reconnais.user.profile.father|default:"sans" }} et de
 								{{ acte_reconnais.user.profile.mother|default:"sans" }}, {% if profiles.gender == 'H' %} né {% else %} née {% endif %} à {{ profiles.quarter.name }} en {{ profiles.birthdate }},
-								résidant actuellement à {{ acte_reconnais.residence_quarter.zone.commune.province.name }}, de nationalité {{ profiles.nationnalite }} , lequel nous a déclaré en présence de
-								{{ acte_reconnais.witness1 }} , {{ acte_reconnais.witness_work1 }} , agé de {{ acte_reconnais.witness_age1 }} ans, résidant à {{ acte_reconnais.witness_province1 }} ,de nationalité .......... , et de ......., {{ acte_reconnais.witness_work2 }}, âgée {{ acte_reconnais.witness_age2 }} ans,
-							résidant à {{ acte_reconnais.witness_province2 }}, de nationalité ..........., qu’il reconnait pour son enfant naturel l’enfant de sexe ....... auquel a été donné le nom et prénom de {{ acte_reconnais.child }},
-								né à {{ acte_reconnais.residence_quarter.zone.commune.province.name }}, le {{ acte_reconnais.child_day }} du mois d’{{ acte_reconnais.child_month }}, l’an {{ acte_reconnais.child_year }} de lui-même déclarant et de {{ acte_reconnais.wife }}, âgée de {{ acte_reconnais.wife_age }} ans, 
-								{{ acte_reconnais.wife_work }}, résidant à {{ acte_reconnais.wife_province }}, de nationalité .................
+								résidant actuellement à {{ profiles.residence.zone.commune.province.name }}, de nationalité {{ profiles.nationnalite }} , lequel nous a déclaré en présence de
+								{{ check_cni_t11.user.last_name }} {{ check_cni_t11.user.first_name }}, {{ check_cni_t11.job }}, {% if check_cni_t11.gender == 'H' %} agé {% else %} agée {% endif %} de {{ check_cni_t11.birthdate|date:'-Y'|add:2020 }} ans, résidant à {{ check_cni_t11.residence.zone.commune.province.name }}, de nationalité {{ check_cni_t11.nationnalite }}, et de 
+								{{ check_cni_t12.user.last_name }} {{ check_cni_t12.user.first_name }}, {{ check_cni_t12.job }}, {% if check_cni_t12.gender == 'H' %} agé {% else %} agée {% endif %} de {{ check_cni_t11.birthdate|date:'-Y'|add:2020 }} ans,	résidant à {{ check_cni_t12.residence.zone.commune.province.name }}, de nationalité {{ check_cni_t12.nationnalite }},
+							 qu’il reconnait pour son enfant naturel l’enfant de sexe {% if check_cni_t13.gender == 'H' %} masculin {% else %} féminin {% endif %} auquel a été donné le nom et prénom de {{ check_cni_t13.user.first_name }} {{ check_cni_t13.user.last_name }},
+							 {% if check_cni_t13.gender == 'H' %} né {% else %} née {% endif %} à {{ check_cni_t13.quarter.zone.commune.province.name }}, le {{ check_cni_t13.dateString1 }} de lui-même déclarant et de {{ check_cni_t14.user.first_name }} {{ check_cni_t14.user.last_name }}, {% if check_cni_t14.gender == 'H' %} agé {% else %} agée {% endif %} de {{ check_cni_t14.birthdate|date:'-Y'|add:2020 }} ans, 
+								{{ check_cni_t14.job }}, résidant à {{ check_cni_t14.residence.zone.commune.province.name }}, de nationalité {{ check_cni_t14.nationnalite }}
 
 							</p>
 							<br>
 							<p class="text-justify">En foi de quoi, nous avons dressé le présent acte et après que connaissance de son contenu en a été donnée aux comparants et aux témoins, l’avons signé avec eux.</p>
 							<p class="text-center">L’OFFICIER DE L’ETAT CIVIL <br>
-									Sé/ {{ acte_reconnais.zone.leaderFullName }}</p>
+									Sé/ {{ acte_reconnais.search_place.zone.leaderFullName }}</p>
 						
 							<div class="row">
 								<div class="col-6 text-justify">
 									<b><u>LES COMPARANTS</u></b> <br>
-									1. {{ acte_reconnais.user.first_name }} {{ acte_reconnais.user.last_name }}<br>
-									2. {{ acte_reconnais.wife }} <br>
-									<b>LE CHEF DE QUARTIER {{ acte_reconnais.residence_quarter.name|upper }}</b>
-									{{ acte_reconnais.residence_quarter.leaderFullName }}
+									1. {{ profiles.user.first_name }} {{ profiles.user.last_name }}<br>
+									2. {{ check_cni_t14.user.first_name }} {{ check_cni_t14.user.last_name }} <br>
+
+									<b>LE CHEF DE QUARTIER {{ acte_reconnais.search_place.name|upper }}</b>
+									{{ acte_reconnais.search_place.leaderFullName }}
 								</div>
 								<div class="col-6 text-justify">
 									<b><u>LES TEMOINS</u></b> <br>
-									1. {{ acte_reconnais.witness1 }} <br>
-									2. {{ acte_reconnais.witness2 }} <br>
-									<p style="text-align: justify;"><strong>Fait &agrave; {{ acte_reconnais.zone.commune.province }}, le {{ acte_reconnais.date|date:'d/m/Y' }}</strong></p>
-									<p style="text-align: justify;"><strong>LE CHEF DE ZONE {{ acte_reconnais.zone.name|upper }}</strong></p>
-									<p style="text-align: justify;"><strong>{{ acte_reconnais.zone.leaderFullName }}</strong></p>
+									1. {{ check_cni_t11.user.first_name }} {{ check_cni_t11.user.last_name }} <br>
+									2. {{ check_cni_t12.user.first_name }} {{ check_cni_t12.user.last_name }} <br>
+									<p style="text-align: justify;"><strong>FAIT &agrave; {{ acte_reconnais.search_place.zone.commune.province.name|upper }}, le {{ acte_reconnais.date|date:'d/m/Y' }}</strong></p>
+									<p style="text-align: justify;"><strong>LE CHEF DE ZONE {{ acte_reconnais.search_place.zone.name|upper }}</strong></p>
+									<p style="text-align: justify;"><strong>{{ acte_reconnais.search_place.zone.leaderFullName }}</strong></p>
 								</div>
 							</div>
 
@@ -108,7 +110,7 @@
 						{% for fo in form %}
 
 						<div class="step-one">
-							{% if forloop.counter <= 8 %}
+							{% if forloop.counter <= 5 %}
 							<label style = "margin-top:2%;margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
 							{{ fo.non_field_errors }}
 							{{ fo.errors }}
@@ -117,16 +119,7 @@
 						</div>
 			
 						<div class="step-two">
-							{% if forloop.counter >= 9 and forloop.counter <= 17 %}
-							<label style = "margin-top:2%;margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
-							{{ fo.non_field_errors }}
-							{{ fo.errors }}
-							{{ fo }}
-							{% endif %}
-						</div>
-			
-						<div class="step-three">
-							{% if forloop.counter >= 18 %}
+							{% if forloop.counter >= 6 %}
 							<label style = "margin-top:2%;margin-bottom:2%;" for="{{ fo.id_for_label }}">{{ fo.label }}</label>
 							{{ fo.non_field_errors }}
 							{{ fo.errors }}
@@ -146,7 +139,6 @@
 					</button>
 					<a id="continue1" class="btn btn-outline-primary mt-1">Step 1</a>
 					<a id="continue2" class="btn btn-outline-primary mt-1">Step 2</a>
-					<a id="continue3" class="btn btn-outline-primary mt-1">Step 3</a>
 
 					{% endif %}
 					<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
@@ -160,33 +152,19 @@
 <script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
 <script>
-	$('#zone').chosen({ width: '100%' });
-	$('#residence_quarter').chosen({ width: '100%' });
-	$('#property_quarter').chosen({ width: '100%' });
-	$('#buyer_zone').chosen({ width: '100%' });
-	$('#buyer_residence_quarter').chosen({ width: '100%' });
-	$('#saler_witness_residence1').chosen({ width: '100%' });
-	$('#saler_witness_residence2').chosen({ width: '100%' });
-	$('#saler_witness_residence1').chosen({ width: '100%' });
-	$('#saler_witness_residence2').chosen({ width: '100%' });
-	$('#buyer_witness_residence1').chosen({ width: '100%' });
-	$('#buyer_witness_residence2').chosen({ width: '100%' });
+	$('#search_place').chosen({ width: '100%' });
 
     $(".step-two").hide();
-    $(".step-three").hide();
 	$("#continue1").hide();
 	$("#continue2").show();
-	$("#continue3").hide();
 	$("#preview").hide();
 	$("#submit").hide();
 
     $("#continue1").click(function(){
 		$(".step-one").show();
 		$(".step-two").hide();
-		$(".step-three").hide();
 		$("#continue1").hide();
 		$("#continue2").show();
-		$("#continue3").hide();
 		$("#preview").hide();
 		$("#submit").hide();
     });
@@ -194,20 +172,8 @@
     $("#continue2").click(function(){
         $(".step-one").hide();
         $(".step-two").show();
-        $(".step-three").hide();
 		$("#continue2").hide();
-		$("#continue3").show();
-		$("#preview").hide();
-		$("#submit").hide();
-    });
-
-    $("#continue3").click(function(){
-        $(".step-one").hide();
-        $(".step-two").hide();
-        $(".step-three").show();
 		$("#continue1").show();
-		$("#continue2").hide();
-		$("#continue3").hide();
 		$("#preview").show();
 		$("#submit").show();
     });

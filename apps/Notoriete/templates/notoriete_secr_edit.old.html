@@ -1,0 +1,119 @@
+{% extends "index.html" %}
+{% load static %}
+{% block main %}
+<div id="document" class="col-12">
+	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
+		<strong>PROVINCE DE {{ notoriete.zone.commune.province }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ notoriete.zone.commune }}</strong><br/>
+		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/>
+		<p style="text-align: center;"><strong><u>ACTE DE NOTORIETE</u></strong></p>
+		<p>
+			L’an {{notoriete.year}}, le {{notoriete.jour}} jour du mois de {{notoriete.mois}} devant nous,  {{ notoriete.user.last_name}}, Maire de la Ville de {{notoriete.zone.commune.province}}, ont comparu :<br> <br>
+
+			
+				1.{{ notoriete.nom_prenom_1ercomparant}}, fils(fille) de {{notoriete.nom_prenom_1ercomparant_pere}}  et de  {{notoriete.nom_prenom_1ercomparant_mere}}, née à {{notoriete.user.profile.colline_natal}},  en {{notoriete.nom_prenom_1ercomparant_anneDeNaissance}}, résidant à {{notoriete.zone.commune.province}} de nationnalité {{notoriete.user.profile.nationnalite}}, premier comparant. 	<br> <br>
+				
+				
+			Lesquels nous ont déclaré qu’en {{notoriiete.user.profile.birthday}}, est né à {{notoriete.user.profile.colline_natal}}, le nommé {{notorriete.user.first_name}} {{notoriete.user.last_name}}, {{notoriete.user.profile.job }}, fils de {{notoriete.user.profile.father}} et de {{notoriete.user.profile.mother}}, résidant à {{notoriete.zone.commune.province}} de nationalité {{notoriete.user.profile.nationnalite}} et que l’intéressé se trouve dans l’impossibilité de produire son acte de naissance qu’il est 	     		{% if deces.user.profile.is_married %}
+				marrié(e)
+			{% else %}
+				célibataire
+			{% endif %}.. <br> <br>
+
+			En conséquence, le présent acte de notoriété remplace valablement son acte de naissance. <br>
+
+			Nous attestons en outre que les déclarations faites ci-dessus concordent avec les énonciations de sa Carte d’Identité délivrée par l’Administrateur Communal, portant le №  {{notoriete.user.profile.CNI}} obtenue en date du {{notoriete.date_delivrated}}.<br><br>
+
+			En foi de quoi, nous avons délivré le présent acte et après que connaissance de son contenu en a été faite aux comparants, l’avons signé avec eux. <br><br>
+
+			<strong><u>LES COMPARANTS :</u></strong><br>
+
+			1.{{notoriete.nom_prenom_1ercomparant}}<br>
+
+						        
+
+		                                                                                  
+
+		</p>
+
+		<table style="width: 588px;">
+		<tbody>
+		<tr>
+		<td style="width: 315px;">&nbsp;</td>
+		<td style="width: 275px;">
+		<p style="text-align: center;"><strong> LE MAIRE DE LA VILLE DE BUJUMBURA</strong></p>
+		<p style="text-align: center;"><strong>{{ notoriete.user.first_name}}</strong></p>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		<p style="text-align: right;">&nbsp;</p>
+	</div>
+</div>
+<div style="position: fixed; right: 0px; top:40%">
+  <div style="position: relative; top: -50%;" class="btn-group-vertical btn-group-lg float-right align-middle" role="group">
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ notoriete.user.profile.cni_recto.url }}' height='300' />">
+	  CNI Recto
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{{ notoriete.user.profile.cni_verso.url }}' height='300' />">
+	  CNI verso
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ notoriete.payment_method }} : <i>{{ notoriete.payment_serial }}</i></b>">
+	  Payements
+	</button>
+	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+	  Other
+	</button>
+  </div>
+</div>
+<div class="m-2">
+	<form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+		{% csrf_token %}
+		<input type="text" name="rejection_msg" value="" placeholder="rejection reason" class="form-control mb-2 rejection-msg" style="display:none;">
+		<input type="submit" class="btn btn-outline-secondary" name="cancel" value="cancel">
+		<input type="submit" class="btn btn-outline-success" name="validate" value="validate">
+		<input type="submit" class="btn btn-outline-danger" id="rejection-button" name="reject" value="reject">
+		<input type="submit" class="btn btn-outline-primary" id="print-button" name="print" value="print">
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$("#rejection-button").on('click', function(event) {
+	$rejection_msg = $(".rejection-msg");
+	if($rejection_msg.css('display')=="none"){
+		$rejection_msg.css('display',"");
+		event.preventDefault();
+	}else{
+		if($rejection_msg.val().trim().length>0){
+
+		}else{
+			$rejection_msg.css('display',"none");
+			event.preventDefault();
+		}
+	}
+});
+$("#print-button").on('click', function(event) {
+	event.preventDefault();
+	printDiv();
+});
+
+function printDiv() { 
+	var divContents = document.getElementById("template").innerHTML; 
+	var a = window.open('', '', 'height=500, width=1000'); 
+	a.document.write('<html>'); 
+	a.document.write('<body>'); 
+	a.document.write(divContents); 
+	a.document.write('</body></html>'); 
+	a.document.close(); 
+	a.print(); 
+	a.close();
+}
+
+});
+</script>
+{% endblock main %}

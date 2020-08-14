@@ -1,6 +1,7 @@
 import os, importlib
 
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth import login, logout, authenticate 
 from django.contrib import messages
@@ -10,6 +11,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from .forms import *
 from .models import *
+from .decorators import allowed_users
 
 base_dir = os.path.split(os.path.relpath(__file__))[0]
 MODULES = []
@@ -40,10 +42,20 @@ for directory in os.listdir('apps'):
 
 		MODULES.append(directory, )
 
+def verifierCni(request):
+	cni = request.GET['cni']
+	try:
+		profile = Profile.objects.get(CNI=cni)
+		return JsonResponse({'fullname': profile.fullName()})
+	except:
+		return JsonResponse({'fullname': 'invalid user CNI'})
+
 class Home(View):
 	template_name = 'pages/riha-dashboard.html'
 
 	def get(self, request, *args, **kwargs):
+		groups = request.user.groups.all()
+		print(groups)
 		if request.user.is_authenticated:
 			profile = Profile.objects.filter(user=request.user)
 			home_urls = []
@@ -59,7 +71,7 @@ class Home(View):
 		else:
 			return redirect("login")
 
-# @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
+@method_decorator(allowed_users(["secretary"]), name='dispatch')
 class Secretariat(View):
 	template_name = "pages/secretariat.html"
 

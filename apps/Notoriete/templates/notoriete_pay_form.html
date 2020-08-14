@@ -51,11 +51,11 @@
             <div class="card-body"><!-- Begin card body -->
                 <form action="{% url payform notoriete %}" method="post">
                     {% csrf_token %}
+                    {{ field.non_field_errors }}
                     {% for field in form %}
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field.non_field_errors }}
-                        {{ field.errors }}
                         {{ field }}
+                        {{ field.errors }}
                     {% endfor %}
                     <hr/>
                     <div class="text-right">

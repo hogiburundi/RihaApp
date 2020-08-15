@@ -18,7 +18,7 @@ class Document(models.Model):
 		return '{} {}'.format(self.user.last_name, self.user.first_name)
 
 	def children(self):
-		return Child.objects.filter(Q(father=self.user) | Q(mother=self.user))
+		return Child.objects.filter(Q(father=self.user.profile) | Q(mother=self.user.profile))
 	
 	def requirements():
 		return ["CNI", "presence physique ou autre document prouvant son existance" ]

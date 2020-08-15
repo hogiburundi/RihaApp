@@ -57,31 +57,35 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Composition Familliale</h1>
             </div>
-            <div id="document" class="col-12">
-			<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+            <div id="document" class="col-12"style="overflow:auto">
+			<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black">
 				<strong>REPUBLIQUE DU BURUNDI</strong><br/>
 					<div style="text-transform: uppercase;">
 					<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 					<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 					<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-					<strong>MUNICIPALITE DE {{ composition.zone.commune.province}}</strong><br/>
-					<strong>COMMUNE URBAINE DE {{ composition.zone.commune }}</strong><br/>
-					<strong><u>ZONE DE {{ composition.zone.name }}</u></strong><br/>
+					<strong>MUNICIPALITE DE {{ composition.quarter.zone.commune.province}}</strong><br/>
+					<strong>COMMUNE URBAINE DE {{ composition.quarter.zone.commune.name }}</strong><br/>
+					<strong><u>ZONE DE {{ composition.quarter.zone.name }}</u></strong><br/>
 				</div><br><br><br>
 				<p style="text-align: center;"><strong><u>ATTESTATION DE COMPOSITION FAMILIALE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;.../2020</u></strong></p>
 				<p>
 					
-					Je  soussigné, {{ composition.zone.leaderFullName }}, Chef de Zone {{ composition.zone.name}}, atteste par la présente que la composition familiale de Monsieur {{composition.user.first_name}} {{composition.user.last_name}}, fils de {{composition.user.profile.father}} et de {{composition.user.profile.mother}}, originaire de la Colline {{composition.user.profile.colline}}, Commune {{composition.user.profile.commune_natal}}, Province {{composition.user.profile.province_natal}}, de nationalité {{composition.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{composition.zone.commune.province }} à l’adresse ci–après : {{composition.zone.name}}, Q.{{composition.residence_quarter}}, est la suivante : Marié  à  {{composition.conjoint.fullName}}.<br>
-					<br><br>
+					Je  soussigné, {{ composition.quarter.zone.leaderFullName }}, Chef de Zone {{ composition.quarter.zone.name}}, atteste par la présente que la composition familiale de Monsieur {{composition.user.fullNname}}, fils de {{composition.user.profile.father}} et de {{composition.user.profile.mother}}, originaire de la Colline {{composition.user.profile.quarter.name}}, Commune {{composition.user.profile.quarter.zone.name}}, Province {{composition.user.profile.quarter.zone.province}}, de nationalité {{composition.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{composition.quarter.zone.commune.province }} à l’adresse ci–après : {{composition.quarter.zone.name}}, Q. {{composition.quarter.name}}, est la suivante : Marié  à  {{composition.conjoint.fullName}}.<br>
+					<br>
 				</p>
 					<p><strong><u>Enfants issus du Mariage avec</u></strong> <br>
-					- <ol>{{formset.name}} née en {{formset.age}} <br></ol>
+                    {% for child in composition.children %}
+                    <ol>{{child.name}} née en {{child.date.year}} <br></ol> 
+                    {% empty %}
+                        <b>SANS</b>
+                    {% endfor %}
 
 				</p>
 
-				<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte  Nationale d’Identité  portant  numéro {{ composition.user.profile.CNI }} délivrée  à {{composition.user.profile.commune_natal}},  {{composition.date_delivrated.date}}.</p>
+				<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte  Nationale d’Identité  portant  numéro {{ composition.user.profile.CNI }} délivrée  à {{composition.user.profile.place_delivrated}}le  {{composition.user.profile.date_delivrated}}.</p>
 				<p>&nbsp;</p>
 				<table style="width: 588px;">
 				<tbody>
@@ -89,8 +93,8 @@
 				<td style="width: 415px;">&nbsp;</td>
 				<td style="width: 375px;">
 				<p style="text-align: center;margin: 5px;"><strong>Fait &agrave; Bujumbura, {{ composition.date_delivrated.date }}</strong></p>
-				<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ composition.zone.name}}</strong></p>
-				<p style="text-align: center;"><strong>{{ composition.zone.leaderFullName }}</strong></p>
+				<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ composition.quarter.zone.name}}</strong></p>
+				<p style="text-align: center;"><strong>{{ composition.quarter.zone.leaderFullName }}</strong></p>
 				</td>
 				</tr>
 				</tbody>

@@ -31,7 +31,7 @@
 
             {% for document in documents %}
                 <tr class="document-item" data-id="{{ document.id }}">
-                    <td> {{ document.quarter }}</td>
+                    <td>{{ document.quarter }}</td>
                     <td> <a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</a></td>
                     <td> {{ document.validation_percent }} % </td>
                     <td> {{ document.date_delivrated }}</td>

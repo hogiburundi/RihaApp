@@ -50,14 +50,14 @@ class Document(models.Model):
 		except:
 			return 0
 
-	def payment_percent(self):
+	def paymentPercent(self):
 		return 100 if self.zone_payment else 0
 
 	def onlyPaid():
 		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
 
 		
-	def validation_percent(self):
+	def validationPercent(self):
 		return 100 if self.secretary_validated != None else 0
 
 	def __str__(self):

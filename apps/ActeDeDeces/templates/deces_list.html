@@ -33,14 +33,14 @@
             {% for document in documents %}
                 <tr class="document-item" data-id="{{ document.id }}">
                     <td> {{ document.residence_quarter }}</td>
-                    <td> <a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</a></td>
-                    <td> {{ document.validation_percent }} % </td>
+                    <td> <a href="{% url payform  document.id  %}">{{ document.paymentPercent }} %</a></td>
+                    <td> {{ document.validationPercent }} % </td>
                     <td> {{ document.date }}</td>
                     <td>
 
-                    {% if document.payment_percent == 100 and document.validation_percent == 100 %}
+                    {% if document.paymentPercent == 100 and document.validationPercent == 100 %}
                         <strong><i class="#"> 100</i></strong>
-                    {% elif document.payment_percent == 100 and document.validation_percent != 100 %}
+                    {% elif document.paymentPercent == 100 and document.validationPercent != 100 %}
                         <strong><i class="#">50</i></strong>
                     {% else %}
                     <strong><i class="">0</i></strong>
@@ -49,7 +49,7 @@
                     
 
                     <td>
-                        {% if document.payment_percent == 100 and document.validation_percent == 100 %}
+                        {% if document.paymentPercent == 100 and document.validationPercent == 100 %}
                             <strong><i class="#">Done</i></strong>
                         {% else %}
                             <strong><i class="#">Not yet</i></strong>

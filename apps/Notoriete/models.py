@@ -35,10 +35,10 @@ class Document(models.Model):
 		except:
 			return 10000
 
-	def payment_percent(self):
+	def paymentPercent(self):
 		return 100 if self.zone_payment else 0
 
-	def validation_percent(self):
+	def validationPercent(self):
 		return 100 if self.secretary_validated != None else 0
 
 	def onlyPaid():

@@ -36,14 +36,14 @@
           <td class="text-truncate">
             <a href="{% url payform  document.id  %}">
             <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-              <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.payment_percent }}%" aria-valuenow="{{ document.payment_percent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.payment_percent }}%"></div>
+              <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.paymentPercent }}%" aria-valuenow="{{ document.paymentPercent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.paymentPercent }}%"></div>
             </div>
             </a>
           </td>
           <td class="text-truncate">
             <a href="{% url payform  document.id  %}">
             <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-              <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.validation_percent }}%" aria-valuenow="{{ document.validation_percent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.validation_percent }}%"></div>
+              <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.validationPercent }}%" aria-valuenow="{{ document.validationPercent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.validationPercent }}%"></div>
             </div>
             </a>
           </td>

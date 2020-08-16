@@ -109,9 +109,11 @@
 			En foi de quoi, nous avons délivré le présent acte et après que connaissance de son contenu en a été faite aux comparants, l’avons signé avec eux. <br><br>
 
 			<strong><u>LES COMPARANTS :</u></strong><br>
-
-			1. {{notoriete.comparant_1.fullName}}<br>
-			2. {{notoriete.comparant_2.fullName}}<br>
+            1.{{notoriete.comparant_1.fullName}}<br>
+            2.{{notoriete.comparant_2.fullName}}<br>
+            {% if notoriete.comparant_3 %}  
+             3.{{notoriete.comparant_3.fullName}}<br>
+            {% endif %}
 		</p>
 
 		<table style="width: 588px;">

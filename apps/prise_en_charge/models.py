@@ -6,16 +6,12 @@ from apps.base.date_conversion import lireDate
 
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="prise_charge_user", null=True, on_delete=models.SET_NULL)
-	zone = models.ForeignKey(Zone, related_name="prise_charge_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	residence_quarter = models.ForeignKey(Quarter, related_name="prise_charge_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="prise_charge_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
-	mr = models.CharField(max_length=100, null=True,blank=True)
-	mrs = models.CharField(max_length=100, null=True, blank=True)
-	mr_mrs_quarter = models.ForeignKey(Quarter, related_name="prise_charge_res_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
+	mrs = models.ForeignKey(Profile, related_name="prise_charge_mrs", null=True, on_delete=models.SET_NULL)
 	search_place = models.ForeignKey(Quarter, related_name="prise_charge_search", max_length=64, null=True, on_delete=models.SET_NULL)
 
 	def requirements():
@@ -37,13 +33,12 @@ class Document(models.Model):
 
 	def onlyPaid():
 		return Document.objects.filter(zone_payment__isnull=False, secretary_validated__isnull=True)
-
 		
 	def validationPercent(self):
 		return 100 if self.secretary_validated != None else 0
 
 	def __str__(self):
-		return f"{self.user} {self.zone}"
+		return f"{self.user} {self.search_place.zone}"
 
 class PriceHistory(models.Model):
 	date = models.DateField()

@@ -24,41 +24,74 @@ class DocumentForm(forms.ModelForm):
                     'class': 'form-control'}),
         label = 'Buyer CNI')
 
-    cnis11 = forms.CharField(
+    witness11 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Saler witness CNI 1',
                     'class': 'form-control'}),
         label = 'Saler witness CNI 1')  
               
-    cnis12 = forms.CharField(
+    witness12 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Saler witness CNI 2',
                     'class': 'form-control'}),
         label = 'Saler witness CNI 2')
         
-    cnis21 = forms.CharField( 
+    witness21 = forms.CharField( 
         widget = forms.TextInput(
             attrs = {'placeholder': 'Buyer witness CNI 1',
                     'class': 'form-control'}),
         label = 'Buyer witness CNI 1')
 
-    cnis22 = forms.CharField(
+    witness22 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Buyer witness CNI 2',
                     'class': 'form-control'}),
         label = 'Buyer witness CNI 2')
         
-    search_place = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Place to look for the document.', 
-                    'class': 'form-control',
-                    'id':'search_place'}),
-        label = 'Place to look for the document.',
-        queryset = Quarter.objects.all())
-
     class Meta:
         model = Document
-        fields = ("search_place", "property_quarter", "amount", "buyer", "cnis11", "cnis12", "cnis21", "cnis22")
+        fields = ("property_quarter", "amount", "buyer", "witness11", "witness12", "witness21", "witness22")
+
+    def clean_buyer(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("buyer")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_witness11(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness11")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_witness12(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness12")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_witness21(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness21")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_witness22(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness22")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
 
 class ValidationForm(forms.Form):
     cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),

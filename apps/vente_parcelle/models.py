@@ -6,35 +6,18 @@ from apps.base.date_conversion import lireDate
 
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="vente_user", null=True, on_delete=models.SET_NULL)
-	zone = models.ForeignKey(Zone, related_name="vente_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	residence_quarter = models.ForeignKey(Quarter, related_name="vente_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="vente_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	amount = models.CharField(max_length=64,null=True)
-	buyer = models.CharField(max_length=64, null=True)
-	buyer_name = models.CharField(max_length=64,null=True)
-	buyer_father = models.CharField(max_length=64,null=True)
-	buyer_mother = models.CharField(max_length=64,null=True)
-	buyer_zone = models.ForeignKey(Zone, related_name="vente_zoneb", max_length=64, null=True, on_delete=models.SET_NULL)
-	buyer_residence_quarter = models.ForeignKey(Quarter, related_name="vente_residenceb", max_length=64, null=True, on_delete=models.SET_NULL)
+	buyer = models.ForeignKey(Profile, related_name="vente_buyer", null=True, on_delete=models.SET_NULL)
 	property_quarter = models.ForeignKey(Quarter, related_name="property_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
-	witness11 = models.CharField(max_length=64, null=True, blank=True)
-	witness12 = models.CharField(max_length=64, null=True, blank=True)
-	witness21 = models.CharField(max_length=64, null=True, blank=True)
-	witness22 = models.CharField(max_length=64, null=True, blank=True)
-	cnis11 = models.CharField(max_length=64, null=True, blank=True)
-	cnis12 = models.CharField(max_length=64, null=True, blank=True)
-	cnis21 = models.CharField(max_length=64, null=True, blank=True)
-	cnis22 = models.CharField(max_length=64, null=True, blank=True)
-	saler_witness_residence1 = models.ForeignKey(Quarter, related_name="vente_residence11", max_length=64, null=True, on_delete=models.SET_NULL)
-	saler_witness_residence2 = models.ForeignKey(Quarter, related_name="vente_residence12", max_length=64, null=True, on_delete=models.SET_NULL)
-	buyer_witness_residence1 = models.ForeignKey(Quarter, related_name="vente_residence21", max_length=64, null=True, on_delete=models.SET_NULL)
-	buyer_witness_residence2 = models.ForeignKey(Quarter, related_name="vente_residence22", max_length=64, null=True, on_delete=models.SET_NULL)
-	search_place = models.ForeignKey(Quarter, related_name="vente_search", max_length=64, null=True, on_delete=models.SET_NULL)
-	
+	witness11 = models.ForeignKey(Profile, related_name="vente_witness11", null=True, on_delete=models.SET_NULL)
+	witness12 = models.ForeignKey(Profile, related_name="vente_witness12", null=True, on_delete=models.SET_NULL)
+	witness21 = models.ForeignKey(Profile, related_name="vente_witness21", null=True, on_delete=models.SET_NULL)
+	witness22 = models.ForeignKey(Profile, related_name="vente_witness22", null=True, on_delete=models.SET_NULL)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -61,7 +44,7 @@ class Document(models.Model):
 		return 100 if self.secretary_validated != None else 0
 
 	def __str__(self):
-		return f"{self.user} {self.zone}"
+		return f"{self.user} {self.property_quarter.zone}"
 
 class PriceHistory(models.Model):
 	date = models.DateField()

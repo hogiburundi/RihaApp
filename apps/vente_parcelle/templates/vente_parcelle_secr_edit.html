@@ -66,58 +66,58 @@
 								<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 								<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 								<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-								<strong>MUNICIPALITE DE {{ vente_parcelle.search_place.zone.commune.province|upper }}</strong><br/>
-								<strong>COMMUNE URBAINE DE {{ vente_parcelle.search_place.zone.commune.name|upper }}</strong><br/>
-								<strong><u>ZONE DE {{ vente_parcelle.search_place.zone.name|upper }}</u></strong><br/> <br> <br>
+								<strong>MUNICIPALITE DE {{ vente_parcelle.property_quarter.zone.commune.province|upper }}</strong><br/>
+								<strong>COMMUNE URBAINE DE {{ vente_parcelle.property_quarter.zone.commune.name|upper }}</strong><br/>
+								<strong><u>ZONE DE {{ vente_parcelle.property_quarter.zone.name|upper }}</u></strong><br/> <br> <br>
 								<p style="text-align: center;"><strong><u>ATTESTATION DE VENTE DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 								<p>&nbsp;</p>
-								<p style="text-align: justify;">Je soussign&eacute;, {{ vente_parcelle.search_place.zone.commune.leaderFullName }}, Administrateur de la Commune Urbaine  de  {{ vente_parcelle.search_place.zone.commune.name }}, atteste par la pr&eacute;sente que
-											{% if profiles.gender == 'F' and profiles.is_married == True %} Mme {% elif profiles.gender == F %} Mlle {% else %} Mr {% endif %} {{ vente_parcelle.user.last_name }}
-											{{ vente_parcelle.user.first_name }}, {% if profiles.gender == 'H' %} fils {% elif profiles.gender == 'F' %} fille {% endif %} de {{ vente_parcelle.user.profile.father|default:"sans" }} et de {{ vente_parcelle.user.profile.mother|default:"sans" }},
-											originaire de la Colline {{ profiles.quarter.name }}, Commune {{ profiles.quarter.zone.commune.name }}, Province {{ profiles.quarter.zone.commune.province }}, résidant actuellement dans la Municipalité de 
-											{{ profiles.residence.zone.commune.province }} à l’adresse ci-après : Cellule {{ profiles.residence.name }},
-											a vendu sa parcelle sise au Q {{ vente_parcelle.property_quarter.name }}
-											
-											à une somme de {{ vente_parcelle.amount }} à {% if check_cni.gender == 'F' and check_cni.is_married == True %} Mme {% elif check_cni.gender == 'F' and check_cni.is_married == False %} Mlle {% else %} Mr {% endif %}
-											{{ vente_parcelle.buyer }}, {% if check_cni.gender == 'H' %} fils {% elif check_cni.gender == 'F' %} fille {% endif %} de {{ check_cni.father }} et de {{ check_cni.mother }},
-											originaire de la Colline {{ check_cni.quarter.name }}, Commune  {{ check_cni.quarter.zone.commune.name }}, Province  {{ check_cni.quarter.zone.commune.province.name }},
-											résidant actuellement dans la Municipalité de {{ check_cni.residence.zone.commune.province.name }} à l’adresse ci-après : Commune {{ check_cni.residence.zone.commune.name }}.
-												Q. {{ check_cni.residence.name }}. Cette somme a été versée en présence des témoins ci-après :</p>
-						
+								<p style="text-align: justify;">Je soussign&eacute;, {{ vente_parcelle.property_quarter.zone.commune.leaderFullName }}, Administrateur de la Commune Urbaine  de  {{ vente_parcelle.property_quarter.zone.commune.name }}, atteste par la pr&eacute;sente que
+										{% if user.profile.gender == 'F' and user.profile.is_married == True %} Mme {% elif user.profile.gender == F %} Mlle {% else %} Mr {% endif %} {{ user.profile.fullName }}
+										, {% if user.profile.gender == 'H' %} fils {% elif user.profile.gender == 'F' %} fille {% endif %} de {{ vente_parcelle.user.profile.father|default:"sans" }} et de {{ vente_parcelle.user.profile.mother|default:"sans" }},
+										originaire de la Colline {{ user.profile.quarter.name }}, Commune {{ user.profile.quarter.zone.commune.name }}, Province {{ user.profile.quarter.zone.commune.province }}, résidant actuellement dans la Municipalité de 
+										{{ user.profile.residence.zone.commune.province }} à l’adresse ci-après : Cellule {{ user.profile.residence.name }},
+										a vendu sa parcelle sise au Q {{ vente_parcelle.property_quarter.name }}
+										
+										à une somme de {{ vente_parcelle.amount }} à {% if vente_parcelle.buyer.gender == 'F' and vente_parcelle.buyer.is_married == True %} Mme {% elif vente_parcelle.buyer.gender == 'F' and vente_parcelle.buyer.is_married == False %} Mlle {% else %} Mr {% endif %}
+										{{ vente_parcelle.buyer.fullName }}, {% if vente_parcelle.buyer.gender == 'H' %} fils {% elif vente_parcelle.buyer.gender == 'F' %} fille {% endif %} de {{ vente_parcelle.buyer.father }} et de {{ vente_parcelle.buyer.mother }},
+										originaire de la Colline {{ vente_parcelle.buyer.quarter.name }}, Commune  {{ vente_parcelle.buyer.quarter.zone.commune.name }}, Province  {{ vente_parcelle.buyer.quarter.zone.commune.province.name }},
+										résidant actuellement dans la Municipalité de {{ vente_parcelle.buyer.residence.zone.commune.province.name }} à l’adresse ci-après : Commune {{ vente_parcelle.buyer.residence.zone.commune.name }}.
+											Q. {{ vente_parcelle.buyer.residence.name }}. Cette somme a été versée en présence des témoins ci-après :</p>
+					
 									<div class="row">
 										<div class="col-6">
 										<b><u>LE VENDEUR :</u></b> <br>
-										{{ vente_parcelle.user.last_name }} {{ vente_parcelle.user.first_name }} <br>
-										CNI : {{ profiles.CNI }} <br>
+										{{ user.profile.fullName }} <br>
+										CNI : {{ user.profile.CNI }} <br>
 		
 										<b><u>LES TEMOINS</u></b> <br>
-										1. {{ vente_parcelle.witness11 }} 
-										<br> CNI : {{ vente_parcelle.cnis11 }} résidant à {{ vente_parcelle.saler_witness_residence1.name }}
+										1. {{ vente_parcelle.witness11.fullName }} 
+										<br> CNI : {{ vente_parcelle.witness11 }} résidant à {{ vente_parcelle.witness11.residence.name }}
 										<br>
-										2. {{ vente_parcelle.witness12 }}  
-										<br>CNI : {{ vente_parcelle.cnis12 }} résidant à {{ vente_parcelle.saler_witness_residence2.name }} <br>
+										2. {{ vente_parcelle.witness12.fullName }}  
+										<br>CNI : {{ vente_parcelle.witness12 }} résidant à {{ vente_parcelle.witness12.residence.name }} <br>
 										<br><br>
 										<b><u>Le sous-couvert de:</u></b> <br>
-										Chef de quartier {{ vente_parcelle.search_place.name }} <br>
-										{{ vente_parcelle.search_place.leaderFullName }} <br>
-										Chef de zone {{ vente_parcelle.search_place.zone.name }} <br>
-										{{ vente_parcelle.search_place.zone.leaderFullName }} <br>
+										Chef de quartier {{ vente_parcelle.property_quarter.name }} <br>
+										{{ vente_parcelle.property_quarter.leaderFullName }} <br>
+										Chef de zone {{ vente_parcelle.property_quarter.zone.name }} <br>
+										{{ vente_parcelle.property_quarter.zone.leaderFullName }} <br>
 										</div>
 										<div class="col-6">
 										<b><u>L’ACHETEUR :</u></b> <br>
-										{{ vente_parcelle.buyer_name }} <br>
-										CNI : {{ vente_parcelle.buyer }} <br>
+										{{ vente_parcelle.buyer.fullName }} <br>
+										CNI : {{ vente_parcelle.buyer.CNI }} <br>
 		
 										<b><u>LES TEMOINS</u></b> <br> 
-										1. {{ vente_parcelle.witness21 }}   
-										<br> CNI : {{ vente_parcelle.cnis21 }} résidant à {{ vente_parcelle.buyer_witness_residence1.name }}
+										1. {{ vente_parcelle.witness21.fullName }}   
+										<br> CNI : {{ vente_parcelle.witness21.CNI }} résidant à {{ vente_parcelle.witness21.residence.name }}
 										<br>
-										2. {{ vente_parcelle.witness22 }}    
-										<br> CNI : {{ vente_parcelle.cnis22 }} résidant à {{ vente_parcelle.buyer_witness_residence2.name }} <br>
+										2. {{ vente_parcelle.witness22.fullName }}   
+										<br> CNI : {{ vente_parcelle.cnis22.CNI }} résidant à {{ vente_parcelle.witness21.residence.name }} <br>
 										<br><br>
-										<p style="text-align: center;"><strong>Fait &agrave; {{ vente_parcelle.search_place.zone.commune.province.name }}, le {{ vente_parcelle.date|date:'d/m/Y' }}</strong></p>
-										<p style="text-align: center;"><strong>L’ADMINISTRATEUR DE LA COMMUNE URBAINE DE {{ vente_parcelle.search_place.zone.commune.name|upper }}</strong></p>
-										<p style="text-align: center;"><strong>{{ vente_parcelle.search_place.zone.commune.leaderFullName }}</strong></p>
+										<p style="text-align: center;"><strong>FAIT &agrave; {{ vente_parcelle.property_quarter.zone.commune.province.name|upper }}, le {{ vente_parcelle.date|date:'d/m/Y' }}</strong></p>
+										<p style="text-align: center;"><strong>L’ADMINISTRATEUR DE LA COMMUNE URBAINE DE {{ vente_parcelle.property_quarter.zone.commune.name|upper }}</strong></p>
+										<p style="text-align: center;"><strong>{{ vente_parcelle.property_quarter.zone.commune.leaderFullName }}</strong></p>
 										
 						
 										</div>
@@ -133,7 +133,7 @@
 							<button type="submit" class="btn btn-outline-primary" name="valid" value="valid">
 								<i class="ft-eye"></i> Approuver
 							</button>
-							<button type="submit" class="btn btn-outline-success" name="preview" value="preview">
+							<button type="submit" class="btn btn-outline-success" id="print-button" name="preview" value="preview">
 								<i class="ft-eye"></i> Imprimer
 							</button>
 							<button type="submit" class="btn btn-outline-warning" name="ready" value="ready">

@@ -22,7 +22,7 @@ class DocumentForm(forms.ModelForm):
             years=range(1950, date.today().year+1),
             attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
                 'style':'width: 50%;'}),
-        label='Day')
+        label='Date of Day')
 
     child_date = forms.DateField(
         widget=forms.SelectDateWidget(
@@ -39,25 +39,25 @@ class DocumentForm(forms.ModelForm):
         label = 'Place to look for the document.',
         queryset = Quarter.objects.all())
 
-    cnis11 = forms.CharField(
+    witness1 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'First Witness CNI',
                     'class': 'form-control'}),
         label = 'First Witness CNI')  
               
-    cnis12 = forms.CharField(
+    witness2 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Second Witness CNI',
                     'class': 'form-control'}),
         label = 'Second Witness CNI')
         
-    cnis13 = forms.CharField( 
+    child = forms.CharField( 
         widget = forms.TextInput(
             attrs = {'placeholder': 'Child CNI',
                     'class': 'form-control'}),
         label = 'Child CNI')
 
-    cnis14 = forms.CharField(
+    wife = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Wife CNI',
                     'class': 'form-control'}),
@@ -66,7 +66,39 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        fields = ("search_place", "volume", "acte", "day_month_year", "child_date","cnis11","cnis12","cnis13","cnis14")
+        fields = ("search_place", "volume", "acte", "day_month_year", "child_date","witness1","witness2","child","wife")
+
+    def clean_witness1(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness1")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_witness2(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness2")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_child(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("child")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_wife(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("wife")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
 
 
 class ValidationForm(forms.Form):

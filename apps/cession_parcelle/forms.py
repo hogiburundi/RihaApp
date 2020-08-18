@@ -20,89 +20,90 @@ class DocumentForm(forms.ModelForm):
 
     mrs = forms.CharField(
         widget = forms.TextInput(
-            attrs = {'placeholder': 'Giver wife name', 
+            attrs = {'placeholder': 'Giver wife CNI',
+                    'id':'', 
                     'class': 'form-control'}),
-        label = 'Giver wife name')
-
-    cnis11 = forms.CharField(
+        label = 'Giver wife CNI')  
+       
+    witness11 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Giver witness CNI',
                     'id':'', 
                     'class': 'form-control'}),
         label = 'Giver witness CNI 1')  
               
-    cnis12 = forms.CharField(
+    witness12 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Giver witness CNI',
                     'id':'', 
                     'class': 'form-control'}),
         label = 'Giver witness CNI 2')
         
-    cnis21 = forms.CharField( 
+    witness21 = forms.CharField( 
         widget = forms.TextInput(
             attrs = {'placeholder': 'Beneficiary witness CNI',
                     'id':'', 
                     'class': 'form-control'}),
         label = 'Beneficiary witness CNI 1')
 
-    cnis22 = forms.CharField(
+    witness22 = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder': 'Beneficiary witness CNI',
                     'id':'', 
                     'class': 'form-control'}),
         label = 'Beneficiary witness CNI 2')
 
-    search_place = forms.ModelChoiceField(
-        widget = forms.Select(
-            attrs = {'placeholder': 'Place to look for the document.', 
-                    'class': 'form-control',
-                    'id':'search_place'}),
-        label = 'Place to look for the document.',
-        queryset = Quarter.objects.all())
-        
     class Meta:
         model = Document
-        fields = ("search_place","beneficiary","property_quarter","mrs","cnis11","cnis12","cnis21","cnis22")
+        fields = ("beneficiary","property_quarter","mrs","witness11","witness12","witness21","witness22")
 
-    # def clean_beneficiary(self, *arg,**kwargs):
-    #     try:
-    #         CNI = self.cleaned_data.get("beneficiary")
-    #         comparant = Profile.objects.get(CNI=CNI)
-    #         return comparant
-    #     except:
-    #         raise forms.ValidationError("CNI does not exist")
+    def clean_beneficiary(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("beneficiary")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
 
-    # def clean_cnis11(self, *arg,**kwargs):
-    #     try:
-    #         CNI = self.cleaned_data.get("cnis11")
-    #         comparant = Profile.objects.get(CNI=CNI)
-    #         return comparant
-    #     except:
-    #         raise forms.ValidationError("CNI does not exist")
+    def clean_mrs(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("mrs")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
 
-    # def clean_cnis12(self, *arg,**kwargs):
-    #     try:
-    #         CNI = self.cleaned_data.get("cnis12")
-    #         comparant = Profile.objects.get(CNI=CNI)
-    #         return comparant
-    #     except:
-    #         raise forms.ValidationError("CNI does not exist")
+    def clean_witness11(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness11")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
 
-    # def clean_cnis21(self, *arg,**kwargs):
-    #     try:
-    #         CNI = self.cleaned_data.get("cnis21")
-    #         comparant = Profile.objects.get(CNI=CNI)
-    #         return comparant
-    #     except:
-    #         raise forms.ValidationError("CNI does not exist")
+    def clean_witness12(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness12")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
 
-    # def clean_cnis22(self, *arg,**kwargs):
-    #     try:
-    #         CNI = self.cleaned_data.get("cnis22")
-    #         comparant = Profile.objects.get(CNI=CNI)
-    #         return comparant
-    #     except:
-    #         raise forms.ValidationError("CNI does not exist")
+    def clean_witness21(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness21")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
+    def clean_witness22(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("witness22")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
 
 class ValidationForm(forms.Form):
     cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
@@ -123,3 +124,4 @@ class ValidationForm(forms.Form):
     cni = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI '}),
         label='numero CNI', required=False)
+        

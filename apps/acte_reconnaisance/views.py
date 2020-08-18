@@ -15,6 +15,7 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "acte_reco_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
+		validation_form = ValidationForm()
 		documents = Document.objects.all()
 		isInProfile = get_object_or_404(Profile,user=request.user)
 		isSecretary = ZonePersonnel.objects.filter(profile=isInProfile, user_level=2)
@@ -26,6 +27,7 @@ class SecretaryView(LoginRequiredMixin, View):
 	template_name = "acte_reco_secr_edit.html"
 
 	def get(self, request, document_id, *args, **kwargs):
+		validation_form = ValidationForm()
 		acte_reconnais = get_object_or_404(Document, id=document_id)
 		profiles = get_object_or_404(Profile, user=request.user)
 		isSecretary = ZonePersonnel.objects.filter(profile=profiles, user_level=2)
@@ -34,20 +36,31 @@ class SecretaryView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		acte_reconnais = get_object_or_404(Document, id=document_id)
-		if "reject" in request.POST:
-			acte_reconnais.rejection_msg = request.POST["rejection_msg"]
-			acte_reconnais.secretary_validated = True
-			acte_reconnais.save()
-			messages.success(request, "Action is done!")
-			return redirect(BASE_NAME+'_secr_list')
+		validation_form = ValidationForm(request.POST)
+		print(request)
+		if(validation_form.is_valid()):
+			document = get_object_or_404(Document, id=document_id)
+			if "reject" in request.POST:
+				document.secretary_validated=False
+				notification = "acte de reconnaissance yanyu yanswe. imvo: "
+				notification+="\n- ifoto ya karangamuntu " if validation_form.cleaned_data["cni_recto"] or validation_form.cleaned_data["cni_verso"] else ""
+				notification+="\n- ibibaranga bihushanye na karangamuntu " if validation_form.cleaned_data["cni"] else ""
+				notification+="\n- amakuru yo kuriha " if validation_form.cleaned_data["payment"] else ""
+				document.rejection_msg=notification
+				document.save()
+				Notification(user=document.user, message=notification).save()
 
-		if "cancel" in request.POST:
-			pass
-		if "validate" in request.POST:
-			acte_reconnais.secretary_validated = True
-			acte_reconnais.save()
-			return redirect(BASE_NAME+'_secr_list')
+			if "ready" in request.POST:
+				document.ready=True
+				notification = "acte de reconnaissance yanyu yatunganye. murashobora kuza kuyitora mwibangikanije "
+				notification += " ".join([x for x in Document.requirements()])
+				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
+
+			if "valid" in request.POST:
+				document.secretary_validated = True
+				document.save()
+				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
 class DocumentListView(LoginRequiredMixin, View):
@@ -71,67 +84,19 @@ class DocumentFormView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones
 		profiles = get_object_or_404(Profile, user=request.user ) 
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
 			if form.is_valid():
 				preview = True
-				cni_t11 = form.cleaned_data["cnis11"]
-				cni_t12 = form.cleaned_data["cnis12"]
-				cni_t21 = form.cleaned_data["cnis13"]
-				cni_t22 = form.cleaned_data["cnis14"]
-
-				check_cni_t11 = get_object_or_404(Profile, CNI=cni_t11)
-				check_cni_t12 = get_object_or_404(Profile, CNI=cni_t12)
-				check_cni_t13 = get_object_or_404(Profile, CNI=cni_t21)
-				check_cni_t14 = get_object_or_404(Profile, CNI=cni_t22)
-				
-				
+				acte_reconnais = form.save(commit=False)
+				acte_reconnais.user = request.user
 		if "cancel" in request.POST:
 			preview = False
 		if "submit" in request.POST:
 			if form.is_valid():
-				cni_t11 = form.cleaned_data["cnis11"]
-				cni_t12 = form.cleaned_data["cnis12"]
-				cni_t21 = form.cleaned_data["cnis13"]
-				cni_t22 = form.cleaned_data["cnis14"]
-
-				check_cni_t11 = get_object_or_404(Profile, CNI=cni_t11)
-				check_cni_t12 = get_object_or_404(Profile, CNI=cni_t12)
-				check_cni_t13 = get_object_or_404(Profile, CNI=cni_t21)
-				check_cni_t14 = get_object_or_404(Profile, CNI=cni_t22)
-
 				acte_reconnais = form.save(commit=False)
 				acte_reconnais.user = request.user
-				acte_reconnais.zone = profiles.quarter.zone
-				acte_reconnais.residence_quarter = profiles.residence
-				acte_reconnais.witness1 = str(check_cni_t11.user.last_name+" "+check_cni_t11.user.first_name)
-				acte_reconnais.witness2 = str(check_cni_t12.user.last_name+" "+check_cni_t12.user.first_name)
-				acte_reconnais.day_month_year = form.cleaned_data['day_month_year']
-				acte_reconnais.work = profiles.job
-				acte_reconnais.wife = str(check_cni_t14.user.last_name+" "+check_cni_t14.user.first_name)
-				acte_reconnais.wife_age = 2020 - check_cni_t14.birthdate.year
-				acte_reconnais.wife_work = check_cni_t14.job
-				acte_reconnais.wife_province = check_cni_t14.residence.zone.commune.province
-				acte_reconnais.witness_work1 = check_cni_t11.job
-				acte_reconnais.witness_work2 = check_cni_t12.job
-				acte_reconnais.witness_province1 = check_cni_t11.residence.zone.commune.province
-				acte_reconnais.witness_province2 = check_cni_t12.residence.zone.commune.province
-				acte_reconnais.witness_age1 = 2020 - check_cni_t11.birthdate.year
-				acte_reconnais.witness_age2 = 2020 - check_cni_t12.birthdate.year
-				acte_reconnais.child = str(check_cni_t13.user.last_name+" "+check_cni_t13.user.first_name)
-				acte_reconnais.child_date = form.cleaned_data['child_date']
-				acte_reconnais.child_age = 2020 - check_cni_t13.birthdate.year
-				acte_reconnais.witness_nationality1 = check_cni_t11.nationnalite
-				acte_reconnais.witness_nationality2 = check_cni_t12.nationnalite
-				acte_reconnais.wife_nationality = check_cni_t14.nationnalite
-				acte_reconnais.witness_gender1 = check_cni_t11.gender
-				acte_reconnais.witness_gender2 = check_cni_t12.gender
-				acte_reconnais.child_gender3 = check_cni_t13.gender
-				acte_reconnais.wife_gender3 = check_cni_t14.gender
-				
 				acte_reconnais.save()
 				return redirect("../payform/"+str(acte_reconnais.id))
 			return render(request, self.template_name, locals())
@@ -157,7 +122,7 @@ class DocumentPayView(LoginRequiredMixin, View):
 		form = PaymentZoneForm(request.POST, request.FILES)
 		if form.is_valid():
 			zone_payment = form.save(commit=False)
-			zone_payment.place = document.zone
+			zone_payment.place = document.search_place.zone
 			zone_payment.save()
 			document.zone_payment = zone_payment
 			document.save()

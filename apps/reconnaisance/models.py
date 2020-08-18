@@ -6,8 +6,6 @@ from apps.base.date_conversion import lireDate
 
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="recon_user", null=True, on_delete=models.SET_NULL)
-	zone = models.ForeignKey(Zone, related_name="recon_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	residence_quarter = models.ForeignKey(Quarter, related_name="recon_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
@@ -15,7 +13,7 @@ class Document(models.Model):
 	zone_payment = models.ForeignKey(PaymentZone, related_name="recon_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	association = models.CharField(max_length=100, null=True)
 	start_year = models.CharField(max_length=4, null=True)
-
+	association_quarter = models.ForeignKey(Quarter, related_name="recon_association_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -42,7 +40,7 @@ class Document(models.Model):
 		return 100 if self.secretary_validated != None else 0
 
 	def __str__(self):
-		return f"{self.user} {self.zone}"
+		return f"{self.user} {self.association_quarter.zone}"
 
 class PriceHistory(models.Model):
 	date = models.DateField()

@@ -15,6 +15,7 @@ BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 class SecretaryListView(LoginRequiredMixin, View):
 	template_name = "reconnaisance_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
+		validation_form = ValidationForm()
 		documents = Document.objects.all()
 		isInProfile = get_object_or_404(Profile,user=request.user)
 		isSecretary = ZonePersonnel.objects.filter(profile=isInProfile, user_level=2)
@@ -26,6 +27,7 @@ class SecretaryView(LoginRequiredMixin, View):
 	template_name = "reconnaisance_secr_edit.html"
 
 	def get(self, request, document_id, *args, **kwargs):
+		validation_form = ValidationForm()
 		reconnais = get_object_or_404(Document, id=document_id)
 		profiles = get_object_or_404(Profile, user=request.user)
 		isSecretary = ZonePersonnel.objects.filter(profile=profiles, user_level=2)
@@ -34,20 +36,31 @@ class SecretaryView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, document_id, *args, **kwargs):
-		reconnais = get_object_or_404(Document, id=document_id)
-		if "reject" in request.POST:
-			reconnais.rejection_msg = request.POST["rejection_msg"]
-			reconnais.secretary_validated = True
-			reconnais.save()
-			messages.success(request, "Action is done!")
-			return redirect(BASE_NAME+'_secr_list')
+		validation_form = ValidationForm(request.POST)
+		print(request)
+		if(validation_form.is_valid()):
+			document = get_object_or_404(Document, id=document_id)
+			if "reject" in request.POST:
+				document.secretary_validated=False
+				notification = "attestation de reconnaissance yanyu yanswe. imvo: "
+				notification+="\n- ifoto ya karangamuntu " if validation_form.cleaned_data["cni_recto"] or validation_form.cleaned_data["cni_verso"] else ""
+				notification+="\n- ibibaranga bihushanye na karangamuntu " if validation_form.cleaned_data["cni"] else ""
+				notification+="\n- amakuru yo kuriha " if validation_form.cleaned_data["payment"] else ""
+				document.rejection_msg=notification
+				document.save()
+				Notification(user=document.user, message=notification).save()
 
-		if "cancel" in request.POST:
-			pass
-		if "validate" in request.POST:
-			reconnais.secretary_validated = True
-			reconnais.save()
-			return redirect(BASE_NAME+'_secr_list')
+			if "ready" in request.POST:
+				document.ready=True
+				notification = "attestation de reconnaissance yanyu yatunganye. murashobora kuza kuyitora mwibangikanije "
+				notification += " ".join([x for x in Document.requirements()])
+				Notification(user=document.user, message=notification).save()
+				return redirect(BASE_NAME+"_secr_list")
+
+			if "valid" in request.POST:
+				document.secretary_validated = True
+				document.save()
+				return redirect(BASE_NAME+'_secr_list')
 		return render(request, self.template_name, locals())
 
 class DocumentListView(LoginRequiredMixin, View):
@@ -65,8 +78,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 	zones = Zone.objects.all()
 
 	def get(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm()
 		return render(request, self.template_name, locals())
 
@@ -83,14 +94,12 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				reconnais = form.save(commit=False)
 				reconnais.user = request.user
-				reconnais.zone = form.cleaned_data['residence_quarter'].zone
 				reconnais.save()
 				return redirect("../payform/"+str(reconnais.id))
 			return render(request, self.template_name, locals())
 		if form.is_valid():
 			reconnais = form.save(commit=False)
 			reconnais.user = request.user
-			reconnais.zone = form.cleaned_data['residence_quarter'].zone
 		return render(request, self.template_name, locals())
 
 
@@ -111,7 +120,7 @@ class DocumentPayView(LoginRequiredMixin, View):
 		form = PaymentZoneForm(request.POST, request.FILES)
 		if form.is_valid():
 			zone_payment = form.save(commit=False)
-			zone_payment.place = document.zone
+			zone_payment.place = document.association_quarter.zone
 			zone_payment.save()
 			document.zone_payment = zone_payment
 			document.save()

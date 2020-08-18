@@ -66,47 +66,48 @@
 						<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
 						<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
 						<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-						<strong>MUNICIPALITE DE {{ cession.zone.commune.province }}</strong><br/>
-						<strong>COMMUNE URBAINE DE {{ cession.zone.commune }}</strong><br/>
-						<strong><u>ZONE DE {{ cession.zone.name }}</u></strong><br/>
-						<p style="text-align: center;"><strong><u>ATTESTATION D&rsquo;IDENTITE COMPLETE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+						<strong>MUNICIPALITE DE {{ cession.property_quarter.zone.commune.province.name|upper }}</strong><br/>
+						<strong>COMMUNE URBAINE DE {{ cession.property_quarter.zone.commune.name|upper }}</strong><br/>
+						<strong><u>ZONE DE {{ cession.property_quarter.zone.name|upper }}</u></strong><br/>
+						<p style="text-align: center;"><strong><u>ATTESTATION D&rsquo;CESSION DE PARCELLE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 						<p>&nbsp;</p>
-						<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.zone.leaderFullName }}, Chef de Zone {{ cession.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %}
-						Monsieur {% else %} Madame {% endif %} {{ cession.user.first_name }} {{ cession.user.last_name }},
+						<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ cession.property_quarter.zone.leaderFullName }}, Chef de Zone {{ cession.property_quarter.zone.name }}, atteste par la pr&eacute;sente que {% if user.profile.gender == 'H' %}
+						Monsieur {% else %} Madame {% endif %} {{ user.profile.fullName }},
 						{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ cession.user.profile.father|default:"sans" }} et de {{ cession.user.profile.mother|default:"sans" }},
-						originaire de la Colline {{ profiles.quarter.name }}, Commune {{ cession.zone.commune.name }},
-						Province {{ cession.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ cession.residence_quarter.zone.commune.province.name }} à l’adresse ci-après :
-						Cellule {{ cession.residence_quarter.name }} a cédé sa parcelle sise à cellule {{ cession.property_quarter.name }} à  {{ cession.beneficiary }} , fils de
-						{{ cession.user.first_name }} {{ cession.user.last_name }} et de {{ cession.mrs }}, originaire de la Colline {{ cession.beneficiary_residence_zone.name }},
-						Commune {{ cession.beneficiary_residence_zone.commune.name }} , Province {{ cession.beneficiary_residence_zone.commune.province.name }} ,
-						résidant actuellement dans la Municipalité de {{ cession.beneficiary_residence_zone.commune.province.name }} à l’adresse ci-après : {{ cession.beneficiary_residence_zone.name }}, Q. {{ cession.beneficiary_residence_quarter.name }}
-				
+						originaire de la Colline {{ user.profile.quarter.name }}, Commune {{ user.profile.quarter.zone.commune.name }},
+						Province {{ user.profile.quarter.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ user.profile.residence.zone.commune.province.name }} à l’adresse ci-après :
+						Cellule {{ user.profile.residence.name }} a cédé sa parcelle sise à cellule {{ cession.property_quarter.name }} à  {{ cession.beneficiary.fullName }} , 
+						{% if user.profile.gender == 'F' %} fille {% else %} fils {% endif %} de
+						{{ cession.user.fullName }} et de {{ cession.mrs.fullName }}, originaire de la Colline {{ cession.beneficiary.quarter.zone.name }},
+						Commune {{ cession.beneficiary.quarter.zone.commune.name }} , Province {{ cession.beneficiary.quarter.zone.commune.province.name }} ,
+						résidant actuellement dans la Municipalité de {{ cession.beneficiary.residence.zone.commune.province.name }} à l’adresse ci-après :
+						{{ cession.beneficiary.residence.zone.name }}, Q. {{ cession.beneficiary.residence.name }}
 				
 						<p>&emsp;&emsp;&emsp;Cette cession a eu lieu en présence des témoins ci-après :</p>
 				
 						<div class="row">
 							<div class="col-6">
 								<b><u>LE CESSIONNAIRE</u></b> <br>
-								{{ cession.user.first_name }} {{ cession.user.last_name }} <br> <br>
+								{{ user.profile.fullName }} <br> <br>
 								<b><u>LES TEMOINS</u></b> <br>
-								1. {{ cession.witness11 }} <br>
-								CNI : {{ cession.cnis11 }} <br>
-								2. {{ cession.witness12 }} <br>
-								CNI : {{ cession.cnis12 }} <br>
-								<b>LE CHEF DE QUARTIER {{ cession.residence_quarter.name|upper }}</b>
-								{{ cession.quarter.leaderFullName }}
+								1. {{ cession.witness11.fullName }} <br>
+								CNI : {{ cession.witness11.CNI }} <br>
+								2. {{ cession.witness12.fullName }} <br>
+								CNI : {{ cession.witness12.CNI }} <br>
+								<b>LE CHEF DE QUARTIER {{ cession.property_quarter.name|upper }}</b>
+								{{ cession.property_quarter.leaderFullName }}
 							</div>
 							<div class="col-6">
 								<b><u>LE BENEFICIAIRE</u></b> <br>
-								{{ cession.beneficiary }} <br> <br>
+								{{ cession.beneficiary.fullName }} <br> <br>
 								<b><u>LES TEMOINS</u></b> <br>
-								1. {{ cession.witness21 }} <br>
-								CNI : {{ cession.cnis21 }} <br>
-								2. {{ cession.witness22 }} <br>
-								CNI : {{ cession.cnis22 }} <br>
-								<p style="text-align: center;"><strong>Fait &agrave; {{ cession.zone.commune.province }}, le {{ cession.date|date:'d/m/Y' }}</strong></p>
-								<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.zone.name|upper }}</strong></p>
-								<p style="text-align: center;"><strong>{{ cession.zone.leaderFullName }}</strong></p>
+								1. {{ cession.witness21.fullName }} <br>
+								CNI : {{ cession.witness21.CNI }} <br>
+								2. {{ cession.witness22.fullName }} <br>
+								CNI : {{ cession.witness22.CNI }} <br>
+								<p style="text-align: center;"><strong>Fait &agrave; {{ cession.property_quarter.zone.commune.province }}, le {{ cession.date|date:'d/m/Y' }}</strong></p>
+								<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ cession.property_quarter.zone.name|upper }}</strong></p>
+								<p style="text-align: center;"><strong>{{ cession.property_quarter.zone.leaderFullName }}</strong></p>
 							</div>
 						</div>
 					</div>
@@ -119,7 +120,7 @@
 					<button type="submit" class="btn btn-outline-primary" name="valid" value="valid">
 						<i class="ft-eye"></i> Approuver
 					</button>
-					<button type="submit" class="btn btn-outline-success" name="preview" value="preview">
+					<button type="submit" class="btn btn-outline-success" id="print-button" name="preview" value="preview">
 						<i class="ft-eye"></i> Imprimer
 					</button>
 					<button type="submit" class="btn btn-outline-warning" name="ready" value="ready">
@@ -135,13 +136,13 @@
 </div>
 
 <template id="poprejeter">
-		<form id="myform" role="form" method="POST" action=".">
-			{% csrf_token %} 
-			{{ validation_form.as_p }}
-			<input type="submit" name="reject" value="rejeter" class="btn btn-outline-warning"/>
-			<input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
-		</form>
-	</template>
+	<form id="myform" role="form" method="POST" action=".">
+		{% csrf_token %} 
+		{{ validation_form.as_p }}
+		<input type="submit" name="reject" value="rejeter" class="btn btn-outline-warning"/>
+		<input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
+	</form>
+</template>
 	
 	<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 	<script type="text/javascript">

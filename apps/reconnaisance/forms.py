@@ -4,12 +4,12 @@ from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
         
-    residence_quarter = forms.ModelChoiceField(
+    association_quarter = forms.ModelChoiceField(
         widget = forms.Select(
-            attrs = {'placeholder': 'Work Quarter', 
+            attrs = {'placeholder': 'Association Quarter', 
                     'class': 'form-control',
                     'id':'residence_quarter'}),
-        label = 'Work Quarter',
+        label = 'Association Quarter',
         queryset = Quarter.objects.all())
         
     association = forms.CharField(
@@ -26,8 +26,16 @@ class DocumentForm(forms.ModelForm):
     
     class Meta:
         model = Document
-        fields = ("residence_quarter", "association", "start_year")
+        fields = ("association_quarter", "association", "start_year")
         
+    def clean_association_quarter(self, *arg,**kwargs):
+        try:
+            CNI = self.cleaned_data.get("association_quarter")
+            comparant = Profile.objects.get(CNI=CNI)
+            return comparant
+        except:
+            raise forms.ValidationError("CNI does not exist")
+
 class ValidationForm(forms.Form):
     cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
         label='CNI recto', required=False)

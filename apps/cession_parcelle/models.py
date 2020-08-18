@@ -7,36 +7,19 @@ from apps.base.date_conversion import lireDate
 class Document(models.Model):
 	user = models.ForeignKey(User, related_name="cession_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="cession_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	residence_quarter = models.ForeignKey(Quarter, related_name="cession_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date = models.DateField(default=timezone.now)
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="cession_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
-	mrs = models.CharField(max_length=64, null=True)
+	mrs = models.ForeignKey(Profile, related_name="cession_mrs", null=True, on_delete=models.SET_NULL)
+	beneficiary = models.ForeignKey(Profile, related_name="cession_beneficiary", null=True, on_delete=models.SET_NULL)
 	
-	# beneficiary = models.ForeignKey(Profile, related_name="cession_beneficiary", null=True, on_delete=models.SET_NULL)
-	beneficiary = models.CharField(max_length=64, null=True, blank=True)
-	
-	beneficiary_father = models.CharField(max_length=64,null=True)
-	beneficiary_mother = models.CharField(max_length=64,null=True)
-	beneficiary_residence_zone = models.ForeignKey(Zone, related_name="cession_res_zone", max_length=64, null=True, on_delete=models.SET_NULL)
-	beneficiary_residence_quarter = models.ForeignKey(Quarter, related_name="cession_res", max_length=64, null=True, on_delete=models.SET_NULL)
 	property_quarter = models.ForeignKey(Quarter, related_name="cession_property_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
-	witness11 = models.CharField(max_length=64, null=True, blank=True)
-	witness12 = models.CharField(max_length=64, null=True, blank=True)
-	witness21 = models.CharField(max_length=64, null=True, blank=True)
-	witness22 = models.CharField(max_length=64, null=True, blank=True)
-	cnis11 = models.CharField(max_length=64, null=True, blank=True)
-	cnis12 = models.CharField(max_length=64, null=True, blank=True)
-	cnis21 = models.CharField(max_length=64, null=True, blank=True)
-	cnis22 = models.CharField(max_length=64, null=True, blank=True)
-	giver_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
-	giver_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
-	benficiary_witness_residence1 = models.CharField(max_length=64, null=True, blank=True)
-	benficiary_witness_residence2 = models.CharField(max_length=64, null=True, blank=True)
-	search_place = models.ForeignKey(Quarter, related_name="cession_search", max_length=64, null=True, on_delete=models.SET_NULL)
-
+	witness11 = models.ForeignKey(Profile, related_name="cession_witness11", null=True, on_delete=models.SET_NULL)
+	witness12 = models.ForeignKey(Profile, related_name="cession_witness12", null=True, on_delete=models.SET_NULL)
+	witness21 = models.ForeignKey(Profile, related_name="cession_witness21", null=True, on_delete=models.SET_NULL)
+	witness22 = models.ForeignKey(Profile, related_name="cession_witness22", null=True, on_delete=models.SET_NULL)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]

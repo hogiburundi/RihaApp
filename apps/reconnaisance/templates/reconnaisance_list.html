@@ -30,7 +30,7 @@
             <tbody>
             {% for document in documents %}
                 <tr class="document-item" data-id="{{ document.id }}">
-                    <td class="text-truncate">{{ document.residence_quarter }}</td>
+                    <td class="text-truncate">{{ document.association_quarter }}</td>
                     <td class="text-truncate">
                         <a href="{% url payform  document.id  %}">
                         <div class="progress progress-sm mt-1 mb-0 box-shadow-2">

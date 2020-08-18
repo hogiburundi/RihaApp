@@ -52,10 +52,10 @@
 						<strong><u>ZONE DE {{ prise_charge.search_place.zone.name|upper }}</u></strong><br/>
 						<p style="text-align: center;"><strong><u>ATTESTATION DE PRISE EN CHARGE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 						<p>&nbsp;</p>
-						<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ prise_charge.search_place.zone.leaderFullName }}, Chef de Zone {{ prise_charge.search_place.zone.name }}, atteste par la pr&eacute;sente que {% if profiles.gender == 'H' %} le nommé {% else %} la nommée {% endif %} {{ prise_charge.user.first_name }} {{ prise_charge.user.last_name }},
-								{% if profiles.gender == 'H' %} fils {% else %} fille {% endif %} de {{ prise_charge.user.profile.father|default:"sans" }} et de {{ prise_charge.user.profile.mother|default:"sans" }}, originaire de la Colline {{ profiles.quarter.name }}, Commune {{ profiles.quarter.zone.commune.name }},
-									Province {{ profiles.quarter.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ profiles.residence.zone.commune.province.name }},
-									est prise en charge par Monsieur  {{ prise_charge.mr }} et Madame  {{ prise_charge.mrs }}, résidant actuellement dans la Municipalité de {{ prise_charge.search_place.zone.commune.province.name }} à l’adresse ci-après : Zone {{ prise_charge.search_place.zone.name }} , Q. {{ prise_charge.search_place.name }}.
+						<p style="text-align: justify;">&emsp;&emsp;&emsp;Je soussign&eacute;, {{ prise_charge.search_place.zone.leaderFullName }}, Chef de Zone {{ prise_charge.search_place.zone.name }}, atteste par la pr&eacute;sente que {% if user.profile.gender == 'H' %} le nommé {% else %} la nommée {% endif %} {{ user.profile.fullName }},
+								{% if user.profile.gender == 'H' %} fils {% else %} fille {% endif %} de {{ user.profile.father|default:"sans" }} et de {{ user.profile.mother|default:"sans" }}, originaire de la Colline {{ user.profile.quarter.name }}, Commune {{ user.profile.quarter.zone.commune.name }},
+									Province {{ user.profile.quarter.zone.commune.province.name }}, résidant actuellement dans la Municipalité de {{ profiles.residence.zone.commune.province.name }},
+									est prise en charge par Monsieur  {{ user.profile.fullName }} et Madame  {{ prise_charge.mrs.fullName }}, résidant actuellement dans la Municipalité de {{ prise_charge.search_place.zone.commune.province.name }} à l’adresse ci-après : Zone {{ prise_charge.search_place.zone.name }} , Q. {{ prise_charge.search_place.name }}.
 					
 										<br><br>
 										&emsp;&emsp;&emsp;La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour servir et faire valoir ce que de droit.</p>

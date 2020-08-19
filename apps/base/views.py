@@ -147,9 +147,7 @@ class Register(View):
 				firstname = form.cleaned_data['firstname']
 				lastname = form.cleaned_data['lastname']
 				password = form.cleaned_data['password']
-				user = User.objects.create_user(
-					username=username,
-					password=password)
+				user = User.objects.create_user(username=username,password=password)
 				user.first_name, user.last_name = firstname, lastname
 				user.save()
 				profile = Profile(user=user)

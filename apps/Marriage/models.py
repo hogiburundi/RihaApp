@@ -7,7 +7,6 @@ from apps.base.date_conversion import lireDate
 
 
 class Document(models.Model):
-	name_apps          = models.CharField(max_length = 50, default = "Attestation de marriage")
 	user = models.ForeignKey(User, related_name="marriage_user", null=True, on_delete=models.SET_NULL)
 	
 

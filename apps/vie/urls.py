@@ -11,4 +11,7 @@ urlpatterns = [
     path('secretary/', views.SecretaryListView.as_view(), name=BASE_NAME+'_secr_list'),
     path('secretary/<document_id>', views.SecretaryView.as_view(), name=BASE_NAME+'_secr_edit'),
 	path('secretary/pay/<document_id>', views.SecretaryPayView.as_view(), name=BASE_NAME+'_secr_pay'),
+    path('update/<id>', views.update_document, name=BASE_NAME+'_secr_list'),
+    path('delete/<document_id>', views.delete_document, name = "delete"),
 ]
+

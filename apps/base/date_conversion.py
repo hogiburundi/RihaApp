@@ -46,6 +46,8 @@ def lireTout(x):
 def lireDate(x):
 	return f"l'an {lireTout(x.year)}, le {ordinal[x.day]} jour du mois de {mois[x.month]}"
 
+def lireAge(x):
+	return f'{cardinal[x.year]}'
 if __name__ == '__main__':
 	from datetime import date
 	today = date.today()

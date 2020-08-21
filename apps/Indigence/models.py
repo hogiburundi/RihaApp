@@ -5,12 +5,11 @@ from apps.base.models import *
 
 
 class Document(models.Model):
-	name_apps          = models.CharField(max_length = 50, default = "Attestation d'indigence")
 	user = models.ForeignKey(User, related_name="indigence_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="indigence_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="indigence_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date_delivrated    = models.DateField(default=timezone.now)
-	sous_couvert      = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = 'temoin')
+	sous_couvert      = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name = 'temoin')
 	rejection_msg = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready = models.BooleanField(default=False)

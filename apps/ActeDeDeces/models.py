@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from apps.base.models import *
+# from .date import lireAge
 from apps.base.date_conversion import lireDate
 # import inflect
 from datetime import date
@@ -9,7 +10,6 @@ from datetime import date
 
 
 class Document(models.Model):
-	name_apps          = models.CharField(max_length = 50, default = "Attestation d'acte de deces")
 	user = models.ForeignKey(User, related_name="acte_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="acte_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="acte_residence", max_length=64, null=True, on_delete=models.SET_NULL)
@@ -56,19 +56,14 @@ class Document(models.Model):
 	def dateString(self):
 		return lireDate(self.date)
 
-
-	# def ageString(self): 
-	# 	age_user = date.today().year - birthdate.year
-		
-	# 	p = inflect.engine()
-	# 	return p.number_to_words(self.age_user)
-	# 	return age_user
-
-	def ageString(self):
-		p = inflect.engine()
-		return p.number_to_words(self.date)
+	def Age(self):
+		x = date.today().year
+		y = self.user.profile.birthdate
+		z = x-y
+		return lireAge(self.z)
 
 
+	
 
 class PriceHistory(models.Model):
 	date = models.DateField()

@@ -4,6 +4,8 @@ from django.views.generic import CreateView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
+from django.forms import formset_factory
+
 from .forms import *
 from apps.base.forms import *
 from .models import *
@@ -75,16 +77,16 @@ class DocumentPayView(LoginRequiredMixin, View):
 
 class DocumentView(LoginRequiredMixin, View):
 	template_name = "composition_form.html"
-	heading_message = 'Attestation de Composition Familliale'
-	
-	
 
 	def get(self, request, *args, **kwargs):
-		form = DocumentForm(initial = {'residence_quarter': request.user.profile.residence })
+		children = Child.childrenOf(request.user.profile)
+		form_set=formset_factory(ChildForm)
+		form = DocumentForm(initial = {'quarter': request.user.profile.residence })
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
 		form = DocumentForm(request.POST)
+		form_set=formset_factory(ChildForm)
 		if "preview" in request.POST:
 			preview = True
 		if "cancel" in request.POST:
@@ -94,16 +96,17 @@ class DocumentView(LoginRequiredMixin, View):
 				composition = form.save(commit=False)
 				composition.user = request.user
 				composition.save()
+				formset=form_set(request.POST)
+				if formset.is_valid():
+					for childform in formset:
+						child = childform.save(commit=False)
+						print(child.date)
+						this = request.user.profile
+						child.mother = this if this.gender == "F" else composition.conjoint
+						child.father = this if this.gender == "H" else composition.conjoint
+						child.save()
 				return redirect(BASE_NAME+"_payform", composition=composition.id)
-			return render(request, self.template_name, locals())
-		if form.is_valid():
-			composition = form.save(commit=False)
-			composition.user = request.user
 		return render(request, self.template_name, locals())
-
-
-
-
 
 class DocumentChildView(LoginRequiredMixin, View):
 	template_name = 'child_form.html'

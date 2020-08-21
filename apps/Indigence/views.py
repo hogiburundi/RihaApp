@@ -123,3 +123,37 @@ class DocumentPayView(LoginRequiredMixin, View):
 		print(form)
 		return render(request, self.template_name, locals())
 
+
+
+def delete_document(request, document_id):
+    document_id = int(document_id)
+    try:
+        document = get_object_or_404(Document, id=document_id)
+    except Document.DoesNotExist:
+        return redirect(BASE_NAME+"_list")
+
+    document.delete()
+    return redirect(BASE_NAME+"_list")
+
+
+
+def update_document(request, id): 
+    context ={} 
+
+    document = get_object_or_404(Document, id = id) 
+
+    form1 = DocumentForm(request.POST or None, instance = document) 
+    if request.user == document.user:
+        if form1.is_valid():
+            form = form1.save(commit = False)
+            form.user = request.user
+            form.save() 
+            # messages.success(request, "Document modifie avec Succes ! ")
+            return redirect(BASE_NAME+"_list")
+
+
+    context["form"] = form1 
+    return render(request, "indigent_update_form.html", context) 
+
+
+

@@ -106,7 +106,7 @@
 					</div>
 				</div>
 				{% endif %}
-				<form method="post" enctype="multipart/form-data" class="new-added-form">
+				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
 						{% for fo in form %}
@@ -117,16 +117,9 @@
 						{% endfor %}
 						
 				</div>
-					{% if preview %}
 					<button input type="submit" class="btn btn-outline-danger mt-1 ml-1" name="cancel" value="cancel">
-					<i class="ft-corner-up-left"></i> Retour 
-				</button>
-					{% else %}
-					<button id="preview" type="submit" class="btn btn-outline-warning mt-1" name="preview" value="preview">
-						<i class="ft-eye"></i> Preview
-					</button>
-
-					{% endif %}
+                        <i class="ft-corner-up-left"></i> Retour 
+                    </button>
 					<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
 						<i class="ft-navigation"></i>Envoyer</a>
 					</button>

@@ -80,7 +80,7 @@
 						</div>
 					</div>
 					{% endif %}
-				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+				<form method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
 					{% for fo in form %}
@@ -94,9 +94,8 @@
 					<button input type="submit" class="btn btn-outline-danger mt-1 ml-1" name="cancel" value="cancel">
 						<i class="ft-corner-up-left"></i> Retour 
 					</button>
-					
 					<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
-						<i class="ft-navigation"></i>Envoyer</a>
+						<i class="ft-navigation"></i>Modifier</a>
 					</button>
 				</form>
 			</div> <!-- End card body -->
@@ -107,5 +106,6 @@
 <script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
 <script>
 	$('#association_quarter').chosen({ width: '100%' });
+	$('#mr_mrs_quarter').chosen({ width: '100%' });
 </script>
 {% endblock %}

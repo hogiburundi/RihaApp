@@ -1,0 +1,61 @@
+{% extends 'pages/riha-base.html' %}
+{% load static %}
+
+{% block main-content %}
+
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<div class="row"> <!-- begin global row -->
+
+	<div class="col-xl-3 col-md-12"><!-- begin left  column -->
+		<div class="card">
+			<div class="card-body">
+				<div class="category-title pb-1">
+					<h6 class="text-center font-medium-1 text-bold-800 text-info">
+						<i class="ft-corner-left-down"></i> Requirements
+					</h6>
+				</div>
+
+				<div>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
+						</li>
+					</ul>
+				</div>                          
+			</div> 
+		</div>             
+	</div> <!-- end left  column --> 
+	<div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+		<div class="card border-info border-lighten-1"> <!-- begin card -->
+			<div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+				<h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i>Prise en charge</h1>
+			</div>
+			<div class="card-body">
+				<i class="ml-1">Etes-vous sur de vouloir supprimer ce document ?</i>
+				<form method="post" enctype="multipart/form-data" class="new-added-form">
+					{% csrf_token %}
+					<a href="#" class="btn btn-outline-secondary mt-1 ml-1"> <i class="ft-corner-up-left"></i> Retour</a>
+					
+					<button type="submit" class="btn btn-outline-danger mt-1" name="submit" value="submit">
+						<i class="ft-navigation"></i>Supprimer</a>
+					</button>
+				</form>
+			</div> <!-- End card body -->
+		</div>	
+	</div>
+</div>
+<script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'src/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
+<script>
+	$('#search_place').chosen({ width: '100%' });
+</script>
+{% endblock %}

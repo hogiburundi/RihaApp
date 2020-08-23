@@ -9,6 +9,7 @@ from apps.base.forms import *
 from apps.base.models import *
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 
@@ -74,16 +75,12 @@ class DocumentListView(LoginRequiredMixin, View):
 
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "vente_parcelle_form.html"
-	quarters = Quarter.objects.all()
-	zones = Zone.objects.all()
 
 	def get(self, request, *args, **kwargs):
 		form = DocumentForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones
 		profiles = get_object_or_404(Profile, user=request.user )
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
@@ -140,4 +137,33 @@ class SecretaryPayView(LoginRequiredMixin, View):
 		modal_mode = False
 		vente_parcelle = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
+
+@login_required
+def delete_Vente_Document(request,document_id, usid):
+	get_doc = get_object_or_404(Document, pk = document_id, user = usid)
+	if get_doc.user == request.user:
+		if request.method == "POST":
+			get_doc.delete()
+			messages.success(request, "Document deleted successfully!")
+			return redirect(BASE_NAME + "_list")
+	else:
+		messages.error(request, "Attention!!! Vos actions sont interdites.")
+		return redirect(BASE_NAME + "_list")
+	return render( request, 'delete_vente.html', locals() )
+
+@login_required
+def update_Vente_Document(request, document_id, usid):
+	get_doc = get_object_or_404(Document, pk = document_id, user = usid)
+	form = DocumentForm(request.POST or None, request.FILES, instance=get_doc)
+	if get_doc.user == request.user:
+		if request.method == "POST":
+			if form.is_valid():
+				get_doc.save()
+				messages.success(request, "Document is updated successfully!")
+				return redirect(BASE_NAME + "_list")
+	else:
+		messages.error(request, "Attention!!! Vos actions sont interdites.")
+		return redirect(BASE_NAME + "_list")
+	form = DocumentForm(instance = get_doc)
+	return render( request, 'update_vente.html', locals() )
 

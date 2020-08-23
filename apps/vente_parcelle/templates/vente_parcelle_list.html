@@ -32,14 +32,14 @@
                 <tr class="document-item" data-id="{{ document.id }}">
                     <td class="text-truncate">{{ document.property_quarter }}</td>
                     <td class="text-truncate">
-                        <a href="{% url payform  document.id  %}">
+                        <a href="{% url payform  document.id request.user.id %}">
                         <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
                             <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.payment_percent }}%" aria-valuenow="{{ document.payment_percent }}" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
                         </div>
                         </a>
                     </td>
                     <td class="text-truncate">
-                        <a href="{% url payform  document.id  %}">
+                        <a href="{% url payform  document.id request.user.id %}">
                         <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
                             <div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: {{ document.validation_percent }}%" aria-valuenow="{{ document.validation_percent }}" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
                         </div>
@@ -58,11 +58,11 @@
                     </td>
                     <td>
                         <div>
-                            <a href="#">
+                            <a href="{% url 'delete_vente' document.id request.user.id %}">
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url 'update_vente' document.id request.user.id %}">
                                 <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
                             </a>
 

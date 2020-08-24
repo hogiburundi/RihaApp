@@ -58,11 +58,11 @@
                     </td>
                     <td>
                         <div>
-                            <a href="#">
+                            <a href="{% url 'delete_acrec' document.id request.user.id %}">
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="{% url 'update_acrec' document.id request.user.id %}">
                                 <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
                             </a>
 

@@ -9,6 +9,7 @@ from apps.base.forms import *
 from .models import *
 from apps.base.models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 BASE_NAME = os.path.split(os.path.split(os.path.abspath(__file__))[0])[1]
 
@@ -136,3 +137,31 @@ class SecretaryPayView(LoginRequiredMixin, View):
 		reconnais = get_object_or_404(Document, id=document_id)
 		return render(request, self.template_name, locals())
 
+@login_required
+def delete_Att_Rec_Document(request,document_id, usid):
+	get_doc = get_object_or_404(Document, pk = document_id, user = usid)
+	if get_doc.user == request.user:
+		if request.method == "POST":
+			get_doc.delete()
+			messages.success(request, "Document deleted successfully!")
+			return redirect(BASE_NAME + "_list")
+	else:
+		messages.error(request, "Attention!!! Vos actions sont interdites.")
+		return redirect(BASE_NAME + "_list")
+	return render( request, 'delete_att_rec.html', locals() )
+
+@login_required
+def update_Att_Rec_Document(request, document_id, usid):
+	get_doc = get_object_or_404(Document, pk = document_id, user = usid)
+	form = DocumentForm(request.POST or None, request.FILES, instance=get_doc)
+	if get_doc.user == request.user:
+		if request.method == "POST":
+			if form.is_valid():
+				get_doc.save()
+				messages.success(request, "Document is updated successfully!")
+				return redirect(BASE_NAME + "_list")
+	else:
+		messages.error(request, "Attention!!! Vos actions sont interdites.")
+		return redirect(BASE_NAME + "_list")
+	form = DocumentForm(instance = get_doc)
+	return render( request, 'update_att_rec.html', locals() )

@@ -28,13 +28,6 @@ class DocumentForm(forms.ModelForm):
         model = Document
         fields = ("association_quarter", "association", "start_year")
         
-    def clean_association_quarter(self, *arg,**kwargs):
-        try:
-            CNI = self.cleaned_data.get("association_quarter")
-            comparant = Profile.objects.get(CNI=CNI)
-            return comparant
-        except:
-            raise forms.ValidationError("CNI does not exist")
 
 class ValidationForm(forms.Form):
     cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),

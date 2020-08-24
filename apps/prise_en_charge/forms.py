@@ -31,14 +31,6 @@ class DocumentForm(forms.ModelForm):
         except:
             raise forms.ValidationError("CNI does not exist")
 
-    def clean_search_place(self, *arg,**kwargs):
-        try:
-            CNI = self.cleaned_data.get("search_place")
-            comparant = Profile.objects.get(CNI=CNI)
-            return comparant
-        except:
-            raise forms.ValidationError("CNI does not exist")
-
 class ValidationForm(forms.Form):
     cni_recto = forms.BooleanField(widget=forms.CheckboxInput(),
         label='CNI recto', required=False)
@@ -50,8 +42,8 @@ class ValidationForm(forms.Form):
         label='CNI verso ffemme', required=False)
     payment = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'le code de paiement '}),
-        label='le code de paiement', required=False)
+        label='Le code de paiement', required=False)
     cni = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'placeholder':'numero CNI femme '}),
-        label='numero CNI femme', required=False)
+        label='Numéro CNI femme', required=False)
         

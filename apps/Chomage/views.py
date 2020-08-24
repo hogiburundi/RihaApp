@@ -97,11 +97,11 @@ class DocumentFormView(LoginRequiredMixin, View):
 				chomage.user = request.user
 				chomage.save()
 				return redirect(BASE_NAME+"_payform", chomage=chomage.id)
-		# 	return render(request, self.template_name, locals())
-		# if form.is_valid():
-		# 	chomage = form.save(commit=False)
-		# 	chomage.user = request.user
-		# return render(request, self.template_name, locals())
+			return render(request, self.template_name, locals())
+		if form.is_valid():
+			chomage = form.save(commit=False)
+			chomage.user = request.user
+		return render(request, self.template_name, locals())
 
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -127,4 +127,34 @@ class DocumentPayView(LoginRequiredMixin, View):
 			document.save()
 			return redirect(BASE_NAME+"_list")
 		return render(request, self.template_name, locals())
+
+
+def delete_document(request, document_id):
+    document_id = int(document_id)
+    try:
+        document = get_object_or_404(Document, id=document_id)
+    except Document.DoesNotExist:
+        return redirect(BASE_NAME+"_list")
+
+    document.delete()
+    return redirect(BASE_NAME+"_list")
+
+
+def update_document(request, id): 
+    context ={} 
+
+    document = get_object_or_404(Document, id = id) 
+
+    form1 = DocumentForm(request.POST or None, instance = document) 
+    if request.user == document.user:
+        if form1.is_valid():
+            form = form1.save(commit = False)
+            form.user = request.user
+            form.save() 
+            # messages.success(request, "Document modifie avec Succes ! ")
+            return redirect(BASE_NAME+"_list")
+
+
+    context["form"] = form1 
+    return render(request, "chomage_update_form.html", context) 
 

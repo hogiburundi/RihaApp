@@ -19,13 +19,12 @@ class DocumentForm(forms.ModelForm):
         label = 'Residence Quarter',
         queryset = Quarter.objects.all())
 
-    
-    date_delivrated = forms.DateField(
-        widget=forms.SelectDateWidget(
-            years=range(1990, date.today().year + 1),
-            attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
-                'style':'width: auto;display: inline-block;'}),
-        label='date')
+
+    date_delivrated = forms.DateField(widget=forms.TextInput(
+            attrs={'placeholder':'date delivrated ', 'type':'date',
+                'class':'form-control',}),
+        label='Date et heure de décès :', required=False,initial=date.today())
+
 
     class Meta:
         model = Document

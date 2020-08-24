@@ -65,7 +65,13 @@
 		</div>                                    
 		<p style="text-align: center;"><strong><u>EXTRAIT D’ACTE DE DECES</u></strong></strong></p>
 		<p>
-			{{deces.dateString}},  est décédée à {{deces.zone.commune.province}}, le nommé {{deces.defunt.fullName}} , âgé de {{deces.defunt.age_user}} ans, profession {{deces.defunt.job}}, de nationalité {{ deces.defunt.nationnalite }}, fils de {{ deces.defunt.father }} et de  {{ deces.defunt.mother }}, ayant résidé de son vivant dans la Municipalité de {{deces.zone.commune.province}}, à l’adresse ci-après : {{deces.zone.name}}.<br><br>
+			{{deces.dateString}},  est décédée à {{deces.zone.commune.province}}, le nommé {{deces.defunt.fullName}} , âgé de {{deces.defunt.Age}} ans, profession {{deces.defunt.job}}, de nationalité {{ deces.defunt.nationnalite }}, 
+			{% if indigent.profile.gender == Homme %}
+				fils
+			{% else %}
+				fille 
+			{% endif %}
+		    de {{ deces.defunt.father }} et de  {{ deces.defunt.mother }}, ayant résidé de son vivant dans la Municipalité de {{deces.zone.commune.province}}, à l’adresse ci-après : {{deces.zone.name}}.<br><br>
 
 			Le défunt  était né à {{ deces.defunt.quarter }},  et était 
 			{% if deces.defunt.is_married %}

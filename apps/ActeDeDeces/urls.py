@@ -10,4 +10,7 @@ urlpatterns = [
     path('payform/<deces>', views.DocumentPayView.as_view(), name=BASE_NAME+"_payform"),
     path('secretary/', views.SecretaryListView.as_view(), name=BASE_NAME+'_secr_list'),
     path('secretary/<document_id>', views.SecretaryView.as_view(), name=BASE_NAME+'_secr_edit'),
+     path('update/<id>', views.update_document, name=BASE_NAME+'_secr_list'),
+    path('delete/<document_id>', views.delete_document, name = "delete"),
 ]
+

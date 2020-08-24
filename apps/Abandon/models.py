@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from apps.base.models import *
 
 class Document(models.Model):
-	name_apps           = models.CharField(max_length = 50, default = "Attestation d'abandon")
 	user                = models.ForeignKey(User, related_name="abandon_user", null=True, on_delete=models.SET_NULL)
 	zone                = models.ForeignKey(Zone, related_name="abandon_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter   = models.ForeignKey(Quarter, related_name="abandon_residence", max_length=64, null=True, on_delete=models.SET_NULL)

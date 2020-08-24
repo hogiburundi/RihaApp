@@ -35,7 +35,7 @@ class DocumentForm(forms.ModelForm):
 
 
 
-    def sous_couvert (self, *arg, **kwargs):
+    def clean_sous_couvert (self, *arg, **kwargs):
         try:
             CNI = self.cleaned_data.get('sous_couvert')
             sous_couvert = Profile.objects.get(CNI = CNI)

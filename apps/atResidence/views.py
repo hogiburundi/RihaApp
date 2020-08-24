@@ -22,7 +22,7 @@ class SecretaryListView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+"_secr_list.html"
 	def get(self, request, document_id=None, *args, **kwargs):
 		validation_form = ValidationForm()
-		documents = Document.onlyPaid()
+		documents = Document.objects.all()
 		return render(request, self.template_name, locals())
 
 class SecretaryView(LoginRequiredMixin, View):

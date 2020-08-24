@@ -6,7 +6,6 @@ from apps.base.models import *
 
 
 class Document(models.Model):
-	name_apps          = models.CharField(max_length = 50, default = "Attestation de vie")
 	user = models.ForeignKey(User, related_name="vie_user", null=True, on_delete=models.SET_NULL)
 	zone = models.ForeignKey(Zone, related_name="vie_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter = models.ForeignKey(Quarter, related_name="vie_residence", max_length=64, null=True, on_delete=models.SET_NULL)

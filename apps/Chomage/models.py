@@ -6,7 +6,6 @@ from apps.base.models import *
 
 
 class Document(models.Model):
-	name_apps           = models.CharField(max_length = 50, default = "Attestation de chomage")
 	user                = models.ForeignKey(User, related_name="chomage_user", null=True, on_delete=models.SET_NULL)
 	zone                = models.ForeignKey(Zone, related_name="chomage_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter   = models.ForeignKey(Quarter, related_name="chomage_residence", max_length=64, null=True, on_delete=models.SET_NULL)

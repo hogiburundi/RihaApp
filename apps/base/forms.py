@@ -22,7 +22,7 @@ class PasswordForm(forms.Form):
 class Register2Form(forms.ModelForm):
 	CNI = forms.CharField(widget=forms.TextInput(
 			attrs={'placeholder':'CNI ','class':'form-control'}),
-		label='CNI', required=False)
+		label='Carte nationnal d\'identité', required=False)
 	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
 	date_delivrated = forms.DateField(widget=forms.TextInput(
 			attrs={'placeholder':'date delivrated ', 'type':'date',
@@ -43,6 +43,15 @@ class Register2Form(forms.ModelForm):
 	class Meta:
 		model = Profile
 		fields = ("CNI", 'date_delivrated', 'place_delivrated', 'cni_recto', 'cni_verso')
+
+
+	def clean_CNI(self, *arg,**kwargs):
+		try:
+			CNI = self.cleaned_data.get("CNI")
+			eval(CNI)
+			return CNI
+		except:
+			raise forms.ValidationError("Ce CNI est invalide")
 
 class ProfileForm(forms.ModelForm):
 	gender = forms.ChoiceField(

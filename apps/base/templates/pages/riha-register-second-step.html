@@ -42,7 +42,9 @@
             <ul id="progressbar">
             <li id="account" class="active"><strong>Compte</strong></li>
             <li id="personal" class="active"><strong>Informations Personnelles</strong></li>
-            <li id="images"><strong>Images</strong></li>
+            <a href="{% url 'register2' %}">
+              <li id="images"><strong class="text-secondary">Images</strong></li>
+            </a>
             </ul> 
           </div>
           </div>
@@ -77,7 +79,7 @@
             <hr/>
             <div class="text-right">
             <button class="btn btn-info mt-2"><i class="ft-navigation"></i> Envoyer</button>
-            <button class="btn btn-warning mt-2" type="reset"><i class="ft-slash"></i> Reinitialiser</button>
+            <a class="btn btn-warning mt-2" href="{% url 'register2' %}"><i class="ft-slash"> Suivant</a>
             </div>
           </form>
           </div>

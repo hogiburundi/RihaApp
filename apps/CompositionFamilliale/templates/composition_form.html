@@ -3,56 +3,56 @@
 
 {% block main-content %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
 <div class="row"> <!-- begin global row -->
 
-    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
-        <div class="card">
-            <div class="card-body">
-                <div class="category-title pb-1">
-                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
-                        <i class="ft-corner-left-down"></i> Tes enfants
-                    </h6>
-                </div>
-                <div>
-                    <ul class="list-group">
-                    	{% for child in children %}
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1"> &nbsp; {{ child.name }} </a>
-                        </li>
-                    	{% endfor %}
-                    </ul>
-                </div>                          
-            </div> 
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="category-title pb-1">
-                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
-                        <i class="ft-corner-left-down"></i> Requirements
-                    </h6>
-                </div>
+  <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+  <div class="card">
+    <div class="card-body">
+    <div class="category-title pb-1">
+      <h6 class="text-center font-medium-1 text-bold-800 text-info">
+      <i class="ft-corner-left-down"></i> Tes enfants
+      </h6>
+    </div>
+    <div>
+      <ul class="list-group">
+      	{% for child in children %}
+      <li class="list-group-item">
+        <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1"> &nbsp; {{ child.name }} </a>
+      </li>
+      	{% endfor %}
+      </ul>
+    </div>        
+    </div> 
+  </div>
+  <div class="card">
+    <div class="card-body">
+    <div class="category-title pb-1">
+      <h6 class="text-center font-medium-1 text-bold-800 text-info">
+      <i class="ft-corner-left-down"></i> Requirements
+      </h6>
+    </div>
 
-                <div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
-                        </li>
+    <div>
+      <ul class="list-group">
+      <li class="list-group-item">
+        <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">   &nbsp; Carte Nationale d'Identite </a>
+      </li>
 
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; presence physique ou autre document prouvant son existance</a>
-                        </li>
-                    </ul>
-                </div>                          
-            </div> 
-        </div>             
-    </div> <!-- end left  column --> 
-    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
-        <div class="card border-info border-lighten-1"> <!-- begin card -->
-            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION DE COMPOSITION FAMILLIALE</h1>
-            </div>
-            <div class="card-body">
+      <li class="list-group-item">
+        <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">   &nbsp; presence physique ou autre document prouvant son existance</a>
+      </li>
+      </ul>
+    </div>        
+    </div> 
+  </div>     
+  </div> <!-- end left  column --> 
+  <div class="col-xl-9 col-md-12"> <!-- begin right column -->     
+  <div class="card border-info border-lighten-1"> <!-- begin card -->
+    <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+    <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION DE COMPOSITION FAMILLIALE</h1>
+    </div>
+    <div class="card-body">
 				{% if preview %}
 				<div id="document" class="col-12">
 			<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black">
@@ -71,15 +71,13 @@
 					Je  soussigné, {{ composition.quarter.zone.leaderFullName }}, Chef de Zone {{ composition.quarter.zone.name}}, atteste par la présente que la composition familiale de Monsieur {{composition.user.fullNname}}, fils de {{composition.user.profile.father}} et de {{composition.user.profile.mother}}, originaire de la Colline {{composition.user.profile.quarter.name}}, Commune {{composition.user.profile.quarter.zone.name}}, Province {{composition.user.profile.quarter.zone.province}}, de nationalité {{composition.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{composition.quarter.zone.commune.province }} à l’adresse ci–après : {{composition.quarter.zone.name}}, Q. {{composition.quarter.name}}, est la suivante : Marié  à  {{composition.conjoint.fullName}}.<br>
 					<br>
 				</p>
-					<p><strong><u>Enfants issus du Mariage avec</u></strong> <br>
-                    {% for child in composition.children %}
-                    <ol>{{child.name}} née en {{child.date.year}} <br></ol> 
-                    {% empty %}
-                        <b>SANS</b>
-                    {% endfor %}
-
+				<p><strong><u>Enfants issus du Mariage avec</u></strong> <br>
+			      {% for child in composition.children %}
+			      <ol>{{child.name}} née en {{child.date.year}} <br></ol> 
+			      {% empty %}
+			      <b>SANS</b>
+			      {% endfor %}
 				</p>
-
 				<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e au vu de sa Carte  Nationale d’Identité  portant  numéro {{ composition.user.profile.CNI }} délivrée  à {{composition.user.profile.place_delivrated}}le  {{composition.user.profile.date_delivrated}}.</p>
 				<p>&nbsp;</p>
 				<table style="width: 588px;">
@@ -97,57 +95,57 @@
 				<p style="text-align: center;">&nbsp;</p>
 			</div>
 	</div>
+{% endif %}
+	<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+	{% csrf_token %}
+		<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
+		    <div class="form-group">
+	      	{% for field in form %}
+			<div class="form-group">  
+		      	<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+			    {{ field }}
+		    	{{ field.errors }}
+				{% if 'check_cni' in field.field.widget.attrs.class %}
+					<button class="btn-sm btn-primary mt-1" onclick="verifierCni(event, '{{ field.id_for_label }}')">verifier</button>
+		      		<label class="mt-1" id="label_{{ field.id_for_label }}"></label>
 				{% endif %}
-	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
-					{% csrf_token %}
-					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-		                <div class="form-group">
-	                    {% for field in form %}
-			            	<div class="form-group">  
-	                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-		                        {{ field }}
-		                        {{ field.errors }}
-								{% if 'check_cni' in field.field.widget.attrs.class %}
-									<button class="btn-sm btn-primary mt-1" onclick="verifierCni(event, '{{ field.id_for_label }}')">verifier</button>
-		                        	<label class="mt-1" id="label_{{ field.id_for_label }}"></label>
-								{% endif %}
-				            </div>
-		                {% endfor %}              
-		                </div>
-		                <hr>
-						<fieldset>
-						{{ form_set.management_form }}
-						{% for form in form_set %}
-						<div class="link-formset">
-						  <div class="row text-dark">
-						    {% for field in form %}
-						      <div class="input-group mb-1 input-group-sm col-6">
-						        <div class="input-group-prepend">
-						          <span class="input-group-text">{{ field.label }}</span>
-						        </div>
-						          {{ field }}
-						      </div>
-						    {% endfor %}
-						  </div>
-						</div>
-						{% endfor %}
-						</fieldset>
-		            </div>
-					{% if preview %}
-					<button type="submit" class="btn btn-outline-info mt-1 round font-medium-2" name="cancel" value="cancel">
-						<i class="ft-corner-up-left"></i> Retour 
-					</button>
-					{% else %}
-					<button type="submit" class="btn btn-outline-warning mt-1" name="preview" value="preview">
-						<i class="ft-eye"></i> Preview
-					</button>
-					{% endif %}
-					<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
-						<i class="ft-navigation"></i>Envoyer</a>
-					</button>
-	            </form>
-	        </div> <!-- End card body -->
-	    </div>	
+			</div>
+		    {% endfor %}    
+		    </div>
+		    <hr>
+			<fieldset>
+			{{ form_set.management_form }}
+			{% for form in form_set %}
+				<div class="link-formset">
+				  <div class="row text-dark">
+				  {% for field in form %}
+				  <div class="input-group mb-1 input-group-sm col-6">
+				  <div class="input-group-prepend">
+				    <span class="input-group-text">{{ field.label }}</span>
+				  </div>
+				    {{ field }}
+				  </div>
+				  {% endfor %}
+				  </div>
+				</div>
+			{% endfor %}
+			</fieldset>
+		    </div>
+			{% if preview %}
+			<button type="submit" class="btn btn-outline-info mt-1 round font-medium-2" name="cancel" value="cancel">
+				<i class="ft-corner-up-left"></i> Retour 
+			</button>
+			{% else %}
+			<button type="submit" class="btn btn-outline-warning mt-1" name="preview" value="preview">
+				<i class="ft-eye"></i> Preview
+			</button>
+			{% endif %}
+			<button type="submit" class="btn btn-outline-success mt-1" name="submit" value="submit">
+				<i class="ft-navigation"></i>Envoyer</a>
+			</button>
+	    </form>
+	  </div> <!-- End card body -->
+	  </div>	
 	</div>
 </div>
 {% endblock %}

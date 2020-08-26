@@ -55,7 +55,6 @@ class Home(View):
 
 	def get(self, request, *args, **kwargs):
 		groups = request.user.groups.all()
-		print(groups)
 		if request.user.is_authenticated:
 			profile = Profile.objects.filter(user=request.user)
 			home_urls = []
@@ -107,6 +106,8 @@ class Connexion(View):
 	next_p = "home"
 
 	def get(self, request, *args, **kwargs):
+		if(request.user.is_authenticated):
+			return redirect('home')
 		form = ConnexionForm()
 		try:
 			self.next_p = request.GET["next"]
@@ -185,9 +186,8 @@ class ProfileView(View):
 			try:
 				profile = form.save(commit=False)
 				profile.user = request.user
-				print(profile.residence)
-				profile.save()
-				messages.success(request, "Hello "+request.user.first_name+", your profile created successfully!")
+				form.save()
+				messages.success(request, "Hello "+request.user.first_name+", your profile has been updated successfully!")
 				return redirect(self.next_p)
 			except Exception as e:
 				messages.error(request, str(e))
@@ -212,6 +212,6 @@ class Register2(View):
 		page_number = self.page_number
 		if form.is_valid():
 			form.save()
-			messages.success(request, "Hello "+request.user.first_name+", you are registered successfully!")
+			messages.success(request, "Hello "+request.user.first_name+", your profile has been updated successfully!")
 			return redirect(self.next_p)
 		return render(request, self.template_name, locals())

@@ -45,7 +45,7 @@
                     <td class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<b>{{ document.zone_payment.place }} : <i>{{ document.zone_payment.id_transaction }}</i></b>" data-trigger="focus" tabindex="-1">
                         {{ document.zone_payment.type_payement }}
                     </td>
-                    <td class="text-truncate" class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.user.last_name }}</b><br>
+                    <td class="text-truncate"  data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="nom: <b>{{ document.user.last_name }}</b><br>
                       prenom: <b>{{ document.user.first_name }}</b><br>
                       CNI: <b>{{ document.user.profile.CNI }}</b><br>
                       delivrée à: <b>{{ document.user.profile.place_delivrated }}</b><br>
@@ -153,7 +153,6 @@
         <input type="submit" name="reset" value="laisser" class="btn btn-outline-warning dismiss"/>
     </form>
 </template>
-
 <script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function () {

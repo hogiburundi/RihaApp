@@ -92,7 +92,7 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "job", "is_married")
+		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "job", "is_married", "residence")
 
 class RegisterForm(forms.Form):
 	telephone = forms.CharField( widget=forms.NumberInput(

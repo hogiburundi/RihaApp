@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 # from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
+from datetime import date
 
 GENDERS = (
 	("H", 'Homme'),
@@ -89,6 +90,74 @@ class Profile(models.Model):
 	def fullName(self):
 		prefix = self.prefix if self.prefix else ""
 		return f"{prefix} {self.user.last_name} {self.user.first_name}"
+
+	def completionLevel(self)->int:
+		level = 0
+		try:
+			age = date.today().year-self.birthdate.year
+		except:
+			age = -1
+		if(age < 18):
+			level += 15 if self.gender else 0
+			level += 10 if self.nationnalite else 0
+			level += 15 if self.quarter else 0
+			level += 15 if self.residence else 0
+			level += 5 if self.address else 0
+			level += 10 if self.father else 0
+			level += 10 if self.mother else 0
+			level += 15 if self.birthdate else 0
+			level += 5 if self.job else 0
+		else:
+			level += 10 if self.gender else 0
+			level += 5 if self.nationnalite else 0
+			level += 10 if self.quarter else 0
+			level += 10 if self.residence else 0
+			level += 5 if self.address else 0
+			level += 10 if self.CNI else 0
+			level += 5 if self.father else 0
+			level += 5 if self.mother else 0
+			level += 5 if self.birthdate else 0
+			level += 10 if self.is_married else 0
+			level += 5 if self.cni_recto else 0
+			level += 5 if self.cni_verso else 0
+			level += 5 if self.job else 0
+			level += 5 if self.date_delivrated else 0
+			level += 5 if self.place_delivrated else 0
+		return level
+
+	def completionMissing(self)->list:
+		missing = []
+		try:
+			age = date.today().year-self.birthdate.year
+		except:
+			age = -1
+		if(age < 18):
+			if not self.gender : missing.append("gender")
+			if not self.nationnalite : missing.append("nationnalite")
+			if not self.quarter : missing.append("quarter")
+			if not self.residence : missing.append("residence")
+			if not self.address : missing.append("address")
+			if not self.father : missing.append("father")
+			if not self.mother : missing.append("mother")
+			if not self.birthdate : missing.append("birthdate")
+			if not self.job : missing.append("job")
+		else:
+			if not self.gender : missing.append("gender")
+			if not self.nationnalite : missing.append("nationnalite")
+			if not self.quarter : missing.append("quarter")
+			if not self.residence : missing.append("residence")
+			if not self.address : missing.append("address")
+			if not self.CNI : missing.append("CNI")
+			if not self.father : missing.append("father")
+			if not self.mother : missing.append("mother")
+			if not self.birthdate : missing.append("birthdate")
+			if not self.is_married : missing.append("is_married")
+			if not self.cni_recto : missing.append("cni_recto")
+			if not self.cni_verso : missing.append("cni_verso")
+			if not self.job : missing.append("job")
+			if not self.date_delivrated : missing.append("date_delivrated")
+			if not self.place_delivrated : missing.append("place_delivrated")
+		return missing
 
 class Notification(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)

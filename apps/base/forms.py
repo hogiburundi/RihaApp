@@ -3,8 +3,17 @@ from django import forms
 from datetime import date
 
 class ConnexionForm(forms.Form):
-	username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username ','class':'form-control'}))
-	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password ', 'type':'password','class':'form-control'}))
+	username = forms.CharField(widget=forms.TextInput(
+		attrs={'placeholder':'Username ','class':'form-control round'}))
+	password = forms.CharField(widget=forms.PasswordInput(
+		attrs={'placeholder':'Password ', 'type':'password','class':'form-control round'}))
+	
+	def clean_username(self, *arg,**kwargs):
+		username = self.cleaned_data.get("username")
+		if(username.isdigit() and len(username)==8):
+			return username
+		else :
+			raise forms.ValidationError("must be a valid burudian phone number")
 
 class PasswordForm(forms.Form):
 	password = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Password ','class':'form-control'}), label='Password')
@@ -13,7 +22,7 @@ class PasswordForm(forms.Form):
 class Register2Form(forms.ModelForm):
 	CNI = forms.CharField(widget=forms.TextInput(
 			attrs={'placeholder':'CNI ','class':'form-control'}),
-		label='CNI', required=False)
+		label='Carte nationnal d\'identité', required=False)
 	#zone_delivery_CNI = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Zone ','class':'form-control', 'list':'zones'}), label='Zone de délivraison')
 	date_delivrated = forms.DateField(widget=forms.TextInput(
 			attrs={'placeholder':'date delivrated ', 'type':'date',
@@ -34,6 +43,15 @@ class Register2Form(forms.ModelForm):
 	class Meta:
 		model = Profile
 		fields = ("CNI", 'date_delivrated', 'place_delivrated', 'cni_recto', 'cni_verso')
+
+
+	def clean_CNI(self, *arg,**kwargs):
+		try:
+			CNI = self.cleaned_data.get("CNI")
+			eval(CNI)
+			return CNI
+		except:
+			raise forms.ValidationError("Ce CNI est invalide")
 
 class ProfileForm(forms.ModelForm):
 	gender = forms.ChoiceField(
@@ -74,14 +92,24 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = Profile
-		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "job", "is_married")
+		fields = ("gender", "nationnalite", "quarter", "address", "father", "mother", "birthdate", "job", "is_married", "residence")
 
 class RegisterForm(forms.Form):
-	telephone = forms.CharField( widget=forms.NumberInput(attrs={'placeholder':'your phone number','class':'form-control'}), label='Phone number')
-	firstname = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Firstname ','class':'form-control'}), label='Firstname')
-	lastname = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Lastname ','class':'form-control'}), label='Lastname')
-	password = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Password ','class':'form-control'}), label='Password')
-	password2 = forms.CharField( widget=forms.PasswordInput(attrs={'placeholder':'Confirm password ','class':'form-control'}), label='Confirm password')
+	telephone = forms.CharField( widget=forms.NumberInput(
+			attrs={'placeholder':'your phone number','class':'form-control col-md-12'}),
+		label='Phone number')
+	firstname = forms.CharField( widget=forms.TextInput(
+			attrs={'placeholder':'Firstname ','class':'form-control'}),
+		label='Firstname')
+	lastname = forms.CharField( widget=forms.TextInput(
+			attrs={'placeholder':'Lastname ','class':'form-control'}),
+		label='Lastname')
+	password = forms.CharField( widget=forms.PasswordInput(
+			attrs={'placeholder':'Password ','class':'form-control'}),
+		label='Password')
+	password2 = forms.CharField( widget=forms.PasswordInput(
+			attrs={'placeholder':'Confirm password ','class':'form-control'}),
+		label='Confirm password')
 
 	def clean_password2(self, *arg,**kwargs):
 		try:
@@ -93,6 +121,15 @@ class RegisterForm(forms.Form):
 				raise forms.ValidationError("confirmation password must same as password")
 		except Exception as e:
 			raise forms.ValidationError("confirmation password must same as password")
+	
+	def clean_telephone(self, *arg,**kwargs):
+		telephone = self.cleaned_data.get("telephone")
+		try:
+			user = User.objects.get(username=telephone)
+		except Exception as e:
+			return telephone
+		raise forms.ValidationError("user already exists")
+			
 
 class ModelPayementFormMixin(forms.Form):
 	type_payement = forms.ChoiceField(

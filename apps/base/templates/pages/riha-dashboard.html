@@ -1,4 +1,5 @@
 {% extends 'pages/riha-base.html' %}
+{% load static %}
 {% block main-content %}
 <div class="row">
   <div class="col-xl-4"><!-- Editer Profile -->
@@ -13,10 +14,10 @@
                     <i class="icon-pencil"></i> Editer le profil
                 </span>
                 <h1 class="text-white mb-0">
-                  <button class="btn btn-sm btn-danger round" type="button">30%</button>
+                  <button class="btn btn-sm btn-danger round" type="button" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Les champs manquants: <b> {% for champ in user.profile.completionMissing %} {{ champ }} {% endfor %}" data-trigger="focus" tabindex="-1">{{ user.profile.completionLevel }}%</button>
                 </h1>
                 <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-                  <div class="progress-bar bg-gradient-x-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
+                  <div class="progress-bar bg-gradient-x-danger" role="progressbar" style="width: {{ user.profile.completionLevel }}%" aria-valuenow="{{ user.profile.completionLevel }}" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
                 </div>
               </div>
               <div class="align-self-top">
@@ -89,16 +90,23 @@
 </div>
 {%endblock %}
 {% block scripts %}
+
 <script type="text/javascript">
-$("#searchfield").keyup(function(event) {
-    keyword = $(this).val().toLowerCase();
-    $(".searchable").each(function(index, el) {
-        if($(el).text().toLowerCase().includes(keyword)){
-            $(el).show();
-        }else{
-            $(el).hide();
-        }
-    });
+jQuery(document).ready(function($) {
+  $("#searchfield").keyup(function(event) {
+      keyword = $(this).val().toLowerCase();
+      $(".searchable").each(function(index, el) {
+          if($(el).text().toLowerCase().includes(keyword)){
+              $(el).show();
+          }else{
+              $(el).hide();
+          }
+      });
+  });
+  $('[data-toggle="popover"]').on('click', function(event) {
+    event.preventDefault();
+  });
+  $('[data-toggle="popover"]').popover(); 
 });
 </script>
 {% endblock scripts %}

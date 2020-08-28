@@ -63,9 +63,11 @@ class Home(View):
 				module_name = directory.replace(os.sep, ".")
 				module = importlib.import_module(module_name)
 				app_name = module.APP_NAME
+				price = module.models.Document.price()
 				# price = module.models.Document.price()
 				# home_urls.append((app_name, price, basename+"_list"))
-				home_urls.append((app_name.upper(), i%4, basename+"_list"))
+				colors= ["primary", "warning", "success", "info"]
+				home_urls.append((app_name.upper(), colors[i%4], price, basename+"_list"))
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")
@@ -92,7 +94,8 @@ class Secretariat(View):
 			module_name = directory.replace(os.sep, ".")
 			module = importlib.import_module(module_name)
 			app_name = module.APP_NAME
-			home_urls.append((app_name.upper(), i%4, basename+"_secr_list", counts))#counts))
+			colors= ["primary", "warning", "success", "info"]
+			home_urls.append((app_name.upper(), colors[i%4], basename+"_secr_list", counts))#counts))
 
 		return render(request, self.template_name, locals())
 

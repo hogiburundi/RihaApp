@@ -37,7 +37,7 @@ elle doit aussi avoir les methodes simple suivantes
 def requirements():
 	return ["cahier de menage",...]
 
-def price(self):
+def price():
 	return PriceHistory.object.filter(zone=self.zone).last().total() # +
 	# PriceHistory.object.filter(commune=self.commune).last().total() ...
 

@@ -16,14 +16,14 @@ class Document(models.Model):
 	editable = models.BooleanField(default=True)
 
 	def requirements():
-		return ["cahier de menage", "CNI"]
+		return ["cahier de menage", "Carte D'identité", 'paiment de 1000 FBu']
 
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
 			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

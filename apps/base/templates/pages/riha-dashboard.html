@@ -61,13 +61,9 @@
 
 <hr class="bg-danger" />
 <div class="row">
-    {% for document, index, home_url in home_urls %}
+    {% for document, color, price, home_url in home_urls %}
     <div class="col-xl-3 col-lg-6 col-12 searchable">
-        <div class="card p-1
-            {% if index == 0 %}border-top-primary{% elif index == 1 %}
-            border-top-warning{% elif index == 2 %}border-top-success
-            {% elif index == 3 %}border-top-info{% endif %}
-            border-top-5">
+        <div class="card p-1 border-top-{{ color }} border-top-5">
             <div class="card-content">
                 <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center"> 
                     <strong><a href="{% url home_url %}">{{ document }}</a></strong>
@@ -75,11 +71,11 @@
 
                 <div class="card-body">
                     <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
+                        <p class="card-title mb-0"><strong>{{ price }}</strong></p>
                     </div>
                     <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 primary">
-                            <i class="icon-plus icon-opacity primary font-large-3 float-right"></i>
+                        <p class="card-title mb-0">
+                            <i class="icon-plus icon-opacity {{ color }} font-large-3 float-right"></i>
                         </p>
                     </div>
                 </div>

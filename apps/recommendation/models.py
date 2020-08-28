@@ -18,7 +18,7 @@ class Document(models.Model):
 	def requirements():
 		return ["copie de contrat d'execution d'un travail quelconque", ]
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

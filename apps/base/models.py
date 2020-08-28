@@ -5,36 +5,14 @@ from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
 from datetime import date
 
-GENDERS = (
-	("H", 'Homme'),
-	("F", "Femme")
-)
+GENDERS = (("H", 'Homme'), ("F", "Femme"))
+PAYMENTS = ( ("ecocash", "Ecocash"), ("lumicash", "Lumicash"), ("bcb", "BCB"), )
+PLACE_LEVEL = ( (1, "Pays"), (2, "Province"), (3, "Commune"), (4, "Quarter"), (5, "Zone"))
+USER_LEVEL = ( (1, "Chef"), (2, "Secretaire")) 
+PRIORITY_LEVEL = ( (1, "Normal"), (2, "Elevée"))
 
-PAYMENTS = ( 
-    ("ecocash", "Ecocash"), 
-    ("lumicash", "Lumicash"), 
-    ("bcb", "BCB"), 
-)
-
-PLACE_LEVEL = ( 
-    (1, "Pays"), 
-    (2, "Province"), 
-    (3, "Commune"), 
-    (4, "Quarter"), 
-    (5, "Zone")
-)
-PLACE_LEVEL_DICT = dict([x[::-1] for x in PLACE_LEVEL])
-
-USER_LEVEL = ( 
-    (1, "Chef"), 
-    (2, "Secretaire"), 
-) 
 USER_LEVEL_DICT = dict([x[::-1] for x in USER_LEVEL])
-
-PRIORITY_LEVEL = ( 
-    (1, "Normal"), 
-    (2, "Elevée"), 
-)
+PLACE_LEVEL_DICT = dict([x[::-1] for x in PLACE_LEVEL])
 
 try:
 	from django.contrib.auth.models import Group

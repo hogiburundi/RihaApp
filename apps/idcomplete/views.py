@@ -75,10 +75,12 @@ class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "idcomp_form.html"
 
 	def get(self, request, *args, **kwargs):
+		requirements = Document.requirements()
 		form = DocumentForm(initial = {'residence_quarter': request.user.profile.residence })
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
+		requirements = Document.requirements()
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
 			preview = True

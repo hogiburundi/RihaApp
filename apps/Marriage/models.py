@@ -38,7 +38,7 @@ class Document(models.Model):
 		if self.ready:
 			Notification(self.user, f"l'attestation de marriage que vous avez demandé le {self.date_delivrated} à {self.zone} est disponible").save()
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

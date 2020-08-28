@@ -19,7 +19,7 @@ class Document(models.Model):
 	ready = models.BooleanField(default=False)
 	
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

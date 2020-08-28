@@ -18,7 +18,7 @@ class Document(models.Model):
 	def requirements():
 		return ["cahier de menage", "CNI"]
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

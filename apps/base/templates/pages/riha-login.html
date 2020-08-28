@@ -4,61 +4,75 @@
 {% block menu %}
 {% endblock %}
 {% block body-line %}
-    <body class="vertical-layout vertical-menu 1-column  bg-full-screen-image blank-page blank-page" data-open="click" data-menu="vertical-menu" data-color="bg-gradient-x-purple-blue" data-col="1-column">
+  <body class="vertical-layout vertical-menu 1-column  bg-full-screen-image blank-page blank-page" data-open="click" data-menu="vertical-menu" data-color="bg-gradient-x-purple-blue" data-col="1-column">
 {% endblock %}
 {% block main-content %}
 <div class="content-wrapper-before"></div>
-    <div class="content-header row">
+  <div class="content-header row">
 </div>
 <div class="content-body">
-    <section class="flexbox-container">
-        <div class="col-12 d-flex align-items-center justify-content-center">
+  <section class="flexbox-container">
+    <div class="col-12 d-flex align-items-center justify-content-center">
 
-            <div class="col-lg-4 col-md-6 col-10 box-shadow-2 p-0">
-                <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
-                        <div class="card-header border-0 ">
-                            <div class="text-center mb-1">
-                                <img class="rounded-circle" src="{% static 'app-assets/images/profiles/profile-170-170.png' %}" alt="branding logo">
-                            </div>
-                        </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <form class="form-horizontal" method="POST" action="." novalidate>
-                                {% csrf_token %}
-                                <fieldset class="form-group position-relative has-icon-left mb-0 mt-1">
-                                    {{ form.username }}
-                                    <div class="form-control-position">
-                                        <i class="ft-user"></i>
-                                    </div>
-                                </fieldset>
-                                {{ form.username.errors }}
-                                <fieldset class="form-group position-relative has-icon-left mb-0 mt-1">
-                                    {{ form.password }}
-                                    <div class="form-control-position">
-                                        <i class="ft-lock"></i>
-                                    </div>
-                                </fieldset>
-                                {{ form.password.errors }}
-                                <div class="form-group row">
-                                    <div class="col-md-6 col-12 text-center text-sm-left">
-
-                                    </div>
-                                    <div class="col-md-6 col-12 float-sm-left text-center text-sm-right"><a href="recover-password.html" class="card-link">Forgot Password?</a></div>
-                                </div>
-                                <div class="form-group text-center">
-                                    <button type="submit" class="btn round btn-block btn-glow btn-bg-gradient-x-purple-blue col-12 mr-1 mb-1"><i class="ft-log-in"></i> Login</button>
-                                </div>
-                            </form>
-                        </div>
-                        <p class="card-subtitle text-muted text-right font-small-3 mx-2 my-1">
-                            <span>Don't have an account ? <a href="{% url 'register' %}" class="btn btn-outline-primary round"><i class="ft-navigation"></i> Sign Up</a></span>
-                        </p>
-                    </div>
-                </div>
+      <div class="col-lg-4 col-md-6 col-10 box-shadow-2 p-0">
+        <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
+            <div class="card-header border-0 ">
+              <div class="text-center mb-1">
+                <img class="rounded-circle" src="{% static 'app-assets/images/profiles/profile-170-170.png' %}" alt="branding logo">
+              </div>
             </div>
+          <div class="card-content">
+            <div class="card-body">
+              <form class="form-horizontal" method="POST" action="." novalidate>
+                {% csrf_token %}
+                {% if messages %}
+                {% for message in messages %}
+                  <div class="
+                  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    alert alert-success {% else %} alert alert-danger
+                  {% endif %}
+                    alert-dismissible fade show text-center" id="success-alert" role="alert">
+                   {{ message }}
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endfor %}
+                {% endif %}
+                <fieldset class="form-group position-relative has-icon-left mb-0 mt-1">
+                  {{ form.username }}
+                  <div class="form-control-position">
+                    <i class="ft-user"></i>
+                  </div>
+                </fieldset>
+                {{ form.username.errors }}
+                <fieldset class="form-group position-relative has-icon-left mb-0 mt-1">
+                  {{ form.password }}
+                  <div class="form-control-position">
+                    <i class="ft-lock"></i>
+                  </div>
+                </fieldset>
+                {{ form.password.errors }}
+                <div class="form-group row">
+                  <div class="col-md-6 col-12 text-center text-sm-left">
+
+                  </div>
+                  <div class="col-md-6 col-12 float-sm-left text-center text-sm-right"><a href="recover-password.html" class="card-link">Forgot Password?</a></div>
+                </div>
+                <div class="form-group text-center">
+                  <button type="submit" class="btn round btn-block btn-glow btn-bg-gradient-x-purple-blue col-12 mr-1 mb-1"><i class="ft-log-in"></i> Login</button>
+                </div>
+              </form>
+            </div>
+            <p class="card-subtitle text-muted text-right font-small-3 mx-2 my-1">
+              <span>Don't have an account ? <a href="{% url 'register' %}" class="btn btn-outline-primary round"><i class="ft-navigation"></i> Sign Up</a></span>
+            </p>
+          </div>
         </div>
-    </section>
+      </div>
     </div>
-    <!-- END: Content-->
+  </section>
+  </div>
+  <!-- END: Content-->
 
 {% endblock %}

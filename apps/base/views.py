@@ -208,7 +208,8 @@ class Register2(View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		form = Register2Form(request.POST, request.FILES, instance=request.user.profile)
+		old_cni = request.user.profile.CNI
+		form = Register2Form(request.POST, request.FILES, old_cni=old_cni,instance=request.user.profile)
 		page_number = self.page_number
 		if form.is_valid():
 			form.save()

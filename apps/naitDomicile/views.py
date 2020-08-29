@@ -82,13 +82,13 @@ class DocumentFormView(LoginRequiredMixin, View):
 	def get(self, request, *args, **kwargs):
 		quarters = self.quarters 
 		zones = self.zones 
-		form = DocumentForm()
+		form = DocumentForm(initial={'zone':request.user.profile.residence.zone})
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
 		quarters = self.quarters 
 		zones = self.zones 
-		form = DocumentForm(request.POST)
+		form = DocumentForm(request.POST, initial={'zone':request.user.profile.residence.zone})
 		if "preview" in request.POST:
 			if form.is_valid():
 				preview = True

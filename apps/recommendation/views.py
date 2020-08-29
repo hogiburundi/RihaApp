@@ -79,18 +79,18 @@ class DocumentFormView(LoginRequiredMixin, View):
 	def get(self, request, *args, **kwargs):
 		quarters = self.quarters 
 		zones = self.zones 
-		form = DocumentForm()
+		form = DocumentForm(request.FILES, initial={'zone':request.user.profile.residence.zone.name})
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
 		quarters = self.quarters 
 		zones = self.zones 
-		form = DocumentForm(request.POST, request.FILES)
+		form = DocumentForm(request.POST, request.FILES,initial={'zone':request.user.profile.residence.zone.name})
 		if "preview" in request.POST:
 			if form.is_valid():
 				preview = True
 		if "cancel" in request.POST:
-			preview = False
+				preview = False
 		if "submit" in request.POST:
 			if form.is_valid():
 				recomm = form.save(commit=False)

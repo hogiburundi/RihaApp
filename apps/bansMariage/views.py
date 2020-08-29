@@ -99,7 +99,8 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				bans_mariage = form.save(commit=False)
 				bans_mariage.user = request.user
-				bans_mariage.residence_quarter = bans_mariage.user.profile.residence
+				userQ = request.user
+				bans_mariage.residence_quarter = userQ.profile.residence
 				bans_mariage.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", bans_mariage.id)
@@ -107,7 +108,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			bans_mariage = form.save(commit=False)
 			bans_mariage.user = request.user
-			bans_mariage.residence_quarter = bans_mariage.user.profile.residence
 		return render(request, self.template_name, locals())
 
 

@@ -92,11 +92,13 @@ jQuery(document).ready(function($) {
   $("#searchfield").keyup(function(event) {
       keyword = $(this).val().toLowerCase();
       $(".searchable").each(function(index, el) {
-          if($(el).text().toLowerCase().includes(keyword)){
-              $(el).show();
-          }else{
-              $(el).hide();
-          }
+        el_text = $(el).text().toLowerCase();
+        el_normal = el_text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if(el_normal.includes(keyword)){
+            $(el).show();
+        }else{
+            $(el).hide();
+        }
       });
   });
   $('[data-toggle="popover"]').on('click', function(event) {

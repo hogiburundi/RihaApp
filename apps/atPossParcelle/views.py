@@ -95,7 +95,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 			if form.is_valid():
 				poss_parcelle = form.save(commit=False)
 				poss_parcelle.user = request.user
-				poss_parcelle.residence_quarter = poss_parcelle.user.profile.residance
+				poss_parcelle.residence_quarter = poss_parcelle.user.profile.residence
 				poss_parcelle.save()
 				messages.success(request, "Document Soumis avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", poss_parcelle.id)
@@ -103,7 +103,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 		if form.is_valid():
 			poss_parcelle = form.save(commit=False)
 			poss_parcelle.user = request.user
-			poss_parcelle.residence_quarter = poss_parcelle.user.profile.residance
 		return render(request, self.template_name, locals())
 
 class DocumentPayView(LoginRequiredMixin, View):
@@ -147,18 +146,22 @@ def update_doc(request, document_id):
 	template_name = PREFIX_DOC_TEMP+"_form.html"
 	update = BASE_NAME+'_update'
 	document = Document.objects.get(id=document_id)
+	form = DocumentForm(request.POST, request.FILES, instance =  document)
 	if request.user == document.user:
-		form = DocumentForm(request.POST, request.FILES, instance =  document)	
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Document mis à jour avec Succes ! ")
-			return redirect(BASE_NAME+'_list')
-		else:
-			messages.error(request, "Vous avez pas le droit !")
-	else:
-		form = DocumentForm(instance=document)
+		if "preview" in request.POST:
+			if form.is_valid():
+				preview = True
+		if "cancel" in request.POST:
+			preview = False
+		if "submit" in request.POST:
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Document mis à jour avec Succes ! ")
+				return redirect(BASE_NAME+'_list')
+			else:
+				messages.error(request, "Vous avez pas le droit !")
+	form = DocumentForm(instance=document)
 	return render(request, template_name, locals())
-
 
 @login_required(login_url='/login/')
 def clone_doc(request, document_id):

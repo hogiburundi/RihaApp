@@ -39,7 +39,7 @@
             <tbody>
                 {% for document in documents %}
                 <tr> 
-                    <td class="text-truncate">{{ document.residence_quarter }}</td>
+                    <td class="text-truncate">{{ document.user.profile.residence }}</td>
                     <td class="text-truncate">
                        <button class="btn btn-sm btn-outline-danger round" type="button">{{ document.validationPercent }} %</button>
                     </td>

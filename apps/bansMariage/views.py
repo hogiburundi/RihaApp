@@ -154,16 +154,23 @@ def update_doc(request, document_id):
 	template_name = PREFIX_DOC_TEMP+"_form.html"
 	update = BASE_NAME+'_update'
 	document = Document.objects.get(id=document_id)
+	form = DocumentForm(request.POST, request.FILES, instance =  document)
 	if request.user == document.user:
-		form = DocumentForm(request.POST, request.FILES, instance =  document)	
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Document mis à jour avec Succes ! ")
-			return redirect(BASE_NAME+'_list')
-		else:
-			messages.error(request, "Vous avez pas le droit !")
-	else:
-		form = DocumentForm(instance=document)
+		if(request.method == 'POST'):
+			if "preview" in request.POST:
+				if form.is_valid():
+					preview = True
+			if "cancel" in request.POST:
+				preview = False
+			if "submit" in request.POST:
+				if form.is_valid():
+					form.save()
+					messages.success(request, "Document mis à jour avec Succes ! ")
+					return redirect(BASE_NAME+'_list')
+				else:
+					messages.error(request, "Vous avez pas le droit !")
+
+	form = DocumentForm(instance=document)
 	return render(request, template_name, locals())
 
 

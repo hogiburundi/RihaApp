@@ -77,13 +77,6 @@ class DocumentListView(LoginRequiredMixin, View):
 		print(documents)
 		return render(request, self.template_name, locals())
 
-# class SecretaryPayView(LoginRequiredMixin, View):
-# 	template_name = "idcomp_secr_pay.html"
-
-# 	def get(self, request, document_id, *args, **kwargs):
-# 		modal_mode = False
-# 		deces_dom = get_object_or_404(Document, id=document_id)
-# 		return render(request, self.template_name, locals())
 
 
 class DocumentFormView(LoginRequiredMixin, View):
@@ -123,29 +116,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 			deces_dom.residence_quarter_DM = deces_dom.dead_man.residence
 		return render(request, self.template_name, locals())
 
-# class DocumentPayView(LoginRequiredMixin, View):
-# 	template_name = PREFIX_DOC_TEMP+"_pay_form.html"
-
-# 	def get(self, request, document_id, *args, **kwargs):
-# 		payform = BASE_NAME+"_payform"
-# 		document = Document.objects.get(id=document_id)
-# 		if document.zone_payment:
-# 			return redirect(BASE_NAME+"_list")
-# 		form = PaymentZoneForm()
-# 		return render(request, self.template_name, locals())
-
-# 	def post(self, request, document_id, *args, **kwargs):
-# 		payform = BASE_NAME+"_payform"
-# 		document = Document.objects.get(id=document_id)
-# 		form = PaymentZoneForm(request.POST, request.FILES)
-# 		if form.is_valid():
-# 			zone_payment = form.save(commit=False)
-# 			zone_payment.place = document.zone
-# 			zone_payment.save()
-# 			document.zone_payment = zone_payment
-# 			document.save()
-# 			return redirect(BASE_NAME+"_list")
-# 		return render(request, self.template_name, locals())
 
 
 @login_required(login_url='/login/')
@@ -164,16 +134,16 @@ def update_doc(request, document_id):
 	template_name = PREFIX_DOC_TEMP+"_form.html"
 	update = BASE_NAME+'_update'
 	document = Document.objects.get(id=document_id)
+	form = DocumentForm(request.POST, request.FILES, instance =  document)
 	if request.user == document.user:
-		form = DocumentForm(request.POST, request.FILES, instance =  document)	
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Document mis à jour avec Succes ! ")
-			return redirect(BASE_NAME+'_list')
-		else:
-			messages.error(request, "Vous avez pas le droit !")
-	else:
-		form = DocumentForm(instance=document)
+		if(request.method == 'POST'):
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Document mis à jour avec Succes ! ")
+				return redirect(BASE_NAME+'_list')
+			else:
+				messages.error(request, "Vous avez pas le droit !")
+	form = DocumentForm(instance=document)
 	return render(request, template_name, locals())
 
 

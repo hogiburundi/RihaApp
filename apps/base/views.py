@@ -215,3 +215,8 @@ class Register2(View):
 			messages.success(request, "Hello "+request.user.first_name+", your profile has been updated successfully!")
 			return redirect(self.next_p)
 		return render(request, self.template_name, locals())
+
+
+def AddUser(request):
+	logout(request)
+	return redirect('register')

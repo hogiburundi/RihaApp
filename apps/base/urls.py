@@ -10,4 +10,5 @@ urlpatterns = [
 	path("register2/", views.Register2.as_view(), name='register2'),
 	path("profile-form/", views.ProfileView.as_view(), name='profile_form'),
 	path("verifier-cni/", views.verifierCni, name='verifier_cni'),
+	path("addUser/", views.AddUser, name='addUser'),
 ]

@@ -13,5 +13,5 @@ urlpatterns = [
     path('delete/recomm/<document_id>', views.delete_doc, name=BASE_NAME+"_delete"),
     path('update/recomm/<document_id>', views.update_doc, name=BASE_NAME+"_update"),
     path('clone/recomm/<document_id>', views.clone_doc, name=BASE_NAME+"_clone"),
-    
+	   
 ]

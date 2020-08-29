@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 from .forms import *
 from apps.base.forms import *
@@ -108,30 +109,6 @@ class DocumentFormView(LoginRequiredMixin, View):
 			nait_dom.residence_quarter = request.user.profile.residence
 		return render(request, self.template_name, locals())
 
-# class DocumentPayView(LoginRequiredMixin, View):
-# 	template_name = PREFIX_DOC_TEMP+"_pay_form.html"
-
-# 	def get(self, request, document_id, *args, **kwargs):
-# 		payform = BASE_NAME+"_payform"
-# 		document = Document.objects.get(id=document_id)
-# 		if document.zone_payment:
-# 			return redirect(BASE_NAME+"_list")
-# 		form = PaymentZoneForm()
-# 		return render(request, self.template_name, locals())
-
-# 	def post(self, request, document_id, *args, **kwargs):
-# 		payform = BASE_NAME+"_payform"
-# 		document = Document.objects.get(id=document_id)
-# 		form = PaymentZoneForm(request.POST, request.FILES)
-# 		if form.is_valid():
-# 			zone_payment = form.save(commit=False)
-# 			zone_payment.place = document.zone
-# 			zone_payment.save()
-# 			document.zone_payment = zone_payment
-# 			document.save()
-# 			return redirect(BASE_NAME+"_list")
-# 		return render(request, self.template_name, locals())
-
 
 class DocumentDeleteView(LoginRequiredMixin, View):
 	template_name = PREFIX_DOC_TEMP+'_del.html'
@@ -172,16 +149,16 @@ def update_doc(request, document_id):
 	template_name = PREFIX_DOC_TEMP+"_form.html"
 	update = BASE_NAME+'_update'
 	document = Document.objects.get(id=document_id)
+	form = DocumentForm(request.POST, request.FILES, instance =  document)
 	if request.user == document.user:
-		form = DocumentForm(request.POST, request.FILES, instance =  document)	
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Document mis à jour avec Succes ! ")
-			return redirect(BASE_NAME+'_list')
-		else:
-			messages.error(request, "Vous avez pas le droit !")
-	else:
-		form = DocumentForm(instance=document)
+		if(request.method == 'POST'):
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Document mis à jour avec Succes ! ")
+				return redirect(BASE_NAME+'_list')
+			else:
+				messages.error(request, "Vous avez pas le droit !")
+	form = DocumentForm(instance=document)
 	return render(request, template_name, locals())
 
 
@@ -199,3 +176,4 @@ def clone_doc(request, document_id):
 	else:
 		messages.error(request, "Vous avez pas le droit !")
 	return redirect(BASE_NAME+'_list')
+

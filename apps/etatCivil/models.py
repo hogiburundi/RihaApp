@@ -13,12 +13,10 @@ class Document(models.Model):
 	ready = models.BooleanField(default=False)
 	zone_payment = models.ForeignKey(PaymentZone, related_name="etatcivil_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	
-
 	def requirements():
-		return ["CNI", "Presence Physique",]
+		return ["CNI", "Presence Physique"]
 
-
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

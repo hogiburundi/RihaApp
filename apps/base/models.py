@@ -5,36 +5,14 @@ from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
 from datetime import date
 
-GENDERS = (
-	("H", 'Homme'),
-	("F", "Femme")
-)
+GENDERS = (("H", 'Homme'), ("F", "Femme"))
+PAYMENTS = ( ("ecocash", "Ecocash"), ("lumicash", "Lumicash"), ("bcb", "BCB"), )
+PLACE_LEVEL = ( (1, "Pays"), (2, "Province"), (3, "Commune"), (4, "Quarter"), (5, "Zone"))
+USER_LEVEL = ( (1, "Chef"), (2, "Secretaire")) 
+PRIORITY_LEVEL = ( (1, "Normal"), (2, "Elevée"))
 
-PAYMENTS = ( 
-    ("ecocash", "Ecocash"), 
-    ("lumicash", "Lumicash"), 
-    ("bcb", "BCB"), 
-)
-
-PLACE_LEVEL = ( 
-    (1, "Pays"), 
-    (2, "Province"), 
-    (3, "Commune"), 
-    (4, "Quarter"), 
-    (5, "Zone")
-)
-PLACE_LEVEL_DICT = dict([x[::-1] for x in PLACE_LEVEL])
-
-USER_LEVEL = ( 
-    (1, "Chef"), 
-    (2, "Secretaire"), 
-) 
 USER_LEVEL_DICT = dict([x[::-1] for x in USER_LEVEL])
-
-PRIORITY_LEVEL = ( 
-    (1, "Normal"), 
-    (2, "Elevée"), 
-)
+PLACE_LEVEL_DICT = dict([x[::-1] for x in PLACE_LEVEL])
 
 try:
 	from django.contrib.auth.models import Group
@@ -109,20 +87,19 @@ class Profile(models.Model):
 			level += 5 if self.job else 0
 		else:
 			level += 10 if self.gender else 0
-			level += 5 if self.nationnalite else 0
+			level += 6 if self.nationnalite else 0
 			level += 10 if self.quarter else 0
 			level += 10 if self.residence else 0
-			level += 5 if self.address else 0
+			level += 4 if self.address else 0
 			level += 10 if self.CNI else 0
-			level += 5 if self.father else 0
-			level += 5 if self.mother else 0
-			level += 5 if self.birthdate else 0
-			level += 10 if self.is_married else 0
-			level += 5 if self.cni_recto else 0
-			level += 5 if self.cni_verso else 0
-			level += 5 if self.job else 0
-			level += 5 if self.date_delivrated else 0
-			level += 5 if self.place_delivrated else 0
+			level += 6 if self.father else 0
+			level += 6 if self.mother else 0
+			level += 10 if self.birthdate else 0
+			level += 6 if self.cni_recto else 0
+			level += 6 if self.cni_verso else 0
+			level += 4 if self.job else 0
+			level += 6 if self.date_delivrated else 0
+			level += 6 if self.place_delivrated else 0
 		return level
 
 	def completionMissing(self)->list:
@@ -151,7 +128,6 @@ class Profile(models.Model):
 			if not self.father : missing.append("father")
 			if not self.mother : missing.append("mother")
 			if not self.birthdate : missing.append("birthdate")
-			if not self.is_married : missing.append("is_married")
 			if not self.cni_recto : missing.append("cni_recto")
 			if not self.cni_verso : missing.append("cni_verso")
 			if not self.job : missing.append("job")

@@ -17,6 +17,20 @@
         <div class="content-wrapper">
             <div class="content-body">
                 <section>
+                {% if messages %}
+                {% for message in messages %}
+                  <div class="
+                  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    alert alert-success {% else %} alert alert-danger
+                  {% endif %}
+                    alert-dismissible fade show text-center" id="success-alert" role="alert">
+                   {{ message }}
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endfor %}
+                {% endif %}
                   {%block main-content%} {% endblock%}          
                 </section>
             </div>

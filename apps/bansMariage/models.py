@@ -20,7 +20,7 @@ class Document(models.Model):
 	def requirements():
 		return ["CNI(complet)","attestation de celibat","extrait d'etat civil", ]
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

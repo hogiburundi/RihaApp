@@ -14,10 +14,10 @@
                     <i class="icon-pencil"></i> Editer le profil
                 </span>
                 <h1 class="text-white mb-0">
-                  <button class="btn btn-sm btn-danger round" type="button" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Les champs manquants: <b> {% for champ in user.profile.completionMissing %} {{ champ }} {% endfor %}" data-trigger="focus" tabindex="-1">{{ user.profile.completionLevel }}%</button>
+                  <button class="btn btn-sm btn-danger round" type="button" data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="Les champs manquants: <b> {% for champ in user.profile.completionMissing %} {{ champ }} {% empty %} aucun {% endfor %}" data-trigger="focus" tabindex="-1">{{ user.profile.completionLevel }}%</button>
                 </h1>
                 <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-                  <div class="progress-bar bg-gradient-x-danger" role="progressbar" style="width: {{ user.profile.completionLevel }}%" aria-valuenow="{{ user.profile.completionLevel }}" aria-valuemin="0" aria-valuemax="100" title="En cours"></div>
+                  <div class="progress-bar bg-gradient-x-danger" role="progressbar" style="width: {{ user.profile.completionLevel }}%" aria-valuenow="{{ user.profile.completionLevel }}" aria-valuemin="0" aria-valuemax="100" title="{{ user.profile.completionLevel }}%"></div>
                 </div>
               </div>
               <div class="align-self-top">
@@ -61,13 +61,9 @@
 
 <hr class="bg-danger" />
 <div class="row">
-    {% for document, index, home_url in home_urls %}
+    {% for document, color, price, home_url in home_urls %}
     <div class="col-xl-3 col-lg-6 col-12 searchable">
-        <div class="card p-1
-            {% if index == 0 %}border-top-primary{% elif index == 1 %}
-            border-top-warning{% elif index == 2 %}border-top-success
-            {% elif index == 3 %}border-top-info{% endif %}
-            border-top-5">
+        <div class="card p-1 border-top-{{ color }} border-top-5">
             <div class="card-content">
                 <h1 class="font-small-3 text-bold-700 cyan darken-4 text-center"> 
                     <strong><a href="{% url home_url %}">{{ document }}</a></strong>
@@ -75,11 +71,11 @@
 
                 <div class="card-body">
                     <div class="float-left">
-                        <p class="card-title mb-0"><strong>BIF 2,000</strong></p>
+                        <p class="card-title mb-0"><strong>{{ price }}</strong></p>
                     </div>
                     <div class="float-right" style="margin-top: -20px;">
-                        <p class="card-title mb-0 primary">
-                            <i class="icon-plus icon-opacity primary font-large-3 float-right"></i>
+                        <p class="card-title mb-0">
+                            <i class="icon-plus icon-opacity {{ color }} font-large-3 float-right"></i>
                         </p>
                     </div>
                 </div>

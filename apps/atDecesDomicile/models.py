@@ -21,7 +21,7 @@ class Document(models.Model):
 	secretary_validated = models.BooleanField(default=False, null=True, blank=True)
 	ready = models.BooleanField(default=False)
 
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

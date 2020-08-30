@@ -23,7 +23,7 @@ class Document(models.Model):
 	def requirements():
 		return ["CNI", "presence physique ou autre document prouvant son existance" ]
 		
-	def price(self):
+	def price():
 		try:
 			return PriceHistory.objects.filter(zone=self.zone).last().total()
 		except:

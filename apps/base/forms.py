@@ -39,6 +39,12 @@ class Register2Form(forms.ModelForm):
 	cni_verso = forms.ImageField( widget=forms.FileInput(
 			attrs={'placeholder':'CNI Picture 2','class':'form-control'}),
 		label='CNI Picture 2', required=False)
+
+	def __init__(self, *args, **kwargs):
+		print(kwargs)
+		self.old_cni = kwargs.get('old_cni')
+		if(self.old_cni) : kwargs.pop('old_cni')
+		super(Register2Form, self).__init__(*args, **kwargs)
 	
 	class Meta:
 		model = Profile
@@ -49,9 +55,12 @@ class Register2Form(forms.ModelForm):
 		try:
 			CNI = self.cleaned_data.get("CNI")
 			eval(CNI)
-			return CNI
 		except:
 			raise forms.ValidationError("Ce CNI est invalide")
+		others = Profile.objects.get(CNI=CNI)
+		if others and (CNI!=self.old_cni):
+			raise forms.ValidationError("Ce CNI existe déja. êtes-vous entrain de recuperer votre compte?")
+		return CNI
 
 class ProfileForm(forms.ModelForm):
 	gender = forms.ChoiceField(

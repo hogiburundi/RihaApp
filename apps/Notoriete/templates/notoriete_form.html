@@ -6,46 +6,46 @@
 <link rel="stylesheet" type="text/css" href="{% static 'assets/css/chosen.min.css' %}">
 <div class="row"> <!-- begin global row -->
 
-    <div class="col-xl-3 col-md-12"><!-- begin left  column -->
-        <div class="card">
-            <div class="card-body">
-                <div class="category-title pb-1">
-                    <h6 class="text-center font-medium-1 text-bold-800 text-info">
-                        <i class="ft-corner-left-down"></i> Requirements
-                    </h6>
-                </div>
+  <div class="col-xl-3 col-md-12"><!-- begin left  column -->
+    <div class="card">
+      <div class="card-body">
+        <div class="category-title pb-1">
+          <h6 class="text-center font-medium-1 text-bold-800 text-info">
+            <i class="ft-corner-left-down"></i> Requirements
+          </h6>
+        </div>
 
-                <div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Carte Nationale d'Identite </a>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Agakaye ko Murugo</a>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Attestation des enfants</a>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">     &nbsp; Photo passport</a>
-                        </li>
-                    </ul>
-                </div>                          
-            </div> 
-        </div>             
-    </div> <!-- end left  column --> 
-    <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
-        <div class="card border-info border-lighten-1"> <!-- begin card -->
-            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
-            </div>
-            <div class="card-body">
+        <div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">   &nbsp; Carte Nationale d'Identite </a>
+            </li>
+            <li class="list-group-item">
+              <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">   &nbsp; Agakaye ko Murugo</a>
+            </li>
+            <li class="list-group-item">
+              <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">   &nbsp; Attestation des enfants</a>
+            </li>
+            <li class="list-group-item">
+              <span class="badge badge-warning badge-pill float-left"><i class="ft-check-circle"></i></span> <a href="#" class="blue-grey darken-1 font-medium-1">   &nbsp; Photo passport</a>
+            </li>
+          </ul>
+        </div>              
+      </div> 
+    </div>       
+  </div> <!-- end left  column --> 
+  <div class="col-xl-9 col-md-12"> <!-- begin right column -->       
+    <div class="card border-info border-lighten-1"> <!-- begin card -->
+      <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+        <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+      </div>
+      <div class="card-body">
 				{% if preview %}
 				<div id="document" class="col-12 mb-2" style="overflow:auto;">
 					<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
 		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>PROVINCE DE {{ notoriete.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ notoriete.zone.commune }}</strong><br/>
+		<strong>PROVINCE DE {{ notoriete.zone.commune.province.name|upper }}</strong><br/>
+		<strong>COMMUNE URBAINE DE {{ notoriete.zone.commune.name|upper }}</strong><br/>
 		<strong><u>BUREAU D’ETAT-CIVIL</u></strong><br/>
 		<p style="text-align: center;"><strong><u>ACTE DE NOTORIETE</u></strong></p>
 		<p>
@@ -87,7 +87,7 @@
 		<td style="width: 315px;">&nbsp;</td>
 		<td style="width: 275px;">
 		<p style="text-align: center;"><strong> LE MAIRE DE LA VILLE DE BUJUMBURA</strong></p>
-		<p style="text-align: center;"><strong>{{ notoriete.user.profile.fullName }}</strong></p>
+		<p style="text-align: center;"><strong>{{ notoriete.zone.commune.province.leaderFullName }}</strong></p>
 		</td>
 		</tr>
 		</tbody>
@@ -96,22 +96,22 @@
 	</div>
 				</div>
 				{% endif %}
-	            <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
+	      <form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>
-	                {{ field.non_field_errors }}
-                    {% for field in form %}
-		            	<div class="form-group">  
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-	                        {{ field }}
-	                        {{ field.errors }}
+	        {{ field.non_field_errors }}
+          {% for field in form %}
+		      	<div class="form-group">  
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+	            {{ field }}
+	            {{ field.errors }}
 							{% if 'check_cni' in field.field.widget.attrs.class %}
 								<button class="btn-sm btn-primary mt-1" onclick="verifierCni(event, '{{ field.id_for_label }}')">verifier</button>
-	                        	<label class="mt-1" id="label_{{ field.id_for_label }}"></label>
+	            	<label class="mt-1" id="label_{{ field.id_for_label }}"></label>
 							{% endif %}
-			            </div>
-	                {% endfor %}
-		            </div>
+			      </div>
+	        {% endfor %}
+		      </div>
 					{% if preview %}
 					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
 						<i class="ft-corner-up-left"></i> Retour 
@@ -124,9 +124,9 @@
 					<button type="submit" class="btn btn-outline-success" name="submit" value="submit">
 						<i class="ft-navigation"></i>Envoyer</a>
 					</button>
-	            </form>
-	        </div> <!-- End card body -->
-	    </div>	
+	      </form>
+	    </div> <!-- End card body -->
+	  </div>	
 	</div>
 </div>
 <script src="{% static 'src/js/core/libraries/jquery.min.js' %}" type="text/javascript"></script>

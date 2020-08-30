@@ -47,8 +47,8 @@ def verifierCni(request):
 	try:
 		profile = Profile.objects.get(CNI=cni)
 		return JsonResponse({'fullname': profile.fullName()})
-	except:
-		return JsonResponse({'fullname': 'invalid user CNI'})
+	except Exception as e:
+		return JsonResponse({'fullname': 'invalid user CNI', 'error':str(e)})
 
 class Home(View):
 	template_name = 'pages/riha-dashboard.html'

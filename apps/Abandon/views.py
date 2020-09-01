@@ -70,13 +70,15 @@ class DocumentListView(LoginRequiredMixin, View):
 		documents = Document.objects.filter(user=request.user)
 		print(documents)
 		return render(request, self.template_name, locals())
-
+  
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "abandon_form.html"
 
 	def get(self, request, *args, **kwargs):
+		context = {}
 		form = DocumentForm(initial = {'residence_quarter': request.user.profile.residence })
-		return render(request, self.template_name, locals())
+		context ['form'] = form
+		return render(request, self.template_name, context)
 
 	def post(self, request, *args, **kwargs):
 		form = DocumentForm(request.POST)
@@ -89,6 +91,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				abandon = form.save(commit=False)
 				abandon.user = request.user
 				abandon.save()
+				messages.success(request, "Document cree avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", abandon=abandon.id)
 			return render(request, self.template_name, locals())
 		if form.is_valid():
@@ -127,17 +130,6 @@ class DocumentPayView(LoginRequiredMixin, View):
 
 
 
-def delete_document(request, document_id):
-    document_id = int(document_id)
-    try:
-        document = get_object_or_404(Document, id=document_id)
-    except Document.DoesNotExist:
-        return redirect(BASE_NAME+"_list")
-
-    document.delete()
-    messages.success(request, "Document Supprimé avec Succes ! ")
-    return redirect(BASE_NAME+"_list")
-
 
 
 def update_document(request, id): 
@@ -149,12 +141,39 @@ def update_document(request, id):
     if request.user == document.user:
         if form1.is_valid():
             form = form1.save(commit = False)
-            form.user = request.user
             form.save() 
+            print(Document.payment_percent)
             messages.success(request, "Document modifie avec Succes ! ")
             return redirect(BASE_NAME+"_list")
-
-
+   
     context["form"] = form1 
-    return render(request, "Abandon_update_form.html", context) 
+    return render(request, "abandon_update_form.html", context)
+    return redirect(BASE_NAME+"_list")
 
+
+
+
+def clone_doc(request, document_id):
+	clone = BASE_NAME+'_clone'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		cloned_doc = document
+		cloned_doc.pk = None
+		cloned_doc.ready = False
+		cloned_doc.secretary_validated = None
+		cloned_doc.save()
+		messages.success(request, "Document Cloné avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
+
+
+
+def delete_document(request, document_id, template_name='abandon_delete_form.html'):
+    form= get_object_or_404(Document, id=document_id)  
+    if request.user == form.user:  
+        if request.method=='POST':
+            form.delete()
+            messages.success(request, "Document supprimé avec Succes ! ")
+            return redirect(BASE_NAME+"_list")
+        return render(request, template_name, {'form':form})

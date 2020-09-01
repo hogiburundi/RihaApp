@@ -4,8 +4,8 @@ from .models import *
 from apps.base.models import *
 
 class DocumentForm(forms.ModelForm):
-    objet_abandon     = forms.CharField(label="objet abandone", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'objet abandonne '}))
-    tuteurAcueillantObjetAbandon      = forms.CharField(label="Tutilleur", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'tuteur acueillant l\'bjet abandonne '}))
+    Abandon     = forms.CharField(label="Abandon", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Abandon '}))
+    tuteurAcueillantObjetAbandon      = forms.CharField(label="Tutilleur", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'tuteur acueillant l\'abandonne '}))
 
     zone = forms.ModelChoiceField(
         widget = forms.Select(
@@ -17,18 +17,20 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
         label = 'Residence Quarter',
+        initial = Profile.residence,
         queryset = Quarter.objects.all())
 
 
     date_delivrated = forms.DateField(widget=forms.TextInput(
-            attrs={'placeholder':'date delivrated ', 'type':'date',
+            attrs={'placeholder':'yyyy-mm-dd ', 'type':'date',
                 'class':'form-control',}),
-        label='Date et heure de décès :', required=False,initial=date.today())
+        initial=date.today(),
+        label='Date :', required=False)
 
 
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", "objet_abandon", 'date_delivrated',"tuteurAcueillantObjetAbandon")
+        fields = ("zone", "residence_quarter", "Abandon", 'date_delivrated',"tuteurAcueillantObjetAbandon")
 
     
 

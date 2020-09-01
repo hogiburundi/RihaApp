@@ -100,13 +100,15 @@ class ModelPayementFormMixin(forms.Form):
 			attrs={'placeholder':'payment method','class':'form-control'}
 		),
 		label='Payment method',
-		choices=PAYMENTS
+		choices=PAYMENTS,
+		required=False
 	)
 	id_transaction = forms.CharField(
 		widget=forms.TextInput(
 			attrs={'placeholder':'Transaction ID','class':'form-control'}
 		),
-		label='Transaction ID'
+		label='Transaction ID',
+		required=False
 	)
 	bordereau = forms.ImageField(
 		widget=forms.FileInput(

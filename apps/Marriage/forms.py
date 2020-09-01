@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 class DocumentForm(forms.ModelForm):
     zone = forms.ModelChoiceField(
@@ -13,6 +14,7 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
         label = 'Residence Quarter',
+        initial = Profile.residence,
         queryset = Quarter.objects.all())
 
     conjoint    = forms.CharField(
@@ -22,12 +24,10 @@ class DocumentForm(forms.ModelForm):
         label = 'Conjoint')
 
 
-    date = forms.DateField(
-        widget = forms.SelectDateWidget(
-            attrs = {'placeholder': 'date' , 
-                    'class': 'form-control',
-                    'style': 'display:inline-block; width: auto'}),
-            label = 'date')
+    date = forms.DateField(widget=forms.TextInput(
+            attrs={'placeholder':'yyyy-mm-dd ', 'type':'date',
+                'class':'form-control',}),
+        label='Date :', initial=date.today())
 
             
     acte = forms.IntegerField(

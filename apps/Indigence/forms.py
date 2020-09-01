@@ -1,7 +1,5 @@
 from django import forms
 from .models import *
-from django.forms import formset_factory
-from .models import *
 from apps.base.models import *
 
 
@@ -16,8 +14,8 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
         label = 'Residence Quarter',
+        initial = Profile.residence,
         queryset = Quarter.objects.all())
-
 
     sous_couvert = forms.CharField(
         widget = forms.TextInput(

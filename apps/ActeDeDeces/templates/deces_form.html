@@ -65,7 +65,7 @@
 		</div>                                    
 		<p style="text-align: center;"><strong><u>EXTRAIT D’ACTE DE DECES</u></strong></strong></p>
 		<p>
-			{{deces.dateString}},  est décédée à {{deces.zone.commune.province}}, le nommé {{deces.defunt.fullName}} , âgé de {{deces.defunt.Age}} ans, profession {{deces.defunt.job}}, de nationalité {{ deces.defunt.nationnalite }}, 
+			{{deces.dateString}},  est décédée à {{deces.zone.commune.province}}, le nommé {{deces.defunt.fullName}} , âgé de {{deces.defunt.birthdate.year}} ans, profession {{deces.defunt.job}}, de nationalité {{ deces.defunt.nationnalite }}, 
 			{% if indigent.profile.gender == Homme %}
 				fils
 			{% else %}

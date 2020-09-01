@@ -1,11 +1,10 @@
-
 {% extends 'pages/riha-base.html' %}
 {% block main-content %}
 <div class="card border-info border-lighten-1"> <!-- start card --> 
       <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
         <div class="row">
             <div class="col-xl-6 col-lg-12">
-                    <h1 class="font-medium-3 text-bold-700 text-white">ACTE DE DECESSS</h1>
+                    <h1 class="font-medium-3 text-bold-700 text-white">ATTESTATION DE CHOMAGE</h1>
             </div>
             <div class="col-xl-6 col-lg-12 text-right">     
                     <a type="button" href="{% url formurl %}" class="btn btn-dark round font-medium-2">
@@ -14,7 +13,7 @@
             </div>
         </div>
       </div><!-- end card header --> 
-     <div class="card-body">  <!-- card body -->          
+      <div class="card-body">  <!-- card body -->          
         <table class="table table-xl mb-0 table-responsive">
 
             <thead>
@@ -35,15 +34,15 @@
                     <td> {{ document.residence_quarter }}</td>
                     <td> <a href="{% url payform  document.id  %}">{{ document.payment_percent }} %</a></td>
                     <td> {{ document.validation_percent }} % </td>
-                    <td> {{ document.date_delivrated }}</td>
+                    <td> {{ document.date }}</td>
                     <td>
 
                     {% if document.payment_percent == 100 and document.validation_percent == 100 %}
-                        <strong><i class="#"> 100</i></strong>
+                        <strong><i class="#"> 100 %</i></strong>
                     {% elif document.payment_percent == 100 and document.validation_percent != 100 %}
-                        <strong><i class="#">50</i></strong>
+                        <strong><i class="#">50 %</i></strong>
                     {% else %}
-                    <strong><i class="">0</i></strong>
+                    <strong><i class="">0 %</i></strong>
                     {% endif %}
                     </td>
                     
@@ -51,35 +50,40 @@
                     <td>
                         {% if document.payment_percent == 100 and document.validation_percent == 100 %}
                             <strong><i class="#">Done</i></strong>
+                        {% elif document.payment_percent == 0  %}
+                            <strong><i class="#">RECOMMENDED TO PAY AND TO BE TRETEAD</i></strong>
                         {% else %}
-                            <strong><i class="#">Not yet</i></strong>
+                            <strong><i class="#">Not treated yet</i></strong>
                         {% endif %}
                     </td>     
                     <td>
                         <div>
+                            {% if document.payment_percent <= 100 and document.validation_percent != 100 %}
                             <a href="delete/{{ document.id }}">
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
                             </a>
-
-                            <a href="update/{{ document.id }}">
+                                <a href="update/{{ document.id }}">
                                 <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
                             </a>
 
-                            <a href="#">
+                            <a href="clone/{{ document.id }}">
                                 <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
-                            </a>                                                  
+                            </a>   
+                            {% elif document.payment_percent == 100 and document.validation_percent == 100 %}
+                                <strong>Document pret</strong>
+                            {% endif %}                                                  
                         </div>
                     </td>
                 </tr>
- 
-        {% endfor %}
-        </tbody>
-    </table>
-</div><!-- end card!!!! body -->
+            {% endfor %}
+            </tbody>
+        </table>
+    </div><!-- end card body -->
 
   <div class="card-footer bg-transparent border-top-info text-right">
     <a href="{% url formurl %}" class="btn btn-info round font-medium-2"><i class="ft-plus-circle"></i> Nouveau Document</a>
   </div>
 
 </div> <!-- end  card -->
+
 {% endblock %}

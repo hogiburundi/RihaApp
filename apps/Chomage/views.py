@@ -3,7 +3,7 @@ import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-
+from django.contrib import messages
 from .forms import *
 from apps.base.forms import *
 from .models import *
@@ -74,18 +74,12 @@ class DocumentListView(LoginRequiredMixin, View):
 
 class DocumentFormView(LoginRequiredMixin, View):
 	template_name = "chomage_form.html"
-	quarters = Quarter.objects.all()
-	zones = Zone.objects.all()
 
 	def get(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
-		quarters = self.quarters 
-		zones = self.zones 
 		form = DocumentForm(request.POST)
 		if "preview" in request.POST:
 			preview = True
@@ -96,6 +90,7 @@ class DocumentFormView(LoginRequiredMixin, View):
 				chomage = form.save(commit=False)
 				chomage.user = request.user
 				chomage.save()
+				messages.success(request, "Document cree avec Succes ! ")
 				return redirect(BASE_NAME+"_payform", chomage=chomage.id)
 			return render(request, self.template_name, locals())
 		if form.is_valid():
@@ -129,15 +124,15 @@ class DocumentPayView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 
-def delete_document(request, document_id):
-    document_id = int(document_id)
-    try:
-        document = get_object_or_404(Document, id=document_id)
-    except Document.DoesNotExist:
-        return redirect(BASE_NAME+"_list")
 
-    document.delete()
-    return redirect(BASE_NAME+"_list")
+def delete_document(request, document_id, template_name='chomage_delete_form.html'):
+    form= get_object_or_404(Document, id=document_id)  
+    if request.user == form.user:  
+        if request.method=='POST':
+            form.delete()
+            messages.success(request, "Document supprimé avec Succes ! ")
+            return redirect(BASE_NAME+"_list")
+        return render(request, template_name, {'form':form})
 
 
 def update_document(request, id): 
@@ -157,4 +152,19 @@ def update_document(request, id):
 
     context["form"] = form1 
     return render(request, "chomage_update_form.html", context) 
+
+
+def clone_doc(request, document_id):
+	clone = BASE_NAME+'_clone'
+	document = Document.objects.get(id=document_id)
+	if request.user == document.user:
+		cloned_doc = document
+		cloned_doc.pk = None
+		cloned_doc.ready = False
+		cloned_doc.secretary_validated = None
+		cloned_doc.save()
+		messages.success(request, "Document Cloné avec Succes ! ")
+	else:
+		messages.error(request, "Vous avez pas le droit !")
+	return redirect(BASE_NAME+'_list')
 

@@ -1,47 +1,31 @@
 from django import forms
 from .models import *
 from apps.base.models import *
+from datetime import date
 
 class DocumentForm(forms.ModelForm):
-    zone = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Zone', 
-                    'class': 'form-control', 
-                    'list':'zones'}),
-        label = 'Zone')
-    residence_quarter = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder': 'Residence Quarter', 
-                    'class': 'form-control',
-                    'list':'quarters'}),
-        label = 'Residence Quarter')
-    anneeEnChomage = forms.IntegerField( 
-        widget=forms.NumberInput(
-            attrs={'placeholder':'Depuis quand en chomage  ',
-                    'class':'form-control'}),
-        label='Annee')
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
+        label = 'Zone',
+        queryset = Zone.objects.all())
+    
+    residence_quarter = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
+        label = 'Residence Quarter',
+        initial = Profile.residence,
+        queryset = Quarter.objects.all())
+
+    anneeEnChomage  = forms.DateField(widget=forms.TextInput(
+            attrs={'placeholder':'yyyy-mm-dd ', 'type':'date',
+                'class':'form-control',}),
+        label='Date :',initial=date.today())
 
 
     class Meta:
         model = Document
         fields = ("zone", "residence_quarter", 'anneeEnChomage')
-
-    def clean_zone(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("zone")
-            zone = Zone.objects.get(name=name)
-            return zone
-        except:
-            raise forms.ValidationError("this zone is unknown")
-
-    def clean_residence_quarter(self, *arg,**kwargs):
-        try:
-            name = self.cleaned_data.get("residence_quarter").split()[0]
-            zone = self.cleaned_data.get("residence_quarter").split()[-1]
-            quarter = Quarter.objects.get(name=name, zone__name=zone)
-            return quarter
-        except Exception as e:
-            raise forms.ValidationError("this quarter is unknown")
 
 
 

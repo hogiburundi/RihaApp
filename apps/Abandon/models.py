@@ -9,7 +9,7 @@ class Document(models.Model):
 	residence_quarter   = models.ForeignKey(Quarter, related_name="abandon_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	
 	tuteurAcueillantObjetAbandon  = models.CharField(max_length = 150)
-	objet_abandon                 = models.CharField(max_length=50)
+	Abandon                 = models.CharField(max_length=50)
 	date_delivrated     = models.DateField(default=timezone.now)
 	
 	rejection_msg       = models.TextField(null=True, blank=True)
@@ -18,7 +18,7 @@ class Document(models.Model):
 	zone_payment        = models.ForeignKey(PaymentZone, related_name="abandon_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 
 	def __str__(self):
-		return '{}'.format(self.objet_abandon)
+		return '{}'.format(self.Abandon)
 	
 	def requirements():
 		return ["CNI",

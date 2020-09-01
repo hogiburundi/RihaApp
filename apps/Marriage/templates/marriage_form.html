@@ -32,7 +32,7 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION D'ACTE DE MARIAGE</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> EXTRAIT D’ACTE DE MARIAGE</h1>
             </div>
             <div class="card-body">
 				{% if preview %}
@@ -64,7 +64,7 @@
 			<br><br>  <br>  
 		</div>    
 		<br><br>
-		<p style="text-align: center;"><strong><u>ATTESTATION DE Mariage N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+		<p style="text-align: center;"><strong><u>EXTRAIT D’ACTE DE MARIAGE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
 		<p>
 		 {{marriage.dateString}}, ont contracté mariage devant nous, le nommé {{marriage.user.first_name}} {{ marriage.user.last_name}}, fils de {{marriage.user.profile.father}} et de {{marriage.user.profile.mother}}, âgé de {{marriage.user.profile.birthdate.year}} ans, profession  {{marriage.user.profile.job}}, résidant à {{marriage.user.profile.quarter.name}}, de nationalité 
 		 {{marriage.user.profile.nationnalite}} 

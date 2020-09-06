@@ -20,6 +20,7 @@ class Document(models.Model):
 	child = models.ForeignKey(Profile, related_name="acte_recon_child", null=True, on_delete=models.SET_NULL)
 	child_date = models.DateField(default=timezone.now)
 	search_place = models.ForeignKey(Quarter, related_name="act_recon_search", max_length=64, null=True, on_delete=models.SET_NULL)
+	deleted = models.BooleanField(default=False)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -27,7 +28,7 @@ class Document(models.Model):
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.search_place.zone} est disponible").save()
 
 	def price(self):
 		try:

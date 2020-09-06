@@ -18,6 +18,7 @@ class Document(models.Model):
 	witness12 = models.ForeignKey(Profile, related_name="vente_witness12", null=True, on_delete=models.SET_NULL)
 	witness21 = models.ForeignKey(Profile, related_name="vente_witness21", null=True, on_delete=models.SET_NULL)
 	witness22 = models.ForeignKey(Profile, related_name="vente_witness22", null=True, on_delete=models.SET_NULL)
+	deleted = models.BooleanField(default=False)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -25,7 +26,7 @@ class Document(models.Model):
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.property_quarter.zone} est disponible").save()
 
 	def price(self):
 		try:

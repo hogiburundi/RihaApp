@@ -141,12 +141,26 @@ class SecretaryPayView(LoginRequiredMixin, View):
 
 @login_required
 def delete_AcRec_Document(request,document_id, usid):
-	get_doc = get_object_or_404(Document, pk = document_id, user = usid)
+	get_doc = get_object_or_404(Document, pk=document_id, user=usid)
+	if get_doc.secretary_validated:
+		delete_btn = "hidden"
+		store_btn = "show"
+	else:
+		delete_btn = "show"
+		store_btn = "hidden"
+
 	if get_doc.user == request.user:
-		if request.method == "POST":
+		if "delete" in request.POST:
 			get_doc.delete()
 			messages.success(request, "Document deleted successfully!")
 			return redirect(BASE_NAME + "_list")
+
+		if "store" in request.POST:
+			get_doc.deleted = True
+			get_doc.save()
+			messages.success(request, "Document stored successfully!")
+			return redirect(BASE_NAME + "_list")
+
 	else:
 		messages.error(request, "Attention!!! Vos actions sont interdites.")
 		return redirect(BASE_NAME + "_list")
@@ -167,3 +181,21 @@ def update_AcRec_Document(request, document_id, usid):
 		return redirect(BASE_NAME + "_list")
 	form = DocumentForm(instance = get_doc)
 	return render( request, 'update_ac_rec.html', locals() )
+	
+
+@login_required
+def clone_AcRec_Document(request, document_id, usid):
+	get_doc = Document.objects.get(pk = document_id, user = usid)
+	form = DocumentForm(request.POST or None, request.FILES, instance=get_doc)
+	if get_doc.user == request.user:
+		if request.method == "POST":
+			if form.is_valid():
+				get_doc.pk = None
+				get_doc.save()
+				messages.success(request, "Document is cloned successfully!")
+				return redirect(BASE_NAME + "_list")
+	else:
+		messages.error(request, "Attention!!! Vos actions sont interdites.")
+		return redirect(BASE_NAME + "_list")
+	form = DocumentForm(instance=get_doc)
+	return render( request, 'clone_ac_rec.html', locals() )

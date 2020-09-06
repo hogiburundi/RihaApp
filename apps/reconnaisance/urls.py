@@ -13,4 +13,5 @@ urlpatterns = [
     path('secretary/pay/<document_id>', views.SecretaryPayView.as_view(), name=BASE_NAME + '_secr_pay'),
     path('update_att_rec/<document_id>/<usid>', views.update_Att_Rec_Document, name="update_att_rec"),
     path('delete_att_rec/<document_id>/<usid>', views.delete_Att_Rec_Document, name="delete_att_rec"),
+    path('clone_att_rec/<document_id>/<usid>', views.clone_Att_Rec_Document, name="clone_att_rec"),
 ]

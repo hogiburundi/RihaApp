@@ -9,13 +9,6 @@ class DocumentForm(forms.ModelForm):
             attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
         label = 'Zone',
         queryset = Zone.objects.all())
-    
-    date = forms.DateField(
-        widget=forms.SelectDateWidget(
-            years=range(2020, date.today().year),
-            attrs={'placeholder':'yyyy-mm-dd ', 'class':'form-control',
-                'style':'width: auto;display: inline-block;'}),
-        label='date')
 
     comparant_1 = forms.CharField(
         widget = forms.TextInput(
@@ -39,7 +32,7 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        fields = ("zone", "date", "comparant_1", "comparant_2","comparant_3")
+        fields = ("zone", "comparant_1", "comparant_2","comparant_3")
 
     def clean_comparant_1(self, *arg,**kwargs):
         try:

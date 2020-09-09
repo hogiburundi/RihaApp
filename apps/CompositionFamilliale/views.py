@@ -86,6 +86,7 @@ class DocumentView(LoginRequiredMixin, View):
 		return render(request, self.template_name, locals())
 
 	def post(self, request, *args, **kwargs):
+		children = Child.childrenOf(request.user.profile)
 		form = DocumentForm(request.POST)
 		form_set=formset_factory(ChildForm)
 		if "preview" in request.POST:
@@ -107,6 +108,9 @@ class DocumentView(LoginRequiredMixin, View):
 						child.father = this if this.gender == "H" else composition.conjoint
 						child.save()
 				return redirect(BASE_NAME+"_payform", composition=composition.id)
+		if form.is_valid():
+			composition = form.save(commit=False)
+			composition.user = request.user
 		return render(request, self.template_name, locals())
 
 class DocumentChildView(LoginRequiredMixin, View):

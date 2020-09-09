@@ -5,7 +5,7 @@
 2) le fichier ```__init__.py``` doit comptenir une ligne:
 
 ```python
-APP_NAME = "Nom de l'Appliction" #exemple: Identité Complète
+APP_NAME = "Nom de l'Application" #exemple: Identité Complète
 ```
 
 2) le fichier urls

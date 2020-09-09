@@ -41,9 +41,9 @@ class Register2Form(forms.ModelForm):
 		label='CNI Picture 2', required=False)
 
 	def __init__(self, *args, **kwargs):
-		print(kwargs)
 		self.old_cni = kwargs.get('old_cni')
 		if(self.old_cni) : kwargs.pop('old_cni')
+		print(kwargs)
 		super(Register2Form, self).__init__(*args, **kwargs)
 	
 	class Meta:

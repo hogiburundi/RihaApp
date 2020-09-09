@@ -23,8 +23,7 @@
           <th class="border-top-0">Document</th>
           <th class="border-top-0">Payment</th>
           <th class="border-top-0">CNI</th>
-          <th class="border-top-0">CNI Recto</th>
-          <th class="border-top-0">CNI Verso</th>
+          <th class="border-top-0">CNI Recto/Verso</th>
           <th class="border-top-0">Actions</th>
         </tr>
       </thead>
@@ -54,11 +53,10 @@
             " data-trigger="focus" tabindex="-1">
             {{ document.user.profile.CNI }}
           </td>
-          <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.user.profile.cni_recto %} {{ document.user.profile.cni_recto.url }} {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
-            photo 1
-          </td>
-          <td data-container="body" data-toggle="popover"  data-html="true" data-placement="left" data-content="<img src='{% if document.user.profile.cni_verso %} {{ document.user.profile.cni_verso.url }} {% endif %}' height='300' />" data-trigger="focus" tabindex="-1">
-            photo 2
+          <td class="lightgallery">
+            <a href="{{ document.user.profile.cni_recto.url }}">photo 1</a>
+            /
+            <a href="{{ document.user.profile.cni_verso.url }}">photo 2</a>
           </td>
           <td>
             <div>
@@ -131,6 +129,10 @@ $(document).ready(function () {
       });
     });
   });
+  $ligne = $(".lightgallery");
+  for(let row of $ligne){
+    lightGallery(row); 
+  }
 });
 </script>
 {% endblock %}

@@ -47,8 +47,8 @@ def verifierCni(request):
 	try:
 		profile = Profile.objects.get(CNI=cni)
 		return JsonResponse({'fullname': profile.fullName()})
-	except:
-		return JsonResponse({'fullname': 'invalid user CNI'})
+	except Exception as e:
+		return JsonResponse({'fullname': 'invalid user CNI', 'error':str(e)})
 
 class Home(View):
 	template_name = 'pages/riha-dashboard.html'
@@ -67,7 +67,7 @@ class Home(View):
 				# price = module.models.Document.price()
 				# home_urls.append((app_name, price, basename+"_list"))
 				colors= ["primary", "warning", "success", "info"]
-				home_urls.append((app_name.upper(), colors[i%4], price, basename+"_list"))
+				home_urls.append((app_name.upper(), colors[i%4], price, basename+"_list", basename+"_form"))
 			return render(request, self.template_name, locals())
 		else:
 			return redirect("login")

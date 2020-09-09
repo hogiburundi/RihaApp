@@ -61,7 +61,7 @@
 
 <hr class="bg-danger" />
 <div class="row">
-    {% for document, color, price, home_url in home_urls %}
+    {% for document, color, price, home_url, form_url in home_urls %}
     <div class="col-xl-3 col-lg-6 col-12 searchable">
         <div class="card p-1 border-top-{{ color }} border-top-5">
             <div class="card-content">
@@ -75,7 +75,9 @@
                     </div>
                     <div class="float-right" style="margin-top: -20px;">
                         <p class="card-title mb-0">
+                          <a href="{% url form_url %}">
                             <i class="icon-plus icon-opacity {{ color }} font-large-3 float-right"></i>
+                          </a>
                         </p>
                     </div>
                 </div>
@@ -92,17 +94,24 @@ jQuery(document).ready(function($) {
   $("#searchfield").keyup(function(event) {
       keyword = $(this).val().toLowerCase();
       $(".searchable").each(function(index, el) {
-          if($(el).text().toLowerCase().includes(keyword)){
-              $(el).show();
-          }else{
-              $(el).hide();
-          }
+        el_text = $(el).text().toLowerCase();
+        el_normal = el_text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if(el_normal.includes(keyword)){
+            $(el).show();
+        }else{
+            $(el).hide();
+        }
       });
   });
   $('[data-toggle="popover"]').on('click', function(event) {
     event.preventDefault();
   });
   $('[data-toggle="popover"]').popover(); 
+  $(".icon-plus").hover(function() {
+    $(this).removeClass('icon-opacity');
+  }, function() {
+    $(this).addClass('icon-opacity');
+  });
 });
 </script>
 {% endblock scripts %}

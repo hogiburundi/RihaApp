@@ -32,11 +32,22 @@
             {% for document in documents %}
                 <tr class="document-item" data-id="{{ document.id }}">
                     <td>{{ document.quarter }}</td>
-                    <td> <a href="{% url payform  document.id  %}">{{ document.paymentPercent }} %</a></td>
-                    <td> {{ document.validationPercent }} % </td>
+                    <td>  
+                        <a href="{% url payform  document.id  %}">
+                        <div class="progress mb-0 box-shadow-2">
+                          <div class="progress-bar bg-info" role="progressbar" style="width: {{ document.validationPercent }}%" aria-valuenow="{{ document.validationPercent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.validationPercent }}%">{{ document.paymentPercent }}%</div>
+                        </div>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url payform  document.id  %}">
+                        <div class="progress mb-0 box-shadow-2">
+                          <div class="progress-bar bg-info" role="progressbar" style="width: {{ document.validationPercent }}%" aria-valuenow="{{ document.validationPercent }}" aria-valuemin="0" aria-valuemax="100" title="{{ document.validationPercent }}%">{{ document.validationPercent }}%</div>
+                        </div>
+                        </a>
+                    </td>
                     <td> {{ document.date_delivrated }}</td>
                     <td>
-
                     {% if document.paymentPercent == 100 and document.validationPercent == 100 %}
                         <strong><i class="#"> 100</i></strong>
                     {% elif document.paymentPercent == 100 and document.validationPercent != 100 %}

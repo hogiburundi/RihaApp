@@ -13,6 +13,7 @@ class Document(models.Model):
 	zone_payment = models.ForeignKey(PaymentZone, related_name="prise_charge_province_payment", blank=True, null=True, on_delete=models.SET_NULL)
 	mrs = models.ForeignKey(Profile, related_name="prise_charge_mrs", null=True, on_delete=models.SET_NULL)
 	search_place = models.ForeignKey(Quarter, related_name="prise_charge_search", max_length=64, null=True, on_delete=models.SET_NULL)
+	deleted = models.BooleanField(default=False)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -20,7 +21,7 @@ class Document(models.Model):
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"le document prise en charge que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+			Notification(self.user, f"le document prise en charge que vous avez demandé le {self.date} à {self.search_place.zone} est disponible").save()
 
 	def price():
 		try:

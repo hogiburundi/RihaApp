@@ -14,6 +14,7 @@ class Document(models.Model):
 	association = models.CharField(max_length=100, null=True)
 	start_year = models.CharField(max_length=4, null=True)
 	association_quarter = models.ForeignKey(Quarter, related_name="recon_association_quarter", max_length=64, null=True, on_delete=models.SET_NULL)
+	deleted = models.BooleanField(default=False)
 
 	def requirements():
 		return ["cahier de menage", "CNI"]
@@ -21,7 +22,7 @@ class Document(models.Model):
 	def save(self, *args, **kwargs):
 		super(Document, self).save(*args, **kwargs)
 		if self.ready:
-			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.zone} est disponible").save()
+			Notification(self.user, f"l'identité complete que vous avez demandé le {self.date} à {self.association_quarter.zone} est disponible").save()
 
 	def price():
 		try:

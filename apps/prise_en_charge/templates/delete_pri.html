@@ -43,10 +43,14 @@
 				<i class="ml-1">Etes-vous sur de vouloir supprimer ce document ?</i>
 				<form method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
-					<a href="#" class="btn btn-outline-secondary mt-1 ml-1"> <i class="ft-corner-up-left"></i> Retour</a>
+					<a href="../.." class="btn btn-outline-secondary mt-1 ml-1"> <i class="ft-corner-up-left"></i> Retour</a>
 					
-					<button type="submit" class="btn btn-outline-danger mt-1" name="submit" value="submit">
+					<button {{ delete_btn }} name="delete" type="submit" class="btn btn-outline-danger mt-1" name="submit" value="submit">
 						<i class="ft-navigation"></i>Supprimer</a>
+					</button>
+
+					<button {{ store_btn }} name="store" type="submit" class="btn btn-outline-danger mt-1" name="submit" value="submit">
+						<i class="ft-navigation"></i>Store</a>
 					</button>
 				</form>
 			</div> <!-- End card body -->

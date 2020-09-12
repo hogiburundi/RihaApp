@@ -49,7 +49,7 @@
 						<p style="text-align: center;"><strong><u>ATTESTATION DE chomage</u></strong></p>
 					</div>	
 						<p>
-							Je soussigné, {{ chomage.zone.leaderFullName }}, Chef de Zone {{chomage.zone.name}}, atteste par la présente que Monsieur {{ chomage.user.first_name }} {{ chomage.user.last_name }}, fils de {{chomage.profile.father}} et de {{chomage.profile.mother}}, originaire de la Colline {{chomage.user.profile.quarter}}, Commune {{chomage.zone.commune}}, Province {{chomage.zone.commune.province}}, de nationalité {{chomage.profile.nationalite}}, résidant actuellement dans la Municipalité de {{chomage.zone.commune.province}}, à l’adresse ci-après : Commune {{chomage.zone.commune}}, Quartier {{chomage.residence_quarter}}, est en Chômage depuis {{ chomage.anneeEnChomage }}.
+							Je soussigné, {{ chomage.zone.leaderFullName }}, Chef de Zone {{chomage.zone.name}}, atteste par la présente que Monsieur {{ chomage.user.first_name }} {{ chomage.user.last_name }}, fils de {{chomage.user.profile.father}} et de {{chomage.user.profile.mother}}, originaire de la Colline {{chomage.user.profile.quarter}}, Commune {{chomage.zone.commune}}, Province {{chomage.zone.commune.province}}, de nationalité {{chomage.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{chomage.zone.commune.province}}, à l’adresse ci-après : Commune {{chomage.zone.commune}}, Quartier {{chomage.residence_quarter}}, est en Chômage depuis {{ chomage.anneeEnChomage.year}}.
 
 
 						</p>
@@ -75,7 +75,8 @@
 						</table>
 						<p style="text-align: right;">&nbsp;</p>
 					</div>
-					</div>			{% endif %}
+					</div>	
+				{% endif %}
 				<form action="." method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<div id="formulaire" {% if preview %} style="display: none;" {% endif %}>

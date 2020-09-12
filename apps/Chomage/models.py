@@ -10,7 +10,7 @@ class Document(models.Model):
 	zone                = models.ForeignKey(Zone, related_name="chomage_zone", max_length=64, null=True, on_delete=models.SET_NULL)
 	residence_quarter   = models.ForeignKey(Quarter, related_name="chomage_residence", max_length=64, null=True, on_delete=models.SET_NULL)
 	date_delivrated     = models.DateField(default=timezone.now)
-	anneeEnChomage      = models.IntegerField()
+	anneeEnChomage     = models.DateField(default=timezone.now)
 	rejection_msg       = models.TextField(null=True, blank=True)
 	secretary_validated = models.BooleanField(null=True)
 	ready               = models.BooleanField(default=False)

@@ -1,1 +1,1 @@
-APP_NAME = "Attestation de marriage"
+APP_NAME = "EXTRAIT D’ACTE DE MARIAGE"

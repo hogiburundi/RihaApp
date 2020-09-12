@@ -30,6 +30,7 @@
       </thead>
       <tbody>
       {% for document in documents %}
+      {% if document.payment_percent == 100 and document.validation_percent != 100 %}
         <tr class="document-item" data-id="{{ document.id }}">
           <td class="text-truncate">
             <a href="./{{ document.id }}">
@@ -77,6 +78,7 @@
             </div>
           </td>
         </tr>
+      {% endif %}
       {% endfor %}
       </tbody>
     </table>

@@ -51,44 +51,58 @@
                         </li>
                     </ul>
                 </div>                          
-            </div> 
+            </div>  
         </div>             
-    </div> <!-- end left  column --> 
-   <div id="document" class="col-12">
-	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-	<div style="text-transform: uppercase;">
-		<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-		<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-		<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-		<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-		<strong>MUNICIPALITE DE {{ chomage.zone.commune.province }}</strong><br/>
-		<strong>COMMUNE URBAINE DE {{ chomage.zone.commune }}</strong><br/>
-		<strong><u>ZONE DE {{ chomage.zone.name }}</u></strong><br/>
-	</div>
+   </div> <!-- end left  column --> 
+        <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
+        <div class="card border-info border-lighten-1"> <!-- begin card -->
+            <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION DE CHOMAGE</h1>
+            </div>
+            <div class="card-body">
+            
+                    <div id="document" class="col-12">
+                    <div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
+                    <div style="text-transform: uppercase;">
+                        <strong>REPUBLIQUE DU BURUNDI</strong><br/>
+                        <strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+                        <strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+                        <strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+                        <strong>MUNICIPALITE DE {{ chomage.zone.commune.province }}</strong><br/>
+                        <strong>COMMUN E URBAINE DE {{ chomage.zone.commune }}</strong><br/>
+                        <strong><u>ZONE DE {{ chomage.zone.name }}</u></strong><br/>
 
-		<p style="text-align: center;"><strong><u>ATTESTATION DE chomage N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-		<p>
-			Je soussigné, {{chomage.user.last_name}}, Chef de Zone {{ chomage.zone.name }}, atteste par la présente que {{chomage.user.first_name}} {{chomage.user.last_name}} fille/fils de {{chomage.user.profile.father}} et de {{ chomage.user.profile.mother}}, originaire de la Colline {{chomage.user.profile.colline_natal}}, Commune {{chomage.user.profile.commune_natal}}, Province {{ chomage.user.profile.province_natal }}, résidant actuellement dans la Municipalité de {{ chomage.zone.commune.province }} à l’adresse ci-après Commune : {{ chomage.zone.commune}}, Q. {{chomage.user.profile.quarter}}, C.N.I : {{chomage.user.profile.CNI }} délivrée à {{chomage.user.profile.commune_natal}}, le {{chomage.date_delivrated}} Matricule {{chomage.date_delivrated}}, s’est présentée personnellement devant nous pour nous déclarer qu’elle est encore en chomage {{ chomage.anneeEnChomage }}.
+                    <br><br>
+                        <p style="text-align: center;"><strong><u>ATTESTATION DE CHOMAGE</u></strong></p>
+                    </div>  
+                        <p>
+                            Je soussigné, {{ chomage.zone.leaderFullName }}, Chef de Zone {{chomage.zone.name}}, atteste par la présente que Monsieur {{ chomage.user.first_name }} {{ chomage.user.last_name }}, fils de {{chomage.user.profile.father}} et de {{chomage.user.profile.mother}}, originaire de la Colline {{chomage.user.profile.quarter}}, Commune {{chomage.zone.commune}}, Province {{chomage.zone.commune.province}}, de nationalité {{chomage.user.profile.nationnalite}}, résidant actuellement dans la Municipalité de {{chomage.zone.commune.province}}, à l’adresse ci-après : Commune {{chomage.zone.commune}}, Quartier {{chomage.residence_quarter}}, est en Chômage depuis {{ chomage.anneeEnChomage.year }}.
 
-		</p>
 
-		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
-		<p>&nbsp;</p>
-		<table style="width: 588px;">
-		<tbody>
-		<tr>
-		<td style="width: 315px;">&nbsp;</td>
-		<td style="width: 275px;">
-		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ chomage.zone.name}}</strong></p>
-		<p style="text-align: center;"><strong>{{ chomage.user.zone.leaderFullName</strong></p>
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		<p style="text-align: right;">&nbsp;</p>
-	</div>
-</div>				            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
+                        </p>
+
+                        <p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
+                        <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                        <p style="text-align: left;"><strong><u>Sous-Couvert   :</u></strong></p>
+                        <p style="text-align: left;">Chef  de Quartier {{ chomage.residence_quarter}}</p>
+                        <p style="text-align: left;">{{ chomage.residence_quarter.leaderFullName }}</p>
+
+                        <table style="width: 588px;">
+                        <tbody>
+                        <tr>
+                        <td style="width: 315px;">&nbsp;</td>
+                        <td style="width: 275px;">
+                        <p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
+                        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ chomage.zone.name}}</strong></p>
+                        <p style="text-align: center;"><strong>{{ chomage.zone.leaderFullName}}</strong></p>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <p style="text-align: right;">&nbsp;</p>
+                    </div>
+                    </div>			            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
 						<i class="ft-corner-up-left"></i> Retour 

@@ -32,20 +32,18 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ATTESTATION DE CHOMAGE</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> EXTRAIT D’ACTE DE DECES</h1>
             </div>
+            <div>
             <div class="card-body">
-            <form method="post" > 
-                {% csrf_token %} 
-                        <div class="formulaireUpdate">
-                            {{ form.as_p }} 
-                        </div>
-                        
-                    <input type="submit" value="Update" class="btn btn-primary btn-lg btn-block"> 
-                        
-
-            </form> 
+            <form method="post">{% csrf_token %}
+                <div>
+                    <strong>Are you sure you want to delete this document?</strong>
                 </div>
+                <br><br><br>
+                <input type="submit" value="Yes" class="btn btn-danger btn-lg btn-btn"> 
+            </form>
+            </div>
         </div> <!-- End card body -->
 </div>  
 </div>

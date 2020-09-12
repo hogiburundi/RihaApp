@@ -4,7 +4,7 @@
       <div class="card-header bg-info bg-lighten-1 border-lighten-1"><!-- card header --> 
         <div class="row">
             <div class="col-xl-6 col-lg-12">
-                    <h1 class="font-medium-3 text-bold-700 text-white">ATTESTATION DE VIE</h1>
+                    <h1 class="font-medium-3 text-bold-700 text-white">ACTE DE VIE</h1>
             </div>
             <div class="col-xl-6 col-lg-12 text-right">     
                     <a type="button" href="{% url formurl %}" class="btn btn-dark round font-medium-2">
@@ -50,26 +50,28 @@
                     <td>
                         {% if document.paymentPercent == 100 and document.validationPercent == 100 %}
                             <strong><i class="#">Done</i></strong>
+                        {% elif document.payment_percent == 0  %}
+                            <strong><i class="#">RECOMMENDED TO PAY AND TO BE TRETEAD</i></strong>
                         {% else %}
-                            <strong><i class="#">Not yet</i></strong>
+                            <strong><i class="#">Not treated yet</i></strong>
                         {% endif %}
                     </td>     
                     <td>
                         <div>
+                            {% if document.payment_percent <= 100 and document.validation_percent != 100 %}
                             <a href="delete/{{ document.id }}">
                                 <i class="la la-trash danger lighten-2 font-large-1 ml-1" title="Supprimer"></i>
-                             </a>
-                            {% if document.payment_percent == 100 and document.validation_percent != 100 %}
+                            </a>
                                 <a href="update/{{ document.id }}">
-                                    <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
-                                </a>
-                            {% else %}
-                                <a href="#"><i class="fas fa-check text-success">Ready</i></a>
-                            {% endif %}
+                                <i class="la la-pencil-square info lighten-2 font-large-1 ml-1" title="Modifier"></i>
+                            </a>
 
-                            <a href="#">
+                            <a href="clone/{{ document.id }}">
                                 <i class="la la-clone warning lighten-2 font-large-1 ml-1" title="Cloner ce document"></i>
-                            </a>                                                       
+                            </a>   
+                            {% elif document.payment_percent == 100 and document.validation_percent == 100 %}
+                                <strong>Document pret</strong>
+                            {% endif %}                                                  
                         </div>
                     </td>
                 </tr>

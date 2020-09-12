@@ -17,8 +17,9 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
         label = 'Residence Quarter',
+        initial = Profile.residence,
         queryset = Quarter.objects.all())
-
+    
     defunt    = forms.CharField(
         widget = forms.TextInput(
             attrs = {'placeholder' : 'Le numero de Cni du defunt',
@@ -26,12 +27,12 @@ class DocumentForm(forms.ModelForm):
         label = 'Defunt')
 
 
-    date = forms.DateField(
-        widget = forms.SelectDateWidget(
-            attrs = {'placeholder': 'date' , 
-                    'class': 'form-control',
-                    'style': 'display:inline-block; width: auto'}),
-            label = 'date')
+    date = forms.DateField(widget=forms.TextInput(
+            attrs={'placeholder':'yyyy-mm-dd ', 'type':'date',
+                'class':'form-control',}),
+        initial=date.today(),
+        label='Date de deces ')
+
 
 
 
@@ -60,8 +61,8 @@ class DocumentForm(forms.ModelForm):
     def clean_defunt(self, *arg, **kwargs):
         try:
             CNI = self.cleaned_data.get('defunt')
-            conjoint = Profile.objects.get(CNI = CNI)
-            return conjoint
+            defunt = Profile.objects.get(CNI = CNI)
+            return defunt
         except Exception as e:
             raise forms.ValidationError("Desolee, le defunt n'existe pas!! ")
 

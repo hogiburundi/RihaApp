@@ -5,6 +5,12 @@ from apps.base.models import *
 from datetime import date
 
 class DocumentForm(ModelForm):
+    zone = forms.ModelChoiceField(
+        widget = forms.Select(
+            attrs = {'placeholder': 'Zone', 'class': 'form-control', 'id':'zones'}),
+        label = 'Zone',
+        queryset = Zone.objects.all())
+
     quarter = forms.ModelChoiceField(
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
@@ -18,7 +24,7 @@ class DocumentForm(ModelForm):
 
     class Meta:
         model = Document
-        fields = ("quarter", 'conjoint')
+        fields = ('zone', "quarter", 'conjoint')
 
     def clean_conjoint(self, *arg, **kwargs):
         try:

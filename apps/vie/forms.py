@@ -13,25 +13,15 @@ class DocumentForm(forms.ModelForm):
         widget = forms.Select(
             attrs = {'placeholder': 'Residence Quarter', 'class': 'form-control','id':'quarters'}),
         label = 'Residence Quarter',
+        initial = Profile.residence,
         queryset = Quarter.objects.all())
 
-    matricule = forms.CharField(
-        widget = forms.TextInput(
-            attrs = {'placeholder' :'optional',
-                     'class': 'form-control'}),
-        label = 'Matrcule', required=False)
- 
+
     class Meta:
         model = Document
-        fields = ("zone", "residence_quarter", 'matricule')
+        fields = ("zone", "residence_quarter")
 
 
-    def clean_matricule(self, *arg,**kwargs):
-        try:
-            mat = self.cleaned_data.get("matricule")
-            return mat
-        except:
-            raise forms.ValidationError("this matricule is unknown")
 
 
 class ValidationForm(forms.Form):

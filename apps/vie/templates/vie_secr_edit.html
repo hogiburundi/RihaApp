@@ -57,57 +57,57 @@
     <div class="col-xl-9 col-md-12"> <!-- begin right column -->           
         <div class="card border-info border-lighten-1"> <!-- begin card -->
             <div class="card-header bg-info bg-lighten-1 border-info border-lighten-1">
-                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> Identité complete</h1>
+                <h1 class="font-medium-3 text-bold-700 text-white"><i class="ft-file-plus"></i> ACTE DE VIE</h1>
             </div>
-            <div class="card-body">
-                    <div id="document" class="col-12">
-                    	<div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black;">
-                    		<div style="text-transform: uppercase;">
-                    			<strong>REPUBLIQUE DU BURUNDI</strong><br/>
-                    			<strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
-                    			<strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
-                    			<strong>ET DEVELOPPEMENT LOCAL</strong><br/>
-                    			<strong>MUNICIPALITE DE {{ vie.zone.commune.province }}</strong><br/>
-                    			<strong>COMMUNE URBAINE DE {{ vie.zone.commune }}</strong><br/>
-                    			<strong><u>ZONE DE {{ vie.zone.name }}</u></strong>
-                    		</div> <br><br><br>
+            <div id="document" class="col-12">
+            <div id="template" class="m-auto" style="width: 21cm;padding: 2cm;border:1px solid black; ">
+                <div style="text-transform: uppercase;">
+                <strong>REPUBLIQUE DU BURUNDI</strong><br/>
+                <strong>MINISTERE DE L&rsquo;INTERIEUR </strong><br/>
+                <strong>ET DE LA FORMATION PATRIOTIQUE </strong><br/>
+                <strong>ET DEVELOPPEMENT LOCAL</strong><br/>
+                <strong>MUNICIPALITE DE {{ vie.zone.commune.province }}</strong><br/>
+                <strong>COMMUNE URBAINE DE {{ vie.zone.commune }}</strong><br/>
+                <strong><u>ZONE DE {{ vie.zone.name }}</u></strong>
+            </div> <br><br><br>
 
-                    		<p style="text-align: center;"><strong><u>ATTESTATION DE VIE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
-                    		<p>
-                    			Je soussigné, {{vie.zone.leaderFullName}}, Chef de Zone {{ vie.zone.name }}, atteste par la présente que {% if vie.user.gender == Homme %}
-                    				{{ vie.user.first_name }} {{ vie.user.last_name }}, fils 
-                    			{% else %}
-                    				{{ vie.user.first_name }} {{ vie.user.last_name }}, fille 
-                    			{% endif %}  de {{vie.user.profile.father}} et de {{ vie.user.profile.mother}}, originaire de la Colline {{vie.user.profile.quarter}}, Commune {{vie.zone.commune}}, Province {{ vie.zone.commune.province }}, résidant actuellement dans la Municipalité de {{ vie.zone.commune.province }} à l’adresse ci-après Commune : {{ vie.zone.commune}}, Q. {{vie.user.profile.quarter}}, C.N.I : {{vie.user.profile.CNI }} délivrée à {{vie.user.profile.place_delivrated}}, le {{vie.user.profile.date_delivrated}} 
+                        <p style="text-align: center;"><strong><u>ATTESTATION DE VIE N</u></strong><u>&deg;</u><strong><u>&hellip;&hellip;.&hellip;../2020</u></strong></p>
+                        
+                        <p>
+                            Je soussigné, {{vie.zone.leaderFullName}}, Chef de Zone {{ vie.zone.name }}, atteste par la présente que {% if vie.user.gender == Homme %}
+                                {{ vie.user.first_name }} {{ vie.user.last_name }}, fils 
+                            {% else %}
+                                {{ vie.user.first_name }} {{ vie.user.last_name }}, fille 
+                            {% endif %}  de {{vie.user.profile.father}} et de {{ vie.user.profile.mother}}, originaire de la Colline {{vie.user.profile.quarter}}, Commune {{vie.zone.commune}}, Province {{ vie.zone.commune.province }}, résidant actuellement dans la Municipalité de {{ vie.zone.commune.province }} à l’adresse ci-après Commune : {{ vie.zone.commune}}, Q. {{vie.user.profile.quarter}}, C.N.I : {{vie.user.profile.CNI }} délivrée à {{vie.user.profile.place_delivrated}}, le {{vie.user.profile.date_delivrated}} 
 
-                    			{% if vie.user.profile.job == fonctionnaire %}
-                    				Matricule {{vie.matricule}}
-                    			{% else %}
-                    				
-                    			{% endif %}
+                            {% if vie.user.profile.job == fonctionnaire %}
+                                Matricule {{vie.matricule}}
+                            {% else %}
+                                
+                            {% endif %}
 
-                    			, s’est présentée personnellement devant nous pour nous déclarer qu’elle est encore en vie.
+                            , s’est présentée personnellement devant nous pour nous déclarer qu’elle est encore en vie.
 
-                    		</p>
+                        </p>
 
-                    		<p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
-                    		<p>&nbsp;</p>
-                    				<p>&nbsp;</p>
-                    		<table style="width: 588px;">
-                    		<tbody>
-                    		<tr>
-                    		<td style="width: 315px;">&nbsp;</td>
-                    		<td style="width: 275px;">
-                    		<p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ today }}</strong></p>
-                    		<p style="text-align: center;"><strong>LE CHEF DE ZONE {{ vie.zone.name}}</strong></p>
-                    		<p style="text-align: center;"><strong>{{vie.zone.leaderFullName}}</strong></p>
-                    		</td>
-                    		</tr>
-                    		</tbody>
-                    		</table>
-                    		<p style="text-align: right;">&nbsp;</p>
-                    	</div>
+                        <p>La pr&eacute;sente attestation lui est d&eacute;livr&eacute;e pour faire valoir ce que de droit.</p>
+                        <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                        <table style="width: 588px;">
+                        <tbody>
+                        <tr>
+                        <td style="width: 315px;">&nbsp;</td>
+                        <td style="width: 275px;">
+                        <p style="text-align: center;"><strong>Fait &agrave; Bujumbura, le {{ vie.date }}</strong></p>
+                        <p style="text-align: center;"><strong>LE CHEF DE ZONE {{ vie.zone.name}}</strong></p>
+                        <p style="text-align: center;"><strong>{{vie.zone.leaderFullName}}</strong></p>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <p style="text-align: right;">&nbsp;</p>
                     </div>
+                </div>
 		            <form action="./{{ document_id }}" method="post" enctype="multipart/form-data" class="new-added-form">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-info round font-medium-2" name="cancel" value="cancel">
